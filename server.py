@@ -62,7 +62,7 @@ CONFIG = {
     'JWT_REFRESH_TOKEN_EXPIRES': timedelta(days=30),
     'DATABASE': 'vo1d_shop.db',
     'MAX_BOTS': 500000,
-    'MIN_BOTS': 100,
+    'MIN_BOTS': 500,
     'BOT_PRICE_PER_DAY': 0.01,
     'DURATION_OPTIONS': [1, 3, 7, 14, 30],
     'ATTACK_TYPES': [
