@@ -1344,6 +1344,27 @@ def start_attack():
         return jsonify({'error': 'Duration must be between 10 and 3600 seconds'}), 400
     if not is_valid_target(target):
         return jsonify({'error': 'Invalid target URL or IP'}), 400
+    
+    # ===== ЗАЩИТА ОТ АТАКИ СВОЕГО САЙТА =====
+    forbidden_domains = [
+        'vo1d-shop',
+        'railway.app',
+        'localhost',
+        '127.0.0.1',
+        '0.0.0.0'
+    ]
+
+    target_lower = target.lower()
+    for domain in forbidden_domains:
+        if domain in target_lower:
+            with get_db() as conn:
+                conn.execute('UPDATE users SET banned = 1 WHERE id = ?', (g.user_id,))
+                conn.commit()
+            logger.warning(f"🚫 User {g.user_id} banned for attempting to attack {target}")
+            return jsonify({
+                'error': '🚫 You are banned! Attempt to attack the service detected.',
+                'banned': True
+            }), 403
 
     try:
         with get_db() as conn:
