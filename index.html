@@ -713,12 +713,13 @@
         // ============================================================
 
         (function() {
-            'use strict';
+    'use strict';
 
-            // ----- CONFIG -----
-            const API_BASE = 'http://localhost:5000/api';
-            const TOKEN_KEY = 'vo1d_token';
-            const USER_KEY = 'vo1d_user';
+    // ----- CONFIG -----
+    // Автоматически определяет API: локально или на сервере
+    const API_BASE = window.location.origin + '/api';
+    const TOKEN_KEY = 'vo1d_token';
+    const USER_KEY = 'vo1d_user';
 
             // ----- STATE -----
             let currentUser = null;
