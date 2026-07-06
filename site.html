@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VO1D SHOP — Rent the void. Destroy anything.</title>
+    <style>
+        /* ============================================================
+           CSS — Киберпанк тема (ВСЁ СКРУГЛЕННОЕ)
+           ============================================================ */
+
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-surface: #0d1117;
+            --bg-surface-2: #161b22;
+            --border-color: #21262d;
+            --accent-purple: #8b5cf6;
+            --accent-green: #06d6a0;
+            --accent-red: #ef4444;
+            --accent-gold: #fbbf24;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --text-white: #ffffff;
+            --font-mono: 'Courier New', monospace;
+            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.1Н5);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-full: 9999px;
+        }
+
+        html, body {
+            height: 100%;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* ----- SCROLLBAR ----- */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-surface); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
+
+        /* ----- TYPOGRAPHY ----- */
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; letter-spacing: 0.02em; }
+        a { color: var(--accent-purple); text-decoration: none; transition: var(--transition); }
+        a:hover { color: var(--accent-green); }
+
+        /* ----- UTILITY ----- */
+        .hidden { display: none !important; }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+        .text-gradient {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-glow { text-shadow: 0 0 40px rgba(139, 92, 246, 0.3); }
+
+        /* ----- КНОПКИ — ВСЁ СКРУГЛЕННОЕ ----- */
+        .btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .btn:hover::after { opacity: 1; }
+        .btn-purple {
+            background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
+            color: white;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        .btn-purple:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(139, 92, 246, 0.5); }
+        .btn-green {
+            background: linear-gradient(135deg, var(--accent-green), #05b88a);
+            color: white;
+            box-shadow: 0 0 20px rgba(6, 214, 160, 0.3);
+        }
+        .btn-green:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(6, 214, 160, 0.5); }
+        .btn-red {
+            background: linear-gradient(135deg, var(--accent-red), #dc2626);
+            color: white;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+            animation: pulse-red 2s infinite;
+        }
+        .btn-red:hover { transform: scale(1.02); box-shadow: 0 0 60px rgba(239, 68, 68, 0.6); }
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(239, 68, 68, 0.6); }
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, var(--accent-gold), #f59e0b);
+            color: #1a1a2e;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(251, 191, 36, 0.5); }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: var(--radius-full);
+        }
+        .btn-outline:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
+        .btn-sm { padding: 8px 16px; font-size: 13px; }
+        .btn-lg { padding: 16px 48px; font-size: 20px; }
+
+        /* ----- СЕЛЕКТЫ — ВСЁ СКРУГЛЕННОЕ ----- */
+        select, input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 12px 18px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 15px;
+            transition: var(--transition);
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b949e' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            cursor: pointer;
+        }
+        select:hover, input:hover { border-color: var(--accent-purple); }
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
+        }
+        select option {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            border-radius: var(--radius-sm);
+        }
+
+        /* ----- ЧЕКБОКСЫ ----- */
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-purple);
+            border-radius: 6px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* ----- LAYOUT ----- */
+        #app { min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* ----- HEADER / NAV ----- */
+        .navbar {
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            background: rgba(13, 17, 23, 0.92);
+        }
+        .navbar .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: var(--text-white);
+            cursor: pointer;
+        }
+        .navbar .logo span {
+            color: var(--accent-purple);
+            text-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .navbar .nav-links a, .navbar .nav-links button {
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: var(--transition);
+            font-family: var(--font-main);
+        }
+        .navbar .nav-links a:hover, .navbar .nav-links button:hover {
+            color: var(--text-white);
+            background: var(--bg-surface-2);
+        }
+        .navbar .nav-links a.active, .navbar .nav-links button.active {
+            color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        .navbar .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .navbar .user-badge .balance {
+            color: var(--accent-green);
+            font-weight: 700;
+            background: rgba(6, 214, 160, 0.1);
+            padding: 4px 14px;
+            border-radius: var(--radius-full);
+        }
+
+        /* ----- PAGES CONTAINER ----- */
+        .page-container {
+            flex: 1;
+            padding: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ----- HERO (Главная) ----- */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .hero .logo-big {
+            font-size: 80px;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            color: var(--text-white);
+            text-shadow: 0 0 60px rgba(139, 92, 246, 0.2);
+            margin-bottom: 16px;
+        }
+        .hero .logo-big span {
+            color: var(--accent-purple);
+            text-shadow: 0 0 80px rgba(139, 92, 246, 0.4);
+        }
+        .hero .slogan {
+            font-size: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            letter-spacing: 0.05em;
+        }
+        .hero .slogan em {
+            color: var(--accent-red);
+            font-style: normal;
+        }
+        .hero .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .hero .feature-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: var(--transition);
+        }
+        .hero .feature-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+        .hero .feature-card .icon { font-size: 32px; margin-bottom: 8px; }
+        .hero .feature-card .title { font-weight: 700; color: var(--text-white); }
+        .hero .feature-card .desc { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+
+        /* ----- FORMS ----- */
+        .auth-form {
+            max-width: 420px;
+            margin: 40px auto;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+        }
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: var(--text-white);
+        }
+        .auth-form .form-group { margin-bottom: 16px; }
+        .auth-form label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .auth-form .btn {
+            width: 100%;
+            margin-top: 8px;
+            border-radius: var(--radius-full);
+        }
+        .auth-form .switch-link {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .auth-form .switch-link a {
+            color: var(--accent-purple);
+            cursor: pointer;
+        }
+        .auth-form .password-toggle { position: relative; }
+        .auth-form .password-toggle input { padding-right: 48px; }
+        .auth-form .password-toggle .toggle-eye {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 20px;
+            background: none;
+            border: none;
+        }
+
+        /* ----- DASHBOARD ----- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+        .dash-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+        .dash-card .card-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .dash-card .card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+        .dash-card .card-value.green { color: var(--accent-green); }
+        .dash-card .card-value.purple { color: var(--accent-purple); }
+        .dash-card .card-value.red { color: var(--accent-red); }
+        .dash-card .card-value.gold { color: var(--accent-gold); }
+
+        .botnet-list { display: flex; flex-direction: column; gap: 12px; }
+        .botnet-item {
+            background: var(--bg-surface-2);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid var(--accent-green);
+        }
+        .botnet-item.expired { border-left-color: var(--accent-red); opacity: 0.6; }
+        .botnet-item .info .count { font-weight: 700; color: var(--text-white); }
+        .botnet-item .info .meta { font-size: 13px; color: var(--text-secondary); }
+        .botnet-item .status { font-size: 13px; font-weight: 600; }
+        .botnet-item .status.active { color: var(--accent-green); }
+        .botnet-item .status.expired { color: var(--accent-red); }
+
+        /* ----- SHOP ----- */
+        .shop-container { max-width: 720px; margin: 0 auto; }
+        .shop-container .price-display {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent-green);
+            text-align: center;
+            padding: 24px;
+            background: var(--bg-surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            margin: 24px 0;
+        }
+        .shop-container .price-display small {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        .shop-container .slider-container { margin: 24px 0; }
+        .shop-container .slider-container input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            background: var(--bg-surface-2);
+            height: 6px;
+            border-radius: var(--radius-full);
+            outline: none;
+        }
+        .shop-container .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent-purple);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+        .shop-container .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .shop-container .option-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .shop-container .option-checkbox:last-child { border-bottom: none; }
+        .shop-container .option-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-purple);
+        }
+        .shop-container .option-checkbox .opt-label { flex: 1; color: var(--text-primary); }
+        .shop-container .option-checkbox .opt-price { color: var(--text-secondary); font-size: 14px; }
+
+        /* ----- ATTACK PANEL ----- */
+        .attack-panel { max-width: 800px; margin: 0 auto; }
+        .attack-panel .target-status {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .attack-panel .target-status.online {
+            background: rgba(6, 214, 160, 0.15);
+            color: var(--accent-green);
+        }
+        .attack-panel .target-status.offline {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+        .attack-panel .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .attack-panel .stat-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+        }
+        .attack-panel .stat-box .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+        .attack-panel .stat-box .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+        .attack-panel .log-terminal {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--accent-green);
+            margin-top: 16px;
+        }
+        .attack-panel .log-terminal .log-line {
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .attack-panel .log-terminal .log-line .time {
+            color: var(--text-secondary);
+            margin-right: 12px;
+        }
+        .attack-panel .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-surface-2);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        .attack-panel .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-red));
+            transition: width 0.5s ease;
+            width: 0%;
+            border-radius: var(--radius-full);
+        }
+
+        /* ----- ADMIN ----- */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        .admin-table th, .admin-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .admin-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .admin-table tr:hover { background: var(--bg-surface-2); }
+        .admin-table .badge {
+            padding: 2px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .admin-table .badge.admin { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+        .admin-table .badge.user { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
+        .admin-table .badge.banned { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+
+        /* ----- FOOTER ----- */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 40px;
+        }
+
+        /* ----- МОДАЛКА (КРАСИВАЯ) ----- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay .modal-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 520px;
+            width: 92%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 0 60px rgba(139, 92, 246, 0.1);
+            position: relative;
+        }
+        .modal-overlay .modal-box .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            transition: 0.3s;
+        }
+        .modal-overlay .modal-box .modal-close:hover { color: var(--text-white); transform: rotate(90deg); }
+        .modal-overlay .modal-box h2 {
+            color: var(--text-white);
+            margin-bottom: 16px;
+            font-size: 28px;
+        }
+        .modal-overlay .modal-box .modal-body { color: var(--text-primary); line-height: 1.6; }
+        .modal-overlay .modal-box .modal-body .contact-link {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent-purple);
+            text-decoration: none;
+            display: inline-block;
+            margin: 8px 0;
+            padding: 8px 24px;
+            border: 2px solid var(--accent-purple);
+            border-radius: var(--radius-full);
+            transition: 0.3s;
+        }
+        .modal-overlay .modal-box .modal-body .contact-link:hover {
+            background: var(--accent-purple);
+            color: white;
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+        }
+        .modal-overlay .modal-box .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+        .modal-overlay .modal-box .modal-icon {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        /* ----- RESPONSIVE ----- */
+        @media (max-width: 600px) {
+            .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+            .navbar .logo { font-size: 22px; }
+            .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; }
+            .hero .logo-big { font-size: 40px; }
+            .hero .slogan { font-size: 18px; }
+            .page-container { padding: 16px; }
+            .auth-form { padding: 24px 16px; }
+            .shop-container .price-display { font-size: 32px; }
+            .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; }
+            .modal-overlay .modal-box { padding: 24px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- ===== NAVBAR ===== -->
+        <nav class="navbar" id="navbar">
+            <div class="logo" onclick="navigateTo('home')">VO1D<span>.</span></div>
+            <div class="nav-links" id="navLinks">
+                <!-- Динамически заполняется из JS -->
+            </div>
+            <div class="user-badge" id="userBadge">
+                <span id="userName">Гость</span>
+                <span class="balance" id="userBalance">$0.00</span>
+            </div>
+        </nav>
+
+        <!-- ===== PAGE CONTAINER ===== -->
+        <div class="page-container" id="pageContainer">
+            <!-- Контент рендерится через JS -->
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            VO1D SHOP © 2026 | All rights reserved
+        </div>
+    </div>
+
+    <!-- ===== MODAL ROOT ===== -->
+    <div id="modalRoot"></div>
+
+    <script>
+        // ============================================================
+        // JavaScript — SPA, API, состояния (2600+ строк)
+        // ============================================================
+
+        (function() {
+            'use strict';
+
+            // ----- CONFIG -----
+            const API_BASE = 'http://localhost:5000/api';
+            const TOKEN_KEY = 'vo1d_token';
+            const USER_KEY = 'vo1d_user';
+
+            // ----- STATE -----
+            let currentUser = null;
+            let currentPage = 'home';
+            let attackInterval = null;
+            let activeAttackId = null;
+            let pricingCache = null;
+            let botnetsCache = [];
+
+            // ----- DOM REFS -----
+            const $ = (id) => document.getElementById(id);
+            const pageContainer = $('pageContainer');
+            const navLinks = $('navLinks');
+            const userName = $('userName');
+            const userBalance = $('userBalance');
+            const modalRoot = $('modalRoot');
+
+            // ----- UTILITY -----
+            function apiFetch(endpoint, options = {}) {
+                const token = localStorage.getItem(TOKEN_KEY);
+                const headers = {
+                    'Content-Type': 'application/json',
+                    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+                    ...(options.headers || {})
+                };
+                return fetch(`${API_BASE}${endpoint}`, {
+                    ...options,
+                    headers,
+                }).then(res => res.json());
+            }
+
+            function formatCurrency(amount) {
+                return `$${Number(amount).toFixed(2)}`;
+            }
+
+            function formatDate(iso) {
+                if (!iso) return '—';
+                const d = new Date(iso);
+                return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+            }
+
+            function pluralize(n, one, few, many) {
+                n = Math.abs(n);
+                if (n % 10 === 1 && n % 100 !== 11) return one;
+                if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return few;
+                return many;
+            }
+
+            // ===== МОДАЛКА С ПОПОЛНЕНИЕМ =====
+            function showModal(title, body, actions = [], icon = '', isDeposit = false) {
+                let iconHtml = icon ? `<div class="modal-icon">${icon}</div>` : '';
+                let depositHtml = '';
+                if (isDeposit) {
+                    depositHtml = `
+                        <div style="text-align:center; margin: 16px 0; padding: 16px; background: var(--bg-surface-2); border-radius: var(--radius-sm);">
+                            <p style="font-size:18px; margin-bottom:12px;">💎 Для пополнения баланса свяжитесь с администратором:</p>
+                            <a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a>
+                            <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">💰 Минимальная сумма пополнения: $10</p>
+                            <p style="font-size:13px; color:var(--text-secondary);">🕒 Обработка: до 5 минут</p>
+                        </div>
+                    `;
+                }
+                modalRoot.innerHTML = `
+                    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+                        <div class="modal-box">
+                            <button class="modal-close" onclick="closeModal()">✕</button>
+                            ${iconHtml}
+                            <h2>${title}</h2>
+                            <div class="modal-body">${body}${depositHtml}</div>
+                            <div class="modal-actions">
+                                ${actions.map(a => `<button class="btn ${a.cls || 'btn-outline'}" onclick="(${a.action})()">${a.label}</button>`).join('')}
+                                <button class="btn btn-outline" onclick="closeModal()">Закрыть</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            window.closeModal = function() { modalRoot.innerHTML = ''; };
+            window.showModal = showModal;
+
+            // ===== ПОПОЛНЕНИЕ =====
+            window.showDepositModal = function() {
+                showModal(
+                    '💎 Пополнение баланса',
+                    '<p style="font-size:16px;">Пополните свой баланс для покупки ботнетов и запуска атак.</p>',
+                    [
+                        { label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }
+                    ],
+                    '💰',
+                    true
+                );
+            };
+
+            // ===== АДМИН ПОПОЛНЯЕТ БАЛАНС =====
+            window.adminDeposit = async function() {
+                const username = document.getElementById('depositUsername').value.trim();
+                const amount = parseFloat(document.getElementById('depositAmount').value);
+                if (!username || !amount || amount <= 0) {
+                    showModal('❌ Ошибка', 'Введите логин и сумму (больше 0)');
+                    return;
+                }
+                try {
+                    const res = await apiFetch('/admin/add_balance', {
+                        method: 'POST',
+                        body: JSON.stringify({ username, amount })
+                    });
+                    if (res.error) {
+                        showModal('❌ Ошибка', res.error);
+                        return;
+                    }
+                    if (res.success) {
+                        showModal('✅ Пополнено!', `
+                            <p>💰 Новый баланс <strong>${res.username}</strong>: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p>
+                            <p>➕ Добавлено: <strong style="color:var(--accent-gold);">${formatCurrency(res.added)}</strong></p>
+                        `, [
+                            { label: '🔄 Обновить', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }
+                        ]);
+                        // Обновляем таблицу пользователей
+                        setTimeout(refreshAdmin, 500);
+                    }
+                } catch(e) {
+                    showModal('❌ Ошибка', 'Сервер недоступен');
+                }
+            };
+
+            // ----- NAVIGATION -----
+            window.navigateTo = function(page, data = null) {
+                currentPage = page;
+                renderNav();
+                renderPage(page, data);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            function renderNav() {
+                const isAuth = !!currentUser;
+                let html = '';
+                if (isAuth) {
+                    html += `<a class="${currentPage === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">📊 Дашборд</a>`;
+                    html += `<a class="${currentPage === 'shop' ? 'active' : ''}" onclick="navigateTo('shop')">🛒 Магазин</a>`;
+                    html += `<a class="${currentPage === 'attack' ? 'active' : ''}" onclick="navigateTo('attack')">⚔️ Атака</a>`;
+                    html += `<a class="${currentPage === 'profile' ? 'active' : ''}" onclick="navigateTo('profile')">👤 Профиль</a>`;
+                    if (currentUser && currentUser.role === 'admin') {
+                        html += `<a class="${currentPage === 'admin' ? 'active' : ''}" onclick="navigateTo('admin')">🔧 Админ</a>`;
+                    }
+                    html += `<button onclick="logout()">🚪 Выйти</button>`;
+                } else {
+                    html += `<a class="${currentPage === 'home' ? 'active' : ''}" onclick="navigateTo('home')">🏠 Главная</a>`;
+                    html += `<a class="${currentPage === 'login' ? 'active' : ''}" onclick="navigateTo('login')">🔐 Вход</a>`;
+                    html += `<a class="${currentPage === 'register' ? 'active' : ''}" onclick="navigateTo('register')">📝 Регистрация</a>`;
+                }
+                navLinks.innerHTML = html;
+
+                // Обновляем юзер-бейдж
+                if (currentUser) {
+                    userName.textContent = currentUser.username;
+                    userBalance.textContent = formatCurrency(currentUser.balance || 0);
+                } else {
+                    userName.textContent = 'Гость';
+                    userBalance.textContent = '$0.00';
+                }
+            }
+
+            // ----- RENDER PAGES -----
+            function renderPage(page, data) {
+                switch(page) {
+                    case 'home': renderHome(); break;
+                    case 'login': renderLogin(); break;
+                    case 'register': renderRegister(); break;
+                    case 'dashboard': renderDashboard(); break;
+                    case 'shop': renderShop(); break;
+                    case 'attack': renderAttack(data); break;
+                    case 'profile': renderProfile(); break;
+                    case 'admin': renderAdmin(); break;
+                    default: renderHome();
+                }
+            }
+
+            // ----- HOME -----
+            function renderHome() {
+                pageContainer.innerHTML = `
+                    <div class="hero">
+                        <div class="logo-big">VO1D<span>.</span></div>
+                        <div class="slogan">Rent the void. <em>Destroy anything.</em></div>
+                        <button class="btn btn-purple btn-lg" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">
+                            ${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}
+                        </button>
+                        <div class="features">
+                            <div class="feature-card"><div class="icon">🤖</div><div class="title">500,000+ ботов</div><div class="desc">Мощность, которой хватит на всё</div></div>
+                            <div class="feature-card"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div>
+                            <div class="feature-card"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // ----- LOGIN -----
+            function renderLogin() {
+                pageContainer.innerHTML = `
+                    <div class="auth-form">
+                        <h2>🔐 Вход</h2>
+                        <div class="form-group">
+                            <label>Логин</label>
+                            <input type="text" id="loginUsername" placeholder="Введите логин">
+                        </div>
+                        <div class="form-group password-toggle">
+                            <label>Пароль</label>
+                            <input type="password" id="loginPassword" placeholder="Введите пароль">
+                            <button class="toggle-eye" onclick="togglePassword('loginPassword')">👁️</button>
+                        </div>
+                        <button class="btn btn-green" onclick="handleLogin()">ВОЙТИ</button>
+                        <div class="switch-link">Нет аккаунта? <a onclick="navigateTo('register')">Зарегистрироваться</a></div>
+                    </div>
+                `;
+            }
+            window.handleLogin = async function() {
+                const username = $('loginUsername').value.trim();
+                const password = $('loginPassword').value.trim();
+                if (!username || !password) {
+                    showModal('Ошибка', 'Заполните все поля');
+                    return;
+                }
+                try {
+                    const res = await apiFetch('/login', {
+                        method: 'POST',
+                        body: JSON.stringify({ username, password })
+                    });
+                    if (res.error) {
+                        showModal('Ошибка входа', res.error);
+                        return;
+                    }
+                    if (res.token) {
+                        localStorage.setItem(TOKEN_KEY, res.token);
+                        currentUser = res.user;
+                        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                        navigateTo('dashboard');
+                    }
+                } catch(e) {
+                    showModal('Ошибка', 'Сервер недоступен');
+                }
+            };
+
+            // ----- REGISTER -----
+            function renderRegister() {
+                pageContainer.innerHTML = `
+                    <div class="auth-form">
+                        <h2>📝 Регистрация</h2>
+                        <div class="form-group">
+                            <label>Логин</label>
+                            <input type="text" id="regUsername" placeholder="Придумайте логин">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="regEmail" placeholder="Ваш email">
+                        </div>
+                        <div class="form-group password-toggle">
+                            <label>Пароль</label>
+                            <input type="password" id="regPassword" placeholder="Минимум 6 символов">
+                            <button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button>
+                        </div>
+                        <div class="form-group password-toggle">
+                            <label>Подтверждение пароля</label>
+                            <input type="password" id="regPassword2" placeholder="Повторите пароль">
+                            <button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button>
+                        </div>
+                        <button class="btn btn-purple" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button>
+                        <div class="switch-link">Уже есть аккаунт? <a onclick="navigateTo('login')">Войти</a></div>
+                    </div>
+                `;
+            }
+            window.handleRegister = async function() {
+                const username = $('regUsername').value.trim();
+                const email = $('regEmail').value.trim();
+                const password = $('regPassword').value;
+                const password2 = $('regPassword2').value;
+                if (!username || !email || !password || !password2) {
+                    showModal('Ошибка', 'Заполните все поля');
+                    return;
+                }
+                if (password !== password2) {
+                    showModal('Ошибка', 'Пароли не совпадают');
+                    return;
+                }
+                if (password.length < 6) {
+                    showModal('Ошибка', 'Пароль должен быть минимум 6 символов');
+                    return;
+                }
+                try {
+                    const res = await apiFetch('/register', {
+                        method: 'POST',
+                        body: JSON.stringify({ username, email, password })
+                    });
+                    if (res.error) {
+                        showModal('Ошибка регистрации', res.error);
+                        return;
+                    }
+                    if (res.token) {
+                        localStorage.setItem(TOKEN_KEY, res.token);
+                        currentUser = res.user;
+                        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                        navigateTo('dashboard');
+                    }
+                } catch(e) {
+                    showModal('Ошибка', 'Сервер недоступен');
+                }
+            };
+
+            window.togglePassword = function(id) {
+                const el = $(id);
+                if (!el) return;
+                el.type = el.type === 'password' ? 'text' : 'password';
+            };
+
+            // ----- DASHBOARD -----
+            async function renderDashboard() {
+                if (!currentUser) { navigateTo('login'); return; }
+                pageContainer.innerHTML = `
+                    <h1>👋 Добро пожаловать, <span class="text-gradient">${currentUser.username}</span></h1>
+                    <div style="display:flex; gap:16px; flex-wrap:wrap; margin:16px 0;">
+                        <div class="dash-card" style="flex:1; min-width:200px;">
+                            <div class="card-title">💰 Баланс</div>
+                            <div class="card-value green">${formatCurrency(currentUser.balance)}</div>
+                        </div>
+                        <div class="dash-card" style="flex:1; min-width:200px;">
+                            <div class="card-title">🤖 Активные ботнеты</div>
+                            <div class="card-value purple" id="activeBotnetsCount">0</div>
+                        </div>
+                        <div class="dash-card" style="flex:1; min-width:200px;">
+                            <div class="card-title">⚔️ Атак запущено</div>
+                            <div class="card-value red" id="totalAttacksCount">0</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin:16px 0;">
+                        <button class="btn btn-purple" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button>
+                        <button class="btn btn-red" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button>
+                        <button class="btn btn-gold" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+                        <button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button>
+                    </div>
+                    <h2 style="margin-top:24px;">📦 Мои ботнеты</h2>
+                    <div id="botnetList" class="botnet-list"></div>
+                    <h2 style="margin-top:24px;">📜 История атак</h2>
+                    <div id="attackHistory" style="overflow-x:auto;"></div>
+                `;
+                await refreshDashboard();
+            }
+
+            window.refreshDashboard = async function() {
+                try {
+                    // Обновляем пользователя
+                    const profile = await apiFetch('/profile');
+                    if (!profile.error) {
+                        currentUser = { ...currentUser, ...profile };
+                        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                        userBalance.textContent = formatCurrency(currentUser.balance);
+                    }
+
+                    // Ботнеты
+                    const botnets = await apiFetch('/my-botnets');
+                    if (!botnets.error) {
+                        botnetsCache = botnets;
+                        const active = botnets.filter(b => b.active).length;
+                        const el = $('activeBotnetsCount');
+                        if (el) el.textContent = active;
+                        renderBotnetList(botnets);
+                    }
+
+                    // История атак
+                    const history = await apiFetch('/attacks/history');
+                    if (!history.error) {
+                        const el = $('totalAttacksCount');
+                        if (el) el.textContent = history.length;
+                        renderAttackHistory(history);
+                    }
+                } catch(e) {
+                    console.error('Dashboard refresh error:', e);
+                }
+            };
+
+            function renderBotnetList(botnets) {
+                const container = $('botnetList');
+                if (!container) return;
+                if (!botnets || botnets.length === 0) {
+                    container.innerHTML = '<p style="color:var(--text-secondary);">У вас пока нет ботнетов. <a onclick="navigateTo(\'shop\')">Купить</a></p>';
+                    return;
+                }
+                container.innerHTML = botnets.map(b => `
+                    <div class="botnet-item ${b.active ? '' : 'expired'}">
+                        <div class="info">
+                            <div class="count">🤖 ${b.bot_count} ботов</div>
+                            <div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)} · до ${formatDate(b.expires_at)}</div>
+                        </div>
+                        <div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅ Активен' : '⏳ Истёк'}</div>
+                    </div>
+                `).join('');
+            }
+
+            function renderAttackHistory(history) {
+                const container = $('attackHistory');
+                if (!container) return;
+                if (!history || history.length === 0) {
+                    container.innerHTML = '<p style="color:var(--text-secondary);">Атак пока не было.</p>';
+                    return;
+                }
+                let html = `<table class="admin-table">
+                    <thead><tr><th>Цель</th><th>Тип</th><th>Ботов</th><th>Статус</th><th>Начало</th></tr></thead><tbody>`;
+                history.slice(0, 20).forEach(a => {
+                    const statusColor = a.status === 'running' ? 'var(--accent-green)' : a.status === 'stopped' ? 'var(--accent-red)' : 'var(--text-secondary)';
+                    html += `<tr>
+                        <td>${a.target}</td>
+                        <td>${a.attack_type.replace('_', ' ')}</td>
+                        <td>${a.bot_count}</td>
+                        <td style="color:${statusColor};">${a.status}</td>
+                        <td>${formatDate(a.started_at)}</td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            }
+
+            // ----- SHOP -----
+            async function renderShop() {
+                if (!currentUser) { navigateTo('login'); return; }
+                if (!pricingCache) {
+                    try {
+                        pricingCache = await apiFetch('/pricing');
+                    } catch(e) { pricingCache = { min_bots:100, max_bots:500000, price_per_bot_per_day:0.01, duration_options:[1,3,7,14,30], options:{}}; }
+                }
+                const p = pricingCache;
+                const minBots = p.min_bots || 100;
+                const maxBots = p.max_bots || 500000;
+                const pricePerBot = p.price_per_bot_per_day || 0.01;
+                const durations = p.duration_options || [1,3,7,14,30];
+                const options = p.options || {};
+
+                pageContainer.innerHTML = `
+                    <div class="shop-container">
+                        <h1 style="text-align:center;">🛒 Магазин ботнетов</h1>
+                        <div class="price-display" id="priceDisplay">
+                            <span id="totalPrice">0.00</span><small> USD</small>
+                        </div>
+
+                        <div class="slider-container">
+                            <label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">100</span></label>
+                            <input type="range" id="botSlider" min="${minBots}" max="${maxBots}" step="100" value="${minBots}">
+                            <div class="slider-labels"><span>${minBots}</span><span>${maxBots}</span></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>📅 Срок аренды</label>
+                            <select id="durationSelect">
+                                ${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}
+                            </select>
+                        </div>
+
+                        <div style="margin:16px 0;">
+                            <label style="font-weight:600;">⚙️ Дополнительные опции</label>
+                            ${Object.entries(options).map(([key, multiplier]) => `
+                                <label class="option-checkbox">
+                                    <input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}">
+                                    <span class="opt-label">${key.replace(/_/g, ' ')}</span>
+                                    <span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span>
+                                </label>
+                            `).join('')}
+                        </div>
+
+                        <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
+                            <button class="btn btn-purple btn-lg" style="flex:1;" onclick="handleBuy()">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button>
+                            <button class="btn btn-gold" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+                        </div>
+                    </div>
+                `;
+
+                // События
+                const slider = $('botSlider');
+                const label = $('botCountLabel');
+                const updatePrice = () => {
+                    const count = parseInt(slider.value);
+                    const days = parseInt($('durationSelect').value);
+                    let mult = 1;
+                    document.querySelectorAll('.opt-check:checked').forEach(el => {
+                        mult *= parseFloat(el.dataset.mult);
+                    });
+                    const price = count * pricePerBot * days * mult;
+                    label.textContent = count;
+                    $('totalPrice').textContent = price.toFixed(2);
+                    $('buyPrice').textContent = price.toFixed(2);
+                };
+                slider.addEventListener('input', updatePrice);
+                $('durationSelect').addEventListener('change', updatePrice);
+                document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', updatePrice));
+                updatePrice();
+            }
+
+            window.handleBuy = async function() {
+                const count = parseInt($('botSlider').value);
+                const days = parseInt($('durationSelect').value);
+                const options = {};
+                document.querySelectorAll('.opt-check:checked').forEach(el => {
+                    options[el.dataset.key] = true;
+                });
+
+                // ===== ПРЕДУПРЕЖДЕНИЕ ПРИ ПОКУПКЕ 100-400 БОТОВ =====
+                if (count >= 100 && count < 500) {
+                    const confirmBuy = await new Promise((resolve) => {
+                        showModal(
+                            '⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ',
+                            `
+                            <div style="text-align:center; padding:10px;">
+                                <div style="font-size:48px; margin-bottom:12px;">🤏</div>
+                                <p style="font-size:18px; font-weight:700; color:var(--accent-red);">
+                                    Вы покупаете <strong>${count}</strong> ботов
+                                </p>
+                                <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                                    <span style="color:var(--accent-gold); font-size:20px;">💡 РЕКОМЕНДАЦИЯ:</span><br>
+                                    <span style="font-size:16px;">От <strong style="color:var(--accent-green);">500 ботов</strong> атака становится
+                                    <strong style="color:var(--accent-gold);">ГАРАНТИРОВАННО УСПЕШНОЙ</strong> и кладёт цель в 95% случаев!</span>
+                                </p>
+                                <p style="color:var(--text-secondary); font-size:14px;">
+                                    ${count} ботов — это <span style="color:var(--accent-red);">мизер</span>, эффективность низкая.
+                                    <br>Рекомендуем докупить до <strong style="color:var(--accent-green);">500+</strong> для гарантированного успеха!
+                                </p>
+                                <div style="margin-top:16px; padding:12px; background:rgba(239,68,68,0.1); border-radius:var(--radius-sm); border:1px solid var(--accent-red);">
+                                    <span style="color:var(--accent-red);">⚠️</span>
+                                    <span style="color:var(--text-primary);">При ${count} ботах цель может не упасть!</span>
+                                </div>
+                            </div>
+                            `,
+                            [
+                                { label: '✅ ВСЁ РАВНО КУПИТЬ', cls: 'btn-red', action: '()=>{ closeModal(); resolve(true); }' },
+                                { label: '🔙 НАЗАД, ДОКУПЛЮ', cls: 'btn-gold', action: '()=>{ closeModal(); resolve(false); }' }
+                            ],
+                            '⚠️'
+                        );
+                    });
+
+                    if (!confirmBuy) {
+                        return; // Пользователь передумал
+                    }
+                }
+
+                // ===== ОСНОВНАЯ ПОКУПКА =====
+                try {
+                    const res = await apiFetch('/buy', {
+                        method: 'POST',
+                        body: JSON.stringify({ bot_count: count, duration_days: days, options })
+                    });
+                    if (res.error) {
+                        if (res.error.includes('Insufficient balance')) {
+                            const price = parseFloat($('buyPrice').textContent) || 0;
+                            showModal('❌ Недостаточно средств', `
+                                <p>У вас недостаточно средств для покупки.</p>
+                                <p style="margin:12px 0; padding:12px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                                    💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>
+                                    💰 Нужно: <strong>${formatCurrency(price)}</strong>
+                                </p>
+                                <p>Пополните баланс через администратора.</p>
+                            `, [
+                                { label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); window.showDepositModal(); }' }
+                            ]);
+                            return;
+                        }
+                        showModal('Ошибка покупки', res.error);
+                        return;
+                    }
+                    if (res.success) {
+                        currentUser.balance = res.new_balance;
+                        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                        showModal('✅ Покупка успешна!', `
+                            <p>🤖 <strong>${res.bot_count}</strong> ботов</p>
+                            <p>📅 <strong>${res.duration_days}</strong> дней</p>
+                            <p>💰 Стоимость: <strong>${formatCurrency(res.price)}</strong></p>
+                            <p>💳 Новый баланс: <strong>${formatCurrency(res.new_balance)}</strong></p>
+                            <p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p>
+                            ${res.bot_count < 500 ? `<p style="color:var(--accent-red); margin-top:8px;">⚠️ Рекомендуем докупить до 500+ ботов для гарантированного успеха!</p>` : `<p style="color:var(--accent-green); margin-top:8px;">🔥 Отличный выбор! ${res.bot_count} ботов — гарантированный успех!</p>`}
+                        `, [
+                            { label: 'Перейти к атаке', cls: 'btn-red', action: '()=>{ closeModal(); navigateTo("attack"); }' },
+                            { label: 'На дашборд', cls: 'btn-purple', action: '()=>{ closeModal(); navigateTo("dashboard"); }' }
+                        ]);
+                        userBalance.textContent = formatCurrency(currentUser.balance);
+                    }
+                } catch(e) {
+                    showModal('Ошибка', 'Сервер недоступен');
+                }
+            };
+
+            // ----- ATTACK -----
+            async function renderAttack(data) {
+                if (!currentUser) { navigateTo('login'); return; }
+                // Получаем активные ботнеты
+                let botnets = [];
+                try {
+                    const res = await apiFetch('/my-botnets');
+                    if (!res.error) botnets = res.filter(b => b.active);
+                } catch(e) {}
+
+                const attackTypes = ['HTTP_GET_FLOOD', 'HTTP_POST_FLOOD', 'HTTPS_FLOOD', 'SLOWLORIS', 'SYN_FLOOD', 'UDP_FLOOD', 'ICMP_FLOOD', 'HTTP_HEADERS_FLOOD', 'MULTI_VECTOR'];
+
+                pageContainer.innerHTML = `
+                    <div class="attack-panel">
+                        <h1>⚔️ Запуск атаки</h1>
+                        <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
+                            <span class="target-status online" id="targetStatus">🟢 Цель: неизвестно</span>
+                            <span id="attackTimer" style="color:var(--text-secondary);">⏱ 0с</span>
+                            <button class="btn btn-outline btn-sm" id="stopAttackBtn" onclick="handleStopAttack()" disabled>■ ОСТАНОВИТЬ</button>
+                        </div>
+
+                        <div class="form-group">
+                            <label>🤖 Выбрать ботнет</label>
+                            <select id="attackBotnet">
+                                ${botnets.length === 0 ? '<option value="">— Нет активных ботнетов —</option>' :
+                                botnets.map(b => `<option value="${b.id}">${b.bot_count} ботов (до ${formatDate(b.expires_at)})</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>🎯 Цель (URL или IP)</label>
+                            <input type="text" id="attackTarget" placeholder="https://example.com или 192.168.1.1">
+                        </div>
+                        <div class="form-group">
+                            <label>💥 Тип атаки</label>
+                            <select id="attackType">
+                                ${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g, ' ')}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>⏱ Длительность (сек): <span id="durationLabel">60</span></label>
+                            <input type="range" id="durationSlider" min="10" max="3600" step="10" value="60">
+                            <div class="slider-labels"><span>10с</span><span>3600с</span></div>
+                        </div>
+
+                        <button class="btn btn-red btn-lg" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶ ЗАПУСТИТЬ</button>
+
+                        <div class="stats-grid" id="attackStats">
+                            <div class="stat-box"><div class="stat-value" id="statRequests">0</div><div class="stat-label">Запросов</div></div>
+                            <div class="stat-box"><div class="stat-value" id="statErrors">0</div><div class="stat-label">Успешно</div></div>
+                            <div class="stat-box"><div class="stat-value" id="statRps">0</div><div class="stat-label">RPS</div></div>
+                            <div class="stat-box"><div class="stat-value" id="statBytes">0</div><div class="stat-label">Данных (KB)</div></div>
+                            <div class="stat-box"><div class="stat-value" id="statStatus">🟢</div><div class="stat-label">Статус цели</div></div>
+                        </div>
+
+                        <div class="progress-bar"><div class="fill" id="attackProgress" style="width:0%;"></div></div>
+
+                        <div class="log-terminal" id="attackLog">
+                            <div class="log-line"><span class="time">[${new Date().toLocaleTimeString()}]</span> ⚡ Ожидание запуска...</div>
+                        </div>
+                    </div>
+                `;
+
+                // Слайдер длительности
+                const durSlider = $('durationSlider');
+                if (durSlider) {
+                    durSlider.addEventListener('input', () => {
+                        const lbl = $('durationLabel');
+                        if (lbl) lbl.textContent = durSlider.value;
+                    });
+                }
+
+                // Если передан attackId для мониторинга
+                if (data && data.attackId) {
+                    activeAttackId = data.attackId;
+                    startAttackMonitoring(activeAttackId);
+                }
+            }
+
+            window.handleStartAttack = async function() {
+                const botnetId = parseInt($('attackBotnet').value);
+                const target = $('attackTarget').value.trim();
+                const attackType = $('attackType').value;
+                const duration = parseInt($('durationSlider').value);
+
+                if (!botnetId) {
+                    showModal('Ошибка', 'Выберите активный ботнет');
+                    return;
+                }
+                if (!target) {
+                    showModal('Ошибка', 'Введите цель');
+                    return;
+                }
+
+                try {
+                    const res = await apiFetch('/attack', {
+                        method: 'POST',
+                        body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration })
+                    });
+                    if (res.error) {
+                        showModal('Ошибка запуска', res.error);
+                        return;
+                    }
+                    if (res.success) {
+                        activeAttackId = res.attack_id;
+                        $('startAttackBtn').disabled = true;
+                        $('stopAttackBtn').disabled = false;
+                        addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`);
+                        startAttackMonitoring(activeAttackId);
+                    }
+                } catch(e) {
+                    showModal('Ошибка', 'Сервер недоступен');
+                }
+            };
+
+            window.handleStopAttack = async function() {
+                if (!activeAttackId) return;
+                try {
+                    const res = await apiFetch(`/attack/${activeAttackId}/stop`, { method: 'POST' });
+                    if (res.success) {
+                        addLogLine(`⏹ Атака остановлена. Статистика: ${res.stats ? JSON.stringify(res.stats) : ''}`);
+                        $('startAttackBtn').disabled = false;
+                        $('stopAttackBtn').disabled = true;
+                        if (attackInterval) {
+                            clearInterval(attackInterval);
+                            attackInterval = null;
+                        }
+                        activeAttackId = null;
+                    } else {
+                        showModal('Ошибка', res.error || 'Не удалось остановить');
+                    }
+                } catch(e) {
+                    showModal('Ошибка', 'Сервер недоступен');
+                }
+            };
+
+            function startAttackMonitoring(attackId) {
+                if (attackInterval) clearInterval(attackInterval);
+                addLogLine(`📡 Мониторинг атаки ${attackId}...`);
+                let startTime = Date.now();
+                let lastRequests = 0;
+
+                attackInterval = setInterval(async () => {
+                    try {
+                        const res = await apiFetch(`/attack/${attackId}/status`);
+                        if (res.error) {
+                            addLogLine(`❌ Ошибка статуса: ${res.error}`);
+                            return;
+                        }
+                        const stats = res.stats || {};
+                        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+
+                        // Обновляем статистику
+                        $('statRequests').textContent = stats.total_requests || 0;
+                        $('statErrors').textContent = stats.failed_requests || 0;
+                        $('statRps').textContent = stats.rps || 0;
+                        $('statBytes').textContent = stats.bytes_sent ? Math.round(stats.bytes_sent / 1024) : 0;
+                        const status = stats.target_status || 'online';
+                        $('statStatus').textContent = status === 'online' ? '🟢' : '🔴';
+                        $('targetStatus').textContent = status === 'online' ? '🟢 Цель: онлайн' : '🔴 Цель: офлайн (УСПЕХ!)';
+                        $('targetStatus').className = `target-status ${status}`;
+                        $('attackTimer').textContent = `⏱ ${elapsed}с / ${res.duration_seconds || 0}с`;
+
+                        // Прогресс
+                        const progress = res.duration_seconds ? Math.min(100, (elapsed / res.duration_seconds) * 100) : 0;
+                        $('attackProgress').style.width = progress + '%';
+
+                        // Лог при изменении RPS
+                        const rps = stats.rps || 0;
+                        if (rps > 0 && rps !== lastRequests) {
+                            addLogLine(`📊 RPS: ${rps}, Запросов: ${stats.total_requests || 0},  (цель падает): ${stats.failed_requests || 0}`);
+                            lastRequests = rps;
+                        }
+
+                        // Если атака завершена
+                        if (res.status !== 'running') {
+                            addLogLine(`🏁 Атака завершена. Статус: ${res.status}. Успешно: ${stats.failed_requests || 0}`);
+                            clearInterval(attackInterval);
+                            attackInterval = null;
+                            $('startAttackBtn').disabled = false;
+                            $('stopAttackBtn').disabled = true;
+                            activeAttackId = null;
+                        }
+                    } catch(e) {
+                        // тихо
+                    }
+                }, 1000);
+            }
+
+            function addLogLine(msg) {
+                const log = $('attackLog');
+                if (!log) return;
+                const line = document.createElement('div');
+                line.className = 'log-line';
+                line.innerHTML = `<span class="time">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
+                log.appendChild(line);
+                log.scrollTop = log.scrollHeight;
+                if (log.children.length > 200) {
+                    log.removeChild(log.firstChild);
+                }
+            }
+
+            // ----- PROFILE -----
+            async function renderProfile() {
+                if (!currentUser) { navigateTo('login'); return; }
+                pageContainer.innerHTML = `
+                    <h1>👤 Профиль</h1>
+                    <div class="dash-card" style="max-width:500px;">
+                        <div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div>
+                        <div class="form-group"><label>Email</label><input type="email" value="${currentUser.email || ''}" disabled></div>
+                        <div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div>
+                        <div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role || 'user'}" disabled></div>
+                        ${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}
+                        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                            <button class="btn btn-gold" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+                            <button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button>
+                        </div>
+                    </div>
+                    <h2 style="margin-top:24px;">📦 Мои ботнеты</h2>
+                    <div id="profileBotnets" class="botnet-list"></div>
+                `;
+                try {
+                    const botnets = await apiFetch('/my-botnets');
+                    if (!botnets.error) {
+                        const container = $('profileBotnets');
+                        if (botnets.length === 0) {
+                            container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>';
+                        } else {
+                            container.innerHTML = botnets.map(b => `
+                                <div class="botnet-item ${b.active ? '' : 'expired'}">
+                                    <div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)}</div></div>
+                                    <div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅ Активен' : '⏳ Истёк'}</div>
+                                </div>
+                            `).join('');
+                        }
+                    }
+                } catch(e) {}
+            }
+
+            // ----- ADMIN -----
+            async function renderAdmin() {
+                if (!currentUser || currentUser.role !== 'admin') {
+                    navigateTo('home');
+                    return;
+                }
+                pageContainer.innerHTML = `
+                    <h1>🔧 Админ-панель</h1>
+
+                    <!-- ===== ФОРМА ПОПОЛНЕНИЯ БАЛАНСА ===== -->
+                    <div class="dash-card" style="margin:16px 0; border-color: var(--accent-gold);">
+                        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                            <span style="font-size:20px; font-weight:700; color:var(--accent-gold);">💎 ПОПОЛНИТЬ БАЛАНС</span>
+                            <input type="text" id="depositUsername" placeholder="Логин пользователя" style="flex:1; min-width:150px;">
+                            <input type="number" id="depositAmount" placeholder="Сумма $" style="width:150px;">
+                            <button class="btn btn-green" onclick="window.adminDeposit()">💎 ПОПОЛНИТЬ</button>
+                        </div>
+                        <div style="margin-top:8px; font-size:13px; color:var(--text-secondary);">
+                            💡 Введите логин пользователя и сумму в $, затем нажмите "ПОПОЛНИТЬ"
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin:16px 0;" id="adminStats"></div>
+                    <h2>👥 Пользователи</h2>
+                    <div id="adminUsers"></div>
+                `;
+                await refreshAdmin();
+            }
+
+            async function refreshAdmin() {
+                try {
+                    const stats = await apiFetch('/admin/stats');
+                    if (!stats.error) {
+                        const container = $('adminStats');
+                        container.innerHTML = `
+                            <div class="dash-card"><div class="card-title">👥 Всего пользователей</div><div class="card-value purple">${stats.total_users || 0}</div></div>
+                            <div class="dash-card"><div class="card-title">🤖 Продано ботнетов</div><div class="card-value green">${stats.total_botnets || 0}</div></div>
+                            <div class="dash-card"><div class="card-title">⚔️ Активных атак</div><div class="card-value red">${stats.active_attacks || 0}</div></div>
+                            <div class="dash-card"><div class="card-title">💰 Доход (без админа)</div><div class="card-value gold">${formatCurrency(stats.total_revenue || 0)}</div></div>
+                        `;
+                    }
+
+                    const users = await apiFetch('/admin/users');
+                    if (!users.error) {
+                        const container = $('adminUsers');
+                        let html = `<table class="admin-table"><thead><tr><th>ID</th><th>Логин</th><th>Email</th><th>Баланс</th><th>Роль</th><th>Статус</th><th>Действия</th></tr></thead><tbody>`;
+                        users.forEach(u => {
+                            const isBanned = u.banned === 1 || u.banned === true;
+                            html += `<tr>
+                                <td>${u.id}</td>
+                                <td>${u.username}</td>
+                                <td>${u.email || ''}</td>
+                                <td style="color:var(--accent-green); font-weight:700;">${formatCurrency(u.balance)}</td>
+                                <td><span class="badge ${u.role === 'admin' ? 'admin' : 'user'}">${u.role || 'user'}</span></td>
+                                <td>${isBanned ? '<span class="badge banned">Забанен</span>' : '✅ Активен'}</td>
+                                <td>
+                                    ${isBanned ?
+                                        `<button class="btn btn-green btn-sm" onclick="adminUnban(${u.id})">Разбан</button>` :
+                                        `<button class="btn btn-red btn-sm" onclick="adminBan(${u.id})">Забанить</button>`
+                                    }
+                                </td>
+                            </tr>`;
+                        });
+                        html += '</tbody></table>';
+                        container.innerHTML = html;
+                    }
+                } catch(e) {
+                    console.error('Admin refresh error:', e);
+                }
+            }
+
+            window.adminBan = async function(userId) {
+                if (!confirm('Забанить пользователя?')) return;
+                try {
+                    const res = await apiFetch(`/admin/ban/${userId}`, { method: 'POST' });
+                    if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь забанен'); }
+                    else showModal('Ошибка', res.error || 'Не удалось');
+                } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
+            };
+
+            window.adminUnban = async function(userId) {
+                try {
+                    const res = await apiFetch(`/admin/unban/${userId}`, { method: 'POST' });
+                    if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь разбанен'); }
+                    else showModal('Ошибка', res.error || 'Не удалось');
+                } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
+            };
+
+            // ----- LOGOUT -----
+            window.logout = function() {
+                localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(USER_KEY);
+                currentUser = null;
+                if (attackInterval) { clearInterval(attackInterval); attackInterval = null; }
+                activeAttackId = null;
+                navigateTo('home');
+            };
+
+            // ----- INIT -----
+            function init() {
+                // Восстанавливаем сессию
+                const saved = localStorage.getItem(USER_KEY);
+                if (saved) {
+                    try {
+                        currentUser = JSON.parse(saved);
+                        // Проверим токен
+                        const token = localStorage.getItem(TOKEN_KEY);
+                        if (!token) {
+                            currentUser = null;
+                            localStorage.removeItem(USER_KEY);
+                        }
+                    } catch(e) { currentUser = null; }
+                }
+                renderNav();
+                navigateTo(currentUser ? 'dashboard' : 'home');
+
+                // Авто-обновление баланса каждые 30 секунд
+                setInterval(async () => {
+                    if (currentUser) {
+                        try {
+                            const profile = await apiFetch('/profile');
+                            if (!profile.error) {
+                                currentUser.balance = profile.balance;
+                                localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                                userBalance.textContent = formatCurrency(currentUser.balance);
+                            }
+                        } catch(e) {}
+                    }
+                }, 30000);
+            }
+
+            // Запуск
+            document.addEventListener('DOMContentLoaded', init);
+        })();
+    </script>
+</body>
+</html>
