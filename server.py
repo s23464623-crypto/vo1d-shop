@@ -1,4 +1,54 @@
-#!/usr/bin/env python3
+Skip
+to
+content
+s23464623 - crypto
+vo1d - shop
+Repository
+navigation
+Code
+Issues
+Pull
+requests
+Actions
+Projects
+Wiki
+Security and quality
+Insights
+Settings
+Files
+Go
+to
+file
+t
+T
+Procfile.txt
+index.html
+requirements.txt
+server.py
+vo1d - shop
+/ server.py
+s23464623 - crypto
+s23464623 - crypto
+Add
+files
+via
+upload
+c37def6
+·
+21
+minutes
+ago
+vo1d - shop
+/ server.py
+
+Code
+
+Blame
+1683
+lines(1438
+loc) · 64.6
+KB
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # server.py — VO1D SHOP Бэкенд (MEGA POWER)
 # Версия 5.1.0
@@ -1641,6 +1691,36 @@ def health_check():
         'user_agents_loaded': len(USER_AGENTS),
         'max_bots': CONFIG['MAX_BOTS']
     }), 200
+
+
+# ============================================================
+# ОТДАЁМ ФРОНТЕНД (HTML)
+# ============================================================
+
+@app.route('/')
+def serve_frontend():
+    """Отдаём главную страницу"""
+    try:
+        if os.path.exists('site.html'):
+            return open('site.html', 'r', encoding='utf-8').read()
+        elif os.path.exists('index.html'):
+            return open('index.html', 'r', encoding='utf-8').read()
+        else:
+            return '<h1>VO1D SHOP</h1><p>Frontend file not found</p>'
+    except Exception as e:
+        return f'<h1>Error</h1><p>{str(e)}</p>'
+
+# Отдаём любые статические файлы
+@app.route('/<path:path>')
+def serve_static(path):
+    """Отдаём статические файлы (CSS, JS, HTML)"""
+    try:
+        if os.path.exists(path):
+            with open(path, 'r', encoding='utf-8') as f:
+                return f.read()
+        return f'<h1>404</h1><p>File {path} not found</p>', 404
+    except:
+        return f'<h1>404</h1><p>File {path} not found</p>', 404
 
 
 # ============================================================
