@@ -1811,7 +1811,7 @@ if __name__ == '__main__':
 
     # ===== ЗАПУСК ОБНУЛЕНИЯ (РАСКОММЕНТИРУЙ ДЛЯ ВЫПОЛНЕНИЯ) =====
     # УБЕРИ # В СЛЕДУЮЩЕЙ СТРОКЕ ЧТОБЫ ЗАПУСТИТЬ:
-    reset_all_data_except_admin()  # <--- УБЕРИ РЕШЁТКУ!
+    # reset_all_data_except_admin()  # <--- УБЕРИ РЕШЁТКУ!
 
     logger.info("🚀 Starting Flask server on 0.0.0.0:5000...")
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
