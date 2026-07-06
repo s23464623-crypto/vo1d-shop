@@ -1139,78 +1139,80 @@
             }
 
             // ----- SHOP -----
-            async function renderShop() {
-                if (!currentUser) { navigateTo('login'); return; }
-                if (!pricingCache) {
-                    try {
-                        pricingCache = await apiFetch('/pricing');
-                    } catch(e) { pricingCache = { min_bots:100, max_bots:500000, price_per_bot_per_day:0.01, duration_options:[1,3,7,14,30], options:{}}; }
-                }
-                const p = pricingCache;
-                const minBots = p.min_bots || 100;
-                const maxBots = p.max_bots || 500000;
-                const pricePerBot = p.price_per_bot_per_day || 0.01;
-                const durations = p.duration_options || [1,3,7,14,30];
-                const options = p.options || {};
+async function renderShop() {
+    if (!currentUser) { navigateTo('login'); return; }
 
-                pageContainer.innerHTML = `
-                    <div class="shop-container">
-                        <h1 style="text-align:center;">🛒 Магазин ботнетов</h1>
-                        <div class="price-display" id="priceDisplay">
-                            <span id="totalPrice">0.00</span><small> USD</small>
-                        </div>
+    // ЖЁСТКИЕ ОПЦИИ — ВСЕГДА ЕСТЬ!
+    const options = {
+        'BYPASS_CLOUDFLARE': 1.20,
+        'BYPASS_DDOS_GUARD': 1.30,
+        'ROTATE_PROXY': 1.15,
+        'IMITATE_LEGIT_TRAFFIC': 1.10
+    };
 
-                        <div class="slider-container">
-                            <label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">100</span></label>
-                            <input type="range" id="botSlider" min="${minBots}" max="${maxBots}" step="100" value="${minBots}">
-                            <div class="slider-labels"><span>${minBots}</span><span>${maxBots}</span></div>
-                        </div>
+    const minBots = 500;
+    const maxBots = 500000;
+    const pricePerBot = 0.01;
+    const durations = [1, 3, 7, 14, 30];
 
-                        <div class="form-group">
-                            <label>📅 Срок аренды</label>
-                            <select id="durationSelect">
-                                ${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}
-                            </select>
-                        </div>
+    pageContainer.innerHTML = `
+        <div class="shop-container">
+            <h1 style="text-align:center;">🛒 Магазин ботнетов</h1>
+            <div class="price-display" id="priceDisplay">
+                <span id="totalPrice">0.00</span><small> USD</small>
+            </div>
 
-                        <div style="margin:16px 0;">
-                            <label style="font-weight:600;">⚙️ Дополнительные опции</label>
-                            ${Object.entries(options).map(([key, multiplier]) => `
-                                <label class="option-checkbox">
-                                    <input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}">
-                                    <span class="opt-label">${key.replace(/_/g, ' ')}</span>
-                                    <span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span>
-                                </label>
-                            `).join('')}
-                        </div>
+            <div class="slider-container">
+                <label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label>
+                <input type="range" id="botSlider" min="500" max="500000" step="500" value="500">
+                <div class="slider-labels"><span>500</span><span>500,000</span></div>
+            </div>
 
-                        <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
-                            <button class="btn btn-purple btn-lg" style="flex:1;" onclick="handleBuy()">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button>
-                            <button class="btn btn-gold" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
-                        </div>
-                    </div>
-                `;
+            <div class="form-group">
+                <label>📅 Срок аренды</label>
+                <select id="durationSelect">
+                    ${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}
+                </select>
+            </div>
 
-                // События
-                const slider = $('botSlider');
-                const label = $('botCountLabel');
-                const updatePrice = () => {
-                    const count = parseInt(slider.value);
-                    const days = parseInt($('durationSelect').value);
-                    let mult = 1;
-                    document.querySelectorAll('.opt-check:checked').forEach(el => {
-                        mult *= parseFloat(el.dataset.mult);
-                    });
-                    const price = count * pricePerBot * days * mult;
-                    label.textContent = count;
-                    $('totalPrice').textContent = price.toFixed(2);
-                    $('buyPrice').textContent = price.toFixed(2);
-                };
-                slider.addEventListener('input', updatePrice);
-                $('durationSelect').addEventListener('change', updatePrice);
-                document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', updatePrice));
-                updatePrice();
-            }
+            <div style="margin:16px 0;">
+                <label style="font-weight:600;">⚙️ Дополнительные опции</label>
+                ${Object.entries(options).map(([key, multiplier]) => `
+                    <label class="option-checkbox">
+                        <input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}">
+                        <span class="opt-label">${key.replace(/_/g, ' ')}</span>
+                        <span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span>
+                    </label>
+                `).join('')}
+            </div>
+
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
+                <button class="btn btn-purple btn-lg" style="flex:1;" onclick="handleBuy()">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button>
+                <button class="btn btn-gold" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+            </div>
+        </div>
+    `;
+
+    // События
+    const slider = $('botSlider');
+    const label = $('botCountLabel');
+    const updatePrice = () => {
+        const count = parseInt(slider.value);
+        const days = parseInt($('durationSelect').value);
+        let mult = 1;
+        document.querySelectorAll('.opt-check:checked').forEach(el => {
+            mult *= parseFloat(el.dataset.mult);
+        });
+        const price = count * pricePerBot * days * mult;
+        label.textContent = count;
+        $('totalPrice').textContent = price.toFixed(2);
+        $('buyPrice').textContent = price.toFixed(2);
+    };
+    slider.addEventListener('input', updatePrice);
+    $('durationSelect').addEventListener('change', updatePrice);
+    document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', updatePrice));
+    updatePrice();
+}
 
             window.handleBuy = async function() {
                 const count = parseInt($('botSlider').value);
