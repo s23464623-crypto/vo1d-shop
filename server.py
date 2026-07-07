@@ -64,7 +64,7 @@ CONFIG = {
     'JWT_REFRESH_TOKEN_EXPIRES': timedelta(days=30),
     'DATABASE': 'vo1d_shop.db',
     'MAX_BOTS': 500000,
-    'MIN_BOTS': 500,
+    'MIN_BOTS': 100,  # <--- ИЗМЕНЕНО С 500 НА 100
     'BOT_PRICE_PER_DAY': 0.01,
     'DURATION_OPTIONS': [1, 3, 7, 14, 30],
     'ATTACK_TYPES': [
@@ -1315,16 +1315,11 @@ def buy_botnet():
     bot_count = int(bot_count)
     duration_days = int(duration_days)
 
-    # ===== ПРОВЕРКА МИНИМУМА УБРАНА! =====
-    # ТЕПЕРЬ МОЖНО ПОКУПАТЬ ЛЮБОЕ КОЛИЧЕСТВО (ДАЖЕ 1 БОТА)
-    # НО ФРОНТЕНД НЕ ДАСТ МЕНЬШЕ 500
-
-    if duration_days not in CONFIG['DURATION_OPTIONS']:
-        return jsonify({'error': 'Invalid duration option'}), 400
-
-    # Проверка только на максимум
+    # ===== ПРОВЕРКА ТОЛЬКО НА МАКСИМУМ =====
     if bot_count > CONFIG['MAX_BOTS']:
         return jsonify({'error': f'Bot count cannot exceed {CONFIG["MAX_BOTS"]}'}), 400
+    if duration_days not in CONFIG['DURATION_OPTIONS']:
+        return jsonify({'error': 'Invalid duration option'}), 400
 
     valid_options = {}
     for key, value in options.items():
