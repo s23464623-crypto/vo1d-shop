@@ -1417,7 +1417,7 @@ function getPowerLevel(botCount) {
 }
 
 window.handleBuy = async function() {
-    console.log('🛒 КНОПКА КУПИТЬ НАЖАТА!'); // ДЛЯ ОТЛАДКИ
+    console.log('🛒 КНОПКА КУПИТЬ НАЖАТА!');
 
     const count = parseInt($('botSlider').value);
     const days = parseInt($('durationSelect').value);
@@ -1426,9 +1426,8 @@ window.handleBuy = async function() {
         options[el.dataset.key] = true;
     });
 
-    console.log('📦 Данные для покупки:', { count, days, options }); // ДЛЯ ОТЛАДКИ
+    console.log('📦 Данные для покупки:', { count, days, options });
 
-    // ===== ПРОВЕРКА МИНИМУМА =====
     if (count < 500) {
         showModal('❌ МИНИМУМ 500 БОТОВ!', `
             <div style="text-align:center; padding:10px;">
@@ -1446,7 +1445,6 @@ window.handleBuy = async function() {
         return;
     }
 
-    // ===== ПРЕДУПРЕЖДЕНИЕ 500-999 =====
     if (count >= 500 && count < 1000) {
         const confirmBuy = await new Promise((resolve) => {
             showModal(
@@ -1488,40 +1486,22 @@ window.handleBuy = async function() {
         console.log('✅ Пользователь подтвердил покупку');
     }
 
-    // ===== ОТПРАВКА ЗАПРОСА НА СЕРВЕР =====
     console.log('📤 Отправка запроса на сервер...');
     try {
         const res = await apiFetch('/buy', {
             method: 'POST',
             body: JSON.stringify({ bot_count: count, duration_days: days, options })
         });
-        console.log('📥 Ответ сервера:', res);
+        console.log('📥 Ответ сервера (полный):', res);
 
-        if (res.error) {
-            if (res.error.includes('Insufficient balance')) {
-                const price = parseFloat($('buyPrice').textContent) || 0;
-                showModal('❌ Недостаточно средств', `
-                    <p>У вас недостаточно средств для покупки.</p>
-                    <p style="margin:12px 0; padding:12px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                        💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>
-                        💰 Нужно: <strong>${formatCurrency(price)}</strong>
-                    </p>
-                `, [
-                    { label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); window.showDepositModal(); }' }
-                ]);
-                return;
-            }
-            showModal('Ошибка покупки', res.error);
-            return;
-        }
-
-        if (res.success) {
+        // ===== ПРОВЕРКА НА УСПЕХ (201 ИЛИ success: true) =====
+        if (res.success === true || res.botnet_id) {
             console.log('✅ Покупка успешна!');
             currentUser.balance = res.new_balance;
             localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-
+            
             if (typeof explosionEffect === 'function') explosionEffect();
-
+            
             showModal('✅ Покупка успешна!', `
                 <p>🤖 <strong>${res.bot_count}</strong> ботов</p>
                 <p>📅 <strong>${res.duration_days}</strong> дней</p>
@@ -1535,10 +1515,34 @@ window.handleBuy = async function() {
             ]);
             userBalance.textContent = formatCurrency(currentUser.balance);
             if (typeof showNotification === 'function') showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
+        } else if (res.error) {
+            // ===== ОБРАБОТКА ОШИБОК =====
+            if (res.error.includes('Insufficient balance')) {
+                const price = parseFloat($('buyPrice').textContent) || 0;
+                showModal('❌ Недостаточно средств', `
+                    <p>У вас недостаточно средств для покупки.</p>
+                    <p style="margin:12px 0; padding:12px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                        💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>
+                        💰 Нужно: <strong>${formatCurrency(price)}</strong>
+                    </p>
+                `, [
+                    { label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); window.showDepositModal(); }' }
+                ]);
+                return;
+            }
+            showModal('❌ Ошибка покупки', res.error);
+            return;
+        } else {
+            // ===== НЕИЗВЕСТНЫЙ ОТВЕТ =====
+            console.warn('⚠️ Неизвестный ответ:', res);
+            showModal('⚠️ Неизвестный ответ', `
+                <p>Сервер вернул неожиданный ответ.</p>
+                <pre style="background:#0a0a0a;padding:8px;border-radius:4px;font-size:11px;overflow-x:auto;">${JSON.stringify(res, null, 2)}</pre>
+            `);
         }
     } catch(e) {
         console.error('❌ Ошибка при покупке:', e);
-        showModal('Ошибка', 'Сервер недоступен');
+        showModal('❌ Ошибка', 'Сервер недоступен или ошибка соединения.');
     }
 };
 
