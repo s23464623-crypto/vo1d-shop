@@ -1411,6 +1411,8 @@ function getPowerLevel(botCount) {
 }
 
 window.handleBuy = async function() {
+    console.log('🛒 КНОПКА КУПИТЬ НАЖАТА!'); // ДЛЯ ОТЛАДКИ
+
     const count = parseInt($('botSlider').value);
     const days = parseInt($('durationSelect').value);
     const options = {};
@@ -1418,7 +1420,9 @@ window.handleBuy = async function() {
         options[el.dataset.key] = true;
     });
 
-    // ===== ПРОВЕРКА: МИНИМУМ 500 =====
+    console.log('📦 Данные для покупки:', { count, days, options }); // ДЛЯ ОТЛАДКИ
+
+    // ===== ПРОВЕРКА МИНИМУМА =====
     if (count < 500) {
         showModal('❌ МИНИМУМ 500 БОТОВ!', `
             <div style="text-align:center; padding:10px;">
@@ -1427,7 +1431,7 @@ window.handleBuy = async function() {
                     Минимальная покупка — <strong>500 ботов</strong>
                 </p>
                 <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                    ${count} ботов — это <span style="color:var(--accent-red);">слишком мало</span>, атака не сработает.
+                    ${count} ботов — это слишком мало, атака не сработает.
                 </p>
             </div>
         `, [
@@ -1436,7 +1440,7 @@ window.handleBuy = async function() {
         return;
     }
 
-    // ===== ПРЕДУПРЕЖДЕНИЕ 500-999 БОТОВ =====
+    // ===== ПРЕДУПРЕЖДЕНИЕ 500-999 =====
     if (count >= 500 && count < 1000) {
         const confirmBuy = await new Promise((resolve) => {
             showModal(
@@ -1471,15 +1475,22 @@ window.handleBuy = async function() {
                 '⚠️'
             );
         });
-        if (!confirmBuy) return;
+        if (!confirmBuy) {
+            console.log('❌ Пользователь передумал');
+            return;
+        }
+        console.log('✅ Пользователь подтвердил покупку');
     }
 
-    // ===== ОСНОВНАЯ ПОКУПКА =====
+    // ===== ОТПРАВКА ЗАПРОСА НА СЕРВЕР =====
+    console.log('📤 Отправка запроса на сервер...');
     try {
         const res = await apiFetch('/buy', {
             method: 'POST',
             body: JSON.stringify({ bot_count: count, duration_days: days, options })
         });
+        console.log('📥 Ответ сервера:', res);
+
         if (res.error) {
             if (res.error.includes('Insufficient balance')) {
                 const price = parseFloat($('buyPrice').textContent) || 0;
@@ -1497,16 +1508,13 @@ window.handleBuy = async function() {
             showModal('Ошибка покупки', res.error);
             return;
         }
+
         if (res.success) {
+            console.log('✅ Покупка успешна!');
             currentUser.balance = res.new_balance;
             localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
 
-            // ВЗРЫВНАЯ АНИМАЦИЯ
-            explosionEffect();
-
-            const powerMsg = count < 1000 ?
-                `<p style="color:var(--accent-gold); margin-top:8px;">⚠️ ${count} ботов — защищённый сайт может не упасть!</p>` :
-                `<p style="color:var(--accent-green); margin-top:8px;">🔥 ${count} ботов — гарантированный успех!</p>`;
+            if (typeof explosionEffect === 'function') explosionEffect();
 
             showModal('✅ Покупка успешна!', `
                 <p>🤖 <strong>${res.bot_count}</strong> ботов</p>
@@ -1514,16 +1522,16 @@ window.handleBuy = async function() {
                 <p>💰 Стоимость: <strong>${formatCurrency(res.price)}</strong></p>
                 <p>💳 Новый баланс: <strong>${formatCurrency(res.new_balance)}</strong></p>
                 <p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p>
-                ${powerMsg}
-                <p style="margin-top:8px; font-size:12px; color:var(--text-secondary);">💡 ${getPowerLevel(res.bot_count)}</p>
+                ${res.bot_count < 1000 ? `<p style="color:var(--accent-gold); margin-top:8px;">⚠️ ${res.bot_count} ботов — защищённый сайт может не упасть!</p>` : `<p style="color:var(--accent-green); margin-top:8px;">🔥 ${res.bot_count} ботов — гарантированный успех!</p>`}
             `, [
                 { label: '⚔️ К АТАКЕ', cls: 'btn-red', action: '()=>{ closeModal(); navigateTo("attack"); }' },
                 { label: '📊 ДАШБОРД', cls: 'btn-purple', action: '()=>{ closeModal(); navigateTo("dashboard"); }' }
             ]);
             userBalance.textContent = formatCurrency(currentUser.balance);
-            showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
+            if (typeof showNotification === 'function') showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
         }
     } catch(e) {
+        console.error('❌ Ошибка при покупке:', e);
         showModal('Ошибка', 'Сервер недоступен');
     }
 };
