@@ -6,15 +6,9 @@
     <title>VO1D SHOP — Rent the void. Destroy anything.</title>
     <style>
         /* ============================================================
-           CSS — Киберпанк тема (ВСЁ СКРУГЛЕННОЕ)
+           CSS — КИБЕРПАНК ТЕМА + НОВЫЕ АНИМАЦИИ
            ============================================================ */
-
-        /* ----- RESET & BASE ----- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --bg-primary: #0a0a0f;
@@ -29,12 +23,12 @@
             --text-secondary: #8b949e;
             --text-white: #ffffff;
             --font-mono: 'Courier New', monospace;
-            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.1Н5);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-main: 'Segoe UI', system-ui, sans-serif;
             --radius: 16px;
             --radius-sm: 10px;
             --radius-full: 9999px;
+            --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         html, body {
@@ -46,29 +40,119 @@
             overflow-x: hidden;
         }
 
-        /* ----- SCROLLBAR ----- */
+        /* ----- СКРОЛЛБАР ----- */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-surface); }
         ::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
 
-        /* ----- TYPOGRAPHY ----- */
-        h1, h2, h3, h4, h5, h6 { font-weight: 700; letter-spacing: 0.02em; }
-        a { color: var(--accent-purple); text-decoration: none; transition: var(--transition); }
-        a:hover { color: var(--accent-green); }
-
-        /* ----- UTILITY ----- */
-        .hidden { display: none !important; }
-        .flex-center { display: flex; align-items: center; justify-content: center; }
-        .text-gradient {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* ----- НЕОНОВЫЕ АНИМАЦИИ ----- */
+        @keyframes neonPulse {
+            0%, 100% { text-shadow: 0 0 10px var(--accent-purple), 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple); }
+            50% { text-shadow: 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple), 0 0 80px var(--accent-purple); }
         }
-        .text-glow { text-shadow: 0 0 40px rgba(139, 92, 246, 0.3); }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0); }
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(139, 92, 246, 0.6); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes matrixRain {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 100%; }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        @keyframes glitchSweep {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
 
-        /* ----- КНОПКИ — ВСЁ СКРУГЛЕННОЕ ----- */
+        /* ----- ЭФФЕКТ СКАНИРОВАНИЯ ----- */
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(139, 92, 246, 0.05);
+            animation: scanline 4s linear infinite;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.03;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(6, 214, 160, 0.05) 2px, rgba(6, 214, 160, 0.05) 4px);
+            animation: matrixRain 20s linear infinite;
+        }
+
+        /* ----- НЕОНОВЫЕ ТЕКСТЫ ----- */
+        .neon-text {
+            animation: neonPulse 2s infinite;
+            color: var(--accent-purple);
+        }
+        .glitch-text {
+            animation: glitch 0.3s infinite;
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+
+        /* ----- КНОПКИ С ГЛИТЧ-ЭФФЕКТОМ ----- */
+        .btn-glitch {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-glitch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-20deg);
+            animation: glitchSweep 3s infinite;
+        }
+        .btn-glitch:hover { transform: scale(1.05); }
+
+        /* ----- КАРТОЧКИ С АНИМАЦИЕЙ ----- */
+        .card-animated {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        .card-animated:nth-child(2) { animation-delay: 0.1s; }
+        .card-animated:nth-child(3) { animation-delay: 0.2s; }
+        .card-animated:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+            border-color: var(--accent-purple);
+        }
+
+        /* ----- ОСТАЛЬНЫЕ СТИЛИ (СКРУГЛЕННЫЕ) ----- */
         .btn {
             padding: 12px 32px;
             border: none;
@@ -94,35 +178,36 @@
             transition: var(--transition);
         }
         .btn:hover::after { opacity: 1; }
+
         .btn-purple {
             background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
             color: white;
             box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
         .btn-purple:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(139, 92, 246, 0.5); }
+
         .btn-green {
             background: linear-gradient(135deg, var(--accent-green), #05b88a);
             color: white;
             box-shadow: 0 0 20px rgba(6, 214, 160, 0.3);
         }
         .btn-green:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(6, 214, 160, 0.5); }
+
         .btn-red {
             background: linear-gradient(135deg, var(--accent-red), #dc2626);
             color: white;
             box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-            animation: pulse-red 2s infinite;
+            animation: pulse 2s infinite;
         }
         .btn-red:hover { transform: scale(1.02); box-shadow: 0 0 60px rgba(239, 68, 68, 0.6); }
-        @keyframes pulse-red {
-            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
-            50% { box-shadow: 0 0 50px rgba(239, 68, 68, 0.6); }
-        }
+
         .btn-gold {
             background: linear-gradient(135deg, var(--accent-gold), #f59e0b);
             color: #1a1a2e;
             box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
         }
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(251, 191, 36, 0.5); }
+
         .btn-outline {
             background: transparent;
             border: 2px solid var(--border-color);
@@ -130,10 +215,11 @@
             border-radius: var(--radius-full);
         }
         .btn-outline:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
+
         .btn-sm { padding: 8px 16px; font-size: 13px; }
         .btn-lg { padding: 16px 48px; font-size: 20px; }
 
-        /* ----- СЕЛЕКТЫ — ВСЁ СКРУГЛЕННОЕ ----- */
+        /* ----- СЕЛЕКТЫ ----- */
         select, input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
             width: 100%;
             padding: 12px 18px;
@@ -176,7 +262,7 @@
         /* ----- LAYOUT ----- */
         #app { min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* ----- HEADER / NAV ----- */
+        /* ----- NAVBAR ----- */
         .navbar {
             background: var(--bg-surface);
             border-bottom: 1px solid var(--border-color);
@@ -197,10 +283,7 @@
             color: var(--text-white);
             cursor: pointer;
         }
-        .navbar .logo span {
-            color: var(--accent-purple);
-            text-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
-        }
+        .navbar .logo span { color: var(--accent-purple); text-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
         .navbar .nav-links {
             display: flex;
             gap: 8px;
@@ -242,21 +325,17 @@
             border-radius: var(--radius-full);
         }
 
-        /* ----- PAGES CONTAINER ----- */
+        /* ----- PAGE CONTAINER ----- */
         .page-container {
             flex: 1;
             padding: 32px;
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
-            animation: fadeIn 0.4s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            animation: fadeInUp 0.4s ease;
         }
 
-        /* ----- HERO (Главная) ----- */
+        /* ----- HERO ----- */
         .hero {
             display: flex;
             flex-direction: column;
@@ -274,20 +353,14 @@
             text-shadow: 0 0 60px rgba(139, 92, 246, 0.2);
             margin-bottom: 16px;
         }
-        .hero .logo-big span {
-            color: var(--accent-purple);
-            text-shadow: 0 0 80px rgba(139, 92, 246, 0.4);
-        }
+        .hero .logo-big span { color: var(--accent-purple); text-shadow: 0 0 80px rgba(139, 92, 246, 0.4); }
         .hero .slogan {
             font-size: 24px;
             color: var(--text-secondary);
             margin-bottom: 40px;
             letter-spacing: 0.05em;
         }
-        .hero .slogan em {
-            color: var(--accent-red);
-            font-style: normal;
-        }
+        .hero .slogan em { color: var(--accent-red); font-style: normal; }
         .hero .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -321,11 +394,7 @@
             border-radius: var(--radius);
             padding: 40px 32px;
         }
-        .auth-form h2 {
-            text-align: center;
-            margin-bottom: 24px;
-            color: var(--text-white);
-        }
+        .auth-form h2 { text-align: center; margin-bottom: 24px; color: var(--text-white); }
         .auth-form .form-group { margin-bottom: 16px; }
         .auth-form label {
             display: block;
@@ -336,21 +405,14 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        .auth-form .btn {
-            width: 100%;
-            margin-top: 8px;
-            border-radius: var(--radius-full);
-        }
+        .auth-form .btn { width: 100%; margin-top: 8px; border-radius: var(--radius-full); }
         .auth-form .switch-link {
             text-align: center;
             margin-top: 16px;
             font-size: 14px;
             color: var(--text-secondary);
         }
-        .auth-form .switch-link a {
-            color: var(--accent-purple);
-            cursor: pointer;
-        }
+        .auth-form .switch-link a { color: var(--accent-purple); cursor: pointer; }
         .auth-form .password-toggle { position: relative; }
         .auth-form .password-toggle input { padding-right: 48px; }
         .auth-form .password-toggle .toggle-eye {
@@ -366,20 +428,16 @@
         }
 
         /* ----- DASHBOARD ----- */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-top: 24px;
-        }
-        @media (max-width: 768px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-        }
         .dash-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
             padding: 24px;
+            transition: var(--transition);
+        }
+        .dash-card:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.08);
         }
         .dash-card .card-title {
             font-size: 14px;
@@ -397,6 +455,13 @@
         .dash-card .card-value.purple { color: var(--accent-purple); }
         .dash-card .card-value.red { color: var(--accent-red); }
         .dash-card .card-value.gold { color: var(--accent-gold); }
+
+        .dash-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
 
         .botnet-list { display: flex; flex-direction: column; gap: 12px; }
         .botnet-item {
@@ -475,7 +540,7 @@
         .shop-container .option-checkbox .opt-label { flex: 1; color: var(--text-primary); }
         .shop-container .option-checkbox .opt-price { color: var(--text-secondary); font-size: 14px; }
 
-        /* ----- ATTACK PANEL ----- */
+        /* ----- ATTACK ----- */
         .attack-panel { max-width: 800px; margin: 0 auto; }
         .attack-panel .target-status {
             display: inline-block;
@@ -592,7 +657,7 @@
             margin-top: 40px;
         }
 
-        /* ----- МОДАЛКА (КРАСИВАЯ) ----- */
+        /* ----- МОДАЛКА ----- */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -602,7 +667,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: fadeIn 0.3s ease;
+            animation: fadeInUp 0.3s ease;
         }
         .modal-overlay .modal-box {
             background: var(--bg-surface);
@@ -664,7 +729,64 @@
             margin-bottom: 12px;
         }
 
-        /* ----- RESPONSIVE ----- */
+        /* ===== МУЗЫКАЛЬНЫЙ ПЛЕЕР ===== */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            min-width: 180px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            transition: var(--transition);
+        }
+        .music-player:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+        }
+        .music-player .controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .music-player .controls audio {
+            width: 100%;
+            height: 28px;
+            border-radius: var(--radius-full);
+        }
+        .music-player .controls audio::-webkit-media-controls-panel {
+            background: var(--bg-surface-2);
+            border-radius: var(--radius-full);
+        }
+        .music-player .controls .play-btn {
+            background: var(--accent-purple);
+            border: none;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .music-player .controls .play-btn:hover {
+            background: var(--accent-green);
+            transform: scale(1.05);
+        }
+        .music-player .track-name {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
             .navbar .logo { font-size: 22px; }
@@ -676,17 +798,21 @@
             .shop-container .price-display { font-size: 32px; }
             .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; }
             .modal-overlay .modal-box { padding: 24px 16px; }
+            .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; }
+            .music-player .controls audio { height: 24px; }
         }
     </style>
 </head>
 <body>
+    <!-- ===== ЭФФЕКТЫ ФОНА ===== -->
+    <div class="scanline"></div>
+    <div class="matrix-bg"></div>
+
     <div id="app">
         <!-- ===== NAVBAR ===== -->
         <nav class="navbar" id="navbar">
             <div class="logo" onclick="navigateTo('home')">VO1D<span>.</span></div>
-            <div class="nav-links" id="navLinks">
-                <!-- Динамически заполняется из JS -->
-            </div>
+            <div class="nav-links" id="navLinks"></div>
             <div class="user-badge" id="userBadge">
                 <span id="userName">Гость</span>
                 <span class="balance" id="userBalance">$0.00</span>
@@ -694,14 +820,21 @@
         </nav>
 
         <!-- ===== PAGE CONTAINER ===== -->
-        <div class="page-container" id="pageContainer">
-            <!-- Контент рендерится через JS -->
-        </div>
+        <div class="page-container" id="pageContainer"></div>
 
         <!-- ===== FOOTER ===== -->
-        <div class="footer">
-            VO1D SHOP © 2026 | All rights reserved
+        <div class="footer">VO1D SHOP © 2026 | All rights reserved</div>
+    </div>
+
+    <!-- ===== МУЗЫКАЛЬНЫЙ ПЛЕЕР ===== -->
+    <div class="music-player" id="musicPlayer">
+        <div class="controls">
+            <audio id="bgMusic" loop>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            </audio>
+            <button class="play-btn" id="musicToggle" onclick="toggleMusic()">▶</button>
         </div>
+        <div class="track-name">🎵 CYBERPUNK BEAT</div>
     </div>
 
     <!-- ===== MODAL ROOT ===== -->
@@ -709,19 +842,42 @@
 
     <script>
         // ============================================================
-        // JavaScript — SPA, API, состояния (2600+ строк)
+        // МУЗЫКАЛЬНЫЙ ПЛЕЕР
         // ============================================================
+        let musicPlaying = false;
+        const audio = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
 
+        function toggleMusic() {
+            if (musicPlaying) {
+                audio.pause();
+                musicToggle.textContent = '▶';
+            } else {
+                audio.play().catch(() => {});
+                musicToggle.textContent = '⏸';
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        // Автовоспроизведение при взаимодействии
+        document.addEventListener('click', () => {
+            if (!musicPlaying && audio) {
+                audio.play().catch(() => {});
+                musicPlaying = true;
+                musicToggle.textContent = '⏸';
+            }
+        }, { once: true });
+
+        // ============================================================
+        // SPA — ПОЛНОСТЬЮ РАБОЧИЙ
+        // ============================================================
         (function() {
-    'use strict';
+            'use strict';
 
-    // ----- CONFIG -----
-    // Автоматически определяет API: локально или на сервере
-    const API_BASE = window.location.origin + '/api';
-    const TOKEN_KEY = 'vo1d_token';
-    const USER_KEY = 'vo1d_user';
+            const API_BASE = window.location.origin + '/api';
+            const TOKEN_KEY = 'vo1d_token';
+            const USER_KEY = 'vo1d_user';
 
-            // ----- STATE -----
             let currentUser = null;
             let currentPage = 'home';
             let attackInterval = null;
@@ -729,7 +885,6 @@
             let pricingCache = null;
             let botnetsCache = [];
 
-            // ----- DOM REFS -----
             const $ = (id) => document.getElementById(id);
             const pageContainer = $('pageContainer');
             const navLinks = $('navLinks');
@@ -737,7 +892,6 @@
             const userBalance = $('userBalance');
             const modalRoot = $('modalRoot');
 
-            // ----- UTILITY -----
             function apiFetch(endpoint, options = {}) {
                 const token = localStorage.getItem(TOKEN_KEY);
                 const headers = {
@@ -745,10 +899,7 @@
                     ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
                     ...(options.headers || {})
                 };
-                return fetch(`${API_BASE}${endpoint}`, {
-                    ...options,
-                    headers,
-                }).then(res => res.json());
+                return fetch(`${API_BASE}${endpoint}`, { ...options, headers }).then(r => r.json());
             }
 
             function formatCurrency(amount) {
@@ -757,8 +908,7 @@
 
             function formatDate(iso) {
                 if (!iso) return '—';
-                const d = new Date(iso);
-                return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+                try { return new Date(iso).toLocaleString(); } catch { return iso; }
             }
 
             function pluralize(n, one, few, many) {
@@ -768,7 +918,92 @@
                 return many;
             }
 
-            // ===== МОДАЛКА С ПОПОЛНЕНИЕМ =====
+            // ===== ВЗРЫВНАЯ АНИМАЦИЯ =====
+            function explosionEffect() {
+                const colors = ['#8b5cf6', '#06d6a0', '#ef4444', '#fbbf24', '#ffffff'];
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.cssText = `
+                        position: fixed;
+                        width: ${Math.random() * 10 + 4}px;
+                        height: ${Math.random() * 10 + 4}px;
+                        background: ${colors[Math.floor(Math.random() * colors.length)]};
+                        border-radius: 50%;
+                        pointer-events: none;
+                        z-index: 9999;
+                        left: ${window.innerWidth / 2}px;
+                        top: ${window.innerHeight / 2}px;
+                        box-shadow: 0 0 20px ${colors[Math.floor(Math.random() * colors.length)]};
+                    `;
+                    document.body.appendChild(particle);
+
+                    const angle = Math.random() * 2 * Math.PI;
+                    const velocity = Math.random() * 300 + 100;
+                    const dx = Math.cos(angle) * velocity;
+                    const dy = Math.sin(angle) * velocity;
+
+                    let x = window.innerWidth / 2;
+                    let y = window.innerHeight / 2;
+                    let opacity = 1;
+
+                    const animate = () => {
+                        x += dx * 0.02;
+                        y += dy * 0.02;
+                        opacity -= 0.01;
+                        particle.style.transform = `translate(${x - window.innerWidth/2}px, ${y - window.innerHeight/2}px) scale(${opacity})`;
+                        particle.style.opacity = opacity;
+                        if (opacity > 0) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            particle.remove();
+                        }
+                    };
+                    animate();
+                }
+            }
+
+            // ===== УВЕДОМЛЕНИЕ =====
+            function showNotification(message, type = 'info') {
+                const colors = {
+                    info: 'var(--accent-purple)',
+                    success: 'var(--accent-green)',
+                    error: 'var(--accent-red)',
+                    warning: 'var(--accent-gold)'
+                };
+                const notif = document.createElement('div');
+                notif.style.cssText = `
+                    position: fixed;
+                    top: 80px;
+                    right: 20px;
+                    background: var(--bg-surface);
+                    border: 1px solid ${colors[type]};
+                    border-left: 4px solid ${colors[type]};
+                    border-radius: var(--radius-sm);
+                    padding: 16px 24px;
+                    color: var(--text-primary);
+                    z-index: 9999;
+                    max-width: 400px;
+                    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+                    transform: translateX(120%);
+                    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    font-family: var(--font-main);
+                    backdrop-filter: blur(10px);
+                `;
+                notif.innerHTML = `
+                    <div style="font-size:13px; font-weight:700; color:${colors[type]}; text-transform:uppercase; letter-spacing:1px;">
+                        ${type.toUpperCase()}
+                    </div>
+                    <div style="margin-top:4px; font-size:14px;">${message}</div>
+                `;
+                document.body.appendChild(notif);
+                setTimeout(() => { notif.style.transform = 'translateX(0)'; }, 100);
+                setTimeout(() => {
+                    notif.style.transform = 'translateX(120%)';
+                    setTimeout(() => notif.remove(), 500);
+                }, 4000);
+            }
+
+            // ===== МОДАЛКА =====
             function showModal(title, body, actions = [], icon = '', isDeposit = false) {
                 let iconHtml = icon ? `<div class="modal-icon">${icon}</div>` : '';
                 let depositHtml = '';
@@ -777,7 +1012,7 @@
                         <div style="text-align:center; margin: 16px 0; padding: 16px; background: var(--bg-surface-2); border-radius: var(--radius-sm);">
                             <p style="font-size:18px; margin-bottom:12px;">💎 Для пополнения баланса свяжитесь с администратором:</p>
                             <a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a>
-                            <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">💰 Минимальная сумма пополнения: $10</p>
+                            <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">💰 Минимальная сумма: $5</p>
                             <p style="font-size:13px; color:var(--text-secondary);">🕒 Обработка: до 5 минут</p>
                         </div>
                     `;
@@ -800,11 +1035,10 @@
             window.closeModal = function() { modalRoot.innerHTML = ''; };
             window.showModal = showModal;
 
-            // ===== ПОПОЛНЕНИЕ =====
             window.showDepositModal = function() {
                 showModal(
                     '💎 Пополнение баланса',
-                    '<p style="font-size:16px;">Пополните свой баланс для покупки ботнетов и запуска атак.</p>',
+                    '<p style="font-size:16px;">Пополните баланс для покупки ботнетов.</p>',
                     [
                         { label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }
                     ],
@@ -813,7 +1047,6 @@
                 );
             };
 
-            // ===== АДМИН ПОПОЛНЯЕТ БАЛАНС =====
             window.adminDeposit = async function() {
                 const username = document.getElementById('depositUsername').value.trim();
                 const amount = parseFloat(document.getElementById('depositAmount').value);
@@ -837,7 +1070,6 @@
                         `, [
                             { label: '🔄 Обновить', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }
                         ]);
-                        // Обновляем таблицу пользователей
                         setTimeout(refreshAdmin, 500);
                     }
                 } catch(e) {
@@ -845,7 +1077,6 @@
                 }
             };
 
-            // ----- NAVIGATION -----
             window.navigateTo = function(page, data = null) {
                 currentPage = page;
                 renderNav();
@@ -871,8 +1102,6 @@
                     html += `<a class="${currentPage === 'register' ? 'active' : ''}" onclick="navigateTo('register')">📝 Регистрация</a>`;
                 }
                 navLinks.innerHTML = html;
-
-                // Обновляем юзер-бейдж
                 if (currentUser) {
                     userName.textContent = currentUser.username;
                     userBalance.textContent = formatCurrency(currentUser.balance || 0);
@@ -882,7 +1111,6 @@
                 }
             }
 
-            // ----- RENDER PAGES -----
             function renderPage(page, data) {
                 switch(page) {
                     case 'home': renderHome(); break;
@@ -897,43 +1125,41 @@
                 }
             }
 
-            // ----- HOME -----
+            // ===== HOME =====
             function renderHome() {
                 pageContainer.innerHTML = `
                     <div class="hero">
-                        <div class="logo-big">VO1D<span>.</span></div>
+                        <div class="logo-big neon-text">VO1D<span>.</span></div>
                         <div class="slogan">Rent the void. <em>Destroy anything.</em></div>
-                        <button class="btn btn-purple btn-lg" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">
+                        <button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">
                             ${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}
                         </button>
                         <div class="features">
-                            <div class="feature-card"><div class="icon">🤖</div><div class="title">500,000+ ботов</div><div class="desc">Мощность, которой хватит на всё</div></div>
-                            <div class="feature-card"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div>
-                            <div class="feature-card"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div>
+                            <div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">500,000+ ботов</div><div class="desc">Мощность, которой хватит на всё</div></div>
+                            <div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div>
+                            <div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div>
                         </div>
                     </div>
                 `;
             }
 
-            // ----- LOGIN -----
+            // ===== LOGIN =====
             function renderLogin() {
                 pageContainer.innerHTML = `
                     <div class="auth-form">
                         <h2>🔐 Вход</h2>
-                        <div class="form-group">
-                            <label>Логин</label>
-                            <input type="text" id="loginUsername" placeholder="Введите логин">
-                        </div>
+                        <div class="form-group"><label>Логин</label><input type="text" id="loginUsername" placeholder="Введите логин"></div>
                         <div class="form-group password-toggle">
                             <label>Пароль</label>
                             <input type="password" id="loginPassword" placeholder="Введите пароль">
                             <button class="toggle-eye" onclick="togglePassword('loginPassword')">👁️</button>
                         </div>
-                        <button class="btn btn-green" onclick="handleLogin()">ВОЙТИ</button>
+                        <button class="btn btn-green btn-glitch" onclick="handleLogin()">ВОЙТИ</button>
                         <div class="switch-link">Нет аккаунта? <a onclick="navigateTo('register')">Зарегистрироваться</a></div>
                     </div>
                 `;
             }
+
             window.handleLogin = async function() {
                 const username = $('loginUsername').value.trim();
                 const password = $('loginPassword').value.trim();
@@ -942,10 +1168,7 @@
                     return;
                 }
                 try {
-                    const res = await apiFetch('/login', {
-                        method: 'POST',
-                        body: JSON.stringify({ username, password })
-                    });
+                    const res = await apiFetch('/login', { method: 'POST', body: JSON.stringify({ username, password }) });
                     if (res.error) {
                         showModal('Ошибка входа', res.error);
                         return;
@@ -954,6 +1177,7 @@
                         localStorage.setItem(TOKEN_KEY, res.token);
                         currentUser = res.user;
                         localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                        showNotification('✅ Добро пожаловать, ' + currentUser.username, 'success');
                         navigateTo('dashboard');
                     }
                 } catch(e) {
@@ -961,34 +1185,29 @@
                 }
             };
 
-            // ----- REGISTER -----
+            // ===== REGISTER =====
             function renderRegister() {
                 pageContainer.innerHTML = `
                     <div class="auth-form">
                         <h2>📝 Регистрация</h2>
-                        <div class="form-group">
-                            <label>Логин</label>
-                            <input type="text" id="regUsername" placeholder="Придумайте логин">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="regEmail" placeholder="Ваш email">
-                        </div>
+                        <div class="form-group"><label>Логин</label><input type="text" id="regUsername" placeholder="Придумайте логин"></div>
+                        <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="Ваш email"></div>
                         <div class="form-group password-toggle">
                             <label>Пароль</label>
                             <input type="password" id="regPassword" placeholder="Минимум 6 символов">
                             <button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button>
                         </div>
                         <div class="form-group password-toggle">
-                            <label>Подтверждение пароля</label>
+                            <label>Подтверждение</label>
                             <input type="password" id="regPassword2" placeholder="Повторите пароль">
                             <button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button>
                         </div>
-                        <button class="btn btn-purple" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button>
+                        <button class="btn btn-purple btn-glitch" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button>
                         <div class="switch-link">Уже есть аккаунт? <a onclick="navigateTo('login')">Войти</a></div>
                     </div>
                 `;
             }
+
             window.handleRegister = async function() {
                 const username = $('regUsername').value.trim();
                 const email = $('regEmail').value.trim();
@@ -1003,22 +1222,20 @@
                     return;
                 }
                 if (password.length < 6) {
-                    showModal('Ошибка', 'Пароль должен быть минимум 6 символов');
+                    showModal('Ошибка', 'Пароль минимум 6 символов');
                     return;
                 }
                 try {
-                    const res = await apiFetch('/register', {
-                        method: 'POST',
-                        body: JSON.stringify({ username, email, password })
-                    });
+                    const res = await apiFetch('/register', { method: 'POST', body: JSON.stringify({ username, email, password }) });
                     if (res.error) {
-                        showModal('Ошибка регистрации', res.error);
+                        showModal('Ошибка', res.error);
                         return;
                     }
                     if (res.token) {
                         localStorage.setItem(TOKEN_KEY, res.token);
                         currentUser = res.user;
                         localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                        showNotification('✅ Аккаунт создан!', 'success');
                         navigateTo('dashboard');
                     }
                 } catch(e) {
@@ -1032,50 +1249,38 @@
                 el.type = el.type === 'password' ? 'text' : 'password';
             };
 
-            // ----- DASHBOARD -----
+            // ===== DASHBOARD =====
             async function renderDashboard() {
                 if (!currentUser) { navigateTo('login'); return; }
                 pageContainer.innerHTML = `
-                    <h1>👋 Добро пожаловать, <span class="text-gradient">${currentUser.username}</span></h1>
-                    <div style="display:flex; gap:16px; flex-wrap:wrap; margin:16px 0;">
-                        <div class="dash-card" style="flex:1; min-width:200px;">
-                            <div class="card-title">💰 Баланс</div>
-                            <div class="card-value green">${formatCurrency(currentUser.balance)}</div>
-                        </div>
-                        <div class="dash-card" style="flex:1; min-width:200px;">
-                            <div class="card-title">🤖 Активные ботнеты</div>
-                            <div class="card-value purple" id="activeBotnetsCount">0</div>
-                        </div>
-                        <div class="dash-card" style="flex:1; min-width:200px;">
-                            <div class="card-title">⚔️ Атак запущено</div>
-                            <div class="card-value red" id="totalAttacksCount">0</div>
-                        </div>
+                    <h1>👋 Добро пожаловать, <span class="text-gradient neon-text">${currentUser.username}</span></h1>
+                    <div class="dash-grid">
+                        <div class="dash-card card-animated"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div>
+                        <div class="dash-card card-animated"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div>
+                        <div class="dash-card card-animated"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div>
                     </div>
                     <div style="display:flex; gap:12px; flex-wrap:wrap; margin:16px 0;">
-                        <button class="btn btn-purple" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button>
-                        <button class="btn btn-red" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button>
-                        <button class="btn btn-gold" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+                        <button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button>
+                        <button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button>
+                        <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
                         <button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button>
                     </div>
                     <h2 style="margin-top:24px;">📦 Мои ботнеты</h2>
                     <div id="botnetList" class="botnet-list"></div>
                     <h2 style="margin-top:24px;">📜 История атак</h2>
-                    <div id="attackHistory" style="overflow-x:auto;"></div>
+                    <div id="attackHistory"></div>
                 `;
                 await refreshDashboard();
             }
 
             window.refreshDashboard = async function() {
                 try {
-                    // Обновляем пользователя
                     const profile = await apiFetch('/profile');
                     if (!profile.error) {
                         currentUser = { ...currentUser, ...profile };
                         localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
                         userBalance.textContent = formatCurrency(currentUser.balance);
                     }
-
-                    // Ботнеты
                     const botnets = await apiFetch('/my-botnets');
                     if (!botnets.error) {
                         botnetsCache = botnets;
@@ -1084,17 +1289,13 @@
                         if (el) el.textContent = active;
                         renderBotnetList(botnets);
                     }
-
-                    // История атак
                     const history = await apiFetch('/attacks/history');
                     if (!history.error) {
                         const el = $('totalAttacksCount');
                         if (el) el.textContent = history.length;
                         renderAttackHistory(history);
                     }
-                } catch(e) {
-                    console.error('Dashboard refresh error:', e);
-                }
+                } catch(e) { console.error(e); }
             };
 
             function renderBotnetList(botnets) {
@@ -1122,130 +1323,113 @@
                     container.innerHTML = '<p style="color:var(--text-secondary);">Атак пока не было.</p>';
                     return;
                 }
-                let html = `<table class="admin-table">
-                    <thead><tr><th>Цель</th><th>Тип</th><th>Ботов</th><th>Статус</th><th>Начало</th></tr></thead><tbody>`;
+                let html = `<table class="admin-table"><thead><tr><th>Цель</th><th>Тип</th><th>Ботов</th><th>Статус</th><th>Начало</th></tr></thead><tbody>`;
                 history.slice(0, 20).forEach(a => {
-                    const statusColor = a.status === 'running' ? 'var(--accent-green)' : a.status === 'stopped' ? 'var(--accent-red)' : 'var(--text-secondary)';
-                    html += `<tr>
-                        <td>${a.target}</td>
-                        <td>${a.attack_type.replace('_', ' ')}</td>
-                        <td>${a.bot_count}</td>
-                        <td style="color:${statusColor};">${a.status}</td>
-                        <td>${formatDate(a.started_at)}</td>
-                    </tr>`;
+                    const color = a.status === 'running' ? 'var(--accent-green)' : a.status === 'stopped' ? 'var(--accent-red)' : 'var(--text-secondary)';
+                    html += `<tr><td>${a.target}</td><td>${a.attack_type.replace(/_/g,' ')}</td><td>${a.bot_count}</td><td style="color:${color};">${a.status}</td><td>${formatDate(a.started_at)}</td></tr>`;
                 });
                 html += '</tbody></table>';
                 container.innerHTML = html;
             }
 
-            // ----- SHOP -----
-async function renderShop() {
-    if (!currentUser) { navigateTo('login'); return; }
+            // ===== SHOP =====
+            async function renderShop() {
+                if (!currentUser) { navigateTo('login'); return; }
 
-    // ЖЁСТКИЕ ОПЦИИ — ВСЕГДА ЕСТЬ!
-    const options = {
-        'BYPASS_CLOUDFLARE': 1.20,
-        'BYPASS_DDOS_GUARD': 1.30,
-        'ROTATE_PROXY': 1.15,
-        'IMITATE_LEGIT_TRAFFIC': 1.10
-    };
+                const options = {
+                    'BYPASS_CLOUDFLARE': 1.20,
+                    'BYPASS_DDOS_GUARD': 1.30,
+                    'ROTATE_PROXY': 1.15,
+                    'IMITATE_LEGIT_TRAFFIC': 1.10
+                };
+                const minBots = 500;
+                const maxBots = 500000;
+                const pricePerBot = 0.01;
+                const durations = [1, 3, 7, 14, 30];
 
-    const minBots = 500;
-    const maxBots = 500000;
-    const pricePerBot = 0.01;
-    const durations = [1, 3, 7, 14, 30];
+                pageContainer.innerHTML = `
+                    <div class="shop-container">
+                        <h1 style="text-align:center;">🛒 Магазин ботнетов</h1>
+                        <div class="price-display" id="priceDisplay">
+                            <span id="totalPrice">0.00</span><small> USD</small>
+                        </div>
+                        <div class="slider-container">
+                            <label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label>
+                            <input type="range" id="botSlider" min="500" max="500000" step="500" value="500">
+                            <div class="slider-labels"><span>500</span><span>500,000</span></div>
+                        </div>
+                        <div class="form-group">
+                            <label>📅 Срок аренды</label>
+                            <select id="durationSelect">
+                                ${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div style="margin:16px 0;">
+                            <label style="font-weight:600;">⚙️ Дополнительные опции</label>
+                            ${Object.entries(options).map(([key, multiplier]) => `
+                                <label class="option-checkbox">
+                                    <input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}">
+                                    <span class="opt-label">${key.replace(/_/g, ' ')}</span>
+                                    <span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                        <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
+                            <button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" onclick="handleBuy()">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button>
+                            <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+                        </div>
+                    </div>
+                `;
 
-    pageContainer.innerHTML = `
-        <div class="shop-container">
-            <h1 style="text-align:center;">🛒 Магазин ботнетов</h1>
-            <div class="price-display" id="priceDisplay">
-                <span id="totalPrice">0.00</span><small> USD</small>
-            </div>
-
-            <div class="slider-container">
-                <label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label>
-                <input type="range" id="botSlider" min="500" max="500000" step="500" value="500">
-                <div class="slider-labels"><span>500</span><span>500,000</span></div>
-            </div>
-
-            <div class="form-group">
-                <label>📅 Срок аренды</label>
-                <select id="durationSelect">
-                    ${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}
-                </select>
-            </div>
-
-            <div style="margin:16px 0;">
-                <label style="font-weight:600;">⚙️ Дополнительные опции</label>
-                ${Object.entries(options).map(([key, multiplier]) => `
-                    <label class="option-checkbox">
-                        <input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}">
-                        <span class="opt-label">${key.replace(/_/g, ' ')}</span>
-                        <span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span>
-                    </label>
-                `).join('')}
-            </div>
-
-            <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
-                <button class="btn btn-purple btn-lg" style="flex:1;" onclick="handleBuy()">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button>
-                <button class="btn btn-gold" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
-            </div>
-        </div>
-    `;
-
-    // События
-    const slider = $('botSlider');
-    const label = $('botCountLabel');
-    const updatePrice = () => {
-        const count = parseInt(slider.value);
-        const days = parseInt($('durationSelect').value);
-        let mult = 1;
-        document.querySelectorAll('.opt-check:checked').forEach(el => {
-            mult *= parseFloat(el.dataset.mult);
-        });
-        const price = count * pricePerBot * days * mult;
-        label.textContent = count;
-        $('totalPrice').textContent = price.toFixed(2);
-        $('buyPrice').textContent = price.toFixed(2);
-    };
-    slider.addEventListener('input', updatePrice);
-    $('durationSelect').addEventListener('change', updatePrice);
-    document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', updatePrice));
-    updatePrice();
-}
+                const slider = $('botSlider');
+                const updatePrice = () => {
+                    const count = parseInt(slider.value);
+                    const days = parseInt($('durationSelect').value);
+                    let mult = 1;
+                    document.querySelectorAll('.opt-check:checked').forEach(el => { mult *= parseFloat(el.dataset.mult); });
+                    const price = count * pricePerBot * days * mult;
+                    $('botCountLabel').textContent = count;
+                    $('totalPrice').textContent = price.toFixed(2);
+                    $('buyPrice').textContent = price.toFixed(2);
+                };
+                slider.addEventListener('input', updatePrice);
+                $('durationSelect').addEventListener('change', updatePrice);
+                document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', updatePrice));
+                updatePrice();
+            }
 
             window.handleBuy = async function() {
                 const count = parseInt($('botSlider').value);
                 const days = parseInt($('durationSelect').value);
                 const options = {};
-                document.querySelectorAll('.opt-check:checked').forEach(el => {
-                    options[el.dataset.key] = true;
-                });
+                document.querySelectorAll('.opt-check:checked').forEach(el => { options[el.dataset.key] = true; });
 
-                // ===== ПРЕДУПРЕЖДЕНИЕ ПРИ ПОКУПКЕ 100-400 БОТОВ =====
-                if (count >= 100 && count < 500) {
+                // ===== ПРЕДУПРЕЖДЕНИЕ 500-999 БОТОВ =====
+                if (count >= 500 && count < 1000) {
                     const confirmBuy = await new Promise((resolve) => {
                         showModal(
                             '⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ',
                             `
                             <div style="text-align:center; padding:10px;">
-                                <div style="font-size:48px; margin-bottom:12px;">🤏</div>
-                                <p style="font-size:18px; font-weight:700; color:var(--accent-red);">
+                                <div style="font-size:48px; margin-bottom:12px;">⚠️</div>
+                                <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
                                     Вы покупаете <strong>${count}</strong> ботов
                                 </p>
                                 <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                                    <span style="color:var(--accent-gold); font-size:20px;">💡 РЕКОМЕНДАЦИЯ:</span><br>
-                                    <span style="font-size:16px;">От <strong style="color:var(--accent-green);">500 ботов</strong> атака становится
-                                    <strong style="color:var(--accent-gold);">ГАРАНТИРОВАННО УСПЕШНОЙ</strong> и кладёт цель в 95% случаев!</span>
+                                    <span style="color:var(--accent-red); font-size:20px;">🔴 ВНИМАНИЕ:</span><br>
+                                    <span style="font-size:16px;">При <strong>${count} ботах</strong> защищённый сайт (Cloudflare/DDoS-Guard) <strong style="color:var(--accent-red);">МОЖЕТ НЕ УПАСТЬ!</strong></span>
                                 </p>
                                 <p style="color:var(--text-secondary); font-size:14px;">
-                                    ${count} ботов — это <span style="color:var(--accent-red);">мизер</span>, эффективность низкая.
-                                    <br>Рекомендуем докупить до <strong style="color:var(--accent-green);">500+</strong> для гарантированного успеха!
+                                    Это минимальный уровень мощности.<br>
+                                    Рекомендуем купить <strong style="color:var(--accent-green);">от 1000+ ботов</strong> для гарантированного успеха!
                                 </p>
                                 <div style="margin-top:16px; padding:12px; background:rgba(239,68,68,0.1); border-radius:var(--radius-sm); border:1px solid var(--accent-red);">
                                     <span style="color:var(--accent-red);">⚠️</span>
-                                    <span style="color:var(--text-primary);">При ${count} ботах цель может не упасть!</span>
+                                    <span style="color:var(--text-primary);">Сайты с защитой могут выдержать ${count} ботов!</span>
                                 </div>
+                                <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">
+                                    💡 При 500-999 ботах — <span style="color:var(--accent-red);">НОРМАЛЬНО, но без гарантии</span>
+                                </p>
                             </div>
                             `,
                             [
@@ -1255,13 +1439,9 @@ async function renderShop() {
                             '⚠️'
                         );
                     });
-
-                    if (!confirmBuy) {
-                        return; // Пользователь передумал
-                    }
+                    if (!confirmBuy) return;
                 }
 
-                // ===== ОСНОВНАЯ ПОКУПКА =====
                 try {
                     const res = await apiFetch('/buy', {
                         method: 'POST',
@@ -1276,28 +1456,29 @@ async function renderShop() {
                                     💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>
                                     💰 Нужно: <strong>${formatCurrency(price)}</strong>
                                 </p>
-                                <p>Пополните баланс через администратора.</p>
                             `, [
                                 { label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); window.showDepositModal(); }' }
                             ]);
                             return;
                         }
-                        showModal('Ошибка покупки', res.error);
+                        showModal('Ошибка', res.error);
                         return;
                     }
                     if (res.success) {
                         currentUser.balance = res.new_balance;
                         localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                        explosionEffect();
+                        showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
                         showModal('✅ Покупка успешна!', `
                             <p>🤖 <strong>${res.bot_count}</strong> ботов</p>
                             <p>📅 <strong>${res.duration_days}</strong> дней</p>
                             <p>💰 Стоимость: <strong>${formatCurrency(res.price)}</strong></p>
                             <p>💳 Новый баланс: <strong>${formatCurrency(res.new_balance)}</strong></p>
                             <p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p>
-                            ${res.bot_count < 500 ? `<p style="color:var(--accent-red); margin-top:8px;">⚠️ Рекомендуем докупить до 500+ ботов для гарантированного успеха!</p>` : `<p style="color:var(--accent-green); margin-top:8px;">🔥 Отличный выбор! ${res.bot_count} ботов — гарантированный успех!</p>`}
+                            ${res.bot_count < 1000 ? `<p style="color:var(--accent-gold); margin-top:8px;">⚠️ ${res.bot_count} ботов — защищённый сайт может не упасть!</p>` : `<p style="color:var(--accent-green); margin-top:8px;">🔥 ${res.bot_count} ботов — гарантированный успех!</p>`}
                         `, [
-                            { label: 'Перейти к атаке', cls: 'btn-red', action: '()=>{ closeModal(); navigateTo("attack"); }' },
-                            { label: 'На дашборд', cls: 'btn-purple', action: '()=>{ closeModal(); navigateTo("dashboard"); }' }
+                            { label: '⚔️ К атаке', cls: 'btn-red', action: '()=>{ closeModal(); navigateTo("attack"); }' },
+                            { label: '📊 Дашборд', cls: 'btn-purple', action: '()=>{ closeModal(); navigateTo("dashboard"); }' }
                         ]);
                         userBalance.textContent = formatCurrency(currentUser.balance);
                     }
@@ -1306,10 +1487,9 @@ async function renderShop() {
                 }
             };
 
-            // ----- ATTACK -----
+            // ===== ATTACK =====
             async function renderAttack(data) {
                 if (!currentUser) { navigateTo('login'); return; }
-                // Получаем активные ботнеты
                 let botnets = [];
                 try {
                     const res = await apiFetch('/my-botnets');
@@ -1326,32 +1506,24 @@ async function renderShop() {
                             <span id="attackTimer" style="color:var(--text-secondary);">⏱ 0с</span>
                             <button class="btn btn-outline btn-sm" id="stopAttackBtn" onclick="handleStopAttack()" disabled>■ ОСТАНОВИТЬ</button>
                         </div>
-
-                        <div class="form-group">
-                            <label>🤖 Выбрать ботнет</label>
+                        <div class="form-group"><label>🤖 Ботнет</label>
                             <select id="attackBotnet">
-                                ${botnets.length === 0 ? '<option value="">— Нет активных ботнетов —</option>' :
+                                ${botnets.length === 0 ? '<option value="">— Нет активных —</option>' :
                                 botnets.map(b => `<option value="${b.id}">${b.bot_count} ботов (до ${formatDate(b.expires_at)})</option>`).join('')}
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>🎯 Цель (URL или IP)</label>
+                        <div class="form-group"><label>🎯 Цель</label>
                             <input type="text" id="attackTarget" placeholder="https://example.com или 192.168.1.1">
                         </div>
-                        <div class="form-group">
-                            <label>💥 Тип атаки</label>
-                            <select id="attackType">
-                                ${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g, ' ')}</option>`).join('')}
-                            </select>
+                        <div class="form-group"><label>💥 Тип атаки</label>
+                            <select id="attackType">${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g,' ')}</option>`).join('')}</select>
                         </div>
                         <div class="form-group">
                             <label>⏱ Длительность (сек): <span id="durationLabel">60</span></label>
                             <input type="range" id="durationSlider" min="10" max="3600" step="10" value="60">
                             <div class="slider-labels"><span>10с</span><span>3600с</span></div>
                         </div>
-
-                        <button class="btn btn-red btn-lg" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶ ЗАПУСТИТЬ</button>
-
+                        <button class="btn btn-red btn-lg btn-glitch" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶ ЗАПУСТИТЬ</button>
                         <div class="stats-grid" id="attackStats">
                             <div class="stat-box"><div class="stat-value" id="statRequests">0</div><div class="stat-label">Запросов</div></div>
                             <div class="stat-box"><div class="stat-value" id="statErrors">0</div><div class="stat-label">Успешно</div></div>
@@ -1359,25 +1531,17 @@ async function renderShop() {
                             <div class="stat-box"><div class="stat-value" id="statBytes">0</div><div class="stat-label">Данных (KB)</div></div>
                             <div class="stat-box"><div class="stat-value" id="statStatus">🟢</div><div class="stat-label">Статус цели</div></div>
                         </div>
-
                         <div class="progress-bar"><div class="fill" id="attackProgress" style="width:0%;"></div></div>
-
                         <div class="log-terminal" id="attackLog">
                             <div class="log-line"><span class="time">[${new Date().toLocaleTimeString()}]</span> ⚡ Ожидание запуска...</div>
                         </div>
                     </div>
                 `;
 
-                // Слайдер длительности
                 const durSlider = $('durationSlider');
                 if (durSlider) {
-                    durSlider.addEventListener('input', () => {
-                        const lbl = $('durationLabel');
-                        if (lbl) lbl.textContent = durSlider.value;
-                    });
+                    durSlider.addEventListener('input', () => { const lbl = $('durationLabel'); if(lbl) lbl.textContent = durSlider.value; });
                 }
-
-                // Если передан attackId для мониторинга
                 if (data && data.attackId) {
                     activeAttackId = data.attackId;
                     startAttackMonitoring(activeAttackId);
@@ -1385,94 +1549,72 @@ async function renderShop() {
             }
 
             window.handleStartAttack = async function() {
-    const botnetId = parseInt($('attackBotnet').value);
-    const target = $('attackTarget').value.trim();
-    const attackType = $('attackType').value;
-    const duration = parseInt($('durationSlider').value);
+                const botnetId = parseInt($('attackBotnet').value);
+                const target = $('attackTarget').value.trim();
+                const attackType = $('attackType').value;
+                const duration = parseInt($('durationSlider').value);
 
-    if (!botnetId) {
-        showModal('Ошибка', 'Выберите активный ботнет');
-        return;
-    }
-    if (!target) {
-        showModal('Ошибка', 'Введите цель');
-        return;
-    }
+                if (!botnetId) {
+                    showModal('Ошибка', 'Выберите активный ботнет');
+                    return;
+                }
+                if (!target) {
+                    showModal('Ошибка', 'Введите цель');
+                    return;
+                }
 
-    // ===== ПРОВЕРКА: НЕЛЬЗЯ АТАКОВАТЬ СВОЙ САЙТ =====
-    const currentHost = window.location.hostname;
-    if (target.includes(currentHost) ||
-        target.includes('vo1d-shop') ||
-        target.includes('railway.app') ||
-        target.includes('localhost') ||
-        target.includes('127.0.0.1')) {
+                const currentHost = window.location.hostname;
+                if (target.includes(currentHost) || target.includes('vo1d-shop') || target.includes('railway.app') ||
+                    target.includes('localhost') || target.includes('127.0.0.1')) {
+                    showModal('🚫 ДОСТУП ЗАБЛОКИРОВАН', `
+                        <div style="text-align:center; padding:10px;">
+                            <div style="font-size:64px; margin-bottom:12px;">🔒</div>
+                            <p style="font-size:20px; font-weight:700; color:var(--accent-red);">ВЫ ЗАБЛОКИРОВАНЫ!</p>
+                            <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                                Попытка атаки на собственный сервис VO1D SHOP зафиксирована.
+                            </p>
+                        </div>
+                    `, [], '🚫');
+                    try { await apiFetch('/admin/ban/' + currentUser.id, { method: 'POST' }); } catch(e) {}
+                    localStorage.removeItem(TOKEN_KEY);
+                    localStorage.removeItem(USER_KEY);
+                    currentUser = null;
+                    setTimeout(() => { navigateTo('home'); }, 2000);
+                    return;
+                }
 
-        showModal(
-            '🚫 ДОСТУП ЗАБЛОКИРОВАН',
-            `
-            <div style="text-align:center; padding:10px;">
-                <div style="font-size:64px; margin-bottom:12px;">🔒</div>
-                <p style="font-size:20px; font-weight:700; color:var(--accent-red);">
-                    ВЫ ЗАБЛОКИРОВАНЫ!
-                </p>
-                <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                    Попытка атаки на собственный сервис VO1D SHOP зафиксирована.
-                </p>
-                <p style="color:var(--text-secondary); font-size:14px;">
-                    🚫 Ваш аккаунт заблокирован навсегда.<br>
-                    🔒 Доступ к системе закрыт.
-                </p>
-            </div>
-            `,
-            [],
-            '🚫'
-        );
-
-        try {
-            await apiFetch('/admin/ban/' + currentUser.id, { method: 'POST' });
-        } catch(e) {}
-
-        localStorage.removeItem(TOKEN_KEY);
-        localStorage.removeItem(USER_KEY);
-        currentUser = null;
-        setTimeout(() => { navigateTo('home'); }, 2000);
-        return;
-    }
-
-    // ===== ЗАПУСК АТАКИ =====
-    try {
-        const res = await apiFetch('/attack', {
-            method: 'POST',
-            body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration })
-        });
-        if (res.error) {
-            showModal('Ошибка запуска', res.error);
-            return;
-        }
-        if (res.success) {
-            activeAttackId = res.attack_id;
-            $('startAttackBtn').disabled = true;
-            $('stopAttackBtn').disabled = false;
-            addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`);
-            startAttackMonitoring(activeAttackId);
-        }
-    } catch(e) {
-        showModal('Ошибка', 'Сервер недоступен');
-    }
-};           
+                try {
+                    const res = await apiFetch('/attack', {
+                        method: 'POST',
+                        body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration })
+                    });
+                    if (res.error) {
+                        showModal('Ошибка', res.error);
+                        return;
+                    }
+                    if (res.success) {
+                        activeAttackId = res.attack_id;
+                        $('startAttackBtn').disabled = true;
+                        $('stopAttackBtn').disabled = false;
+                        showNotification('🚀 Атака запущена на ' + target, 'success');
+                        addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`);
+                        startAttackMonitoring(activeAttackId);
+                    }
+                } catch(e) {
+                    showModal('Ошибка', 'Сервер недоступен');
+                }
+            };
 
             window.handleStopAttack = async function() {
                 if (!activeAttackId) return;
                 try {
                     const res = await apiFetch(`/attack/${activeAttackId}/stop`, { method: 'POST' });
                     if (res.success) {
-                        addLogLine(`⏹ Атака остановлена. Статистика: ${res.stats ? JSON.stringify(res.stats) : ''}`);
+                        showNotification('⏹ Атака остановлена', 'warning');
+                        addLogLine(`⏹ Атака остановлена`);
                         $('startAttackBtn').disabled = false;
                         $('stopAttackBtn').disabled = true;
-                        if (attackInterval) {
-                            clearInterval(attackInterval);
-                            attackInterval = null;
-                        }
+                        if (attackInterval) { clearInterval(attackInterval); attackInterval = null; }
                         activeAttackId = null;
                     } else {
                         showModal('Ошибка', res.error || 'Не удалось остановить');
@@ -1491,14 +1633,10 @@ async function renderShop() {
                 attackInterval = setInterval(async () => {
                     try {
                         const res = await apiFetch(`/attack/${attackId}/status`);
-                        if (res.error) {
-                            addLogLine(`❌ Ошибка статуса: ${res.error}`);
-                            return;
-                        }
+                        if (res.error) { addLogLine(`❌ Ошибка: ${res.error}`); return; }
                         const stats = res.stats || {};
                         const elapsed = Math.floor((Date.now() - startTime) / 1000);
 
-                        // Обновляем статистику
                         $('statRequests').textContent = stats.total_requests || 0;
                         $('statErrors').textContent = stats.failed_requests || 0;
                         $('statRps').textContent = stats.rps || 0;
@@ -1509,18 +1647,15 @@ async function renderShop() {
                         $('targetStatus').className = `target-status ${status}`;
                         $('attackTimer').textContent = `⏱ ${elapsed}с / ${res.duration_seconds || 0}с`;
 
-                        // Прогресс
                         const progress = res.duration_seconds ? Math.min(100, (elapsed / res.duration_seconds) * 100) : 0;
                         $('attackProgress').style.width = progress + '%';
 
-                        // Лог при изменении RPS
                         const rps = stats.rps || 0;
                         if (rps > 0 && rps !== lastRequests) {
-                            addLogLine(`📊 RPS: ${rps}, Запросов: ${stats.total_requests || 0},  (цель падает): ${stats.failed_requests || 0}`);
+                            addLogLine(`📊 RPS: ${rps}, Запросов: ${stats.total_requests || 0}, (цель падает): ${stats.failed_requests || 0}`);
                             lastRequests = rps;
                         }
 
-                        // Если атака завершена
                         if (res.status !== 'running') {
                             addLogLine(`🏁 Атака завершена. Статус: ${res.status}. Успешно: ${stats.failed_requests || 0}`);
                             clearInterval(attackInterval);
@@ -1528,10 +1663,9 @@ async function renderShop() {
                             $('startAttackBtn').disabled = false;
                             $('stopAttackBtn').disabled = true;
                             activeAttackId = null;
+                            showNotification('🏁 Атака завершена!', 'success');
                         }
-                    } catch(e) {
-                        // тихо
-                    }
+                    } catch(e) {}
                 }, 1000);
             }
 
@@ -1543,24 +1677,22 @@ async function renderShop() {
                 line.innerHTML = `<span class="time">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
                 log.appendChild(line);
                 log.scrollTop = log.scrollHeight;
-                if (log.children.length > 200) {
-                    log.removeChild(log.firstChild);
-                }
+                if (log.children.length > 200) log.removeChild(log.firstChild);
             }
 
-            // ----- PROFILE -----
+            // ===== PROFILE =====
             async function renderProfile() {
                 if (!currentUser) { navigateTo('login'); return; }
                 pageContainer.innerHTML = `
                     <h1>👤 Профиль</h1>
                     <div class="dash-card" style="max-width:500px;">
                         <div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div>
-                        <div class="form-group"><label>Email</label><input type="email" value="${currentUser.email || ''}" disabled></div>
+                        <div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div>
                         <div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div>
-                        <div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role || 'user'}" disabled></div>
+                        <div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div>
                         ${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}
                         <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                            <button class="btn btn-gold" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+                            <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
                             <button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button>
                         </div>
                     </div>
@@ -1571,13 +1703,13 @@ async function renderShop() {
                     const botnets = await apiFetch('/my-botnets');
                     if (!botnets.error) {
                         const container = $('profileBotnets');
-                        if (botnets.length === 0) {
-                            container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>';
-                        } else {
+                        if (!container) return;
+                        if (botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>'; }
+                        else {
                             container.innerHTML = botnets.map(b => `
-                                <div class="botnet-item ${b.active ? '' : 'expired'}">
+                                <div class="botnet-item ${b.active?'':'expired'}">
                                     <div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)}</div></div>
-                                    <div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅ Активен' : '⏳ Истёк'}</div>
+                                    <div class="status ${b.active?'active':'expired'}">${b.active?'✅ Активен':'⏳ Истёк'}</div>
                                 </div>
                             `).join('');
                         }
@@ -1585,30 +1717,24 @@ async function renderShop() {
                 } catch(e) {}
             }
 
-            // ----- ADMIN -----
+            // ===== ADMIN =====
             async function renderAdmin() {
-                if (!currentUser || currentUser.role !== 'admin') {
-                    navigateTo('home');
-                    return;
-                }
+                if (!currentUser || currentUser.role !== 'admin') { navigateTo('home'); return; }
                 pageContainer.innerHTML = `
                     <h1>🔧 Админ-панель</h1>
-
-                    <!-- ===== ФОРМА ПОПОЛНЕНИЯ БАЛАНСА ===== -->
                     <div class="dash-card" style="margin:16px 0; border-color: var(--accent-gold);">
                         <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
                             <span style="font-size:20px; font-weight:700; color:var(--accent-gold);">💎 ПОПОЛНИТЬ БАЛАНС</span>
                             <input type="text" id="depositUsername" placeholder="Логин пользователя" style="flex:1; min-width:150px;">
                             <input type="number" id="depositAmount" placeholder="Сумма $" style="width:150px;">
-                            <button class="btn btn-green" onclick="window.adminDeposit()">💎 ПОПОЛНИТЬ</button>
+                            <button class="btn btn-green btn-glitch" onclick="window.adminDeposit()">💎 ПОПОЛНИТЬ</button>
                         </div>
                         <div style="margin-top:8px; font-size:13px; color:var(--text-secondary);">
-                            💡 Введите логин пользователя и сумму в $, затем нажмите "ПОПОЛНИТЬ"
+                            💡 Введите логин и сумму, затем нажмите "ПОПОЛНИТЬ"
                         </div>
                     </div>
-
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin:16px 0;" id="adminStats"></div>
-                    <h2>👥 Пользователи</h2>
+                    <div class="dash-grid" id="adminStats"></div>
+                    <h2 style="margin-top:24px;">👥 Пользователи</h2>
                     <div id="adminUsers"></div>
                 `;
                 await refreshAdmin();
@@ -1619,26 +1745,27 @@ async function renderShop() {
                     const stats = await apiFetch('/admin/stats');
                     if (!stats.error) {
                         const container = $('adminStats');
+                        if (!container) return;
                         container.innerHTML = `
-                            <div class="dash-card"><div class="card-title">👥 Всего пользователей</div><div class="card-value purple">${stats.total_users || 0}</div></div>
-                            <div class="dash-card"><div class="card-title">🤖 Продано ботнетов</div><div class="card-value green">${stats.total_botnets || 0}</div></div>
-                            <div class="dash-card"><div class="card-title">⚔️ Активных атак</div><div class="card-value red">${stats.active_attacks || 0}</div></div>
-                            <div class="dash-card"><div class="card-title">💰 Доход (без админа)</div><div class="card-value gold">${formatCurrency(stats.total_revenue || 0)}</div></div>
+                            <div class="dash-card"><div class="card-title">👥 Пользователей</div><div class="card-value purple">${stats.total_users||0}</div></div>
+                            <div class="dash-card"><div class="card-title">🤖 Продано ботнетов</div><div class="card-value green">${stats.total_botnets||0}</div></div>
+                            <div class="dash-card"><div class="card-title">⚔️ Активных атак</div><div class="card-value red">${stats.active_attacks||0}</div></div>
+                            <div class="dash-card"><div class="card-title">💰 Доход (без админа)</div><div class="card-value gold">${formatCurrency(stats.total_revenue||0)}</div></div>
                         `;
                     }
-
                     const users = await apiFetch('/admin/users');
                     if (!users.error) {
                         const container = $('adminUsers');
+                        if (!container) return;
                         let html = `<table class="admin-table"><thead><tr><th>ID</th><th>Логин</th><th>Email</th><th>Баланс</th><th>Роль</th><th>Статус</th><th>Действия</th></tr></thead><tbody>`;
                         users.forEach(u => {
                             const isBanned = u.banned === 1 || u.banned === true;
                             html += `<tr>
                                 <td>${u.id}</td>
                                 <td>${u.username}</td>
-                                <td>${u.email || ''}</td>
+                                <td>${u.email||''}</td>
                                 <td style="color:var(--accent-green); font-weight:700;">${formatCurrency(u.balance)}</td>
-                                <td><span class="badge ${u.role === 'admin' ? 'admin' : 'user'}">${u.role || 'user'}</span></td>
+                                <td><span class="badge ${u.role==='admin'?'admin':'user'}">${u.role||'user'}</span></td>
                                 <td>${isBanned ? '<span class="badge banned">Забанен</span>' : '✅ Активен'}</td>
                                 <td>
                                     ${isBanned ?
@@ -1651,9 +1778,7 @@ async function renderShop() {
                         html += '</tbody></table>';
                         container.innerHTML = html;
                     }
-                } catch(e) {
-                    console.error('Admin refresh error:', e);
-                }
+                } catch(e) { console.error(e); }
             }
 
             window.adminBan = async function(userId) {
@@ -1661,7 +1786,7 @@ async function renderShop() {
                 try {
                     const res = await apiFetch(`/admin/ban/${userId}`, { method: 'POST' });
                     if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь забанен'); }
-                    else showModal('Ошибка', res.error || 'Не удалось');
+                    else showModal('Ошибка', res.error||'');
                 } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
             };
 
@@ -1669,39 +1794,53 @@ async function renderShop() {
                 try {
                     const res = await apiFetch(`/admin/unban/${userId}`, { method: 'POST' });
                     if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь разбанен'); }
-                    else showModal('Ошибка', res.error || 'Не удалось');
+                    else showModal('Ошибка', res.error||'');
                 } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
             };
 
-            // ----- LOGOUT -----
+            // ===== LOGOUT =====
             window.logout = function() {
                 localStorage.removeItem(TOKEN_KEY);
                 localStorage.removeItem(USER_KEY);
                 currentUser = null;
                 if (attackInterval) { clearInterval(attackInterval); attackInterval = null; }
                 activeAttackId = null;
+                showNotification('👋 Вы вышли из системы', 'info');
                 navigateTo('home');
             };
 
-            // ----- INIT -----
+            // ===== CONSOLE ASCII =====
+            console.log(`%c
+╔═══════════════════════════════════════╗
+║                                       ║
+║   ██╗   ██╗ ██████╗ ██╗ ██████╗     ║
+║   ██║   ██║██╔═══██╗██║██╔═══██╗    ║
+║   ██║   ██║██║   ██║██║██║   ██║    ║
+║   ╚██╗ ██╔╝██║   ██║██║██║   ██║    ║
+║    ╚████╔╝ ╚██████╔╝██║╚██████╔╝    ║
+║     ╚═══╝   ╚═════╝ ╚═╝ ╚═════╝     ║
+║                                       ║
+║      VO1D SHOP — RENT THE VOID       ║
+║          DESTROY ANYTHING            ║
+║                                       ║
+╚═══════════════════════════════════════╝
+`, 'color: #8b5cf6; font-size: 14px; font-weight: bold;');
+            console.log('%c🔥 WELCOME TO THE VOID, HACKER!', 'color: #06d6a0; font-size: 18px; font-weight: bold;');
+            console.log('%c💀 500,000+ bots ready for destruction', 'color: #ef4444; font-size: 14px;');
+
+            // ===== INIT =====
             function init() {
-                // Восстанавливаем сессию
                 const saved = localStorage.getItem(USER_KEY);
                 if (saved) {
                     try {
                         currentUser = JSON.parse(saved);
-                        // Проверим токен
                         const token = localStorage.getItem(TOKEN_KEY);
-                        if (!token) {
-                            currentUser = null;
-                            localStorage.removeItem(USER_KEY);
-                        }
+                        if (!token) { currentUser = null; localStorage.removeItem(USER_KEY); }
                     } catch(e) { currentUser = null; }
                 }
                 renderNav();
                 navigateTo(currentUser ? 'dashboard' : 'home');
 
-                // Авто-обновление баланса каждые 30 секунд
                 setInterval(async () => {
                     if (currentUser) {
                         try {
@@ -1716,7 +1855,6 @@ async function renderShop() {
                 }, 30000);
             }
 
-            // Запуск
             document.addEventListener('DOMContentLoaded', init);
         })();
     </script>
