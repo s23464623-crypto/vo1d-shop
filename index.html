@@ -270,247 +270,317 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     }
 
     // ============================================================
-    // ЗАДАНИЯ
-    // ============================================================
+// ЗАДАНИЯ — ИСПРАВЛЕННАЯ ВЕРСИЯ (РАБОТАЕТ!)
+// ============================================================
 
-    function generateQuests() {
-        const quests = [
-            { id: 1, title: 'Купить 1000 ботов', desc: 'Приобретите ботнет от 1000 ботов', reward: '$5 + 2 поиска по IP', type: 'buy_bots', target: 1000, icon: '🤖' },
-            { id: 2, title: 'Сделать 2 поиска по IP', desc: 'Выполните 2 поиска по IP адресу', reward: '$3 + 2 поиска по IP', type: 'ip_search', target: 2, icon: '🌐' },
-            { id: 3, title: 'Запустить атаку', desc: 'Запустите любую DDoS атаку', reward: '$3 + 1 поиск по IP', type: 'attack', target: 1, icon: '⚔️' },
-            { id: 4, title: 'Пополнить баланс', desc: 'Пополните баланс от $10', reward: '$10 + 3 поиска по IP', type: 'deposit', target: 10, icon: '💰' },
-            { id: 5, title: 'Пригласить друга', desc: 'Пригласите друга в VO1D SHOP', reward: '$5 + 2 поиска по IP', type: 'referral', target: 1, icon: '👥' },
-            { id: 6, title: 'Купить 5000 ботов', desc: 'Приобретите ботнет от 5000 ботов', reward: '$10 + 5 поисков по IP', type: 'buy_bots', target: 5000, icon: '🔥' },
-            { id: 7, title: 'Сделать 5 поисков по IP', desc: 'Выполните 5 поисков по IP адресу', reward: '$7 + 3 поиска по IP', type: 'ip_search', target: 5, icon: '🌐' },
-            { id: 8, title: 'Потратить $50', desc: 'Потратьте $50 на любые услуги', reward: '$8 + 2 поиска по IP', type: 'spend', target: 50, icon: '💎' },
-        ];
-        const shuffled = quests.sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, 6);
-    }
+function generateQuests() {
+    const quests = [
+        { id: 1, title: 'Купить 1000 ботов', desc: 'Приобретите ботнет от 1000 ботов', reward: '$5 + 2 поиска по IP', type: 'buy_bots', target: 1000, icon: '🤖' },
+        { id: 2, title: 'Сделать 2 поиска по IP', desc: 'Выполните 2 поиска по IP адресу', reward: '$3 + 2 поиска по IP', type: 'ip_search', target: 2, icon: '🌐' },
+        { id: 3, title: 'Запустить атаку', desc: 'Запустите любую DDoS атаку', reward: '$3 + 1 поиск по IP', type: 'attack', target: 1, icon: '⚔️' },
+        { id: 4, title: 'Пополнить баланс', desc: 'Пополните баланс от $10', reward: '$10 + 3 поиска по IP', type: 'deposit', target: 10, icon: '💰' },
+        { id: 5, title: 'Пригласить друга', desc: 'Пригласите друга в VO1D SHOP', reward: '$5 + 2 поиска по IP', type: 'referral', target: 1, icon: '👥' },
+        { id: 6, title: 'Купить 5000 ботов', desc: 'Приобретите ботнет от 5000 ботов', reward: '$10 + 5 поисков по IP', type: 'buy_bots', target: 5000, icon: '🔥' },
+        { id: 7, title: 'Сделать 5 поисков по IP', desc: 'Выполните 5 поисков по IP адресу', reward: '$7 + 3 поиска по IP', type: 'ip_search', target: 5, icon: '🌐' },
+        { id: 8, title: 'Потратить $50', desc: 'Потратьте $50 на любые услуги', reward: '$8 + 2 поиска по IP', type: 'spend', target: 50, icon: '💎' },
+    ];
+    const shuffled = quests.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 6);
+}
 
-    function getDailyQuests() {
-        if (!currentUser) return [];
-        const now = Date.now();
-        const day = 24 * 60 * 60 * 1000;
-        const username = currentUser.username;
-        const storageKey = `dailyQuests_${username}`;
-        const resetKey = `lastQuestReset_${username}`;
-        const lastReset = parseInt(localStorage.getItem(resetKey)) || 0;
+function getDailyQuests() {
+    if (!currentUser) return [];
+    const now = Date.now();
+    const day = 24 * 60 * 60 * 1000;
+    const username = currentUser.username;
+    const storageKey = `dailyQuests_${username}`;
+    const resetKey = `lastQuestReset_${username}`;
+    const lastReset = parseInt(localStorage.getItem(resetKey)) || 0;
 
-        if (now - lastReset > day) {
-            const newQuests = generateQuests();
-            localStorage.setItem(storageKey, JSON.stringify({ timestamp: now, quests: newQuests }));
-            localStorage.setItem(resetKey, now.toString());
-            questsCache = newQuests;
-            return newQuests;
-        }
-        const saved = localStorage.getItem(storageKey);
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                if (parsed && parsed.quests) {
-                    questsCache = parsed.quests;
-                    return parsed.quests;
-                }
-                if (Array.isArray(parsed)) {
-                    questsCache = parsed;
-                    return parsed;
-                }
-            } catch(e) { console.warn('Ошибка парсинга заданий:', e); }
-        }
+    if (now - lastReset > day) {
         const newQuests = generateQuests();
         localStorage.setItem(storageKey, JSON.stringify({ timestamp: now, quests: newQuests }));
         localStorage.setItem(resetKey, now.toString());
         questsCache = newQuests;
         return newQuests;
     }
-
-    // ===== ЕДИНСТВЕННАЯ ФУНКЦИЯ checkQuests =====
-    function checkQuests(type, value) {
-        if (!currentUser) return;
-        const quests = getDailyQuests();
-        if (!quests || !Array.isArray(quests)) return;
-        let completed = false;
-        quests.forEach(q => {
-            if (q.type === type && !q.completed && q.target <= value) {
-                q.completed = true;
-                q.claimed = false;
-                completed = true;
+    const saved = localStorage.getItem(storageKey);
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            if (parsed && parsed.quests) {
+                questsCache = parsed.quests;
+                return parsed.quests;
             }
-        });
-        if (completed) {
-            const username = currentUser.username;
-            localStorage.setItem(`dailyQuests_${username}`, JSON.stringify({
-                timestamp: parseInt(localStorage.getItem(`lastQuestReset_${username}`)) || Date.now(),
-                quests: quests
-            }));
-            showNotification('🎯 Задание выполнено! Проверьте вкладку "Задания"', 'success');
-            if (currentPage === 'quests') renderQuests();
-        }
+            if (Array.isArray(parsed)) {
+                questsCache = parsed;
+                return parsed;
+            }
+        } catch(e) { console.warn('Ошибка парсинга заданий:', e); }
     }
+    const newQuests = generateQuests();
+    localStorage.setItem(storageKey, JSON.stringify({ timestamp: now, quests: newQuests }));
+    localStorage.setItem(resetKey, now.toString());
+    questsCache = newQuests;
+    return newQuests;
+}
+
 
     // ===== ЗАБРАТЬ НАГРАДУ =====
-    function claimQuestReward(questId) {
-        if (!currentUser) {
-            showNotification('❌ Войдите в аккаунт!', 'error');
-            return;
-        }
-        const quests = getDailyQuests();
-        if (!quests || !Array.isArray(quests)) {
-            showNotification('❌ Ошибка загрузки заданий', 'error');
-            return;
-        }
-        const quest = quests.find(q => q.id === questId);
-        if (!quest) {
-            showNotification('❌ Задание не найдено', 'error');
-            return;
-        }
-        if (!quest.completed) {
-            showNotification('❌ Задание ещё не выполнено', 'error');
-            return;
-        }
-        if (quest.claimed) {
-            showNotification('❌ Награда уже получена', 'error');
-            return;
-        }
+function claimQuestReward(questId) {
+    if (!currentUser) {
+        showNotification('❌ Войдите в аккаунт!', 'error');
+        return;
+    }
+    const quests = getDailyQuests();
+    if (!quests || !Array.isArray(quests)) {
+        showNotification('❌ Ошибка загрузки заданий', 'error');
+        return;
+    }
+    const quest = quests.find(q => q.id === questId);
+    if (!quest) {
+        showNotification('❌ Задание не найдено', 'error');
+        return;
+    }
+    if (!quest.completed) {
+        showNotification('❌ Задание ещё не выполнено', 'error');
+        return;
+    }
+    if (quest.claimed) {
+        showNotification('❌ Награда уже получена', 'error');
+        return;
+    }
 
-        let rewardText = quest.reward;
-        let moneyReward = 0;
-        let freeSearchesReward = 0;
-        const moneyMatch = rewardText.match(/\$(\d+)/);
-        if (moneyMatch) moneyReward = parseInt(moneyMatch[1]);
-        const searchMatch = rewardText.match(/(\d+)\s*поиска/);
-        if (searchMatch) freeSearchesReward = parseInt(searchMatch[1]);
+    let rewardText = quest.reward;
+    let moneyReward = 0;
+    let freeSearchesReward = 0;
+    const moneyMatch = rewardText.match(/\$(\d+)/);
+    if (moneyMatch) moneyReward = parseInt(moneyMatch[1]);
+    const searchMatch = rewardText.match(/(\d+)\s*поиска/);
+    if (searchMatch) freeSearchesReward = parseInt(searchMatch[1]);
 
-        showModal(
-            '💎 ЗАБРАТЬ БАЛАНС С КВЕСТА',
-            `
-            <div style="text-align:center; padding:10px;">
-                <div style="font-size:48px; margin-bottom:12px;">💎</div>
-                <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
-                    Задание выполнено!
-                </p>
-                <p style="font-size:16px; margin:8px 0;">
-                    Вы заработали: <strong style="color:var(--accent-green);">${rewardText}</strong>
-                </p>
-                <p style="font-size:14px; color:var(--text-secondary); margin:4px 0;">
-                    Задание: <strong>${quest.title}</strong>
-                </p>
-                <div style="margin:16px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                    <p style="font-size:16px; margin-bottom:8px;">💎 Для получения награды свяжитесь с администратором:</p>
-                    <a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a>
-                    <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">🕒 Обработка: до 5 минут</p>
-                </div>
+    showModal(
+        '💎 ЗАБРАТЬ БАЛАНС С КВЕСТА',
+        `
+        <div style="text-align:center; padding:10px;">
+            <div style="font-size:48px; margin-bottom:12px;">💎</div>
+            <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
+                Задание выполнено!
+            </p>
+            <p style="font-size:16px; margin:8px 0;">
+                Вы заработали: <strong style="color:var(--accent-green);">${rewardText}</strong>
+            </p>
+            <p style="font-size:14px; color:var(--text-secondary); margin:4px 0;">
+                Задание: <strong>${quest.title}</strong>
+            </p>
+            <div style="margin:16px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                <p style="font-size:16px; margin-bottom:8px;">💎 Для получения награды свяжитесь с администратором:</p>
+                <a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a>
+                <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">🕒 Обработка: до 5 минут</p>
             </div>
-            `,
-            [
-                {
-                    label: '📱 НАПИСАТЬ АДМИНУ @VO1D_NETWORK',
-                    cls: 'btn-gold',
-                    action: function() {
-                        window.open("https://t.me/VO1D_NETWORK", "_blank");
-                    }
-                },
-                {
-                    label: '✅ Я НАПИСАЛ, НАЧИСЛИТЬ',
-                    cls: 'btn-green',
-                    action: function() {
-                        const quests2 = getDailyQuests();
-                        if (!quests2 || !Array.isArray(quests2)) {
-                            showNotification('❌ Ошибка', 'error');
-                            return;
-                        }
-                        const q = quests2.find(q => q.id === questId);
-                        if (q) {
-                            q.claimed = true;
-                            if (moneyReward > 0) {
-                                currentUser.balance = (currentUser.balance || 0) + moneyReward;
-                                localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                                userBalance.textContent = formatCurrency(currentUser.balance);
-                                showNotification(`💰 +$${moneyReward} на баланс!`, 'success');
-                            }
-                            if (freeSearchesReward > 0) {
-                                freeIpSearches += freeSearchesReward;
-                                if (freeIpSearches > 10) freeIpSearches = 10;
-                                localStorage.setItem('freeIpSearches', freeIpSearches.toString());
-                                showNotification(`🔍 +${freeSearchesReward} бесплатных поисков по IP!`, 'success');
-                            }
-                            const username = currentUser.username;
-                            localStorage.setItem(`dailyQuests_${username}`, JSON.stringify({
-                                timestamp: parseInt(localStorage.getItem(`lastQuestReset_${username}`)) || Date.now(),
-                                quests: quests2
-                            }));
-                            showNotification(`✅ Получено: ${rewardText}`, 'success');
-                            if (currentPage === 'quests') renderQuests();
-                            closeModal();
-                        }
-                    }
-                },
-                {
-                    label: '❌ ЗАКРЫТЬ',
-                    cls: 'btn-outline',
-                    action: function() { closeModal(); }
+        </div>
+        `,
+        [
+            {
+                label: '📱 НАПИСАТЬ АДМИНУ @VO1D_NETWORK',
+                cls: 'btn-gold',
+                action: function() {
+                    window.open("https://t.me/VO1D_NETWORK", "_blank");
                 }
-            ],
-            '💎'
-        );
-    }
+            },
+            {
+                label: '✅ Я НАПИСАЛ, НАЧИСЛИТЬ',
+                cls: 'btn-green',
+                action: async function() {
+                    const quests2 = getDailyQuests();
+                    if (!quests2 || !Array.isArray(quests2)) {
+                        showNotification('❌ Ошибка', 'error');
+                        return;
+                    }
+                    const q = quests2.find(q => q.id === questId);
+                    if (q) {
+                        q.claimed = true;
+                        if (moneyReward > 0) {
+                            currentUser.balance = (currentUser.balance || 0) + moneyReward;
+                            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                            userBalance.textContent = formatCurrency(currentUser.balance);
+                            showNotification(`💰 +$${moneyReward} на баланс!`, 'success');
+                        }
+                        if (freeSearchesReward > 0) {
+                            freeIpSearches += freeSearchesReward;
+                            if (freeIpSearches > 10) freeIpSearches = 10;
+                            localStorage.setItem('freeIpSearches', freeIpSearches.toString());
+                            showNotification(`🔍 +${freeSearchesReward} бесплатных поисков по IP!`, 'success');
+                        }
+                        const username = currentUser.username;
+                        localStorage.setItem(`dailyQuests_${username}`, JSON.stringify({
+                            timestamp: parseInt(localStorage.getItem(`lastQuestReset_${username}`)) || Date.now(),
+                            quests: quests2
+                        }));
 
-    function renderQuests() {
-        if (!currentUser) {
-            if (currentPage === 'quests') {
-                pageContainer.innerHTML = `<h1>🎯 Задания</h1><p style="color:var(--text-secondary);">Войдите в аккаунт, чтобы видеть задания.</p>`;
+                        // ===== ОТПРАВЛЯЕМ НА СЕРВЕР =====
+                        try {
+                            const res = await apiFetch('/tasks/complete', {
+                                method: 'POST',
+                                body: JSON.stringify({ task_id: questId })
+                            });
+                            if (res && res.success) {
+                                console.log('✅ Задание отмечено на сервере');
+                            }
+                        } catch(e) {
+                            console.warn('⚠️ Ошибка синхронизации с сервером:', e);
+                        }
+
+                        showNotification(`✅ Получено: ${rewardText}`, 'success');
+                        if (currentPage === 'quests') renderQuests();
+                        closeModal();
+                    }
+                }
+            },
+            {
+                label: '❌ ЗАКРЫТЬ',
+                cls: 'btn-outline',
+                action: function() { closeModal(); }
             }
-            return;
-        }
-        const quests = getDailyQuests();
-        if (!quests || !Array.isArray(quests) || quests.length === 0) {
-            pageContainer.innerHTML = `<h1>🎯 Задания</h1><p style="color:var(--text-secondary);">Задания не найдены. Обновите страницу.</p>`;
-            return;
-        }
-        let html = `<h1>🎯 Ежедневные задания</h1>
-                    <p style="color:var(--text-secondary);margin-bottom:16px;">Задания обновляются каждые 24 часа. Выполняй и получай бонусы!</p>
-                    <div style="display:grid;gap:12px;">`;
+        ],
+        '💎'
+    );
+}
 
-        let hasActive = false;
-        quests.forEach(q => {
-            const isCompleted = q.completed === true;
-            const isClaimed = q.claimed === true;
-            const status = isCompleted ? (isClaimed ? '✅ Получено' : '🎯 Выполнено!') : '⏳ В процессе';
-            const btn = isCompleted && !isClaimed ?
-                `<button class="btn btn-green btn-sm" onclick="claimQuestReward(${q.id})">ЗАБРАТЬ ${q.reward}</button>` : '';
-            if (!isCompleted) hasActive = true;
-
-            const borderColor = isCompleted ? (isClaimed ? 'var(--accent-green)' : 'var(--accent-gold)') : 'var(--border-color)';
-            html += `<div class="dash-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-left: 3px solid ${borderColor};">
-                        <div>
-                            <div style="display:flex;align-items:center;gap:8px;">
-                                <span style="font-size:24px;">${q.icon}</span>
-                                <span style="font-weight:700;">${q.title}</span>
-                                ${isCompleted ? (isClaimed ? '✅' : '🎯') : ''}
-                            </div>
-                            <div style="font-size:14px;color:var(--text-secondary);">${q.desc}</div>
-                            <div style="font-size:13px;color:var(--text-secondary);">Награда: <strong style="color:var(--accent-gold);">${q.reward}</strong></div>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-                            <span style="font-size:13px;color:${isCompleted ? (isClaimed ? 'var(--accent-green)' : 'var(--accent-gold)') : 'var(--text-secondary)'};">${status}</span>
-                            ${btn}
-                        </div>
-                    </div>`;
-        });
-
-        if (!hasActive && quests.every(q => q.completed && q.claimed)) {
-            html += `<div style="text-align:center;padding:20px;color:var(--accent-green);">
-                        ✅ Все задания выполнены! Новые появятся через 24 часа.
-                    </div>`;
-        } else if (!hasActive && quests.some(q => q.completed && !q.claimed)) {
-            html += `<div style="text-align:center;padding:20px;color:var(--accent-gold);">
-                        🎯 Задания выполнены! Заберите награды!
-                    </div>`;
+function renderQuests() {
+    if (!currentUser) {
+        if (currentPage === 'quests') {
+            pageContainer.innerHTML = `<h1>🎯 Задания</h1><p style="color:var(--text-secondary);">Войдите в аккаунт, чтобы видеть задания.</p>`;
         }
-        html += `</div>`;
-        pageContainer.innerHTML = html;
+        return;
     }
+    const quests = getDailyQuests();
+    if (!quests || !Array.isArray(quests) || quests.length === 0) {
+        pageContainer.innerHTML = `<h1>🎯 Задания</h1><p style="color:var(--text-secondary);">Задания не найдены. Обновите страницу.</p>`;
+        return;
+    }
+    let html = `<h1>🎯 Ежедневные задания</h1>
+                <p style="color:var(--text-secondary);margin-bottom:16px;">Задания обновляются каждые 24 часа. Выполняй и получай бонусы!</p>
+                <div style="display:grid;gap:12px;">`;
+
+    let hasActive = false;
+    quests.forEach(q => {
+        const isCompleted = q.completed === true;
+        const isClaimed = q.claimed === true;
+        const status = isCompleted ? (isClaimed ? '✅ Получено' : '🎯 Выполнено!') : '⏳ В процессе';
+        const btn = isCompleted && !isClaimed ?
+            `<button class="btn btn-green btn-sm" onclick="claimQuestReward(${q.id})">ЗАБРАТЬ ${q.reward}</button>` : '';
+        if (!isCompleted) hasActive = true;
+
+        const borderColor = isCompleted ? (isClaimed ? 'var(--accent-green)' : 'var(--accent-gold)') : 'var(--border-color)';
+        html += `<div class="dash-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-left: 3px solid ${borderColor};">
+                    <div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="font-size:24px;">${q.icon}</span>
+                            <span style="font-weight:700;">${q.title}</span>
+                            ${isCompleted ? (isClaimed ? '✅' : '🎯') : ''}
+                        </div>
+                        <div style="font-size:14px;color:var(--text-secondary);">${q.desc}</div>
+                        <div style="font-size:13px;color:var(--text-secondary);">Награда: <strong style="color:var(--accent-gold);">${q.reward}</strong></div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                        <span style="font-size:13px;color:${isCompleted ? (isClaimed ? 'var(--accent-green)' : 'var(--accent-gold)') : 'var(--text-secondary)'};">${status}</span>
+                        ${btn}
+                    </div>
+                </div>`;
+    });
+
+    if (!hasActive && quests.every(q => q.completed && q.claimed)) {
+        html += `<div style="text-align:center;padding:20px;color:var(--accent-green);">
+                    ✅ Все задания выполнены! Новые появятся через 24 часа.
+                </div>`;
+    } else if (!hasActive && quests.some(q => q.completed && !q.claimed)) {
+        html += `<div style="text-align:center;padding:20px;color:var(--accent-gold);">
+                    🎯 Задания выполнены! Заберите награды!
+                </div>`;
+    }
+    html += `</div>`;
+    pageContainer.innerHTML = html;
+}
+
+async function checkQuests(type, value) {
+    if (!currentUser) return;
+
+    const quests = getDailyQuests();
+    if (!quests || !Array.isArray(quests)) return;
+
+    let completed = false;
+    let completedQuestIds = [];
+
+    quests.forEach(q => {
+        if (q.type === type && !q.completed && q.target <= value) {
+            q.completed = true;
+            q.claimed = false;
+            completed = true;
+            completedQuestIds.push(q.id);
+        }
+    });
+
+    if (completed) {
+        const username = currentUser.username;
+        localStorage.setItem(`dailyQuests_${username}`, JSON.stringify({
+            timestamp: parseInt(localStorage.getItem(`lastQuestReset_${username}`)) || Date.now(),
+            quests: quests
+        }));
+
+        // ===== ОТПРАВЛЯЕМ ЗАПРОС НА СЕРВЕР =====
+        for (const taskId of completedQuestIds) {
+            try {
+                console.log(`📤 Отправка задания ${taskId} на сервер...`);
+                const res = await apiFetch('/tasks/complete', {
+                    method: 'POST',
+                    body: JSON.stringify({ task_id: taskId })
+                });
+                if (res && res.success) {
+                    console.log(`✅ Задание ${taskId} отмечено на сервере`);
+                } else {
+                    console.warn(`⚠️ Сервер не подтвердил задание ${taskId}:`, res);
+                }
+            } catch(e) {
+                console.warn(`⚠️ Ошибка синхронизации задания ${taskId}:`, e);
+            }
+        }
+
+        showNotification('🎯 Задание выполнено! Проверьте вкладку "Задания"', 'success');
+        if (currentPage === 'quests') renderQuests();
+    }
+}
+
+async function syncTasksWithServer() {
+    if (!currentUser) return;
+    try {
+        const serverTasks = await apiFetch('/tasks');
+        if (!serverTasks || serverTasks.error) return;
+        const localQuests = getDailyQuests();
+        if (!localQuests || !Array.isArray(localQuests)) return;
+        serverTasks.forEach(st => {
+            const localQ = localQuests.find(q => q.id === st.id);
+            if (localQ) {
+                if (st.completed && !localQ.completed) {
+                    localQ.completed = true;
+                    localQ.claimed = false;
+                }
+                if (st.claimed && !localQ.claimed) {
+                    localQ.claimed = true;
+                }
+            }
+        });
+        const username = currentUser.username;
+        localStorage.setItem(`dailyQuests_${username}`, JSON.stringify({
+            timestamp: parseInt(localStorage.getItem(`lastQuestReset_${username}`)) || Date.now(),
+            quests: localQuests
+        }));
+        if (currentPage === 'quests') renderQuests();
+    } catch(e) {
+        console.warn('⚠️ Ошибка синхронизации заданий:', e);
+    }
+}
+
 
     // ============================================================
     // ПОИСК ПО IP
