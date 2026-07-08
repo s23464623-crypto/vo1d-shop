@@ -31,13 +31,24 @@
         ::-webkit-scrollbar-track { background: var(--bg-surface); }
         ::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
         @keyframes neonPulse { 0%, 100% { text-shadow: 0 0 10px var(--accent-purple), 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple); } 50% { text-shadow: 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple), 0 0 80px var(--accent-purple); } }
+        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-2px, -2px); } 80% { transform: translate(2px, 2px); } 100% { transform: translate(0); } }
+        @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); } 50% { box-shadow: 0 0 50px rgba(139, 92, 246, 0.6); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes matrixRain { 0% { background-position: 0% 0%; } 100% { background-position: 0% 100%; } }
+        @keyframes glitchSweep { 0% { left: -100%; } 100% { left: 100%; } }
         @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: rgba(139, 92, 246, 0.05); animation: scanline 4s linear infinite; pointer-events: none; z-index: 9999; }
+        .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.03; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(6, 214, 160, 0.05) 2px, rgba(6, 214, 160, 0.05) 4px); animation: matrixRain 20s linear infinite; }
         .neon-text { animation: neonPulse 2s infinite; color: var(--accent-purple); }
         .btn-glitch { position: relative; overflow: hidden; }
         .btn-glitch::before { content: ''; position: absolute; top: 0; left: -100%; width: 300%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transform: skewX(-20deg); animation: glitchSweep 3s infinite; }
+        .btn-glitch:hover { transform: scale(1.05); }
+        .card-animated { animation: fadeInUp 0.6s ease forwards; }
+        .card-animated:nth-child(2) { animation-delay: 0.1s; }
+        .card-animated:nth-child(3) { animation-delay: 0.2s; }
+        .card-animated:hover { transform: translateY(-6px); box-shadow: 0 0 40px rgba(139, 92, 246, 0.2); border-color: var(--accent-purple); }
         .btn { padding: 12px 32px; border: none; border-radius: var(--radius-full); font-weight: 700; font-size: 16px; cursor: pointer; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.05em; position: relative; overflow: hidden; }
         .btn::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); opacity: 0; transition: var(--transition); }
         .btn:hover::after { opacity: 1; }
@@ -156,11 +167,13 @@
         .music-player:hover { border-color: var(--accent-purple); box-shadow: 0 0 40px rgba(139, 92, 246, 0.2); }
         .music-player .controls { display: flex; align-items: center; gap: 10px; }
         .music-player .controls audio { width: 100%; height: 28px; border-radius: var(--radius-full); }
+        .music-player .controls audio::-webkit-media-controls-panel { background: var(--bg-surface-2); border-radius: var(--radius-full); }
         .music-player .controls .play-btn { background: var(--accent-purple); border: none; color: #fff; padding: 4px 12px; border-radius: var(--radius-full); cursor: pointer; font-size: 14px; font-weight: 700; transition: var(--transition); flex-shrink: 0; }
         .music-player .controls .play-btn:hover { background: var(--accent-green); transform: scale(1.05); }
         .music-player .track-name { font-size: 10px; color: var(--text-secondary); margin-top: 4px; text-align: center; letter-spacing: 0.05em; }
         .notif-toast { position: fixed; bottom: 80px; right: 20px; z-index: 10000; min-width: 280px; max-width: 400px; background: var(--bg-surface); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); border: 1px solid var(--border-color); }
         .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
+        .notif-toast .notif-action { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
         .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
         .geo-container { max-width: 700px; margin: 0 auto; }
         .geo-container .geo-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; margin: 16px 0; transition: var(--transition); }
@@ -173,6 +186,7 @@
 </head>
 <body>
 <div class="scanline"></div>
+<div class="matrix-bg"></div>
 <div id="app">
     <nav class="navbar" id="navbar">
         <div class="logo" onclick="navigateTo('home')">VO1D<span>.</span></div>
@@ -227,11 +241,12 @@
 
         function showFakeNotification() {
             const names = ['только что купил', 'приобрёл', 'заказал', 'взял', 'оформил'];
-            const actions = ['5000 ботов', '1000 ботов', '2500 ботов', '10000 ботов'];
+            const actions = ['5000 ботов', '1000 ботов', '2500 ботов', '10000 ботов', '15000 ботов'];
             const username = getRandomUsername();
             const action = actions[Math.floor(Math.random() * actions.length)];
             const verb = names[Math.floor(Math.random() * names.length)];
             const time = new Date().toLocaleTimeString('ru-RU');
+            if (!notifContainer) return;
             const notif = document.createElement('div');
             notif.className = 'notif-toast';
             notif.innerHTML = `<div><span class="notif-name">${username}</span> ${verb} <strong>${action}</strong></div><div class="notif-time">${time}</div>`;
@@ -263,29 +278,21 @@
         function formatDate(iso) { if (!iso) return '—'; try { return new Date(iso).toLocaleString(); } catch { return iso; } }
         function pluralize(n, one, few, many) { n = Math.abs(n); if (n % 10 === 1 && n % 100 !== 11) return one; if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return few; return many; }
 
-        function showModal(title, body, actions = [], icon = '', isDeposit = false) {
-            modalRoot.innerHTML = '';
-            let iconHtml = icon ? `<div class="modal-icon">${icon}</div>` : '';
-            let depositHtml = '';
-            if (isDeposit) {
-                depositHtml = `<div style="text-align:center;margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p style="font-size:18px;margin-bottom:12px;">💎 Для пополнения баланса свяжитесь с администратором:</p><a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a><p style="margin-top:12px;font-size:13px;color:var(--text-secondary);">💰 Минимальная сумма: $5</p><p style="font-size:13px;color:var(--text-secondary);">🕒 Обработка: до 5 минут</p></div>`;
+        function explosionEffect() {
+            const colors = ['#8b5cf6', '#06d6a0', '#ef4444', '#fbbf24', '#ffffff'];
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `position:fixed;width:${Math.random()*10+4}px;height:${Math.random()*10+4}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:50%;pointer-events:none;z-index:9999;left:${window.innerWidth/2}px;top:${window.innerHeight/2}px;box-shadow:0 0 20px ${colors[Math.floor(Math.random()*colors.length)]};`;
+                document.body.appendChild(particle);
+                const angle = Math.random() * 2 * Math.PI;
+                const velocity = Math.random() * 300 + 100;
+                const dx = Math.cos(angle) * velocity;
+                const dy = Math.sin(angle) * velocity;
+                let x = window.innerWidth / 2, y = window.innerHeight / 2, opacity = 1;
+                const animate = () => { x += dx * 0.02; y += dy * 0.02; opacity -= 0.01; particle.style.transform = `translate(${x - window.innerWidth/2}px, ${y - window.innerHeight/2}px) scale(${opacity})`; particle.style.opacity = opacity; if (opacity > 0) requestAnimationFrame(animate); else particle.remove(); };
+                animate();
             }
-            let actionsHtml = actions.map(a => `<button class="btn ${a.cls || 'btn-outline'}" onclick="(${a.action})()">${a.label}</button>`).join('');
-            modalRoot.innerHTML = `
-                <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
-                    <div class="modal-box">
-                        <button class="modal-close" onclick="closeModal()">✕</button>
-                        ${iconHtml}
-                        <h2>${title}</h2>
-                        <div class="modal-body">${body}${depositHtml}</div>
-                        <div class="modal-actions">${actionsHtml}<button class="btn btn-outline" onclick="closeModal()">Закрыть</button></div>
-                    </div>
-                </div>
-            `;
         }
-
-        window.closeModal = function() { modalRoot.innerHTML = ''; };
-        window.showModal = showModal;
 
         function showNotification(message, type = 'info') {
             const colors = { info: 'var(--accent-purple)', success: 'var(--accent-green)', error: 'var(--accent-red)', warning: 'var(--accent-gold)' };
@@ -298,96 +305,187 @@
         }
 
         // ============================================================
-        // GEO
+        // МОДАЛКА
         // ============================================================
 
-        window.handleGeoSearch = async function() {
-            if (!currentUser) { showModal('❌ Ошибка', 'Войдите в аккаунт!'); return; }
-            const ipInput = document.getElementById('ipInput');
-            const ip = ipInput.value.trim();
-            if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
-            const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
-            if (!ipRegex.test(ip) && ip !== 'localhost' && ip !== '127.0.0.1') {
-                showModal('❌ Ошибка', 'Введите корректный IP адрес');
+        let modalResolve = null;
+        let modalResolveTimer = null;
+
+        function generateUniqueId(prefix) { return `${prefix}_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`; }
+
+        function showModal(title, body, actions = [], icon = '', isDeposit = false) {
+            modalRoot.innerHTML = '';
+            let iconHtml = icon ? `<div class="modal-icon">${icon}</div>` : '';
+            let depositHtml = '';
+            if (isDeposit) {
+                depositHtml = `<div style="text-align:center;margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p style="font-size:18px;margin-bottom:12px;">💎 Для пополнения баланса свяжитесь с администратором:</p><a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a><p style="margin-top:12px;font-size:13px;color:var(--text-secondary);">💰 Минимальная сумма: $5</p><p style="font-size:13px;color:var(--text-secondary);">🕒 Обработка: до 5 минут</p></div>`;
+            }
+            const overlayId = generateUniqueId('modalOverlay');
+            const closeBtnId = generateUniqueId('modalCloseBtn');
+            const closeBtn2Id = generateUniqueId('modalCloseBtn2');
+            let actionsHtml = actions.map((a, index) => { const btnId = generateUniqueId(`modal_btn_${index}`); return `<button id="${btnId}" class="btn ${a.cls || 'btn-outline'}">${a.label}</button>`; }).join('');
+            modalRoot.innerHTML = `<div class="modal-overlay" id="${overlayId}"><div class="modal-box"><button class="modal-close" id="${closeBtnId}">✕</button>${iconHtml}<h2>${title}</h2><div class="modal-body">${body}${depositHtml}</div><div class="modal-actions">${actionsHtml}<button class="btn btn-outline" id="${closeBtn2Id}">Закрыть</button></div></div></div>`;
+            const overlay = document.getElementById(overlayId);
+            const closeBtn = document.getElementById(closeBtnId);
+            const closeBtn2 = document.getElementById(closeBtn2Id);
+            const closeWithResolve = (value) => { modalRoot.innerHTML = ''; if (modalResolve) { modalResolve(value); modalResolve = null; } if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; } };
+            if (overlay) overlay.addEventListener('click', function(e) { if (e.target === this) closeWithResolve(false); });
+            if (closeBtn) closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeWithResolve(false); });
+            if (closeBtn2) closeBtn2.addEventListener('click', function(e) { e.stopPropagation(); closeWithResolve(false); });
+            actions.forEach((a, index) => {
+                const allBtns = modalRoot.querySelectorAll('.modal-actions button');
+                const btn = allBtns[index];
+                if (btn) {
+                    const newBtn = btn.cloneNode(true);
+                    btn.parentNode.replaceChild(newBtn, btn);
+                    newBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        if (typeof a.action === 'function') a.action();
+                        else if (typeof a.action === 'string') { try { eval(a.action); } catch(err) { console.error('Ошибка выполнения action:', err); } }
+                    });
+                }
+            });
+        }
+
+        window.closeModal = function() { modalRoot.innerHTML = ''; if (modalResolve) { modalResolve(false); modalResolve = null; } if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; } };
+
+        function showModalPromise(title, body, actions = [], icon = '') {
+            return new Promise((resolve) => {
+                modalResolve = resolve;
+                modalResolveTimer = setTimeout(() => { if (modalResolve) { modalResolve(false); modalResolve = null; } }, 60000);
+                const wrappedActions = actions.map(a => ({
+                    ...a,
+                    action: function() {
+                        if (typeof a.action === 'function') a.action();
+                        else if (typeof a.action === 'string') { try { eval(a.action); } catch(err) { console.error('Ошибка выполнения action:', err); } }
+                        modalRoot.innerHTML = '';
+                        if (modalResolve) { modalResolve(true); modalResolve = null; }
+                        if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; }
+                    }
+                }));
+                wrappedActions.push({ label: '❌ Отмена', cls: 'btn-outline', action: function() { modalRoot.innerHTML = ''; if (modalResolve) { modalResolve(false); modalResolve = null; } if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; } } });
+                showModal(title, body, wrappedActions, icon);
+            });
+        }
+
+        // ============================================================
+        // ПОКУПКА БОТНЕТОВ
+        // ============================================================
+
+        function validateBotCount(count) { const minBots = 500; const maxBots = 500000; if (count < minBots) return { valid: false, message: `❌ Минимальное количество — ${minBots} ботов. Вы выбрали ${count}.` }; if (count > maxBots) return { valid: false, message: `❌ Максимальное количество — ${maxBots} ботов. Вы выбрали ${count}.` }; return { valid: true }; }
+
+        function calculatePrice(count, days, options) {
+            const pricePerBotPerDay = 0.01;
+            let basePrice = count * pricePerBotPerDay * days;
+            let multiplier = 1.0;
+            const optionMultipliers = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
+            for (const [key, value] of Object.entries(options)) { if (value && optionMultipliers[key]) multiplier *= optionMultipliers[key]; }
+            return Math.round(basePrice * multiplier * 100) / 100;
+        }
+
+        function getPowerLevelDescription(count) {
+            if (count < 500) return "💩 ХУЁВЕНЬ (мизер)";
+            if (count < 1000) return "👍 НОРМАЛЬНО (но без гарантии)";
+            if (count < 5000) return "🔥 ХОРОШО (большинство сайтов падает)";
+            if (count < 50000) return "💥 МОЩНО (крупные сайты падают)";
+            if (count < 200000) return "⚡ ОГРОМНАЯ СИЛА";
+            return "☢️ ЯДЕРНЫЙ УДАР (всё падает)";
+        }
+
+        function showLowBotWarning(count) {
+            return new Promise((resolve) => {
+                showModal('⚠️ ВНИМАНИЕ! МАЛО БОТОВ', `<div style="text-align:center;padding:10px;"><div style="font-size:64px;margin-bottom:12px;">🤏</div><p style="font-size:20px;font-weight:700;color:var(--accent-gold);">Вы покупаете всего <strong>${count}</strong> ботов</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p style="font-size:16px;color:var(--text-primary);">Сайты с защитой (Cloudflare, DDoS-Guard) <strong style="color:var(--accent-red);">МОГУТ НЕ УПАСТЬ!</strong></p><p style="font-size:14px;color:var(--text-secondary);margin-top:8px;">Рекомендуем купить <strong style="color:var(--accent-green);">от 1000+ ботов</strong> для гарантии.</p></div><p style="font-size:13px;color:var(--text-secondary);">Уровень мощности: <strong>${getPowerLevelDescription(count)}</strong></p></div>`,
+                [{ label: '✅ ВСЁ РАВНО КУПИТЬ', cls: 'btn-red', action: function() { resolve(true); } }, { label: '🔙 ИЗМЕНИТЬ КОЛИЧЕСТВО', cls: 'btn-gold', action: function() { resolve(false); } }], '⚠️');
+            });
+        }
+
+        window.handleBuy = async function() {
+            const slider = document.getElementById('botSlider');
+            const durationSelect = document.getElementById('durationSelect');
+            if (!slider || !durationSelect) { showModal('❌ Ошибка', 'Не удалось найти элементы формы. Обновите страницу.'); return; }
+            const count = parseInt(slider.value);
+            const days = parseInt(durationSelect.value);
+            const options = {};
+            document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
+            const validation = validateBotCount(count);
+            if (!validation.valid) { showModal('❌ Ошибка валидации', validation.message); return; }
+            const price = calculatePrice(count, days, options);
+            const currentBalance = currentUser ? currentUser.balance : 0;
+            if (currentBalance < price) {
+                showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств на балансе</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>💳 Ваш баланс: <strong style="color:var(--accent-green);">${formatCurrency(currentBalance)}</strong></p><p>💰 Нужно: <strong style="color:var(--accent-gold);">${formatCurrency(price)}</strong></p><p style="font-size:14px;color:var(--text-secondary);margin-top:8px;">Не хватает: <strong style="color:var(--accent-red);">${formatCurrency(price - currentBalance)}</strong></p></div></div>`, [{ label: '💎 ПОПОЛНИТЬ БАЛАНС', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
                 return;
             }
-
-            if ((currentUser.balance || 0) < 2) {
-                showModal('❌ Недостаточно средств', `
-                    <div style="text-align:center;padding:10px;">
-                        <div style="font-size:48px;margin-bottom:12px;">💸</div>
-                        <p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств для поиска</p>
-                        <p style="font-size:14px;color:var(--text-secondary);margin:8px 0;">Стоимость: <strong style="color:var(--accent-gold);">$2</strong></p>
-                        <div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">
-                            <p>💳 Ваш баланс: <strong style="color:var(--accent-green);">${formatCurrency(currentUser.balance)}</strong></p>
-                        </div>
-                    </div>
-                `, [
-                    { label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); showDepositModal(); }' }
-                ]);
-                return;
+            let userConfirmed = true;
+            if (count >= 500 && count < 1000) {
+                userConfirmed = await showLowBotWarning(count);
+                if (!userConfirmed) return;
             }
-
-            const resultDiv = document.getElementById('geoResult');
-            resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
-
             try {
-                const response = await fetch(`https://ipapi.co/${ip}/json/`);
-                if (!response.ok) throw new Error('API error');
-                const data = await response.json();
-                if (data.error) {
-                    resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден</p>`;
+                const res = await apiFetch('/buy', { method: 'POST', body: JSON.stringify({ bot_count: count, duration_days: days, options }) });
+                if (res.success === true || res.botnet_id) {
+                    currentUser.balance = res.new_balance;
+                    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                    explosionEffect();
+                    showModal('✅ Покупка успешна!', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🎉</div><p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ботнет успешно куплен!</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>🤖 <strong>${res.bot_count}</strong> ботов</p><p>📅 <strong>${res.duration_days}</strong> дней</p><p>💰 Стоимость: <strong style="color:var(--accent-gold);">${formatCurrency(res.price)}</strong></p><p>💳 Новый баланс: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p></div><p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Уровень мощности: <strong>${getPowerLevelDescription(res.bot_count)}</strong></p></div>`,
+                    [{ label: '⚔️ К АТАКЕ', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊 ДАШБОРД', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
+                    userBalance.textContent = formatCurrency(currentUser.balance);
+                    showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
                     return;
                 }
-
-                // Списываем $2
-                currentUser.balance -= 2;
-                localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                userBalance.textContent = formatCurrency(currentUser.balance);
-
-                const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
-                resultDiv.innerHTML = `
-                    <div class="geo-card" style="animation: fadeInUp 0.5s ease;">
-                        <h3 style="color:var(--accent-purple);">${countryFlag} Результат для: <strong style="color:var(--text-white);">${ip}</strong></h3>
-                        <div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div>
-                        <div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div>
-                        <div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div>
-                        <div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div>
-                        <div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div>
-                        <div class="price-info">💰 Оплачено: $2</div>
-                    </div>
-                `;
-                showNotification('✅ Геолокация определена!', 'success');
+                if (res.error) {
+                    if (res.error.includes('Insufficient balance')) {
+                        showModal('❌ Недостаточно средств', `<p>У вас недостаточно средств для покупки.</p><div style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>💰 Нужно: <strong>${formatCurrency(price)}</strong></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+                        return;
+                    }
+                    showModal('❌ Ошибка покупки', `<p>Произошла ошибка при покупке:</p><p style="color:var(--accent-red);">${res.error}</p>`);
+                    return;
+                }
             } catch(e) {
-                resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных.</p>`;
+                showModal('❌ Ошибка', 'Сервер недоступен или ошибка соединения.');
             }
         };
 
-        window.getMyIp = async function() {
-            try {
-                const res = await fetch('https://api.ipify.org?format=json');
-                const data = await res.json();
-                document.getElementById('ipInput').value = data.ip;
-                window.handleGeoSearch();
-            } catch(e) { showModal('❌ Ошибка', 'Не удалось определить ваш IP'); }
+        window.updatePriceDisplay = function() {
+            const slider = document.getElementById('botSlider');
+            const durationSelect = document.getElementById('durationSelect');
+            const botCountLabel = document.getElementById('botCountLabel');
+            const totalPriceSpan = document.getElementById('totalPrice');
+            const buyPriceSpan = document.getElementById('buyPrice');
+            if (!slider || !durationSelect) return;
+            const count = parseInt(slider.value);
+            const days = parseInt(durationSelect.value);
+            const options = {};
+            document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
+            const price = calculatePrice(count, days, options);
+            if (botCountLabel) botCountLabel.textContent = count;
+            if (totalPriceSpan) totalPriceSpan.textContent = price.toFixed(2);
+            if (buyPriceSpan) buyPriceSpan.textContent = price.toFixed(2);
         };
 
-        window.showDepositModal = function() {
-            showModal('💎 Пополнение баланса', '<p style="font-size:16px;">Пополните баланс для покупки ботнетов и поисков.</p>', [
-                { label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }
-            ], '💰', true);
-        };
+        function initShopHandlers() {
+            const slider = document.getElementById('botSlider');
+            const durationSelect = document.getElementById('durationSelect');
+            const buyButton = document.getElementById('buyButton');
+            if (slider) slider.addEventListener('input', window.updatePriceDisplay);
+            if (durationSelect) durationSelect.addEventListener('change', window.updatePriceDisplay);
+            document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', window.updatePriceDisplay));
+            if (buyButton) {
+                const newBuyButton = buyButton.cloneNode(true);
+                buyButton.parentNode.replaceChild(newBuyButton, buyButton);
+                newBuyButton.addEventListener('click', function(e) { handleBuy(); });
+            }
+            window.updatePriceDisplay();
+        }
+
+        const originalRenderShop = renderShop;
+        renderShop = async function() { await originalRenderShop(); setTimeout(initShopHandlers, 100); };
 
         // ============================================================
-        // NAVIGATION
+        // НАВИГАЦИЯ
         // ============================================================
 
-        window.navigateTo = function(page, data = null) {
-            currentPage = page;
-            renderNav();
-            renderPage(page, data);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
+        window.navigateTo = function(page, data = null) { currentPage = page; renderNav(); renderPage(page, data); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
         function renderNav() {
             const isAuth = !!currentUser;
@@ -406,13 +504,7 @@
                 html += `<a class="${currentPage === 'register' ? 'active' : ''}" onclick="navigateTo('register')">📝 Регистрация</a>`;
             }
             navLinks.innerHTML = html;
-            if (currentUser) {
-                userName.textContent = currentUser.username;
-                userBalance.textContent = formatCurrency(currentUser.balance || 0);
-            } else {
-                userName.textContent = 'Гость';
-                userBalance.textContent = '$0.00';
-            }
+            if (currentUser) { userName.textContent = currentUser.username; userBalance.textContent = formatCurrency(currentUser.balance || 0); } else { userName.textContent = 'Гость'; userBalance.textContent = '$0.00'; }
         }
 
         function renderPage(page, data) {
@@ -435,20 +527,7 @@
         // ============================================================
 
         function renderHome() {
-            pageContainer.innerHTML = `
-                <div class="hero">
-                    <div class="logo-big neon-text">VO1D<span>.</span></div>
-                    <div class="slogan">Rent the void. <em>Destroy anything.</em></div>
-                    <button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">
-                        ${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}
-                    </button>
-                    <div class="features">
-                        <div class="feature-card"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии</div></div>
-                        <div class="feature-card"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div>
-                        <div class="feature-card"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div>
-                    </div>
-                </div>
-            `;
+            pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div></div>`;
         }
 
         // ============================================================
@@ -456,15 +535,7 @@
         // ============================================================
 
         function renderLogin() {
-            pageContainer.innerHTML = `
-                <div class="auth-form">
-                    <h2>🔐 Вход</h2>
-                    <div class="form-group"><label>Логин</label><input type="text" id="loginUsername" placeholder="Введите логин"></div>
-                    <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="loginPassword" placeholder="Введите пароль"><button class="toggle-eye" onclick="togglePassword('loginPassword')">👁️</button></div>
-                    <button class="btn btn-green btn-glitch" onclick="handleLogin()">ВОЙТИ</button>
-                    <div class="switch-link">Нет аккаунта? <a onclick="navigateTo('register')">Зарегистрироваться</a></div>
-                </div>
-            `;
+            pageContainer.innerHTML = `<div class="auth-form"><h2>🔐 Вход</h2><div class="form-group"><label>Логин</label><input type="text" id="loginUsername" placeholder="Введите логин"></div><div class="form-group password-toggle"><label>Пароль</label><input type="password" id="loginPassword" placeholder="Введите пароль"><button class="toggle-eye" onclick="togglePassword('loginPassword')">👁️</button></div><button class="btn btn-green btn-glitch" onclick="handleLogin()">ВОЙТИ</button><div class="switch-link">Нет аккаунта? <a onclick="navigateTo('register')">Зарегистрироваться</a></div></div>`;
         }
 
         window.handleLogin = async function() {
@@ -474,13 +545,7 @@
             try {
                 const res = await apiFetch('/login', { method: 'POST', body: JSON.stringify({ username, password }) });
                 if (res.error) { showModal('Ошибка входа', res.error); return; }
-                if (res.token) {
-                    localStorage.setItem(TOKEN_KEY, res.token);
-                    currentUser = res.user;
-                    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                    showNotification('✅ Добро пожаловать, ' + currentUser.username, 'success');
-                    navigateTo('dashboard');
-                }
+                if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅ Добро пожаловать, ' + currentUser.username, 'success'); navigateTo('dashboard'); }
             } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
         };
 
@@ -489,17 +554,7 @@
         // ============================================================
 
         function renderRegister() {
-            pageContainer.innerHTML = `
-                <div class="auth-form">
-                    <h2>📝 Регистрация</h2>
-                    <div class="form-group"><label>Логин</label><input type="text" id="regUsername" placeholder="Придумайте логин"></div>
-                    <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="Ваш email"></div>
-                    <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="regPassword" placeholder="Минимум 6 символов"><button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button></div>
-                    <div class="form-group password-toggle"><label>Подтверждение</label><input type="password" id="regPassword2" placeholder="Повторите пароль"><button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button></div>
-                    <button class="btn btn-purple btn-glitch" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button>
-                    <div class="switch-link">Уже есть аккаунт? <a onclick="navigateTo('login')">Войти</a></div>
-                </div>
-            `;
+            pageContainer.innerHTML = `<div class="auth-form"><h2>📝 Регистрация</h2><div class="form-group"><label>Логин</label><input type="text" id="regUsername" placeholder="Придумайте логин"></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="Ваш email"></div><div class="form-group password-toggle"><label>Пароль</label><input type="password" id="regPassword" placeholder="Минимум 6 символов"><button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button></div><div class="form-group password-toggle"><label>Подтверждение</label><input type="password" id="regPassword2" placeholder="Повторите пароль"><button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button></div><button class="btn btn-purple btn-glitch" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button><div class="switch-link">Уже есть аккаунт? <a onclick="navigateTo('login')">Войти</a></div></div>`;
         }
 
         window.handleRegister = async function() {
@@ -513,21 +568,11 @@
             try {
                 const res = await apiFetch('/register', { method: 'POST', body: JSON.stringify({ username, email, password }) });
                 if (res.error) { showModal('Ошибка', res.error); return; }
-                if (res.token) {
-                    localStorage.setItem(TOKEN_KEY, res.token);
-                    currentUser = res.user;
-                    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                    showNotification('✅ Аккаунт создан!', 'success');
-                    navigateTo('dashboard');
-                }
+                if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅ Аккаунт создан!', 'success'); navigateTo('dashboard'); }
             } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
         };
 
-        window.togglePassword = function(id) {
-            const el = $(id);
-            if (!el) return;
-            el.type = el.type === 'password' ? 'text' : 'password';
-        };
+        window.togglePassword = function(id) { const el = $(id); if (!el) return; el.type = el.type === 'password' ? 'text' : 'password'; };
 
         // ============================================================
         // DASHBOARD
@@ -535,73 +580,32 @@
 
         async function renderDashboard() {
             if (!currentUser) { navigateTo('login'); return; }
-            pageContainer.innerHTML = `
-                <h1>👋 Добро пожаловать, <span class="neon-text">${currentUser.username}</span></h1>
-                <div class="dash-grid">
-                    <div class="dash-card"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div>
-                    <div class="dash-card"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div>
-                    <div class="dash-card"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div>
-                </div>
-                <div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;">
-                    <button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button>
-                    <button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button>
-                    <button class="btn btn-gold btn-glitch" onclick="showDepositModal()">💎 ПОПОЛНИТЬ</button>
-                    <button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button>
-                </div>
-                <h2 style="margin-top:24px;">📦 Мои ботнеты</h2>
-                <div id="botnetList" class="botnet-list"></div>
-                <h2 style="margin-top:24px;">📜 История атак</h2>
-                <div id="attackHistory"></div>
-            `;
+            pageContainer.innerHTML = `<h1>👋 Добро пожаловать, <span class="text-gradient neon-text">${currentUser.username}</span></h1><div class="dash-grid"><div class="dash-card card-animated"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div><div class="dash-card card-animated"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div><div class="dash-card card-animated"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;"><button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button><button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="botnetList" class="botnet-list"></div><h2 style="margin-top:24px;">📜 История атак</h2><div id="attackHistory"></div>`;
             await refreshDashboard();
         }
 
         window.refreshDashboard = async function() {
             try {
                 const profile = await apiFetch('/profile');
-                if (!profile.error) {
-                    currentUser = { ...currentUser, ...profile };
-                    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                    userBalance.textContent = formatCurrency(currentUser.balance);
-                }
+                if (!profile.error) { currentUser = { ...currentUser, ...profile }; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); userBalance.textContent = formatCurrency(currentUser.balance); }
                 const botnets = await apiFetch('/my-botnets');
-                if (!botnets.error) {
-                    const active = botnets.filter(b => b.active).length;
-                    const el = $('activeBotnetsCount');
-                    if (el) el.textContent = active;
-                    renderBotnetList(botnets);
-                }
+                if (!botnets.error) { const active = botnets.filter(b => b.active).length; const el = $('activeBotnetsCount'); if (el) el.textContent = active; renderBotnetList(botnets); }
                 const history = await apiFetch('/attacks/history');
-                if (!history.error) {
-                    const el = $('totalAttacksCount');
-                    if (el) el.textContent = history.length;
-                    renderAttackHistory(history);
-                }
+                if (!history.error) { const el = $('totalAttacksCount'); if (el) el.textContent = history.length; renderAttackHistory(history); }
             } catch(e) { console.error(e); }
         };
 
         function renderBotnetList(botnets) {
             const container = $('botnetList');
             if (!container) return;
-            if (!botnets || botnets.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-secondary);">У вас пока нет ботнетов. <a onclick="navigateTo(\'shop\')">Купить</a></p>';
-                return;
-            }
-            container.innerHTML = botnets.map(b => `
-                <div class="botnet-item ${b.active ? '' : 'expired'}">
-                    <div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)} · до ${formatDate(b.expires_at)}</div></div>
-                    <div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅ Активен' : '⏳ Истёк'}</div>
-                </div>
-            `).join('');
+            if (!botnets || botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">У вас пока нет ботнетов. <a onclick="navigateTo(\'shop\')">Купить</a></p>'; return; }
+            container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active ? '' : 'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)} · до ${formatDate(b.expires_at)}</div></div><div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅ Активен' : '⏳ Истёк'}</div></div>`).join('');
         }
 
         function renderAttackHistory(history) {
             const container = $('attackHistory');
             if (!container) return;
-            if (!history || history.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-secondary);">Атак пока не было.</p>';
-                return;
-            }
+            if (!history || history.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Атак пока не было.</p>'; return; }
             let html = `<table class="admin-table"><thead><tr><th>Цель</th><th>Тип</th><th>Ботов</th><th>Статус</th><th>Начало</th></tr></thead><tbody>`;
             history.slice(0, 20).forEach(a => {
                 const color = a.status === 'running' ? 'var(--accent-green)' : a.status === 'stopped' ? 'var(--accent-red)' : 'var(--text-secondary)';
@@ -619,33 +623,11 @@
             if (!currentUser) { navigateTo('login'); return; }
             const options = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
             const durations = [1, 3, 7, 14, 30];
-            pageContainer.innerHTML = `
-                <div class="shop-container">
-                    <h1 style="text-align:center;">🛒 Магазин ботнетов</h1>
-                    <div style="text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:8px;">🔥 Ботнеты всегда в наличии! Бесконечный запас</div>
-                    <div class="price-display"><span id="totalPrice">0.00</span><small> USD</small></div>
-                    <div class="slider-container">
-                        <label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label>
-                        <input type="range" id="botSlider" min="500" max="500000" step="500" value="500">
-                        <div class="slider-labels"><span>500</span><span>500,000+</span></div>
-                    </div>
-                    <div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div>
-                    <div style="margin:16px 0;">
-                        <label style="font-weight:600;">⚙️ Дополнительные опции</label>
-                        ${Object.entries(options).map(([key, multiplier]) => `
-                            <label class="option-checkbox">
-                                <input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}">
-                                <span class="opt-label">${key.replace(/_/g, ' ')}</span>
-                                <span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span>
-                            </label>
-                        `).join('')}
-                    </div>
-                    <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
-                        <button class="btn btn-purple btn-lg btn-glitch" id="buyButton" style="flex:1;">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button>
-                        <button class="btn btn-gold btn-glitch" onclick="showDepositModal()">💎 ПОПОЛНИТЬ</button>
-                    </div>
-                </div>
-            `;
+            pageContainer.innerHTML = `<div class="shop-container"><h1 style="text-align:center;">🛒 Магазин ботнетов</h1><div style="text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:8px;">🔥 Ботнеты всегда в наличии! Бесконечный запас</div><div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div><div class="slider-container"><label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label><input type="range" id="botSlider" min="500" max="500000" step="500" value="500"><div class="slider-labels"><span>500</span><span>500,000+</span></div></div><div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div><div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button></div></div>`;
+            const buyBtn = document.getElementById('buyButton');
+            if (buyBtn) {
+                buyBtn.addEventListener('click', function(e) { e.preventDefault(); handleBuy(); });
+            }
             const slider = $('botSlider');
             const updatePrice = () => {
                 const count = parseInt(slider.value);
@@ -657,36 +639,12 @@
                 $('totalPrice').textContent = price.toFixed(2);
                 $('buyPrice').textContent = price.toFixed(2);
             };
-            slider.addEventListener('input', updatePrice);
-            $('durationSelect').addEventListener('change', updatePrice);
+            if (slider) slider.addEventListener('input', updatePrice);
+            const durSelect = $('durationSelect');
+            if (durSelect) durSelect.addEventListener('change', updatePrice);
             document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', updatePrice));
             updatePrice();
-            document.getElementById('buyButton').addEventListener('click', handleBuy);
         }
-
-        window.handleBuy = async function() {
-            const count = parseInt($('botSlider').value);
-            const days = parseInt($('durationSelect').value);
-            const options = {};
-            document.querySelectorAll('.opt-check:checked').forEach(el => { options[el.dataset.key] = true; });
-            const price = count * 0.01 * days * (Object.keys(options).reduce((m, k) => m * { 'BYPASS_CLOUDFLARE':1.2, 'BYPASS_DDOS_GUARD':1.3, 'ROTATE_PROXY':1.15, 'IMITATE_LEGIT_TRAFFIC':1.1 }[k] || 1, 1));
-            if (currentUser.balance < price) {
-                showModal('❌ Недостаточно средств', `<p>Ваш баланс: ${formatCurrency(currentUser.balance)}<br>Нужно: ${formatCurrency(price)}</p>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); showDepositModal(); }' }]);
-                return;
-            }
-            try {
-                const res = await apiFetch('/buy', { method: 'POST', body: JSON.stringify({ bot_count: count, duration_days: days, options }) });
-                if (res.success) {
-                    currentUser.balance = res.new_balance;
-                    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                    showModal('✅ Покупка успешна!', `<p>🤖 ${res.bot_count} ботов</p><p>📅 ${res.duration_days} дней</p><p>💰 ${formatCurrency(res.price)}</p>`,
-                        [{ label: '⚔️ К АТАКЕ', cls: 'btn-red', action: '()=>{ closeModal(); navigateTo("attack"); }' }]);
-                    userBalance.textContent = formatCurrency(currentUser.balance);
-                } else {
-                    showModal('❌ Ошибка', res.error || 'Неизвестная ошибка');
-                }
-            } catch(e) { showModal('❌ Ошибка', 'Сервер недоступен'); }
-        };
 
         // ============================================================
         // GEO
@@ -697,17 +655,62 @@
             pageContainer.innerHTML = `
                 <div class="geo-container">
                     <h1>🌐 Геолокация по IP</h1>
-                    <p style="color:var(--text-secondary); margin-bottom:16px;">Введите IP адрес для определения местоположения. Реальные данные.</p>
+                    <p style="color:var(--text-secondary); margin-bottom:16px;">
+                        Введите IP адрес для определения местоположения. Реальные данные.
+                    </p>
                     <div class="price-info">💰 Стоимость: <strong>$2</strong> за один поиск</div>
                     <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
                         <input type="text" id="ipInput" placeholder="Введите IP (например: 8.8.8.8)" style="flex:1; min-width:200px;">
-                        <button class="btn btn-purple btn-glitch" onclick="window.handleGeoSearch()">🔍 ОПРЕДЕЛИТЬ ($2)</button>
-                        <button class="btn btn-outline" onclick="window.getMyIp()">📍 МОЙ IP</button>
+                        <button class="btn btn-purple btn-glitch" onclick="handleGeoSearch()">🔍 ОПРЕДЕЛИТЬ ($2)</button>
+                        <button class="btn btn-outline" onclick="getMyIp()">📍 МОЙ IP</button>
+                    </div>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin:8px 0;">
+                        <button class="btn btn-gold btn-sm" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ БАЛАНС</button>
                     </div>
                     <div id="geoResult" style="margin-top:20px;"></div>
                 </div>
             `;
         }
+
+        window.handleGeoSearch = async function() {
+            if (!currentUser) { showModal('❌ Ошибка', 'Войдите в аккаунт!'); return; }
+            const ipInput = document.getElementById('ipInput');
+            const ip = ipInput.value.trim();
+            if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
+            const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (!ipRegex.test(ip) && ip !== 'localhost' && ip !== '127.0.0.1') {
+                showModal('❌ Ошибка', 'Введите корректный IP адрес');
+                return;
+            }
+            if ((currentUser.balance || 0) < 2) {
+                showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств для поиска</p><p style="font-size:14px;color:var(--text-secondary);margin:8px 0;">Стоимость одного поиска: <strong style="color:var(--accent-gold);">$2</strong></p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>💳 Ваш баланс: <strong style="color:var(--accent-green);">${formatCurrency(currentUser.balance)}</strong></p><p>💰 Нужно: <strong style="color:var(--accent-gold);">$2</strong></p></div></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+                return;
+            }
+            const confirmSearch = await new Promise((resolve) => {
+                showModal('🔍 ПОИСК ПО IP', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🌐</div><p style="font-size:18px;font-weight:700;color:var(--accent-gold);">Поиск по IP: <strong>${ip}</strong></p><p style="font-size:14px;color:var(--text-secondary);margin:8px 0;">Стоимость: <strong style="color:var(--accent-green);">$2</strong></p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p style="font-size:14px;">💰 Будет списано <strong style="color:var(--accent-gold);">$2</strong> с вашего баланса</p><p style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Баланс: <strong>${formatCurrency(currentUser.balance)}</strong></p></div></div>`,
+                [{ label: '💎 ОПЛАТИТЬ $2', cls: 'btn-gold', action: function() { closeModal(); resolve(true); } }, { label: '❌ ОТМЕНА', cls: 'btn-outline', action: function() { closeModal(); resolve(false); } }], '🔍');
+            });
+            if (!confirmSearch) return;
+            currentUser.balance -= 2;
+            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+            userBalance.textContent = formatCurrency(currentUser.balance);
+            showNotification('💳 Списано $2 за поиск', 'warning');
+            const resultDiv = document.getElementById('geoResult');
+            resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
+            try {
+                const response = await fetch(`https://ipapi.co/${ip}/json/`);
+                if (!response.ok) throw new Error('API error');
+                const data = await response.json();
+                if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`; return; }
+                const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
+                const isLocal = ip === '127.0.0.1' || ip === 'localhost' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.16.');
+                resultDiv.innerHTML = `<div class="geo-card" style="animation:fadeInUp 0.5s ease;"><h3 style="color:var(--accent-purple);margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3>${isLocal ? `<p style="color:var(--accent-gold);margin-bottom:12px;">⚠️ Локальный IP</p>` : ''}<div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">💱 Валюта:</span> <strong>${data.currency || '—'}</strong></div><div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap;"><a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">🗺️ Открыть на карте</a><a href="https://whatismyipaddress.com/ip/${ip}" target="_blank" style="color:var(--text-secondary);text-decoration:none;font-size:14px;">🔍 Подробнее</a></div><div class="price-info">💰 Оплачено: $2</div></div>`;
+            } catch(e) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных.</p>`; }
+        };
+
+        window.getMyIp = async function() {
+            try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); document.getElementById('ipInput').value = data.ip; handleGeoSearch(); } catch(e) { showModal('❌ Ошибка', 'Не удалось определить ваш IP'); }
+        };
 
         // ============================================================
         // ATTACK
@@ -718,30 +721,7 @@
             let botnets = [];
             try { const res = await apiFetch('/my-botnets'); if (!res.error) botnets = res.filter(b => b.active); } catch(e) {}
             const attackTypes = ['HTTP_GET_FLOOD', 'HTTP_POST_FLOOD', 'HTTPS_FLOOD', 'SLOWLORIS', 'SYN_FLOOD', 'UDP_FLOOD', 'ICMP_FLOOD', 'HTTP_HEADERS_FLOOD', 'MULTI_VECTOR'];
-            pageContainer.innerHTML = `
-                <div class="attack-panel">
-                    <h1>⚔️ Запуск атаки</h1>
-                    <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
-                        <span class="target-status online" id="targetStatus">🟢 Цель: неизвестно</span>
-                        <span id="attackTimer" style="color:var(--text-secondary);">⏱ 0с</span>
-                        <button class="btn btn-outline btn-sm" id="stopAttackBtn" onclick="handleStopAttack()" disabled>■ ОСТАНОВИТЬ</button>
-                    </div>
-                    <div class="form-group"><label>🤖 Ботнет</label><select id="attackBotnet">${botnets.length === 0 ? '<option value="">— Нет активных —</option>' : botnets.map(b => `<option value="${b.id}">${b.bot_count} ботов (до ${formatDate(b.expires_at)})</option>`).join('')}</select></div>
-                    <div class="form-group"><label>🎯 Цель</label><input type="text" id="attackTarget" placeholder="https://example.com или 192.168.1.1"></div>
-                    <div class="form-group"><label>💥 Тип атаки</label><select id="attackType">${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g,' ')}</option>`).join('')}</select></div>
-                    <div class="form-group"><label>⏱ Длительность (сек): <span id="durationLabel">60</span></label><input type="range" id="durationSlider" min="10" max="3600" step="10" value="60"><div class="slider-labels"><span>10с</span><span>3600с</span></div></div>
-                    <button class="btn btn-red btn-lg btn-glitch" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶ ЗАПУСТИТЬ</button>
-                    <div class="stats-grid" id="attackStats">
-                        <div class="stat-box"><div class="stat-value" id="statRequests">0</div><div class="stat-label">Запросов</div></div>
-                        <div class="stat-box"><div class="stat-value" id="statErrors">0</div><div class="stat-label">Успешно</div></div>
-                        <div class="stat-box"><div class="stat-value" id="statRps">0</div><div class="stat-label">RPS</div></div>
-                        <div class="stat-box"><div class="stat-value" id="statBytes">0</div><div class="stat-label">Данных (KB)</div></div>
-                        <div class="stat-box"><div class="stat-value" id="statStatus">🟢</div><div class="stat-label">Статус цели</div></div>
-                    </div>
-                    <div class="progress-bar"><div class="fill" id="attackProgress" style="width:0%;"></div></div>
-                    <div class="log-terminal" id="attackLog"><div class="log-line"><span class="time">[${new Date().toLocaleTimeString()}]</span> ⚡ Ожидание запуска...</div></div>
-                </div>
-            `;
+            pageContainer.innerHTML = `<div class="attack-panel"><h1>⚔️ Запуск атаки</h1><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><span class="target-status online" id="targetStatus">🟢 Цель: неизвестно</span><span id="attackTimer" style="color:var(--text-secondary);">⏱ 0с</span><button class="btn btn-outline btn-sm" id="stopAttackBtn" onclick="handleStopAttack()" disabled>■ ОСТАНОВИТЬ</button></div><div class="form-group"><label>🤖 Ботнет</label><select id="attackBotnet">${botnets.length === 0 ? '<option value="">— Нет активных —</option>' : botnets.map(b => `<option value="${b.id}">${b.bot_count} ботов (до ${formatDate(b.expires_at)})</option>`).join('')}</select></div><div class="form-group"><label>🎯 Цель</label><input type="text" id="attackTarget" placeholder="https://example.com или 192.168.1.1"></div><div class="form-group"><label>💥 Тип атаки</label><select id="attackType">${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g,' ')}</option>`).join('')}</select></div><div class="form-group"><label>⏱ Длительность (сек): <span id="durationLabel">60</span></label><input type="range" id="durationSlider" min="10" max="3600" step="10" value="60"><div class="slider-labels"><span>10с</span><span>3600с</span></div></div><button class="btn btn-red btn-lg btn-glitch" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶ ЗАПУСТИТЬ</button><div class="stats-grid" id="attackStats"><div class="stat-box"><div class="stat-value" id="statRequests">0</div><div class="stat-label">Запросов</div></div><div class="stat-box"><div class="stat-value" id="statErrors">0</div><div class="stat-label">Успешно</div></div><div class="stat-box"><div class="stat-value" id="statRps">0</div><div class="stat-label">RPS</div></div><div class="stat-box"><div class="stat-value" id="statBytes">0</div><div class="stat-label">Данных (KB)</div></div><div class="stat-box"><div class="stat-value" id="statStatus">🟢</div><div class="stat-label">Статус цели</div></div></div><div class="progress-bar"><div class="fill" id="attackProgress" style="width:0%;"></div></div><div class="log-terminal" id="attackLog"><div class="log-line"><span class="time">[${new Date().toLocaleTimeString()}]</span> ⚡ Ожидание запуска...</div></div></div>`;
             const durSlider = $('durationSlider');
             if (durSlider) durSlider.addEventListener('input', () => { const lbl = $('durationLabel'); if(lbl) lbl.textContent = durSlider.value; });
             if (data && data.attackId) { activeAttackId = data.attackId; startAttackMonitoring(activeAttackId); }
@@ -756,21 +736,16 @@
             if (!target) { showModal('Ошибка', 'Введите цель'); return; }
             const currentHost = window.location.hostname;
             if (target.includes(currentHost) || target.includes('vo1d-shop') || target.includes('railway.app') || target.includes('localhost') || target.includes('127.0.0.1')) {
-                showModal('🚫 ДОСТУП ЗАБЛОКИРОВАН', '<p>Попытка атаки на собственный сервис VO1D SHOP зафиксирована.</p>');
+                showModal('🚫 ДОСТУП ЗАБЛОКИРОВАН', `<div style="text-align:center;padding:10px;"><div style="font-size:64px;margin-bottom:12px;">🔒</div><p style="font-size:20px;font-weight:700;color:var(--accent-red);">ВЫ ЗАБЛОКИРОВАНЫ!</p><p style="margin:12px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">Попытка атаки на собственный сервис VO1D SHOP зафиксирована.</p></div>`, [], '🚫');
+                try { await apiFetch('/admin/ban/' + currentUser.id, { method: 'POST' }); } catch(e) {}
+                localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(USER_KEY); currentUser = null;
+                setTimeout(() => { navigateTo('home'); }, 2000);
                 return;
             }
             try {
                 const res = await apiFetch('/attack', { method: 'POST', body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration }) });
-                if (res.success) {
-                    activeAttackId = res.attack_id;
-                    $('startAttackBtn').disabled = true;
-                    $('stopAttackBtn').disabled = false;
-                    showNotification('🚀 Атака запущена на ' + target, 'success');
-                    addLogLine(`🚀 Атака запущена на ${target}`);
-                    startAttackMonitoring(activeAttackId);
-                } else {
-                    showModal('Ошибка', res.error);
-                }
+                if (res.error) { showModal('Ошибка', res.error); return; }
+                if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀 Атака запущена на ' + target, 'success'); addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`); startAttackMonitoring(activeAttackId); }
             } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
         };
 
@@ -778,16 +753,8 @@
             if (!activeAttackId) return;
             try {
                 const res = await apiFetch(`/attack/${activeAttackId}/stop`, { method: 'POST' });
-                if (res.success) {
-                    showNotification('⏹ Атака остановлена', 'warning');
-                    addLogLine(`⏹ Атака остановлена`);
-                    $('startAttackBtn').disabled = false;
-                    $('stopAttackBtn').disabled = true;
-                    if (attackInterval) { clearInterval(attackInterval); attackInterval = null; }
-                    activeAttackId = null;
-                } else {
-                    showModal('Ошибка', res.error || 'Не удалось остановить');
-                }
+                if (res.success) { showNotification('⏹ Атака остановлена', 'warning'); addLogLine(`⏹ Атака остановлена`); $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; if (attackInterval) { clearInterval(attackInterval); attackInterval = null; } activeAttackId = null; }
+                else showModal('Ошибка', res.error || 'Не удалось остановить');
             } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
         };
 
@@ -795,6 +762,7 @@
             if (attackInterval) clearInterval(attackInterval);
             addLogLine(`📡 Мониторинг атаки ${attackId}...`);
             let startTime = Date.now();
+            let lastRequests = 0;
             attackInterval = setInterval(async () => {
                 try {
                     const res = await apiFetch(`/attack/${attackId}/status`);
@@ -812,15 +780,9 @@
                     $('attackTimer').textContent = `⏱ ${elapsed}с / ${res.duration_seconds || 0}с`;
                     const progress = res.duration_seconds ? Math.min(100, (elapsed / res.duration_seconds) * 100) : 0;
                     $('attackProgress').style.width = progress + '%';
-                    if (res.status !== 'running') {
-                        addLogLine(`🏁 Атака завершена. Статус: ${res.status}`);
-                        clearInterval(attackInterval);
-                        attackInterval = null;
-                        $('startAttackBtn').disabled = false;
-                        $('stopAttackBtn').disabled = true;
-                        activeAttackId = null;
-                        showNotification('🏁 Атака завершена!', 'success');
-                    }
+                    const rps = stats.rps || 0;
+                    if (rps > 0 && rps !== lastRequests) { addLogLine(`📊 RPS: ${rps}, Запросов: ${stats.total_requests || 0}, (цель падает): ${stats.failed_requests || 0}`); lastRequests = rps; }
+                    if (res.status !== 'running') { addLogLine(`🏁 Атака завершена. Статус: ${res.status}. Успешно: ${stats.failed_requests || 0}`); clearInterval(attackInterval); attackInterval = null; $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; activeAttackId = null; showNotification('🏁 Атака завершена!', 'success'); }
                 } catch(e) {}
             }, 1000);
         }
@@ -833,6 +795,7 @@
             line.innerHTML = `<span class="time">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
             log.appendChild(line);
             log.scrollTop = log.scrollHeight;
+            if (log.children.length > 200) log.removeChild(log.firstChild);
         }
 
         // ============================================================
@@ -841,26 +804,12 @@
 
         async function renderProfile() {
             if (!currentUser) { navigateTo('login'); return; }
-            pageContainer.innerHTML = `
-                <h1>👤 Профиль</h1>
-                <div class="dash-card" style="max-width:500px;">
-                    <div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div>
-                    <div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div>
-                    <div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div>
-                    <div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div>
-                    ${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}
-                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                        <button class="btn btn-gold btn-glitch" onclick="showDepositModal()">💎 ПОПОЛНИТЬ</button>
-                        <button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button>
-                    </div>
-                </div>
-                <h2 style="margin-top:24px;">📦 Мои ботнеты</h2>
-                <div id="profileBotnets" class="botnet-list"></div>
-            `;
+            pageContainer.innerHTML = `<h1>👤 Профиль</h1><div class="dash-card" style="max-width:500px;"><div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div><div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div><div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div><div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div>${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}<div style="display:flex;gap:12px;flex-wrap:wrap;"><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button></div></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="profileBotnets" class="botnet-list"></div>`;
             try {
                 const botnets = await apiFetch('/my-botnets');
                 if (!botnets.error) {
                     const container = $('profileBotnets');
+                    if (!container) return;
                     if (botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>'; }
                     else { container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active?'':'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)}</div></div><div class="status ${b.active?'active':'expired'}">${b.active?'✅ Активен':'⏳ Истёк'}</div></div>`).join(''); }
                 }
@@ -873,20 +822,7 @@
 
         async function renderAdmin() {
             if (!currentUser || currentUser.role !== 'admin') { navigateTo('home'); return; }
-            pageContainer.innerHTML = `
-                <h1>🔧 Админ-панель</h1>
-                <div class="dash-card" style="margin:16px 0;border-color:var(--accent-gold);">
-                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-                        <span style="font-size:20px;font-weight:700;color:var(--accent-gold);">💎 ПОПОЛНИТЬ БАЛАНС</span>
-                        <input type="text" id="depositUsername" placeholder="Логин пользователя" style="flex:1;min-width:150px;">
-                        <input type="number" id="depositAmount" placeholder="Сумма $" style="width:150px;">
-                        <button class="btn btn-green btn-glitch" onclick="adminDeposit()">💎 ПОПОЛНИТЬ</button>
-                    </div>
-                </div>
-                <div class="dash-grid" id="adminStats"></div>
-                <h2 style="margin-top:24px;">👥 Пользователи</h2>
-                <div id="adminUsers"></div>
-            `;
+            pageContainer.innerHTML = `<h1>🔧 Админ-панель</h1><div class="dash-card" style="margin:16px 0;border-color:var(--accent-gold);"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span style="font-size:20px;font-weight:700;color:var(--accent-gold);">💎 ПОПОЛНИТЬ БАЛАНС</span><input type="text" id="depositUsername" placeholder="Логин пользователя" style="flex:1;min-width:150px;"><input type="number" id="depositAmount" placeholder="Сумма $" style="width:150px;"><button class="btn btn-green btn-glitch" onclick="window.adminDeposit()">💎 ПОПОЛНИТЬ</button></div><div style="margin-top:8px;font-size:13px;color:var(--text-secondary);">💡 Введите логин и сумму, затем нажмите "ПОПОЛНИТЬ"</div></div><div class="dash-grid" id="adminStats"></div><h2 style="margin-top:24px;">👥 Пользователи</h2><div id="adminUsers"></div>`;
             await refreshAdmin();
         }
 
@@ -895,16 +831,13 @@
                 const stats = await apiFetch('/admin/stats');
                 if (!stats.error) {
                     const container = $('adminStats');
-                    container.innerHTML = `
-                        <div class="dash-card"><div class="card-title">👥 Пользователей</div><div class="card-value purple">${stats.total_users||0}</div></div>
-                        <div class="dash-card"><div class="card-title">🤖 Продано ботнетов</div><div class="card-value green">${stats.total_botnets||0}</div></div>
-                        <div class="dash-card"><div class="card-title">⚔️ Активных атак</div><div class="card-value red">${stats.active_attacks||0}</div></div>
-                        <div class="dash-card"><div class="card-title">💰 Доход</div><div class="card-value gold">${formatCurrency(stats.total_revenue||0)}</div></div>
-                    `;
+                    if (!container) return;
+                    container.innerHTML = `<div class="dash-card"><div class="card-title">👥 Пользователей</div><div class="card-value purple">${stats.total_users||0}</div></div><div class="dash-card"><div class="card-title">🤖 Продано ботнетов</div><div class="card-value green">${stats.total_botnets||0}</div></div><div class="dash-card"><div class="card-title">⚔️ Активных атак</div><div class="card-value red">${stats.active_attacks||0}</div></div><div class="dash-card"><div class="card-title">💰 Доход (без админа)</div><div class="card-value gold">${formatCurrency(stats.total_revenue||0)}</div></div>`;
                 }
                 const users = await apiFetch('/admin/users');
                 if (!users.error) {
                     const container = $('adminUsers');
+                    if (!container) return;
                     let html = `<table class="admin-table"><thead><tr><th>ID</th><th>Логин</th><th>Email</th><th>Баланс</th><th>Роль</th><th>Статус</th><th>Действия</th></tr></thead><tbody>`;
                     users.forEach(u => {
                         const isBanned = u.banned === 1 || u.banned === true;
@@ -925,6 +858,14 @@
             try { const res = await apiFetch(`/admin/unban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь разбанен'); } else showModal('Ошибка', res.error||''); } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
         };
 
+        // ============================================================
+        // ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ
+        // ============================================================
+
+        window.showDepositModal = function() {
+            showModal('💎 Пополнение баланса', '<p style="font-size:16px;">Пополните баланс для покупки ботнетов и поисков.</p>', [{ label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }], '💰', true);
+        };
+
         window.adminDeposit = async function() {
             const username = document.getElementById('depositUsername').value.trim();
             const amount = parseFloat(document.getElementById('depositAmount').value);
@@ -932,13 +873,9 @@
             try {
                 const res = await apiFetch('/admin/add_balance', { method: 'POST', body: JSON.stringify({ username, amount }) });
                 if (res.error) { showModal('❌ Ошибка', res.error); return; }
-                if (res.success) { showModal('✅ Пополнено!', `<p>💰 Новый баланс <strong>${res.username}</strong>: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p>`, [{ label: '🔄 Обновить', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }]); setTimeout(refreshAdmin, 500); }
+                if (res.success) { showModal('✅ Пополнено!', `<p>💰 Новый баланс <strong>${res.username}</strong>: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>➕ Добавлено: <strong style="color:var(--accent-gold);">${formatCurrency(res.added)}</strong></p>`, [{ label: '🔄 Обновить', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }]); setTimeout(refreshAdmin, 500); }
             } catch(e) { showModal('❌ Ошибка', 'Сервер недоступен'); }
         };
-
-        // ============================================================
-        // LOGOUT
-        // ============================================================
 
         window.logout = function() {
             localStorage.removeItem(TOKEN_KEY);
@@ -950,9 +887,8 @@
             navigateTo('home');
         };
 
-        // ============================================================
-        // INIT
-        // ============================================================
+        console.log(`%c\n╔═══════════════════════════════════════╗\n║                                       ║\n║   ██╗   ██╗ ██████╗ ██╗ ██████╗     ║\n║   ██║   ██║██╔═══██╗██║██╔═══██╗    ║\n║   ██║   ██║██║   ██║██║██║   ██║    ║\n║   ╚██╗ ██╔╝██║   ██║██║██║   ██║    ║\n║    ╚████╔╝ ╚██████╔╝██║╚██████╔╝    ║\n║     ╚═══╝   ╚═════╝ ╚═╝ ╚═════╝     ║\n║                                       ║\n║      VO1D SHOP — RENT THE VOID       ║\n║          DESTROY ANYTHING            ║\n║                                       ║\n╚═══════════════════════════════════════╝\n`, 'color: #8b5cf6; font-size: 14px; font-weight: bold;');
+        console.log('%c🔥 WELCOME TO THE VOID, HACKER!', 'color: #06d6a0; font-size: 18px; font-weight: bold;');
 
         function init() {
             const saved = localStorage.getItem(USER_KEY);
