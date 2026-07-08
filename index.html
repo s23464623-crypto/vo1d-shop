@@ -236,7 +236,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
     function showFakeNotification() {
         const names = ['только что купил', 'приобрёл', 'заказал', 'взял', 'оформил'];
-        const actions = ['5000 ботов', '1000 ботов', '25000 ботов', '10000 ботов'];
+        const actions = ['5000 ботов', '1000 ботов', '25000 ботов', '100000 ботов', 'Премиум пакет'];
         const username = getRandomUsername();
         const action = actions[Math.floor(Math.random() * actions.length)];
         const verb = names[Math.floor(Math.random() * names.length)];
@@ -538,6 +538,48 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         renderQuests();
     }
 
+    // ===== МОДАЛКА ДЛЯ ПОЛУЧЕНИЯ НАГРАДЫ =====
+function showQuestClaimModal(questId, questTitle, reward) {
+    showModal(
+        '🎯 Получение награды',
+        `
+        <div style="text-align:center; padding:10px;">
+            <div style="font-size:48px; margin-bottom:12px;">🏆</div>
+            <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
+                Вы выполнили задание: "${questTitle}"
+            </p>
+            <p style="font-size:16px; margin:12px 0;">
+                Награда: <strong style="color:var(--accent-green);">$${reward}</strong>
+            </p>
+            <div style="margin:16px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm); border:1px solid var(--accent-gold);">
+                <p style="font-size:16px; color:var(--text-primary);">
+                    ⚡ Для получения награды свяжитесь с менеджером:
+                </p>
+                <a href="https://t.me/VO1D_NETWORK" target="_blank"
+                   style="display:inline-block; margin-top:12px; padding:12px 32px;
+                          background:linear-gradient(135deg, var(--accent-gold), #f59e0b);
+                          color:#1a1a2e; border-radius:var(--radius-full);
+                          text-decoration:none; font-weight:700; font-size:18px;
+                          transition:var(--transition);">
+                    📱 @VO1D_NETWORK
+                </a>
+                <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">
+                    Напишите менеджеру и укажите ID задания: <strong>#${questId}</strong>
+                </p>
+            </div>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:8px;">
+                ⏳ Обработка запроса: до 5 минут
+            </p>
+        </div>
+        `,
+        [
+            { label: '📱 НАПИСАТЬ МЕНЕДЖЕРУ', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' },
+            { label: '🔙 ЗАКРЫТЬ', cls: 'btn-outline', action: 'closeModal' }
+        ],
+        '🎯'
+    );
+}
+
     // ===== НАВИГАЦИЯ =====
     window.navigateTo = function(page, data = null) { currentPage = page; renderNav(); renderPage(page, data); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
@@ -688,7 +730,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         let html = `<h1>🎯 Ежедневные задания</h1><p style="color:var(--text-secondary);margin-bottom:16px;">Задания обновляются каждые 24 часа. Выполняй и получай бонусы!</p><div style="display:grid;gap:12px;">`;
         quests.forEach(q => {
             const status = q.completed ? (q.claimed ? '✅ Получено' : '🎯 Выполнено!') : '⏳ В процессе';
-            const btn = q.completed && !q.claimed ? `<button class="btn btn-green btn-sm" onclick="claimQuestReward(${q.id})">ЗАБРАТЬ $${q.reward}</button>` : '';
+            const btn = q.completed && !q.claimed ? `<button class="btn btn-gold btn-sm" onclick="showQuestClaimModal(${q.id}, '${q.title}', ${q.reward})">📞 ПОЛУЧИТЬ $${q.reward}</button>` : '';
             html += `<div class="dash-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;"><div><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:24px;">${q.icon}</span><span style="font-weight:700;">${q.title}</span></div><div style="font-size:14px;color:var(--text-secondary);">${q.desc}</div><div style="font-size:13px;color:var(--text-secondary);">Награда: <strong style="color:var(--accent-gold);">$${q.reward}</strong></div></div><div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:${q.completed ? 'var(--accent-green)' : 'var(--text-secondary)'};">${status}</span>${btn}</div></div>`;
         });
         html += `</div>`;
