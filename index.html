@@ -893,14 +893,29 @@
             const modalRoot = $('modalRoot');
 
             function apiFetch(endpoint, options = {}) {
-                const token = localStorage.getItem(TOKEN_KEY);
-                const headers = {
-                    'Content-Type': 'application/json',
-                    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-                    ...(options.headers || {})
-                };
-                return fetch(`${API_BASE}${endpoint}`, { ...options, headers }).then(r => r.json());
-            }
+    const token = localStorage.getItem(TOKEN_KEY);
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        ...(options.headers || {})
+    };
+
+    console.log(`📡 Запрос к ${endpoint}`, { method: options.method || 'GET', body: options.body });
+
+    return fetch(`${API_BASE}${endpoint}`, { ...options, headers })
+        .then(r => {
+            console.log(`📥 Ответ от ${endpoint}:`, r.status);
+            return r.json();
+        })
+        .then(data => {
+            console.log(`📦 Данные от ${endpoint}:`, data);
+            return data;
+        })
+        .catch(err => {
+            console.error(`❌ Ошибка запроса к ${endpoint}:`, err);
+            throw err;
+        });
+}
 
             function formatCurrency(amount) {
                 return `$${Number(amount).toFixed(2)}`;
@@ -1004,78 +1019,299 @@
             }
 
             // ===== МОДАЛКА =====
-            function showModal(title, body, actions = [], icon = '', isDeposit = false) {
-                let iconHtml = icon ? `<div class="modal-icon">${icon}</div>` : '';
-                let depositHtml = '';
-                if (isDeposit) {
-                    depositHtml = `
-                        <div style="text-align:center; margin: 16px 0; padding: 16px; background: var(--bg-surface-2); border-radius: var(--radius-sm);">
-                            <p style="font-size:18px; margin-bottom:12px;">💎 Для пополнения баланса свяжитесь с администратором:</p>
-                            <a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a>
-                            <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">💰 Минимальная сумма: $5</p>
-                            <p style="font-size:13px; color:var(--text-secondary);">🕒 Обработка: до 5 минут</p>
-                        </div>
-                    `;
-                }
-                modalRoot.innerHTML = `
-                    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
-                        <div class="modal-box">
-                            <button class="modal-close" onclick="closeModal()">✕</button>
-                            ${iconHtml}
-                            <h2>${title}</h2>
-                            <div class="modal-body">${body}${depositHtml}</div>
-                            <div class="modal-actions">
-                                ${actions.map(a => `<button class="btn ${a.cls || 'btn-outline'}" onclick="(${a.action})()">${a.label}</button>`).join('')}
-                                <button class="btn btn-outline" onclick="closeModal()">Закрыть</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+            // ===== ГЛОБАЛЬНАЯ ПЕРЕМЕННАЯ ДЛЯ RESOLVE =====
+let modalResolve = null;
+
+// ===== МОДАЛКА (ИСПРАВЛЕННАЯ) =====
+function showModal(title, body, actions = [], icon = '', isDeposit = false) {
+    let iconHtml = icon ? `<div class="modal-icon">${icon}</div>` : '';
+    let depositHtml = '';
+    if (isDeposit) {
+        depositHtml = `
+            <div style="text-align:center; margin: 16px 0; padding: 16px; background: var(--bg-surface-2); border-radius: var(--radius-sm);">
+                <p style="font-size:18px; margin-bottom:12px;">💎 Для пополнения баланса свяжитесь с администратором:</p>
+                <a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a>
+                <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">💰 Минимальная сумма: $5</p>
+                <p style="font-size:13px; color:var(--text-secondary);">🕒 Обработка: до 5 минут</p>
+            </div>
+        `;
+    }
+
+    // Создаём HTML для кнопок с правильными обработчиками
+    let actionsHtml = actions.map((a, index) => {
+        // Генерируем уникальный ID для кнопки
+        const btnId = `modal_btn_${Date.now()}_${index}`;
+        return `<button id="${btnId}" class="btn ${a.cls || 'btn-outline'}">${a.label}</button>`;
+    }).join('');
+
+    modalRoot.innerHTML = `
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-box">
+                <button class="modal-close" id="modalCloseBtn">✕</button>
+                ${iconHtml}
+                <h2>${title}</h2>
+                <div class="modal-body">${body}${depositHtml}</div>
+                <div class="modal-actions">
+                    ${actionsHtml}
+                    <button class="btn btn-outline" id="modalCloseBtn2">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // ===== ПРИВЯЗЫВАЕМ ОБРАБОТЧИКИ =====
+    // Закрытие по клику на фон
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+            if (modalResolve) {
+                modalResolve(false);
+                modalResolve = null;
             }
-            window.closeModal = function() { modalRoot.innerHTML = ''; };
-            window.showModal = showModal;
+        }
+    });
 
-            window.showDepositModal = function() {
-                showModal(
-                    '💎 Пополнение баланса',
-                    '<p style="font-size:16px;">Пополните баланс для покупки ботнетов.</p>',
-                    [
-                        { label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }
-                    ],
-                    '💰',
-                    true
-                );
-            };
+    // Закрытие по крестику
+    document.getElementById('modalCloseBtn').addEventListener('click', function() {
+        closeModal();
+        if (modalResolve) {
+            modalResolve(false);
+            modalResolve = null;
+        }
+    });
 
-            window.adminDeposit = async function() {
-                const username = document.getElementById('depositUsername').value.trim();
-                const amount = parseFloat(document.getElementById('depositAmount').value);
-                if (!username || !amount || amount <= 0) {
-                    showModal('❌ Ошибка', 'Введите логин и сумму (больше 0)');
-                    return;
-                }
-                try {
-                    const res = await apiFetch('/admin/add_balance', {
-                        method: 'POST',
-                        body: JSON.stringify({ username, amount })
-                    });
-                    if (res.error) {
-                        showModal('❌ Ошибка', res.error);
-                        return;
+    // Закрытие по кнопке "Закрыть"
+    document.getElementById('modalCloseBtn2').addEventListener('click', function() {
+        closeModal();
+        if (modalResolve) {
+            modalResolve(false);
+            modalResolve = null;
+        }
+    });
+
+    // ===== ПРИВЯЗЫВАЕМ ДЕЙСТВИЯ К КНОПКАМ =====
+    actions.forEach((a, index) => {
+        const btnId = `modal_btn_${Date.now()}_${index}`;
+        const btn = document.getElementById(btnId);
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Выполняем действие
+                if (typeof a.action === 'function') {
+                    a.action();
+                } else if (typeof a.action === 'string') {
+                    // Если action это строка с кодом
+                    try {
+                        eval(a.action);
+                    } catch(err) {
+                        console.error('Ошибка выполнения action:', err);
                     }
-                    if (res.success) {
-                        showModal('✅ Пополнено!', `
-                            <p>💰 Новый баланс <strong>${res.username}</strong>: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p>
-                            <p>➕ Добавлено: <strong style="color:var(--accent-gold);">${formatCurrency(res.added)}</strong></p>
-                        `, [
-                            { label: '🔄 Обновить', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }
-                        ]);
-                        setTimeout(refreshAdmin, 500);
-                    }
-                } catch(e) {
-                    showModal('❌ Ошибка', 'Сервер недоступен');
                 }
-            };
+            });
+        }
+    });
+}
+
+// ===== ЗАКРЫТИЕ МОДАЛКИ =====
+window.closeModal = function() {
+    modalRoot.innerHTML = '';
+    // НЕ сбрасываем modalResolve здесь, чтобы resolve мог отработать
+};
+
+// ===== ОБЁРТКА ДЛЯ МОДАЛКИ С PROMISE =====
+function showModalPromise(title, body, actions = [], icon = '') {
+    return new Promise((resolve) => {
+        // Сохраняем resolve в глобальную переменную
+        modalResolve = resolve;
+
+        // Модифицируем actions, чтобы каждая кнопка вызывала resolve
+        const wrappedActions = actions.map(a => ({
+            ...a,
+            action: function() {
+                // Если у кнопки есть своё действие, выполняем его
+                if (typeof a.action === 'function') {
+                    a.action();
+                } else if (typeof a.action === 'string') {
+                    try {
+                        eval(a.action);
+                    } catch(err) {
+                        console.error('Ошибка выполнения action:', err);
+                    }
+                }
+                // Закрываем модалку и резолвим с true
+                closeModal();
+                if (modalResolve) {
+                    modalResolve(true);
+                    modalResolve = null;
+                }
+            }
+        }));
+
+        // Добавляем кнопку "Отмена" которая резолвит с false
+        wrappedActions.push({
+            label: '❌ Отмена',
+            cls: 'btn-outline',
+            action: function() {
+                closeModal();
+                if (modalResolve) {
+                    modalResolve(false);
+                    modalResolve = null;
+                }
+            }
+        });
+
+        showModal(title, body, wrappedActions, icon);
+    });
+}
+
+// ===== ИСПРАВЛЕННАЯ ФУНКЦИЯ ПОКУПКИ =====
+window.handleBuy = async function() {
+    console.log('🛒 КНОПКА КУПИТЬ НАЖАТА!');
+
+    const count = parseInt($('botSlider').value);
+    const days = parseInt($('durationSelect').value);
+    const options = {};
+    document.querySelectorAll('.opt-check:checked').forEach(el => {
+        options[el.dataset.key] = true;
+    });
+
+    console.log('📦 Данные для покупки:', { count, days, options });
+
+    if (count < 500) {
+        showModal('❌ МИНИМУМ 500 БОТОВ!', `
+            <div style="text-align:center; padding:10px;">
+                <div style="font-size:48px; margin-bottom:12px;">🤏</div>
+                <p style="font-size:18px; font-weight:700; color:var(--accent-red);">
+                    Минимальная покупка — <strong>500 ботов</strong>
+                </p>
+                <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                    ${count} ботов — это слишком мало, атака не сработает.
+                </p>
+            </div>
+        `, [
+            { label: '🔙 ПОНЯЛ', cls: 'btn-gold', action: 'closeModal' }
+        ]);
+        return;
+    }
+
+    // ===== ПРЕДУПРЕЖДЕНИЕ ДЛЯ 500-999 БОТОВ =====
+    if (count >= 500 && count < 1000) {
+        console.log('⚠️ Показываем предупреждение для', count, 'ботов');
+
+        // Используем showModalPromise для ожидания выбора
+        const userConfirmed = await showModalPromise(
+            '⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ',
+            `
+            <div style="text-align:center; padding:10px;">
+                <div style="font-size:48px; margin-bottom:12px;">⚠️</div>
+                <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
+                    Вы покупаете <strong>${count}</strong> ботов
+                </p>
+                <p style="margin:12px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                    <span style="color:var(--accent-red); font-size:20px;">🔴 ВНИМАНИЕ:</span><br>
+                    <span style="font-size:16px;">При <strong>${count} ботах</strong> защищённый сайт (Cloudflare/DDoS-Guard) <strong style="color:var(--accent-red);">МОЖЕТ НЕ УПАСТЬ!</strong></span>
+                </p>
+                <p style="color:var(--text-secondary); font-size:14px;">
+                    Это минимальный уровень мощности.<br>
+                    Рекомендуем купить <strong style="color:var(--accent-green);">от 1000+ ботов</strong> для гарантии!
+                </p>
+                <div style="margin-top:16px; padding:12px; background:rgba(239,68,68,0.1); border-radius:var(--radius-sm); border:1px solid var(--accent-red);">
+                    <span style="color:var(--accent-red);">⚠️</span>
+                    <span style="color:var(--text-primary);">Сайты с защитой могут выдержать ${count} ботов!</span>
+                </div>
+                <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">
+                    💡 ${count} ботов — <span style="color:var(--accent-gold);">НОРМАЛЬНО, но без гарантии</span>
+                </p>
+            </div>
+            `,
+            [
+                {
+                    label: '✅ ВСЁ РАВНО КУПИТЬ',
+                    cls: 'btn-red',
+                    action: function() {
+                        console.log('✅ Пользователь нажал ВСЁ РАВНО КУПИТЬ');
+                        // Возвращаем true через resolve
+                    }
+                },
+                {
+                    label: '🔙 ДОКУПЛЮ БОЛЬШЕ',
+                    cls: 'btn-gold',
+                    action: function() {
+                        console.log('❌ Пользователь нажал ДОКУПЛЮ БОЛЬШЕ');
+                        // Возвращаем false через resolve
+                    }
+                }
+            ],
+            '⚠️'
+        );
+
+        console.log('📊 Результат выбора пользователя:', userConfirmed);
+
+        if (!userConfirmed) {
+            console.log('❌ Пользователь передумал, покупка отменена');
+            return;
+        }
+        console.log('✅ Пользователь подтвердил покупку, продолжаем...');
+    }
+
+    // ===== ОТПРАВКА ЗАПРОСА НА СЕРВЕР =====
+    console.log('📤 Отправка запроса на сервер...');
+    try {
+        const res = await apiFetch('/buy', {
+            method: 'POST',
+            body: JSON.stringify({ bot_count: count, duration_days: days, options })
+        });
+        console.log('📥 Ответ сервера:', res);
+
+        if (res.success === true || res.botnet_id) {
+            console.log('✅ Покупка успешна!');
+            currentUser.balance = res.new_balance;
+            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+
+            if (typeof explosionEffect === 'function') explosionEffect();
+
+            showModal('✅ Покупка успешна!', `
+                <p>🤖 <strong>${res.bot_count}</strong> ботов</p>
+                <p>📅 <strong>${res.duration_days}</strong> дней</p>
+                <p>💰 Стоимость: <strong>${formatCurrency(res.price)}</strong></p>
+                <p>💳 Новый баланс: <strong>${formatCurrency(res.new_balance)}</strong></p>
+                <p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p>
+                ${res.bot_count < 1000 ? `<p style="color:var(--accent-gold); margin-top:8px;">⚠️ ${res.bot_count} ботов — защищённый сайт может не упасть!</p>` : `<p style="color:var(--accent-green); margin-top:8px;">🔥 ${res.bot_count} ботов — гарантированный успех!</p>`}
+            `, [
+                { label: '⚔️ К АТАКЕ', cls: 'btn-red', action: '()=>{ closeModal(); navigateTo("attack"); }' },
+                { label: '📊 ДАШБОРД', cls: 'btn-purple', action: '()=>{ closeModal(); navigateTo("dashboard"); }' }
+            ]);
+            userBalance.textContent = formatCurrency(currentUser.balance);
+            if (typeof showNotification === 'function') showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
+            return;
+        } else if (res.error) {
+            if (res.error.includes('Insufficient balance')) {
+                const price = parseFloat($('buyPrice').textContent) || 0;
+                showModal('❌ Недостаточно средств', `
+                    <p>У вас недостаточно средств для покупки.</p>
+                    <p style="margin:12px 0; padding:12px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                        💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>
+                        💰 Нужно: <strong>${formatCurrency(price)}</strong>
+                    </p>
+                `, [
+                    { label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); window.showDepositModal(); }' }
+                ]);
+                return;
+            }
+            showModal('❌ Ошибка покупки', res.error);
+            return;
+        } else {
+            console.warn('⚠️ Неизвестный ответ:', res);
+            showModal('⚠️ Неизвестный ответ', `
+                <p>Сервер вернул неожиданный ответ.</p>
+                <pre style="background:#0a0a0a;padding:8px;border-radius:4px;font-size:11px;overflow-x:auto;">${JSON.stringify(res, null, 2)}</pre>
+            `);
+        }
+    } catch(e) {
+        console.error('❌ Ошибка при покупке:', e);
+        showModal('❌ Ошибка', 'Сервер недоступен или ошибка соединения.');
+    }
+};
 
             window.navigateTo = function(page, data = null) {
                 currentPage = page;
@@ -1445,8 +1681,11 @@ window.handleBuy = async function() {
         return;
     }
 
+    // ===== ПРЕДУПРЕЖДЕНИЕ ДЛЯ 500-999 БОТОВ =====
     if (count >= 500 && count < 1000) {
-        const confirmBuy = await new Promise((resolve) => {
+        // Используем Promise для ожидания выбора пользователя
+        const userConfirmed = await new Promise((resolve) => {
+            // Показываем модалку с двумя кнопками
             showModal(
                 '⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ',
                 `
@@ -1473,19 +1712,31 @@ window.handleBuy = async function() {
                 </div>
                 `,
                 [
-                    { label: '✅ ВСЁ РАВНО КУПИТЬ', cls: 'btn-red', action: '()=>{ closeModal(); resolve(true); }' },
-                    { label: '🔙 ДОКУПЛЮ БОЛЬШЕ', cls: 'btn-gold', action: '()=>{ closeModal(); resolve(false); }' }
+                    {
+                        label: '✅ ВСЁ РАВНО КУПИТЬ',
+                        cls: 'btn-red',
+                        action: '()=>{ console.log("✅ Пользователь нажал ВСЁ РАВНО КУПИТЬ"); closeModal(); resolve(true); }'
+                    },
+                    {
+                        label: '🔙 ДОКУПЛЮ БОЛЬШЕ',
+                        cls: 'btn-gold',
+                        action: '()=>{ console.log("❌ Пользователь нажал ДОКУПЛЮ БОЛЬШЕ"); closeModal(); resolve(false); }'
+                    }
                 ],
                 '⚠️'
             );
         });
-        if (!confirmBuy) {
-            console.log('❌ Пользователь передумал');
+
+        console.log('📊 Результат выбора пользователя:', userConfirmed);
+
+        if (!userConfirmed) {
+            console.log('❌ Пользователь передумал, покупка отменена');
             return;
         }
-        console.log('✅ Пользователь подтвердил покупку');
+        console.log('✅ Пользователь подтвердил покупку, продолжаем...');
     }
 
+    // ===== ОТПРАВКА ЗАПРОСА НА СЕРВЕР =====
     console.log('📤 Отправка запроса на сервер...');
     try {
         const res = await apiFetch('/buy', {
@@ -1494,14 +1745,14 @@ window.handleBuy = async function() {
         });
         console.log('📥 Ответ сервера (полный):', res);
 
-        // ===== ПРОВЕРКА НА УСПЕХ (201 ИЛИ success: true) =====
+        // ===== ПРОВЕРКА НА УСПЕХ =====
         if (res.success === true || res.botnet_id) {
             console.log('✅ Покупка успешна!');
             currentUser.balance = res.new_balance;
             localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-            
+
             if (typeof explosionEffect === 'function') explosionEffect();
-            
+
             showModal('✅ Покупка успешна!', `
                 <p>🤖 <strong>${res.bot_count}</strong> ботов</p>
                 <p>📅 <strong>${res.duration_days}</strong> дней</p>
@@ -1515,6 +1766,7 @@ window.handleBuy = async function() {
             ]);
             userBalance.textContent = formatCurrency(currentUser.balance);
             if (typeof showNotification === 'function') showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
+            return;
         } else if (res.error) {
             // ===== ОБРАБОТКА ОШИБОК =====
             if (res.error.includes('Insufficient balance')) {
