@@ -230,15 +230,9 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
     // ===== БЕСПЛАТНЫЕ ЗАПРОСЫ IP (СОХРАНЯЮТСЯ В localStorage) =====
     let freeIpSearches = parseInt(localStorage.getItem('freeIpSearches')) || 2;
-    const MAX_FREE_IP = 2;
-
-    const $ = (id) => document.getElementById(id);
-    const pageContainer = $('pageContainer');
-    const navLinks = $('navLinks');
-    const userName = $('userName');
-    const userBalance = $('userBalance');
-    const modalRoot = $('modalRoot');
-    const notifContainer = $('notifContainer');
+if (freeIpSearches < 0) freeIpSearches = 0;
+if (freeIpSearches > 2) freeIpSearches = 2;
+const MAX_FREE_IP = 2;
 
     // ===== СПИСОК ЮЗЕРНЕЙМОВ =====
     const USERNAMES = ['@WIIKAWAOA','@SOKLOMKOV','@MOVOLIK','@KARAPUZIK','@ZELIBOBA','@MAMOKLAD','@RADOMIRKA','@VOVOLIKO','@KOLOBOKOV','@BURATINKA','@MALVINKA','@PIEROTIK','@KARBASIK','@BAMBARBIA','@SHURUPCHIK','@GVOZDIKOV','@MOLOTOKOV','@TOPORIKOV','@PIKACHUHA','@BULDOZER','@EKAVATOR','@TRAKTORIK','@SAMOSVAL','@BETONMIX','@KRANOVSKY','@LIFTERIK','@POGROZKA','@GRUZCHIK','@PAKETIKOV','@KOROBKIN','@YASHIKOV','@SKLADKIN','@TARAKANOV'];
@@ -348,115 +342,116 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
     // ===== ЗАБРАТЬ НАГРАДУ С КВЕСТА =====
     function claimQuestReward(questId) {
-        console.log('🔘 claimQuestReward вызвана, questId:', questId);
+    console.log('🔘 claimQuestReward вызвана, questId:', questId);
 
-        if (!currentUser) {
-            showNotification('❌ Войдите в аккаунт!', 'error');
-            return;
-        }
+    if (!currentUser) {
+        showNotification('❌ Войдите в аккаунт!', 'error');
+        return;
+    }
 
-        const quests = getDailyQuests();
-        if (!quests || !Array.isArray(quests)) {
-            showNotification('❌ Ошибка загрузки заданий', 'error');
-            return;
-        }
+    const quests = getDailyQuests();
+    if (!quests || !Array.isArray(quests)) {
+        showNotification('❌ Ошибка загрузки заданий', 'error');
+        return;
+    }
 
-        const quest = quests.find(q => q.id === questId);
-        if (!quest) {
-            showNotification('❌ Задание не найдено', 'error');
-            return;
-        }
+    const quest = quests.find(q => q.id === questId);
+    if (!quest) {
+        showNotification('❌ Задание не найдено', 'error');
+        return;
+    }
 
-        if (!quest.completed) {
-            showNotification('❌ Задание ещё не выполнено', 'error');
-            return;
-        }
+    if (!quest.completed) {
+        showNotification('❌ Задание ещё не выполнено', 'error');
+        return;
+    }
 
-        if (quest.claimed) {
-            showNotification('❌ Награда уже получена', 'error');
-            return;
-        }
+    if (quest.claimed) {
+        showNotification('❌ Награда уже получена', 'error');
+        return;
+    }
 
-        // Считаем награду
-        let rewardText = quest.reward;
-        let moneyReward = 0;
-        let freeSearchesReward = 0;
+    // Считаем награду
+    let rewardText = quest.reward;
+    let moneyReward = 0;
+    let freeSearchesReward = 0;
 
-        // Парсим награду
-        const moneyMatch = rewardText.match(/\$(\d+)/);
-        if (moneyMatch) moneyReward = parseInt(moneyMatch[1]);
+    const moneyMatch = rewardText.match(/\$(\d+)/);
+    if (moneyMatch) moneyReward = parseInt(moneyMatch[1]);
 
-        const searchMatch = rewardText.match(/(\d+)\s*поиска/);
-        if (searchMatch) freeSearchesReward = parseInt(searchMatch[1]);
+    const searchMatch = rewardText.match(/(\d+)\s*поиска/);
+    if (searchMatch) freeSearchesReward = parseInt(searchMatch[1]);
 
-        // Показываем модалку с наградой
-        showModal(
-            '💎 ЗАБРАТЬ БАЛАНС С КВЕСТА',
-            `
-            <div style="text-align:center; padding:10px;">
-                <div style="font-size:48px; margin-bottom:12px;">💎</div>
-                <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
-                    Задание выполнено!
-                </p>
-                <p style="font-size:16px; margin:8px 0;">
-                    Вы заработали: <strong style="color:var(--accent-green);">${rewardText}</strong>
-                </p>
-                <p style="font-size:14px; color:var(--text-secondary); margin:4px 0;">
-                    Задание: <strong>${quest.title}</strong>
-                </p>
-                <div style="margin:16px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                    <p style="font-size:16px; margin-bottom:8px;">💎 Для получения награды свяжитесь с администратором:</p>
-                    <a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a>
-                    <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">🕒 Обработка: до 5 минут</p>
-                </div>
+    // Показываем модалку
+    showModal(
+        '💎 ЗАБРАТЬ БАЛАНС С КВЕСТА',
+        `
+        <div style="text-align:center; padding:10px;">
+            <div style="font-size:48px; margin-bottom:12px;">💎</div>
+            <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
+                Задание выполнено!
+            </p>
+            <p style="font-size:16px; margin:8px 0;">
+                Вы заработали: <strong style="color:var(--accent-green);">${rewardText}</strong>
+            </p>
+            <p style="font-size:14px; color:var(--text-secondary); margin:4px 0;">
+                Задание: <strong>${quest.title}</strong>
+            </p>
+            <div style="margin:16px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                <p style="font-size:16px; margin-bottom:8px;">💎 Для получения награды свяжитесь с администратором:</p>
+                <a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a>
+                <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">🕒 Обработка: до 5 минут</p>
             </div>
-            `,
-            [
-                {
-                    label: '📱 Написать @VO1D_NETWORK',
-                    cls: 'btn-gold',
-                    action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }'
-                },
-                {
-                    label: '✅ Я НАПИСАЛ',
-                    cls: 'btn-green',
-                    action: function() {
-                        const quests2 = getDailyQuests();
-                        if (!quests2 || !Array.isArray(quests2)) {
-                            showNotification('❌ Ошибка', 'error');
-                            return;
-                        }
-                        const q = quests2.find(q => q.id === questId);
-                        if (q) {
-                            q.claimed = true;
+        </div>
+        `,
+        [
+            {
+                label: '📱 Написать @VO1D_NETWORK',
+                cls: 'btn-gold',
+                action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }'
+            },
+            {
+                label: '✅ Я НАПИСАЛ',
+                cls: 'btn-green',
+                action: function() {
+                    const quests2 = getDailyQuests();
+                    if (!quests2 || !Array.isArray(quests2)) {
+                        showNotification('❌ Ошибка', 'error');
+                        return;
+                    }
+                    const q = quests2.find(q => q.id === questId);
+                    if (q) {
+                        q.claimed = true;
 
-                            // Начисляем награду
-                            if (moneyReward > 0) {
-                                currentUser.balance = (currentUser.balance || 0) + moneyReward;
-                                localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                                userBalance.textContent = formatCurrency(currentUser.balance);
-                            }
-                            if (freeSearchesReward > 0) {
-                                freeIpSearches += freeSearchesReward;
-                                localStorage.setItem('freeIpSearches', freeIpSearches.toString());
-                                showNotification(`✅ +${freeSearchesReward} бесплатных поисков по IP!`, 'success');
-                            }
-
-                            const username = currentUser.username;
-                            localStorage.setItem(`dailyQuests_${username}`, JSON.stringify({
-                                timestamp: parseInt(localStorage.getItem(`lastQuestReset_${username}`)) || Date.now(),
-                                quests: quests2
-                            }));
-                            showNotification(`✅ Получено: ${rewardText}`, 'success');
-                            if (currentPage === 'quests') renderQuests();
-                            closeModal();
+                        // Начисляем награду
+                        if (moneyReward > 0) {
+                            currentUser.balance = (currentUser.balance || 0) + moneyReward;
+                            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                            userBalance.textContent = formatCurrency(currentUser.balance);
                         }
+                        if (freeSearchesReward > 0) {
+                            freeIpSearches += freeSearchesReward;
+                            if (freeIpSearches > 10) freeIpSearches = 10;
+                            localStorage.setItem('freeIpSearches', freeIpSearches.toString());
+                            showNotification(`✅ +${freeSearchesReward} бесплатных поисков по IP!`, 'success');
+                        }
+
+                        const username = currentUser.username;
+                        localStorage.setItem(`dailyQuests_${username}`, JSON.stringify({
+                            timestamp: parseInt(localStorage.getItem(`lastQuestReset_${username}`)) || Date.now(),
+                            quests: quests2
+                        }));
+                        showNotification(`✅ Получено: ${rewardText}`, 'success');
+                        if (currentPage === 'quests') renderQuests();
+                        closeModal();
                     }
                 }
-            ],
-            '💎'
-        );
-    }
+            }
+        ],
+        '💎'
+    );
+}
+
 
     function renderQuests() {
         if (!currentUser) {
@@ -743,113 +738,143 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     // ============================================================
 
     window.handleGeoSearch = async function() {
-        if (!currentUser) {
-            showModal('❌ Ошибка', 'Войдите в аккаунт!');
+    if (!currentUser) {
+        showModal('❌ Ошибка', 'Войдите в аккаунт!');
+        return;
+    }
+
+    const ipInput = document.getElementById('ipInput');
+    const ip = ipInput.value.trim();
+    if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
+    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+    if (!ipRegex.test(ip) && ip !== 'localhost' && ip !== '127.0.0.1') {
+        showModal('❌ Ошибка', 'Введите корректный IP адрес');
+        return;
+    }
+
+    // Проверяем бесплатные запросы
+    let useFree = true;
+    if (freeIpSearches <= 0) {
+        // Предлагаем купить за $2
+        const confirmBuy = await new Promise((resolve) => {
+            showModal(
+                '💎 НЕТ БЕСПЛАТНЫХ ЗАПРОСОВ',
+                `
+                <div style="text-align:center; padding:10px;">
+                    <div style="font-size:48px; margin-bottom:12px;">🔍</div>
+                    <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
+                        У вас закончились бесплатные поиски
+                    </p>
+                    <p style="font-size:14px; color:var(--text-secondary); margin:8px 0;">
+                        Стоимость одного поиска: <strong style="color:var(--accent-green);">$2</strong>
+                    </p>
+                    <p style="font-size:13px; color:var(--text-secondary);">
+                        Ваш баланс: <strong>${formatCurrency(currentUser.balance || 0)}</strong>
+                    </p>
+                    <div style="margin:16px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                        <p style="font-size:14px;">💰 Оплатить $2 за поиск?</p>
+                    </div>
+                </div>
+                `,
+                [
+                    {
+                        label: '💎 КУПИТЬ ЗА $2',
+                        cls: 'btn-gold',
+                        action: function() {
+                            closeModal();
+                            resolve(true);
+                        }
+                    },
+                    {
+                        label: '❌ ОТМЕНА',
+                        cls: 'btn-outline',
+                        action: function() {
+                            closeModal();
+                            resolve(false);
+                        }
+                    }
+                ],
+                '💎'
+            );
+        });
+
+        if (!confirmBuy) return;
+
+        // Проверяем баланс
+        if ((currentUser.balance || 0) < 2) {
+            showModal('❌ Недостаточно средств', `
+                <p>У вас недостаточно средств для оплаты поиска.</p>
+                <p style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">
+                    💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>
+                    💰 Нужно: <strong>$2</strong>
+                </p>
+            `, [{
+                label: '💎 ПОПОЛНИТЬ',
+                cls: 'btn-gold',
+                action: function() {
+                    closeModal();
+                    window.showDepositModal();
+                }
+            }]);
             return;
         }
 
-        const ipInput = document.getElementById('ipInput');
-        const ip = ipInput.value.trim();
-        if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
-        const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
-        if (!ipRegex.test(ip) && ip !== 'localhost' && ip !== '127.0.0.1') { showModal('❌ Ошибка', 'Введите корректный IP адрес'); return; }
+        // Списываем $2
+        currentUser.balance -= 2;
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        userBalance.textContent = formatCurrency(currentUser.balance);
+        showNotification('💳 Списано $2 за поиск', 'warning');
+        useFree = false;
+    } else {
+        // Используем бесплатный запрос
+        freeIpSearches--;
+        localStorage.setItem('freeIpSearches', freeIpSearches.toString());
+        showNotification(`🔍 Осталось ${freeIpSearches} бесплатных поисков`, 'info');
+        useFree = true;
+    }
 
-        // Проверяем бесплатные запросы
-        if (freeIpSearches <= 0) {
-            // Предлагаем купить за $2
-            const confirmBuy = await new Promise((resolve) => {
-                showModal(
-                    '💎 НЕТ БЕСПЛАТНЫХ ЗАПРОСОВ',
-                    `
-                    <div style="text-align:center; padding:10px;">
-                        <div style="font-size:48px; margin-bottom:12px;">🔍</div>
-                        <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
-                            У вас закончились бесплатные поиски
-                        </p>
-                        <p style="font-size:14px; color:var(--text-secondary); margin:8px 0;">
-                            Стоимость одного поиска: <strong style="color:var(--accent-green);">$2</strong>
-                        </p>
-                        <p style="font-size:13px; color:var(--text-secondary);">
-                            Ваш баланс: <strong>${formatCurrency(currentUser.balance || 0)}</strong>
-                        </p>
-                        <div style="margin:16px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
-                            <p style="font-size:14px;">💰 Оплатить $2 за поиск?</p>
-                        </div>
-                    </div>
-                    `,
-                    [
-                        { label: '💎 КУПИТЬ ЗА $2', cls: 'btn-gold', action: '()=>{ closeModal(); resolve(true); }' },
-                        { label: '❌ ОТМЕНА', cls: 'btn-outline', action: '()=>{ closeModal(); resolve(false); }' }
-                    ],
-                    '💎'
-                );
-            });
+    // Выполняем поиск
+    const resultDiv = document.getElementById('geoResult');
+    resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
 
-            if (!confirmBuy) return;
-
-            // Проверяем баланс
-            if ((currentUser.balance || 0) < 2) {
-                showModal('❌ Недостаточно средств', `
-                    <p>У вас недостаточно средств для оплаты поиска.</p>
-                    <p style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">
-                        💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>
-                        💰 Нужно: <strong>$2</strong>
-                    </p>
-                `, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: '()=>{ closeModal(); window.showDepositModal(); }' }]);
-                return;
-            }
-
-            // Списываем $2
-            currentUser.balance -= 2;
-            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-            userBalance.textContent = formatCurrency(currentUser.balance);
-            showNotification('💳 Списано $2 за поиск', 'warning');
-        } else {
-            // Используем бесплатный запрос
-            freeIpSearches--;
-            localStorage.setItem('freeIpSearches', freeIpSearches.toString());
-            showNotification(`🔍 Осталось ${freeIpSearches} бесплатных поисков`, 'info');
+    try {
+        const response = await fetch(`https://ipapi.co/${ip}/json/`);
+        if (!response.ok) throw new Error('API error');
+        const data = await response.json();
+        if (data.error) {
+            resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`;
+            return;
         }
 
-        // Выполняем поиск
-        const resultDiv = document.getElementById('geoResult');
-        resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
+        const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
+        const isLocal = ip === '127.0.0.1' || ip === 'localhost' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.16.');
 
-        try {
-            const response = await fetch(`https://ipapi.co/${ip}/json/`);
-            if (!response.ok) throw new Error('API error');
-            const data = await response.json();
-            if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`; return; }
-
-            const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
-            const isLocal = ip === '127.0.0.1' || ip === 'localhost' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.16.');
-
-            resultDiv.innerHTML = `
-                <div class="geo-card" style="animation: fadeInUp 0.5s ease;">
-                    <h3 style="color:var(--accent-purple); margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3>
-                    ${isLocal ? `<p style="color:var(--accent-gold); margin-bottom:12px;">⚠️ Локальный IP (не маршрутизируется)</p>` : ''}
-                    <div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div>
-                    <div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div>
-                    <div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div>
-                    <div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div>
-                    <div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div>
-                    <div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div>
-                    <div class="geo-row"><span style="color:var(--text-secondary);">💱 Валюта:</span> <strong>${data.currency || '—'}</strong></div>
-                    <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border-color); display:flex; gap:16px; flex-wrap:wrap;">
-                        <a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple); text-decoration:none; font-weight:600;">🗺️ Открыть на карте</a>
-                        <a href="https://whatismyipaddress.com/ip/${ip}" target="_blank" style="color:var(--text-secondary); text-decoration:none; font-size:14px;">🔍 Подробнее</a>
-                    </div>
-                    <div class="free-count">🔍 Осталось бесплатных поисков: ${freeIpSearches}</div>
+        resultDiv.innerHTML = `
+            <div class="geo-card" style="animation: fadeInUp 0.5s ease;">
+                <h3 style="color:var(--accent-purple); margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3>
+                ${isLocal ? `<p style="color:var(--accent-gold); margin-bottom:12px;">⚠️ Локальный IP (не маршрутизируется)</p>` : ''}
+                <div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div>
+                <div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div>
+                <div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div>
+                <div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div>
+                <div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div>
+                <div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div>
+                <div class="geo-row"><span style="color:var(--text-secondary);">💱 Валюта:</span> <strong>${data.currency || '—'}</strong></div>
+                <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border-color); display:flex; gap:16px; flex-wrap:wrap;">
+                    <a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple); text-decoration:none; font-weight:600;">🗺️ Открыть на карте</a>
+                    <a href="https://whatismyipaddress.com/ip/${ip}" target="_blank" style="color:var(--text-secondary); text-decoration:none; font-size:14px;">🔍 Подробнее</a>
                 </div>
-            `;
+                <div class="free-count">🔍 Осталось бесплатных поисков: ${freeIpSearches}</div>
+            </div>
+        `;
 
-            // Проверяем задание по поиску IP
-            checkQuests('ip_search', 1);
+        // Проверяем задание по поиску IP
+        checkQuests('ip_search', 1);
 
-        } catch(e) {
-            resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных. Проверьте подключение.</p>`;
-        }
-    };
+    } catch(e) {
+        resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных. Проверьте подключение.</p>`;
+    }
+};
 
     window.getMyIp = async function() {
         try {
