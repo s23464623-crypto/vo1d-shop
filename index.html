@@ -175,23 +175,7 @@
         .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
         .notif-toast .notif-action { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
         .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
-        .quest-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 20px 24px; transition: var(--transition); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
-        .quest-card:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-glow); transform: translateY(-2px); }
-        .quest-card .quest-info { display: flex; align-items: center; gap: 12px; }
-        .quest-card .quest-icon { font-size: 32px; }
-        .quest-card .quest-title { font-weight: 700; color: var(--text-white); }
-        .quest-card .quest-desc { font-size: 14px; color: var(--text-secondary); }
-        .quest-card .quest-reward { font-size: 14px; color: var(--accent-gold); font-weight: 600; }
-        .quest-card .quest-status { font-size: 13px; padding: 4px 12px; border-radius: var(--radius-full); }
-        .quest-card .quest-status.done { background: rgba(6, 214, 160, 0.15); color: var(--accent-green); }
-        .quest-card .quest-status.pending { background: rgba(251, 191, 36, 0.15); color: var(--accent-gold); }
-        .quest-card .quest-status.claimed { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
-        .geo-container { max-width: 700px; margin: 0 auto; }
-        .geo-container .geo-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; margin: 16px 0; transition: var(--transition); }
-        .geo-container .geo-card:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-glow); }
-        .geo-container .geo-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
-        .geo-container .geo-row:last-child { border-bottom: none; }
-        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .page-container { padding: 16px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; } .music-player .controls audio { height: 24px; } .notif-toast { bottom: 70px; right: 10px; min-width: 200px; padding: 10px 12px; } .quest-card { padding: 16px; } }
+        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .page-container { padding: 16px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; } .music-player .controls audio { height: 24px; } .notif-toast { bottom: 70px; right: 10px; min-width: 200px; padding: 10px 12px; } }
     </style>
 </head>
 <body>
@@ -246,28 +230,20 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     const notifContainer = $('notifContainer');
 
     // ===== СПИСОК ЮЗЕРНЕЙМОВ =====
-    const USERNAMES = ['@WIIKAWAOA','@SOKLOMKOV','@MOVOLIK','@KARAPUZIK','@ZELIBOBA','@MAMOKLAD','@RADOMIRKA','@VOVOLIKO','@KOLOBOKOV','@BURATINKA','@MALVINKA','@PIEROTIK','@KARBASIK','@BAMBARBIA','@SHURUPCHIK','@GVOZDIKOV','@MOLOTOKOV','@TOPORIKOV','@PIKACHUHA','@BULDOZER','@EKAVATOR','@TRAKTORIK','@SAMOSVAL','@BETONMIX','@KRANOVSKY','@LIFTERIK','@POGROZKA','@GRUZCHIK','@PAKETIKOV','@KOROBKIN','@YASHIKOV','@SKLADKIN','@TARAKANOV'];
+    const USERNAMES = ['@WIIKAWAOA','@SOKLOMKOV','@MOVOLIK','@KARAPUZIK','@ZELIBOBA','@MAMOKLAD','@RADOMIRKA','@VOVOLIKO','@KOLOBOKOV','@BURATINKA','@MALVINKA','@PIEROTIK','@KARBASIK','@BAMBARBIA','@SHURUPCHIK','@GVOZDIKOV','@MOLOTOKOV','@TOPORIKOV','@PIKACHUHA','@BULDOZER','@EKAVATOR','@TRAKTORIK','@SAMOSVAL','@BETONMIX','@KRANOVSKY','@LIFTERIK','@POGROZKA','@GRUZCHIK','@PAKETIKOV','@KOROBKIN','@YASHIKOV','@SKLADKIN','@TARAKANOV','@TARAKASHKA','@BUKASHKIN','@KOMARIKOV','@MURAWEY','@PAUCHOK','@STREKOZA','@BABOCHKA','@ZHUKOVSKY','@OSIKIN','@PCHOLKIN','@SHMELIKOV','@MURAVEYKO','@TARANTUL','@SKORPION','@KOBRAKIN','@PYTHONOV','@BOAKIN','@ZMEIKIN','@DRACONOV','@LIZARDKIN','@IGUANOV','@KAMELEON','@GEKKONOV','@VORONKIN','@SOKOLOVSKY','@ORELKIN','@YASTREBOV','@FALCONER','@BERKUTOV','@KANAREYKA','@POPUGAICHIK','@PINGVINOV','@PENGUINOV','@ALBATROS','@CHAYKIN','@UTKINOV','@GUSAKIN','@LEBEDKIN','@PAVLINOV','@FAZANCHIK','@KURITSA','@PETUKHOV','@INDYUKOV','@STRUSKIN','@ZEBRIK','@TIGRENOK','@LENIVEC','@SLONIKOV','@BEHEMOT','@NOSOROG','@GIPPO','@KROKODIL','@ALLIGATOR','@KAYMANOV','@VARANOV','@TERMITOV','@MURAVEYNIK','@ULITKIN','@SMAYKLIK','@EMOJIKIN','@STIKEROV','@GIFKIN','@MEMASIK','@HACKERMAN','@CODERKIN','@DEVELOPER','@PROGRAMIST','@ALGORITM','@PYTHONCHIK','@JAVAKIN','@PHPNIK','@RUBYMAN','@GOOGLER','@YANDEXOV','@MAILKIN','@TELEGRAM','@WHATSAPP','@VIBERKIN','@SIGNALOV','@SKYPEKIN','@ZOOMER','@MEETKIN','@DISCORDANT','@TWITCHER','@YOUTUBER','@TIKTOKER','@INSTAGRAM','@FACEBOOK','@TWITTEROV','@LINKEDIN','@GITHUBER','@GITLABOV','@STACKER','@REDDITOR','@PINTEREST','@SNAPCHAT','@TUMBLRIN','@FLICKROV','@SPOTIFY','@SOUNDCLOUD','@APPLEMUSIC','@DEEZEROV','@TIDALKIN','@AMAZONER','@EBAYOV','@ALIEXPRESS','@OZONKIN','@WILDBERRIES','@AVITOKIN','@YULAKIN','@CRAIGLIST','@OLXKIN','@PRODAVEC','@POKUPATEL','@BARGAINER','@TRADERKIN','@BROKEROV','@INVESTOR','@FINANCE','@BANKIR','@KASSAKIN','@MONEYMAN','@RUBLIK','@DOLLAROV','@EVROKIN','@BITCOINER','@ETHEREUM','@LITECOIN','@DOGECOIN','@RIPPLEKIN','@SOLANER','@POLKADOT','@AVALANCHE','@CHAINLINK','@UNISWAP','@AAVEKIN','@MAKERMAN','@COMPOUND','@YIELDKIN','@FARMEROV','@STAKERMAN','@MINERKIN','@BLOCKCHAIN','@NODERUNNER','@VALIDATOR','@DELEGATOR','@PROPOSER','@VOTERKIN','@GOVERNANCE','@DAOERKIN','@TOKENMAN','@NFTKIN','@METAVERSE','@DIGITALMAN','@CYBERPUNK','@NEONMAN','@SYNTHWAVE','@RETROWAVE','@VAPORWAVE','@OUTRUNER','@LASERKIN','@GRIDKIN','@MATRIXMAN','@HOLOGRAM','@VIRTUALMAN','@AUGMENTED','@ROBOTKIN','@DROIDMAN','@ANDROIDKIN','@CYBORGMAN','@AIMAN','@NEURALNET','@DEEPMIND','@TENSORFLOW','@PYTORCHMAN','@KERASER','@SKLEARNER','@PANDASOV','@NUMPYMAN','@MATPLOTLIB','@SEABORNOV','@PLOTLYER','@DASHKIN','@STREAMLIT','@GRADIOV','@FLASKMAN','@DJANGOKIN','@FASTAPIER','@TORNADOER','@ASYNCIOMAN','@AIOHTTPKIN','@REQUESTSER','@BEAUTIFULSOUP','@SCRAPYKIN','@SELENIUMER','@PLAYWRIGHT','@PUPPETEER','@CYPRESSOV','@JESTKIN','@MOCHAMAN','@CHAIER','@JASMINER','@KARMAMAN','@CYPRESSER','@TESTERKIN','@QAENGINEER','@DEVOPSMAN','@KUBERNETES','@DOCKERKIN','@K8SMAN','@HELMER','@ANSIBLEER','@TERRAFORM','@PUPPETMAN','@CHEFKIN','@SALTSTACK','@GRAFANAOV','@PROMETHEUS','@ALERTMANAGER','@LOKIER','@TEMPOER','@MILLEROV','@TRACERMAN','@JAEGERER','@ZIPKINMAN','@ELASTICSEARCH','@LOGSTASHER','@KIBANAMAN','@BEATKIN','@SPLUNKER','@DATADOGMAN','@NEWRELICER','@APPMAN','@SCALERMAN','@LOADBALANCER','@PROXYKIN','@NGINXMAN','@APACHEER','@TOMCATKIN','@JETTYER','@UNDERTOWMAN','@WILDFLYER','@GLASSFISH','@WEBLOGIC','@JBOSSMAN','@SPRINGBOOT','@QUARKUSER','@MICRONAUT','@VERTXMAN','@PLAYERKIN','@AKKAER','@AKKAMAN','@SCALAER','@KOTLINMAN','@GROOVYKIN','@CLOJURER','@SCHEMEER','@LISPMASTER','@HASKELLER','@ERLANGMAN','@ELIXIRKIN','@RUSTMAN','@GOER','@SWIFTER','@OBJECTIVEC','@CPPMAN','@CPLUSPLUS','@C_MASTER','@ASSEMBLER','@MASMKIN','@NASMER','@ARMER','@RISCVMAN','@MIPSER','@VERILOGMAN','@VHDLKIN','@SYSTEMVERILOG','@CHISELER','@BLUESPEC','@SPINALHDL','@CLASHMAN','@AMBERMAN','@MYTHRIL','@SILVERKIN','@GOLDENER','@PLATINUMAN','@DIAMONDKIN','@CRYSTALMAN','@ONYXER','@JADEKIN','@OBSIDIANMAN','@BASALTKIN','@GRANITEER','@MARBLEMAN','@QUARTZKIN','@SANDSTONE','@LIMESTONE','@CHALKMER','@GYPSUMAN','@SALTMAN','@PEPPERKIN','@CINNAMONER','@VANILLAMAN','@CHOCOLATE','@COFFEEER','@TEAKIN','@MATCHAER','@LATTEKIN','@ESPRESSOMAN','@CAPPUCCINO','@MOCHAKIN','@FRAPPUCCINO','@SMOOTHIEER','@JUICEKIN','@WATERMAN','@SODAKIN','@COLAER','@PEPSIMAN','@SPRITEER','@FANTAKIN','@MIRINDAMAN','@TARHUNER','@BAIKALMAN','@KVASKIN','@LEMONADER','@ORANGEJUICE','@APPLEJUICE','@GRAPEKIN','@BANANAMAN','@STRAWBERRY','@RASPBERRY','@BLUEBERRY','@BLACKBERRY','@CRANBERRY','@POMEGRANATE','@MANGOER','@PINEAPPLE','@COCONUTMAN','@PAPAYAKIN','@KIWIER','@AVOCADOMAN','@TOMATOKIN','@CUCUMBERER','@POTATOMAN','@CARROTKIN','@ONIONER','@GARLICMAN','@PEPPERKIN','@CHILIMAN','@BASILER','@MINTKIN','@ROSEMARY','@THYMEER','@PARSLEYMAN','@DILLKIN','@SAGEER','@OREGANOMAN','@CORIANDER','@CUMINKIN','@TURMERIC','@GINGERMAN','@CINNAMONKIN','@NUTMEGER','@CLOVEKIN','@CARDAMOM','@STARANISE','@FENNELKIN','@ANISEER','@LICORICEMAN','@HONEYKIN','@SUGARER','@SALTMAN','@PEPPERKIN','@VINEGARER','@OILMAN','@BUTTERKIN','@CREAMER','@MILKMAN','@CHEESEKIN','@YOGURTER','@KEFIRMAN','@RYAZHENKA','@SNOWBALLER','@ICEKIN','@FROZENMAN','@COLDER','@HOTKIN','@WARMMAN','@SUNNYER','@RAINYKIN','@CLOUDMAN','@STORMER','@WINDKIN','@SNOWMAN','@FROSTMAN','@ICYER','@GLACIERKIN','@ARCTICMAN','@ANTARCTIC','@TUNDRAER','@TAIGAKIN','@FORESTMAN','@JUNGLEER','@SAVANNAH','@DESERTKIN','@OASISMAN','@OCEANER','@SEAKIN','@WAVEMAN','@CURRENTKIN','@TIDEMAN','@CORALER','@REEFKIN','@LAGOONMAN','@BAYER','@GULFKIN','@STRAITMAN','@CHANNELER','@FJORDKIN','@ISLANDMAN','@PENINSULA','@CAPEKIN','@MOUNTAINER','@HILLMAN','@VALLEYKIN','@PLATEAUER','@CANYONMAN','@MESAER','@BUTTEKIN','@CLIFFMAN','@ROCKER','@STONEKIN','@BOULDERMAN','@PEBBLEER','@GRAVELKIN','@SANDMAN','@DUSTER','@MISTKIN','@FOGMAN','@HAZEER','@SMOGKIN','@SMOKEMAN','@FLAMEKIN','@BLAZER','@INFERNOER','@VOLCANOMAN','@MAGMAKIN','@LAVAER','@ASHMAN','@PUMICEKIN','@OBSIDIANER','@CRYSTALKIN','@GEMSTONEMAN','@JEWELER','@DIAMONDKIN','@RUBYMAN','@SAPPHIREKIN','@EMERALDER','@AMETHYST','@PEARLKIN','@OPALMAN','@JADEER','@TOPAZKIN','@GARNETMAN','@SUNSTONE','@MOONSTONE','@STARMAN','@GALAXYKIN','@UNIVERSEER','@COSMOSMAN','@ASTEROIDKIN','@COMETER','@METEORMAN','@PLANETER','@ORBITKIN','@SATELLITEMAN','@SPACER','@STARSHIPKIN','@ALIENMAN','@ROBOTER','@CYBORGKIN','@HUMANOID','@CLONEMAN','@ANDROIDER','@AIKIN','@MACHINEMAN','@ENGINEER','@MECHANIC','@TECHNOMAN','@GADGETKIN','@DEVICEMAN','@WIDGETER','@GIZMOKIN','@THINGAMY','@DOOHICKEY','@WHATZIT','@DOODADER','@GADGETMAN','@TOOLKIN','@IMPLEMENT','@INSTRUMENT','@APPARATUS','@CONTRAPTION','@DEVICEKIN','@MACHINERY','@EQUIPMENT','@HARDWARE','@SOFTWARE','@FIRMWARE','@CODEBASE','@SOURCEKIN','@BINARYMAN','@HEXER','@DECIMALMAN','@OCTALKIN','@HEXADECIMAL','@BITSER','@BYTEKIN','@KILOBYTE','@MEGABYTE','@GIGABYTE','@TERABYTE','@PETABYTE','@EXABYTE','@ZETTABYTE','@YOTTABYTE','@BRONSKI','@BEATOV','@TECHNO','@HOUSEMAN','@TRANCEER','@DUBSTEPKIN','@DRUMANDBASS','@BREAKBEAT','@JUNGLEKIN','@GARAGEER','@GRIMEKIN','@DRILLMAN','@UKGARAGE','@BASSKIN','@HARDCORE','@TERRORIST','@RAVERKIN','@CLUBER','@PARTYMAN','@DJKIN','@MCER','@PRODUCER','@RECORDKIN','@VINYLMAN','@CDER','@MP3KIN','@FLACMAN','@WAVER','@AIFFKIN','@OGGMAN','@OPUSER','@REAPERKIN','@PROTOOLS','@LOGICMAN','@CUBASEER','@FLSTUDIO','@ABLETONMAN','@BITWIGKIN','@REASONER','@CAKEWALK','@GARAGEBAND','@AUDACITYER','@SOUNDFORGE','@WAVELAB','@SPECTRALMAN','@FREQUENCYKIN','@HERTZER','@KILOHERTZ','@MEGAHERTZ','@GIGAHERTZ','@DECIBELMAN','@AMPLITUDE','@WAVEFORM','@SINEWAVE','@SAWTOOTH','@SQUAREWAVE','@TRIANGLE','@PULSEWAVE','@NOISEKIN','@SILENCEMAN','@ECHOER','@REVERBKIN','@DELAYMAN','@CHORUSER','@FLANGERKIN','@PHASER','@DISTORTION','@OVERDRIVE','@FUZZKIN','@CRUNCHMAN','@GAINER','@VOLUMEMAN','@PANER','@STEREOKIN','@MONOMAN','@QUADER','@SURROUND'];
 
     function getRandomUsername() { return USERNAMES[Math.floor(Math.random() * USERNAMES.length)]; }
 
-    // ===== УВЕДОМЛЕНИЯ РАЗ В 10 СЕКУНД =====
     function showFakeNotification() {
-        const types = [
-            { name: 'купил', action: 'ботнет на', count: () => Math.floor(Math.random() * (20000 - 500 + 1)) + 500 },
-            { name: 'заказал', action: 'гео-поиск по IP', count: () => 1 },
-            { name: 'приобрёл', action: 'ботнет на', count: () => Math.floor(Math.random() * (20000 - 500 + 1)) + 500 },
-            { name: 'взял', action: 'ботнет на', count: () => Math.floor(Math.random() * (20000 - 500 + 1)) + 500 },
-            { name: 'купил', action: 'поиск по геолокации', count: () => 1 }
-        ];
-        const type = types[Math.floor(Math.random() * types.length)];
+        const names = ['только что купил', 'приобрёл', 'заказал', 'взял', 'оформил'];
+        const actions = ['5000 ботов', '1000 ботов', '25000 ботов', '10000 ботов'];
         const username = getRandomUsername();
-        const count = type.count();
-        const actionText = type.action === 'ботнет на' ? `${count} ботов` : `${count} поиск`;
-        const verb = type.name;
+        const action = actions[Math.floor(Math.random() * actions.length)];
+        const verb = names[Math.floor(Math.random() * names.length)];
         const time = new Date().toLocaleTimeString('ru-RU');
         const notif = document.createElement('div');
         notif.className = 'notif-toast';
-        notif.innerHTML = `<div><span class="notif-name">${username}</span> ${verb} <strong>${actionText}</strong></div><div class="notif-time">${time}</div>`;
+        notif.innerHTML = `<div><span class="notif-name">${username}</span> ${verb} <strong>${action}</strong></div><div class="notif-time">${time}</div>`;
         notifContainer.appendChild(notif);
         setTimeout(() => { if (notif.parentNode) notif.remove(); }, 5000);
         setTimeout(() => { if (notif.parentNode) { notif.style.opacity = '0'; notif.style.transition = 'opacity 0.5s'; setTimeout(() => { if (notif.parentNode) notif.remove(); }, 500); } }, 4000);
@@ -275,20 +251,24 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
     function initFakeNotifications() {
         showFakeNotification();
-        setInterval(() => showFakeNotification(), 10000);
+        setTimeout(() => showFakeNotification(), 7000);
+        setTimeout(() => showFakeNotification(), 15000);
+        setInterval(() => showFakeNotification(), 20000 + Math.random() * 15000);
     }
 
     // ===== ЗАДАНИЯ =====
     function generateQuests() {
         const quests = [
-            { id: 1, title: 'Купить 500 ботов', desc: 'Приобретите ботнет от 500 ботов', reward: 3, type: 'buy_bots', target: 500, icon: '🤖' },
-            { id: 2, title: 'Сделать поиск по гео', desc: 'Выполните 1 поиск по IP адресу', reward: 2, type: 'geo_search', target: 1, icon: '🌐' },
+            { id: 1, title: 'Купить 1000 ботов', desc: 'Приобретите ботнет от 1000 ботов', reward: 5, type: 'buy_bots', target: 1000, icon: '🤖' },
+            { id: 2, title: 'Сделать 2 поиска по номеру', desc: 'Выполните 2 поиска по номеру телефона', reward: 5, type: 'phone_search', target: 2, icon: '📱' },
             { id: 3, title: 'Запустить атаку', desc: 'Запустите любую DDoS атаку', reward: 3, type: 'attack', target: 1, icon: '⚔️' },
-            { id: 4, title: 'Купить 1000 ботов', desc: 'Приобретите ботнет от 1000 ботов', reward: 5, type: 'buy_bots', target: 1000, icon: '🔥' },
-            { id: 5, title: 'Сделать 3 поиска по гео', desc: 'Выполните 3 поиска по IP', reward: 5, type: 'geo_search', target: 3, icon: '📍' },
-            { id: 6, title: 'Купить 5000 ботов', desc: 'Приобретите ботнет от 5000 ботов', reward: 10, type: 'buy_bots', target: 5000, icon: '💪' },
-            { id: 7, title: 'Запустить 3 атаки', desc: 'Запустите 3 DDoS атаки', reward: 7, type: 'attack', target: 3, icon: '💥' },
+            { id: 4, title: 'Пополнить баланс', desc: 'Пополните баланс от $10', reward: 10, type: 'deposit', target: 10, icon: '💰' },
+            { id: 5, title: 'Пригласить друга', desc: 'Пригласите друга в VO1D SHOP', reward: 5, type: 'referral', target: 1, icon: '👥' },
+            { id: 6, title: 'Купить 5000 ботов', desc: 'Приобретите ботнет от 5000 ботов', reward: 10, type: 'buy_bots', target: 5000, icon: '🔥' },
+            { id: 7, title: 'Сделать 5 поисков по IP', desc: 'Выполните 5 поисков по IP адресу', reward: 7, type: 'ip_search', target: 5, icon: '🌐' },
+            { id: 8, title: 'Потратить $50', desc: 'Потратьте $50 на любые услуги', reward: 8, type: 'spend', target: 50, icon: '💎' },
         ];
+        // Перемешиваем и берём 4 случайных
         const shuffled = quests.sort(() => 0.5 - Math.random());
         return shuffled.slice(0, 4);
     }
@@ -356,6 +336,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     // ===== МОДАЛКА =====
     let modalResolve = null;
     let modalResolveTimer = null;
+
     function generateUniqueId(prefix) { return `${prefix}_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`; }
 
     function showModal(title, body, actions = [], icon = '', isDeposit = false) {
@@ -473,6 +454,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
                 [{ label: '⚔️ К АТАКЕ', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊 ДАШБОРД', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
                 userBalance.textContent = formatCurrency(currentUser.balance);
                 showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
+                // Проверяем задания
                 checkQuests('buy_bots', count);
                 return;
             }
@@ -524,126 +506,36 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     const originalRenderShop = renderShop;
     renderShop = async function() { await originalRenderShop(); setTimeout(initShopHandlers, 100); };
 
-        // ===== ЗАДАНИЯ ПРОВЕРКА =====
+    // ===== ЗАДАНИЯ ПРОВЕРКА =====
     function checkQuests(type, value) {
         const quests = getDailyQuests();
-        let updated = false;
+        let completed = false;
         quests.forEach(q => {
             if (q.type === type && !q.completed) {
                 if (q.target <= value) {
                     q.completed = true;
                     q.claimed = false;
-                    updated = true;
+                    completed = true;
                 }
             }
         });
-        if (updated) {
+        if (completed) {
             localStorage.setItem('dailyQuests', JSON.stringify(quests));
-            questsCache = quests;
-            showNotification('🎯 Задание выполнено! Забери награду во вкладке "Задания"', 'success');
-            if (currentPage === 'quests') renderQuests();
+            showNotification('🎯 Задание выполнено! Проверьте вкладку "Задания"', 'success');
         }
     }
 
     function claimQuestReward(questId) {
-        console.log('🎯 Пытаемся забрать награду за квест:', questId);
-
-        let quests = JSON.parse(localStorage.getItem('dailyQuests') || '[]');
-        if (!quests || quests.length === 0) {
-            quests = generateQuests();
-            localStorage.setItem('dailyQuests', JSON.stringify(quests));
-        }
-
-        const quest = quests.find(q => q.id === questId);
-        if (!quest) {
-            showNotification('❌ Квест не найден', 'error');
-            return;
-        }
-
-        if (!quest.completed) {
-            showNotification('❌ Задание ещё не выполнено', 'error');
-            return;
-        }
-
-        if (quest.claimed) {
-            showNotification('❌ Награда уже получена', 'warning');
-            return;
-        }
-
-        const rewardAmount = quest.reward;
-        currentUser.balance = (currentUser.balance || 0) + rewardAmount;
-        quest.claimed = true;
-
-        localStorage.setItem('dailyQuests', JSON.stringify(quests));
-        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-        questsCache = quests;
-
-        userBalance.textContent = formatCurrency(currentUser.balance);
-        explosionEffect();
-        showNotification(`✅ Получено $${rewardAmount} за задание "${quest.title}"`, 'success');
-        console.log('✅ Награда получена! Новый баланс:', currentUser.balance);
-
-        renderQuests();
-    }
-
-    // ===== ОТОБРАЖЕНИЕ КВЕСТОВ =====
-    function renderQuests() {
-        if (!currentUser) { navigateTo('login'); return; }
-
         const quests = getDailyQuests();
-        questsCache = quests;
-
-        let html = `
-            <h1>🎯 Ежедневные задания</h1>
-            <p style="color:var(--text-secondary);margin-bottom:16px;">
-                Задания обновляются каждые 24 часа. Выполняй и получай бонусы!
-                ${quests.some(q => q.completed && !q.claimed) ? ' <span style="color:var(--accent-green);">🔥 Есть готовые награды!</span>' : ''}
-            </p>
-            <div style="display:grid;gap:12px;">
-        `;
-
-        quests.forEach(q => {
-            let statusText = '⏳ В процессе';
-            let statusClass = 'pending';
-            let btn = '';
-
-            if (q.completed) {
-                if (q.claimed) {
-                    statusText = '✅ Получено';
-                    statusClass = 'claimed';
-                } else {
-                    statusText = '🎯 Выполнено!';
-                    statusClass = 'done';
-                    btn = `<button class="btn btn-green btn-sm" onclick="claimQuestReward(${q.id})" style="animation:pulse 2s infinite;">🎁 ЗАБРАТЬ $${q.reward}</button>`;
-                }
-            }
-
-            html += `
-                <div class="quest-card">
-                    <div class="quest-info">
-                        <span class="quest-icon">${q.icon}</span>
-                        <div>
-                            <div class="quest-title">${q.title}</div>
-                            <div class="quest-desc">${q.desc}</div>
-                            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">
-                                🎯 Требуется: ${q.type === 'buy_bots' ? 'купить ' + q.target + ' ботов' :
-                                             q.type === 'attack' ? 'запустить ' + q.target + ' атаку' :
-                                             q.type === 'geo_search' ? 'сделать ' + q.target + ' поиск(а) по IP' :
-                                             'выполнить задание'}
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-                        <span class="quest-reward">💰 $${q.reward}</span>
-                        <span class="quest-status ${statusClass}">${statusText}</span>
-                        ${btn}
-                    </div>
-                </div>
-            `;
-        });
-
-        html += `</div>`;
-        pageContainer.innerHTML = html;
+        const quest = quests.find(q => q.id === questId);
+        if (!quest || !quest.completed || quest.claimed) return;
+        quest.claimed = true;
+        currentUser.balance = (currentUser.balance || 0) + quest.reward;
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        localStorage.setItem('dailyQuests', JSON.stringify(quests));
+        userBalance.textContent = formatCurrency(currentUser.balance);
+        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
+        renderQuests();
     }
 
     // ===== НАВИГАЦИЯ =====
@@ -657,7 +549,6 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
             html += `<a class="${currentPage === 'shop' ? 'active' : ''}" onclick="navigateTo('shop')">🛒 Магазин</a>`;
             html += `<a class="${currentPage === 'attack' ? 'active' : ''}" onclick="navigateTo('attack')">⚔️ Атака</a>`;
             html += `<a class="${currentPage === 'quests' ? 'active' : ''}" onclick="navigateTo('quests')">🎯 Задания</a>`;
-            html += `<a class="${currentPage === 'geo' ? 'active' : ''}" onclick="navigateTo('geo')">🌐 Гео-поиск</a>`;
             html += `<a class="${currentPage === 'profile' ? 'active' : ''}" onclick="navigateTo('profile')">👤 Профиль</a>`;
             if (currentUser && currentUser.role === 'admin') html += `<a class="${currentPage === 'admin' ? 'active' : ''}" onclick="navigateTo('admin')">🔧 Админ</a>`;
             html += `<button onclick="logout()">🚪 Выйти</button>`;
@@ -679,7 +570,6 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
             case 'shop': renderShop(); break;
             case 'attack': renderAttack(data); break;
             case 'quests': renderQuests(); break;
-            case 'geo': renderGeo(); break;
             case 'profile': renderProfile(); break;
             case 'admin': renderAdmin(); break;
             default: renderHome();
@@ -798,58 +688,25 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         let html = `<h1>🎯 Ежедневные задания</h1><p style="color:var(--text-secondary);margin-bottom:16px;">Задания обновляются каждые 24 часа. Выполняй и получай бонусы!</p><div style="display:grid;gap:12px;">`;
         quests.forEach(q => {
             const status = q.completed ? (q.claimed ? '✅ Получено' : '🎯 Выполнено!') : '⏳ В процессе';
-            const statusClass = q.completed ? (q.claimed ? 'claimed' : 'done') : 'pending';
             const btn = q.completed && !q.claimed ? `<button class="btn btn-green btn-sm" onclick="claimQuestReward(${q.id})">ЗАБРАТЬ $${q.reward}</button>` : '';
-            html += `<div class="quest-card"><div class="quest-info"><span class="quest-icon">${q.icon}</span><div><div class="quest-title">${q.title}</div><div class="quest-desc">${q.desc}</div></div></div><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span class="quest-reward">💰 $${q.reward}</span><span class="quest-status ${statusClass}">${status}</span>${btn}</div></div>`;
+            html += `<div class="dash-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;"><div><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:24px;">${q.icon}</span><span style="font-weight:700;">${q.title}</span></div><div style="font-size:14px;color:var(--text-secondary);">${q.desc}</div><div style="font-size:13px;color:var(--text-secondary);">Награда: <strong style="color:var(--accent-gold);">$${q.reward}</strong></div></div><div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:${q.completed ? 'var(--accent-green)' : 'var(--text-secondary)'};">${status}</span>${btn}</div></div>`;
         });
         html += `</div>`;
         pageContainer.innerHTML = html;
     }
 
-    // ===== GEO =====
-    function renderGeo() {
-        if (!currentUser) { navigateTo('login'); return; }
-        pageContainer.innerHTML = `
-            <div class="geo-container">
-                <h1>🌐 Геолокация по IP</h1>
-                <p style="color:var(--text-secondary);margin-bottom:8px;">Введите IP адрес для определения местоположения</p>
-                <p style="color:var(--accent-gold);font-size:14px;margin-bottom:16px;">💎 Стоимость: <strong>$2</strong> за один поиск</p>
-                <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                    <input type="text" id="ipInput" placeholder="Введите IP (например: 8.8.8.8)" style="flex:1;min-width:200px;">
-                    <button class="btn btn-purple btn-glitch" onclick="handleGeoLookup()">🔍 НАЙТИ</button>
-                </div>
-                <div id="geoResult" style="margin-top:20px;"></div>
-            </div>
-        `;
+    function claimQuestReward(questId) {
+        const quests = getDailyQuests();
+        const quest = quests.find(q => q.id === questId);
+        if (!quest || !quest.completed || quest.claimed) return;
+        quest.claimed = true;
+        currentUser.balance = (currentUser.balance || 0) + quest.reward;
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        localStorage.setItem('dailyQuests', JSON.stringify(quests));
+        userBalance.textContent = formatCurrency(currentUser.balance);
+        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
+        renderQuests();
     }
-
-    window.handleGeoLookup = async function() {
-        const ipInput = document.getElementById('ipInput');
-        const ip = ipInput.value.trim();
-        if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
-        const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
-        if (!ipRegex.test(ip)) { showModal('❌ Ошибка', 'Введите корректный IP адрес'); return; }
-        if (!currentUser || currentUser.balance < 2) {
-            showModal('❌ Недостаточно средств', `<p>У вас недостаточно средств для поиска.</p><p style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">💳 Ваш баланс: <strong>${formatCurrency(currentUser ? currentUser.balance : 0)}</strong><br>💰 Нужно: <strong>$2</strong></p>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
-            return;
-        }
-        const resultDiv = document.getElementById('geoResult');
-        resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
-        try {
-            currentUser.balance -= 2;
-            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-            userBalance.textContent = formatCurrency(currentUser.balance);
-            const response = await fetch(`https://ipapi.co/${ip}/json/`);
-            const data = await response.json();
-            if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`; return; }
-            const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
-            resultDiv.innerHTML = `<div class="geo-card" style="animation:fadeInUp 0.5s ease;"><h3 style="color:var(--accent-purple);margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3><div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div><div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);"><a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">🗺️ Открыть на карте</a></div></div>`;
-            checkQuests('geo_search', 1);
-            showNotification(`✅ Найден IP: ${ip} (${data.country_name || '—'})`, 'success');
-        } catch(e) {
-            resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных. Проверьте подключение.</p>`;
-        }
-    };
 
     // ===== ATTACK =====
     async function renderAttack(data) {
