@@ -175,6 +175,11 @@
         .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
         .notif-toast .notif-action { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
         .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
+        .geo-container { max-width: 700px; margin: 0 auto; }
+        .geo-container .geo-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; margin: 16px 0; transition: var(--transition); }
+        .geo-container .geo-card:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-glow); }
+        .geo-container .geo-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        .geo-container .geo-row:last-child { border-bottom: none; }
         @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .page-container { padding: 16px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; } .music-player .controls audio { height: 24px; } .notif-toast { bottom: 70px; right: 10px; min-width: 200px; padding: 10px 12px; } }
     </style>
 </head>
@@ -220,7 +225,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     let activeAttackId = null;
     let botnetsCache = [];
     let questsCache = [];
-    let lastQuestReset = localStorage.getItem('lastQuestReset') || 0;
+    let lastQuestReset = parseInt(localStorage.getItem('lastQuestReset')) || 0;
     const $ = (id) => document.getElementById(id);
     const pageContainer = $('pageContainer');
     const navLinks = $('navLinks');
@@ -260,7 +265,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     function generateQuests() {
         const quests = [
             { id: 1, title: 'Купить 1000 ботов', desc: 'Приобретите ботнет от 1000 ботов', reward: 5, type: 'buy_bots', target: 1000, icon: '🤖' },
-            { id: 2, title: 'Сделать 2 поиска по номеру', desc: 'Выполните 2 поиска по номеру телефона', reward: 5, type: 'phone_search', target: 2, icon: '📱' },
+            { id: 2, title: 'Сделать 2 поиска по IP', desc: 'Выполните 2 поиска по IP адресу', reward: 5, type: 'ip_search', target: 2, icon: '🌐' },
             { id: 3, title: 'Запустить атаку', desc: 'Запустите любую DDoS атаку', reward: 3, type: 'attack', target: 1, icon: '⚔️' },
             { id: 4, title: 'Пополнить баланс', desc: 'Пополните баланс от $10', reward: 10, type: 'deposit', target: 10, icon: '💰' },
             { id: 5, title: 'Пригласить друга', desc: 'Пригласите друга в VO1D SHOP', reward: 5, type: 'referral', target: 1, icon: '👥' },
@@ -268,9 +273,8 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
             { id: 7, title: 'Сделать 5 поисков по IP', desc: 'Выполните 5 поисков по IP адресу', reward: 7, type: 'ip_search', target: 5, icon: '🌐' },
             { id: 8, title: 'Потратить $50', desc: 'Потратьте $50 на любые услуги', reward: 8, type: 'spend', target: 50, icon: '💎' },
         ];
-        // Перемешиваем и берём 4 случайных
         const shuffled = quests.sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, 4);
+        return shuffled.slice(0, 5);
     }
 
     function getDailyQuests() {
@@ -297,10 +301,41 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         return newQuests;
     }
 
+    function checkQuests(type, value) {
+        const quests = getDailyQuests();
+        let completed = false;
+        quests.forEach(q => {
+            if (q.type === type && !q.completed) {
+                if (q.target <= value) {
+                    q.completed = true;
+                    q.claimed = false;
+                    completed = true;
+                }
+            }
+        });
+        if (completed) {
+            localStorage.setItem('dailyQuests', JSON.stringify(quests));
+            showNotification('🎯 Задание выполнено! Проверьте вкладку "Задания"', 'success');
+        }
+    }
+
+    function claimQuestReward(questId) {
+        const quests = getDailyQuests();
+        const quest = quests.find(q => q.id === questId);
+        if (!quest || !quest.completed || quest.claimed) return;
+        quest.claimed = true;
+        currentUser.balance = (currentUser.balance || 0) + quest.reward;
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        localStorage.setItem('dailyQuests', JSON.stringify(quests));
+        userBalance.textContent = formatCurrency(currentUser.balance);
+        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
+        if (currentPage === 'quests') renderQuests();
+    }
+
     function apiFetch(endpoint, options = {}) {
         const token = localStorage.getItem(TOKEN_KEY);
         const headers = { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}), ...(options.headers || {}) };
-        return fetch(`${API_BASE}${endpoint}`, { ...options, headers }).then(r => r.json()).catch(err => { console.error(err); throw err; });
+        return fetch(`${API_BASE}${endpoint}`, { ...options, headers }).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }).catch(err => { console.error('API Error:', err); throw err; });
     }
 
     function formatCurrency(amount) { return `$${Number(amount).toFixed(2)}`; }
@@ -454,7 +489,6 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
                 [{ label: '⚔️ К АТАКЕ', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊 ДАШБОРД', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
                 userBalance.textContent = formatCurrency(currentUser.balance);
                 showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
-                // Проверяем задания
                 checkQuests('buy_bots', count);
                 return;
             }
@@ -506,79 +540,60 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     const originalRenderShop = renderShop;
     renderShop = async function() { await originalRenderShop(); setTimeout(initShopHandlers, 100); };
 
-    // ===== ЗАДАНИЯ ПРОВЕРКА =====
-    function checkQuests(type, value) {
-        const quests = getDailyQuests();
-        let completed = false;
-        quests.forEach(q => {
-            if (q.type === type && !q.completed) {
-                if (q.target <= value) {
-                    q.completed = true;
-                    q.claimed = false;
-                    completed = true;
-                }
-            }
-        });
-        if (completed) {
-            localStorage.setItem('dailyQuests', JSON.stringify(quests));
-            showNotification('🎯 Задание выполнено! Проверьте вкладку "Задания"', 'success');
+    // ===== РЕАЛЬНЫЙ ПОИСК ПО IP =====
+    window.handleGeoSearch = async function() {
+        const ipInput = document.getElementById('ipInput');
+        const ip = ipInput.value.trim();
+        if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
+        const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+        if (!ipRegex.test(ip) && ip !== 'localhost' && ip !== '127.0.0.1') { showModal('❌ Ошибка', 'Введите корректный IP адрес'); return; }
+
+        const resultDiv = document.getElementById('geoResult');
+        resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
+
+        try {
+            const response = await fetch(`https://ipapi.co/${ip}/json/`);
+            if (!response.ok) throw new Error('API error');
+            const data = await response.json();
+            if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`; return; }
+
+            const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
+            const isLocal = ip === '127.0.0.1' || ip === 'localhost' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.16.');
+
+            resultDiv.innerHTML = `
+                <div class="geo-card" style="animation: fadeInUp 0.5s ease;">
+                    <h3 style="color:var(--accent-purple); margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3>
+                    ${isLocal ? `<p style="color:var(--accent-gold); margin-bottom:12px;">⚠️ Локальный IP (не маршрутизируется)</p>` : ''}
+                    <div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">💱 Валюта:</span> <strong>${data.currency || '—'}</strong></div>
+                    <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border-color); display:flex; gap:16px; flex-wrap:wrap;">
+                        <a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple); text-decoration:none; font-weight:600;">🗺️ Открыть на карте</a>
+                        <a href="https://whatismyipaddress.com/ip/${ip}" target="_blank" style="color:var(--text-secondary); text-decoration:none; font-size:14px;">🔍 Подробнее</a>
+                    </div>
+                </div>
+            `;
+
+            // Проверяем задание по поиску IP
+            checkQuests('ip_search', 1);
+
+        } catch(e) {
+            resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных. Проверьте подключение.</p>`;
         }
-    }
+    };
 
-    function claimQuestReward(questId) {
-        const quests = getDailyQuests();
-        const quest = quests.find(q => q.id === questId);
-        if (!quest || !quest.completed || quest.claimed) return;
-        quest.claimed = true;
-        currentUser.balance = (currentUser.balance || 0) + quest.reward;
-        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-        localStorage.setItem('dailyQuests', JSON.stringify(quests));
-        userBalance.textContent = formatCurrency(currentUser.balance);
-        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
-        renderQuests();
-    }
-
-    // ===== МОДАЛКА ДЛЯ ПОЛУЧЕНИЯ НАГРАДЫ =====
-function showQuestClaimModal(questId, questTitle, reward) {
-    showModal(
-        '🎯 Получение награды',
-        `
-        <div style="text-align:center; padding:10px;">
-            <div style="font-size:48px; margin-bottom:12px;">🏆</div>
-            <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
-                Вы выполнили задание: "${questTitle}"
-            </p>
-            <p style="font-size:16px; margin:12px 0;">
-                Награда: <strong style="color:var(--accent-green);">$${reward}</strong>
-            </p>
-            <div style="margin:16px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm); border:1px solid var(--accent-gold);">
-                <p style="font-size:16px; color:var(--text-primary);">
-                    ⚡ Для получения награды свяжитесь с менеджером:
-                </p>
-                <a href="https://t.me/VO1D_NETWORK" target="_blank"
-                   style="display:inline-block; margin-top:12px; padding:12px 32px;
-                          background:linear-gradient(135deg, var(--accent-gold), #f59e0b);
-                          color:#1a1a2e; border-radius:var(--radius-full);
-                          text-decoration:none; font-weight:700; font-size:18px;
-                          transition:var(--transition);">
-                    📱 @VO1D_NETWORK
-                </a>
-                <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">
-                    Напишите менеджеру и укажите ID задания: <strong>#${questId}</strong>
-                </p>
-            </div>
-            <p style="font-size:13px; color:var(--text-secondary); margin-top:8px;">
-                ⏳ Обработка запроса: до 5 минут
-            </p>
-        </div>
-        `,
-        [
-            { label: '📱 НАПИСАТЬ МЕНЕДЖЕРУ', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' },
-            { label: '🔙 ЗАКРЫТЬ', cls: 'btn-outline', action: 'closeModal' }
-        ],
-        '🎯'
-    );
-}
+    window.getMyIp = async function() {
+        try {
+            const res = await fetch('https://api.ipify.org?format=json');
+            const data = await res.json();
+            document.getElementById('ipInput').value = data.ip;
+            window.handleGeoSearch();
+        } catch(e) { showModal('❌ Ошибка', 'Не удалось определить ваш IP'); }
+    };
 
     // ===== НАВИГАЦИЯ =====
     window.navigateTo = function(page, data = null) { currentPage = page; renderNav(); renderPage(page, data); window.scrollTo({ top: 0, behavior: 'smooth' }); };
@@ -590,6 +605,7 @@ function showQuestClaimModal(questId, questTitle, reward) {
             html += `<a class="${currentPage === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">📊 Дашборд</a>`;
             html += `<a class="${currentPage === 'shop' ? 'active' : ''}" onclick="navigateTo('shop')">🛒 Магазин</a>`;
             html += `<a class="${currentPage === 'attack' ? 'active' : ''}" onclick="navigateTo('attack')">⚔️ Атака</a>`;
+            html += `<a class="${currentPage === 'geo' ? 'active' : ''}" onclick="navigateTo('geo')">🌐 Geo IP</a>`;
             html += `<a class="${currentPage === 'quests' ? 'active' : ''}" onclick="navigateTo('quests')">🎯 Задания</a>`;
             html += `<a class="${currentPage === 'profile' ? 'active' : ''}" onclick="navigateTo('profile')">👤 Профиль</a>`;
             if (currentUser && currentUser.role === 'admin') html += `<a class="${currentPage === 'admin' ? 'active' : ''}" onclick="navigateTo('admin')">🔧 Админ</a>`;
@@ -611,6 +627,7 @@ function showQuestClaimModal(questId, questTitle, reward) {
             case 'dashboard': renderDashboard(); break;
             case 'shop': renderShop(); break;
             case 'attack': renderAttack(data); break;
+            case 'geo': renderGeo(); break;
             case 'quests': renderQuests(); break;
             case 'profile': renderProfile(); break;
             case 'admin': renderAdmin(); break;
@@ -620,7 +637,7 @@ function showQuestClaimModal(questId, questTitle, reward) {
 
     // ===== HOME =====
     function renderHome() {
-        pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии, без ограничений</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div></div>`;
+        pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div></div>`;
     }
 
     // ===== LOGIN =====
@@ -723,6 +740,25 @@ function showQuestClaimModal(questId, questTitle, reward) {
         updatePrice();
     }
 
+    // ===== GEO =====
+    function renderGeo() {
+        if (!currentUser) { navigateTo('login'); return; }
+        pageContainer.innerHTML = `
+            <div class="geo-container">
+                <h1>🌐 Геолокация по IP</h1>
+                <p style="color:var(--text-secondary); margin-bottom:16px;">
+                    Введите IP адрес для определения местоположения. Реальные данные.
+                </p>
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <input type="text" id="ipInput" placeholder="Введите IP (например: 8.8.8.8)" style="flex:1; min-width:200px;">
+                    <button class="btn btn-purple btn-glitch" onclick="window.handleGeoSearch()">🔍 ОПРЕДЕЛИТЬ</button>
+                    <button class="btn btn-outline" onclick="window.getMyIp()">📍 МОЙ IP</button>
+                </div>
+                <div id="geoResult" style="margin-top:20px;"></div>
+            </div>
+        `;
+    }
+
     // ===== QUESTS =====
     function renderQuests() {
         if (!currentUser) { navigateTo('login'); return; }
@@ -730,24 +766,11 @@ function showQuestClaimModal(questId, questTitle, reward) {
         let html = `<h1>🎯 Ежедневные задания</h1><p style="color:var(--text-secondary);margin-bottom:16px;">Задания обновляются каждые 24 часа. Выполняй и получай бонусы!</p><div style="display:grid;gap:12px;">`;
         quests.forEach(q => {
             const status = q.completed ? (q.claimed ? '✅ Получено' : '🎯 Выполнено!') : '⏳ В процессе';
-            const btn = q.completed && !q.claimed ? `<button class="btn btn-gold btn-sm" onclick="showQuestClaimModal(${q.id}, '${q.title}', ${q.reward})"> ПОЛУЧИТЬ: @VO1D_NETWORK $${q.reward}</button>` : '';
+            const btn = q.completed && !q.claimed ? `<button class="btn btn-green btn-sm" onclick="claimQuestReward(${q.id})">ЗАБРАТЬ $${q.reward}</button>` : '';
             html += `<div class="dash-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;"><div><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:24px;">${q.icon}</span><span style="font-weight:700;">${q.title}</span></div><div style="font-size:14px;color:var(--text-secondary);">${q.desc}</div><div style="font-size:13px;color:var(--text-secondary);">Награда: <strong style="color:var(--accent-gold);">$${q.reward}</strong></div></div><div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:${q.completed ? 'var(--accent-green)' : 'var(--text-secondary)'};">${status}</span>${btn}</div></div>`;
         });
         html += `</div>`;
         pageContainer.innerHTML = html;
-    }
-
-    function claimQuestReward(questId) {
-        const quests = getDailyQuests();
-        const quest = quests.find(q => q.id === questId);
-        if (!quest || !quest.completed || quest.claimed) return;
-        quest.claimed = true;
-        currentUser.balance = (currentUser.balance || 0) + quest.reward;
-        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-        localStorage.setItem('dailyQuests', JSON.stringify(quests));
-        userBalance.textContent = formatCurrency(currentUser.balance);
-        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
-        renderQuests();
     }
 
     // ===== ATTACK =====
