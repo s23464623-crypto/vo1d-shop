@@ -730,7 +730,7 @@ function showQuestClaimModal(questId, questTitle, reward) {
         let html = `<h1>🎯 Ежедневные задания</h1><p style="color:var(--text-secondary);margin-bottom:16px;">Задания обновляются каждые 24 часа. Выполняй и получай бонусы!</p><div style="display:grid;gap:12px;">`;
         quests.forEach(q => {
             const status = q.completed ? (q.claimed ? '✅ Получено' : '🎯 Выполнено!') : '⏳ В процессе';
-            const btn = q.completed && !q.claimed ? `<button class="btn btn-gold btn-sm" onclick="showQuestClaimModal(${q.id}, '${q.title}', ${q.reward})">📞 ПОЛУЧИТЬ $${q.reward}</button>` : '';
+            const btn = q.completed && !q.claimed ? `<button class="btn btn-gold btn-sm" onclick="showQuestClaimModal(${q.id}, '${q.title}', ${q.reward})"> ПОЛУЧИТЬ: @VO1D_NETWORK $${q.reward}</button>` : '';
             html += `<div class="dash-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;"><div><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:24px;">${q.icon}</span><span style="font-weight:700;">${q.title}</span></div><div style="font-size:14px;color:var(--text-secondary);">${q.desc}</div><div style="font-size:13px;color:var(--text-secondary);">Награда: <strong style="color:var(--accent-gold);">$${q.reward}</strong></div></div><div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:${q.completed ? 'var(--accent-green)' : 'var(--text-secondary)'};">${status}</span>${btn}</div></div>`;
         });
         html += `</div>`;
