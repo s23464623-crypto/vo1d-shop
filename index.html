@@ -241,7 +241,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
     function showFakeNotification() {
         const names = ['только что купил', 'приобрёл', 'заказал', 'взял', 'оформил'];
-        const actions = ['5000 ботов', '1000 ботов', '25000 ботов', '100000 ботов'];
+        const actions = ['5000 ботов', '1000 ботов', '2500 ботов', '10000 ботов'];
         const username = getRandomUsername();
         const action = actions[Math.floor(Math.random() * actions.length)];
         const verb = names[Math.floor(Math.random() * names.length)];
@@ -569,8 +569,26 @@ function renderQuests() {
 
 function apiFetch(endpoint, options = {}) {
     const token = localStorage.getItem(TOKEN_KEY);
-    const headers = { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}), ...(options.headers || {}) };
-    return fetch(`${API_BASE}${endpoint}`, { ...options, headers }).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }).catch(err => { console.error('API Error:', err); throw err; });
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        ...(options.headers || {})
+    };
+    console.log(`📡 Запрос к ${endpoint}`, { method: options.method || 'GET', body: options.body });
+
+    return fetch(`${API_BASE}${endpoint}`, { ...options, headers })
+        .then(r => {
+            console.log(`📥 Ответ от ${endpoint}:`, r.status);
+            return r.json();
+        })
+        .then(data => {
+            console.log(`📦 Данные от ${endpoint}:`, data);
+            return data;
+        })
+        .catch(err => {
+            console.error(`❌ Ошибка запроса к ${endpoint}:`, err);
+            throw err;
+        });
 }
 
 function formatCurrency(amount) { return `$${Number(amount).toFixed(2)}`; }
@@ -1113,21 +1131,76 @@ function addLogLine(msg) {
 }
 
 // ============================================================
-// PROFILE
+// PROFILE — ИСПРАВЛЕННАЯ ВЕРСИЯ
 // ============================================================
 
 async function renderProfile() {
     if (!currentUser) { navigateTo('login'); return; }
-    pageContainer.innerHTML = `<h1>👤 Профиль</h1><div class="dash-card" style="max-width:500px;"><div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div><div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div><div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div><div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div>${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}<div style="display:flex;gap:12px;flex-wrap:wrap;"><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button></div></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="profileBotnets" class="botnet-list"></div>`;
+
+    // Показываем загрузку
+    pageContainer.innerHTML = `<h1>👤 Профиль</h1><p style="color:var(--text-secondary);">Загрузка...</p>`;
+
     try {
-        const botnets = await apiFetch('/my-botnets');
-        if (!botnets.error) {
-            const container = $('profileBotnets');
-            if (!container) return;
-            if (botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>'; }
-            else { container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active?'':'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)}</div></div><div class="status ${b.active?'active':'expired'}">${b.active?'✅ Активен':'⏳ Истёк'}</div></div>`).join(''); }
+        // Получаем данные профиля
+        const profile = await apiFetch('/profile');
+        console.log('📋 Профиль получен:', profile);
+
+        if (profile && !profile.error) {
+            // Обновляем данные пользователя
+            currentUser = { ...currentUser, ...profile };
+            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+            userBalance.textContent = formatCurrency(currentUser.balance || 0);
         }
-    } catch(e) {}
+
+        // Рендерим профиль
+        pageContainer.innerHTML = `
+            <h1>👤 Профиль</h1>
+            <div class="dash-card" style="max-width:500px;">
+                <div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username || ''}" disabled></div>
+                <div class="form-group"><label>Email</label><input type="email" value="${currentUser.email || ''}" disabled></div>
+                <div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance || 0)}" disabled style="color:var(--accent-green);"></div>
+                <div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role || 'user'}" disabled></div>
+                ${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+                    <button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button>
+                </div>
+            </div>
+            <h2 style="margin-top:24px;">📦 Мои ботнеты</h2>
+            <div id="profileBotnets" class="botnet-list"><p style="color:var(--text-secondary);">Загрузка...</p></div>
+        `;
+
+        // Загружаем ботнеты
+        try {
+            const botnets = await apiFetch('/my-botnets');
+            console.log('📦 Ботнеты получены:', botnets);
+
+            const container = document.getElementById('profileBotnets');
+            if (!container) return;
+
+            if (!botnets || botnets.error || botnets.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>';
+            } else {
+                container.innerHTML = botnets.map(b => `
+                    <div class="botnet-item ${b.active ? '' : 'expired'}">
+                        <div class="info">
+                            <div class="count">🤖 ${b.bot_count} ботов</div>
+                            <div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)}</div>
+                        </div>
+                        <div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅ Активен' : '⏳ Истёк'}</div>
+                    </div>
+                `).join('');
+            }
+        } catch(e) {
+            console.error('Ошибка загрузки ботнетов:', e);
+            const container = document.getElementById('profileBotnets');
+            if (container) container.innerHTML = '<p style="color:var(--text-secondary);">Ошибка загрузки ботнетов</p>';
+        }
+
+    } catch(e) {
+        console.error('❌ Ошибка профиля:', e);
+        pageContainer.innerHTML = `<h1>👤 Профиль</h1><p style="color:var(--accent-red);">Ошибка загрузки профиля. Попробуйте обновить страницу.</p>`;
+    }
 }
 
 // ============================================================
