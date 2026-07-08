@@ -948,7 +948,30 @@ def register():
     except Exception as e:
         logger.error(f"Registration error: {e}")
         return jsonify({'error': 'Internal server error'}), 500
-
+        
+@app.route('/api/tasks/complete', methods=['POST'])
+@token_required
+def complete_task():
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+    
+    task_id = data.get('task_id')
+    if not task_id:
+        return jsonify({'error': 'task_id required'}), 400
+    
+    try:
+        with get_db() as conn:
+            completed = json.loads(conn.execute('SELECT completed_tasks FROM users WHERE id = ?', (g.user_id,)).fetchone()['completed_tasks'] or '[]')
+            if task_id not in completed:
+                completed.append(task_id)
+                conn.execute('UPDATE users SET completed_tasks = ? WHERE id = ?', (json.dumps(completed), g.user_id))
+                conn.commit()
+            return jsonify({'success': True, 'message': 'Task completed'}), 200
+    except Exception as e:
+        logger.error(f"Complete task error: {e}")
+        return jsonify({'error': 'Internal server error'}), 500
+        
 @app.route('/api/login', methods=['POST'])
 @limiter.limit("20 per minute")
 def login():
