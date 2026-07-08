@@ -1,4 +1,4 @@
-?#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # server.py — VO1D SHOP Бэкенд (FULL ULTIMATE POWER)
 # Версия 7.0.0
