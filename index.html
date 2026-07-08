@@ -38,6 +38,7 @@
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         @keyframes matrixRain { 0% { background-position: 0% 0%; } 100% { background-position: 0% 100%; } }
         @keyframes glitchSweep { 0% { left: -100%; } 100% { left: 100%; } }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: rgba(139, 92, 246, 0.05); animation: scanline 4s linear infinite; pointer-events: none; z-index: 9999; }
         .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.03; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(6, 214, 160, 0.05) 2px, rgba(6, 214, 160, 0.05) 4px); animation: matrixRain 20s linear infinite; }
         .neon-text { animation: neonPulse 2s infinite; color: var(--accent-purple); }
@@ -170,7 +171,11 @@
         .music-player .controls .play-btn { background: var(--accent-purple); border: none; color: #fff; padding: 4px 12px; border-radius: var(--radius-full); cursor: pointer; font-size: 14px; font-weight: 700; transition: var(--transition); flex-shrink: 0; }
         .music-player .controls .play-btn:hover { background: var(--accent-green); transform: scale(1.05); }
         .music-player .track-name { font-size: 10px; color: var(--text-secondary); margin-top: 4px; text-align: center; letter-spacing: 0.05em; }
-        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .page-container { padding: 16px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; } .music-player .controls audio { height: 24px; } }
+        .notif-toast { position: fixed; bottom: 80px; right: 20px; z-index: 10000; min-width: 280px; max-width: 400px; background: var(--bg-surface); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); border: 1px solid var(--border-color); }
+        .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
+        .notif-toast .notif-action { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+        .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
+        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .page-container { padding: 16px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; } .music-player .controls audio { height: 24px; } .notif-toast { bottom: 70px; right: 10px; min-width: 200px; padding: 10px 12px; } }
     </style>
 </head>
 <body>
@@ -196,6 +201,7 @@
     <div class="track-name">🎵 CYBERPUNK BEAT</div>
 </div>
 <div id="modalRoot"></div>
+<div id="notifContainer"></div>
 <script>
 let musicPlaying = false;
 const audio = document.getElementById('bgMusic');
@@ -213,18 +219,88 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     let attackInterval = null;
     let activeAttackId = null;
     let botnetsCache = [];
+    let questsCache = [];
+    let lastQuestReset = localStorage.getItem('lastQuestReset') || 0;
     const $ = (id) => document.getElementById(id);
     const pageContainer = $('pageContainer');
     const navLinks = $('navLinks');
     const userName = $('userName');
     const userBalance = $('userBalance');
     const modalRoot = $('modalRoot');
+    const notifContainer = $('notifContainer');
+
+    // ===== СПИСОК ЮЗЕРНЕЙМОВ =====
+    const USERNAMES = ['@WIIKAWAOA','@SOKLOMKOV','@MOVOLIK','@KARAPUZIK','@ZELIBOBA','@MAMOKLAD','@RADOMIRKA','@VOVOLIKO','@KOLOBOKOV','@BURATINKA','@MALVINKA','@PIEROTIK','@KARBASIK','@BAMBARBIA','@SHURUPCHIK','@GVOZDIKOV','@MOLOTOKOV','@TOPORIKOV','@PIKACHUHA','@BULDOZER','@EKAVATOR','@TRAKTORIK','@SAMOSVAL','@BETONMIX','@KRANOVSKY','@LIFTERIK','@POGROZKA','@GRUZCHIK','@PAKETIKOV','@KOROBKIN','@YASHIKOV','@SKLADKIN','@TARAKANOV','@TARAKASHKA','@BUKASHKIN','@KOMARIKOV','@MURAWEY','@PAUCHOK','@STREKOZA','@BABOCHKA','@ZHUKOVSKY','@OSIKIN','@PCHOLKIN','@SHMELIKOV','@MURAVEYKO','@TARANTUL','@SKORPION','@KOBRAKIN','@PYTHONOV','@BOAKIN','@ZMEIKIN','@DRACONOV','@LIZARDKIN','@IGUANOV','@KAMELEON','@GEKKONOV','@VORONKIN','@SOKOLOVSKY','@ORELKIN','@YASTREBOV','@FALCONER','@BERKUTOV','@KANAREYKA','@POPUGAICHIK','@PINGVINOV','@PENGUINOV','@ALBATROS','@CHAYKIN','@UTKINOV','@GUSAKIN','@LEBEDKIN','@PAVLINOV','@FAZANCHIK','@KURITSA','@PETUKHOV','@INDYUKOV','@STRUSKIN','@ZEBRIK','@TIGRENOK','@LENIVEC','@SLONIKOV','@BEHEMOT','@NOSOROG','@GIPPO','@KROKODIL','@ALLIGATOR','@KAYMANOV','@VARANOV','@TERMITOV','@MURAVEYNIK','@ULITKIN','@SMAYKLIK','@EMOJIKIN','@STIKEROV','@GIFKIN','@MEMASIK','@HACKERMAN','@CODERKIN','@DEVELOPER','@PROGRAMIST','@ALGORITM','@PYTHONCHIK','@JAVAKIN','@PHPNIK','@RUBYMAN','@GOOGLER','@YANDEXOV','@MAILKIN','@TELEGRAM','@WHATSAPP','@VIBERKIN','@SIGNALOV','@SKYPEKIN','@ZOOMER','@MEETKIN','@DISCORDANT','@TWITCHER','@YOUTUBER','@TIKTOKER','@INSTAGRAM','@FACEBOOK','@TWITTEROV','@LINKEDIN','@GITHUBER','@GITLABOV','@STACKER','@REDDITOR','@PINTEREST','@SNAPCHAT','@TUMBLRIN','@FLICKROV','@SPOTIFY','@SOUNDCLOUD','@APPLEMUSIC','@DEEZEROV','@TIDALKIN','@AMAZONER','@EBAYOV','@ALIEXPRESS','@OZONKIN','@WILDBERRIES','@AVITOKIN','@YULAKIN','@CRAIGLIST','@OLXKIN','@PRODAVEC','@POKUPATEL','@BARGAINER','@TRADERKIN','@BROKEROV','@INVESTOR','@FINANCE','@BANKIR','@KASSAKIN','@MONEYMAN','@RUBLIK','@DOLLAROV','@EVROKIN','@BITCOINER','@ETHEREUM','@LITECOIN','@DOGECOIN','@RIPPLEKIN','@SOLANER','@POLKADOT','@AVALANCHE','@CHAINLINK','@UNISWAP','@AAVEKIN','@MAKERMAN','@COMPOUND','@YIELDKIN','@FARMEROV','@STAKERMAN','@MINERKIN','@BLOCKCHAIN','@NODERUNNER','@VALIDATOR','@DELEGATOR','@PROPOSER','@VOTERKIN','@GOVERNANCE','@DAOERKIN','@TOKENMAN','@NFTKIN','@METAVERSE','@DIGITALMAN','@CYBERPUNK','@NEONMAN','@SYNTHWAVE','@RETROWAVE','@VAPORWAVE','@OUTRUNER','@LASERKIN','@GRIDKIN','@MATRIXMAN','@HOLOGRAM','@VIRTUALMAN','@AUGMENTED','@ROBOTKIN','@DROIDMAN','@ANDROIDKIN','@CYBORGMAN','@AIMAN','@NEURALNET','@DEEPMIND','@TENSORFLOW','@PYTORCHMAN','@KERASER','@SKLEARNER','@PANDASOV','@NUMPYMAN','@MATPLOTLIB','@SEABORNOV','@PLOTLYER','@DASHKIN','@STREAMLIT','@GRADIOV','@FLASKMAN','@DJANGOKIN','@FASTAPIER','@TORNADOER','@ASYNCIOMAN','@AIOHTTPKIN','@REQUESTSER','@BEAUTIFULSOUP','@SCRAPYKIN','@SELENIUMER','@PLAYWRIGHT','@PUPPETEER','@CYPRESSOV','@JESTKIN','@MOCHAMAN','@CHAIER','@JASMINER','@KARMAMAN','@CYPRESSER','@TESTERKIN','@QAENGINEER','@DEVOPSMAN','@KUBERNETES','@DOCKERKIN','@K8SMAN','@HELMER','@ANSIBLEER','@TERRAFORM','@PUPPETMAN','@CHEFKIN','@SALTSTACK','@GRAFANAOV','@PROMETHEUS','@ALERTMANAGER','@LOKIER','@TEMPOER','@MILLEROV','@TRACERMAN','@JAEGERER','@ZIPKINMAN','@ELASTICSEARCH','@LOGSTASHER','@KIBANAMAN','@BEATKIN','@SPLUNKER','@DATADOGMAN','@NEWRELICER','@APPMAN','@SCALERMAN','@LOADBALANCER','@PROXYKIN','@NGINXMAN','@APACHEER','@TOMCATKIN','@JETTYER','@UNDERTOWMAN','@WILDFLYER','@GLASSFISH','@WEBLOGIC','@JBOSSMAN','@SPRINGBOOT','@QUARKUSER','@MICRONAUT','@VERTXMAN','@PLAYERKIN','@AKKAER','@AKKAMAN','@SCALAER','@KOTLINMAN','@GROOVYKIN','@CLOJURER','@SCHEMEER','@LISPMASTER','@HASKELLER','@ERLANGMAN','@ELIXIRKIN','@RUSTMAN','@GOER','@SWIFTER','@OBJECTIVEC','@CPPMAN','@CPLUSPLUS','@C_MASTER','@ASSEMBLER','@MASMKIN','@NASMER','@ARMER','@RISCVMAN','@MIPSER','@VERILOGMAN','@VHDLKIN','@SYSTEMVERILOG','@CHISELER','@BLUESPEC','@SPINALHDL','@CLASHMAN','@AMBERMAN','@MYTHRIL','@SILVERKIN','@GOLDENER','@PLATINUMAN','@DIAMONDKIN','@CRYSTALMAN','@ONYXER','@JADEKIN','@OBSIDIANMAN','@BASALTKIN','@GRANITEER','@MARBLEMAN','@QUARTZKIN','@SANDSTONE','@LIMESTONE','@CHALKMER','@GYPSUMAN','@SALTMAN','@PEPPERKIN','@CINNAMONER','@VANILLAMAN','@CHOCOLATE','@COFFEEER','@TEAKIN','@MATCHAER','@LATTEKIN','@ESPRESSOMAN','@CAPPUCCINO','@MOCHAKIN','@FRAPPUCCINO','@SMOOTHIEER','@JUICEKIN','@WATERMAN','@SODAKIN','@COLAER','@PEPSIMAN','@SPRITEER','@FANTAKIN','@MIRINDAMAN','@TARHUNER','@BAIKALMAN','@KVASKIN','@LEMONADER','@ORANGEJUICE','@APPLEJUICE','@GRAPEKIN','@BANANAMAN','@STRAWBERRY','@RASPBERRY','@BLUEBERRY','@BLACKBERRY','@CRANBERRY','@POMEGRANATE','@MANGOER','@PINEAPPLE','@COCONUTMAN','@PAPAYAKIN','@KIWIER','@AVOCADOMAN','@TOMATOKIN','@CUCUMBERER','@POTATOMAN','@CARROTKIN','@ONIONER','@GARLICMAN','@PEPPERKIN','@CHILIMAN','@BASILER','@MINTKIN','@ROSEMARY','@THYMEER','@PARSLEYMAN','@DILLKIN','@SAGEER','@OREGANOMAN','@CORIANDER','@CUMINKIN','@TURMERIC','@GINGERMAN','@CINNAMONKIN','@NUTMEGER','@CLOVEKIN','@CARDAMOM','@STARANISE','@FENNELKIN','@ANISEER','@LICORICEMAN','@HONEYKIN','@SUGARER','@SALTMAN','@PEPPERKIN','@VINEGARER','@OILMAN','@BUTTERKIN','@CREAMER','@MILKMAN','@CHEESEKIN','@YOGURTER','@KEFIRMAN','@RYAZHENKA','@SNOWBALLER','@ICEKIN','@FROZENMAN','@COLDER','@HOTKIN','@WARMMAN','@SUNNYER','@RAINYKIN','@CLOUDMAN','@STORMER','@WINDKIN','@SNOWMAN','@FROSTMAN','@ICYER','@GLACIERKIN','@ARCTICMAN','@ANTARCTIC','@TUNDRAER','@TAIGAKIN','@FORESTMAN','@JUNGLEER','@SAVANNAH','@DESERTKIN','@OASISMAN','@OCEANER','@SEAKIN','@WAVEMAN','@CURRENTKIN','@TIDEMAN','@CORALER','@REEFKIN','@LAGOONMAN','@BAYER','@GULFKIN','@STRAITMAN','@CHANNELER','@FJORDKIN','@ISLANDMAN','@PENINSULA','@CAPEKIN','@MOUNTAINER','@HILLMAN','@VALLEYKIN','@PLATEAUER','@CANYONMAN','@MESAER','@BUTTEKIN','@CLIFFMAN','@ROCKER','@STONEKIN','@BOULDERMAN','@PEBBLEER','@GRAVELKIN','@SANDMAN','@DUSTER','@MISTKIN','@FOGMAN','@HAZEER','@SMOGKIN','@SMOKEMAN','@FLAMEKIN','@BLAZER','@INFERNOER','@VOLCANOMAN','@MAGMAKIN','@LAVAER','@ASHMAN','@PUMICEKIN','@OBSIDIANER','@CRYSTALKIN','@GEMSTONEMAN','@JEWELER','@DIAMONDKIN','@RUBYMAN','@SAPPHIREKIN','@EMERALDER','@AMETHYST','@PEARLKIN','@OPALMAN','@JADEER','@TOPAZKIN','@GARNETMAN','@SUNSTONE','@MOONSTONE','@STARMAN','@GALAXYKIN','@UNIVERSEER','@COSMOSMAN','@ASTEROIDKIN','@COMETER','@METEORMAN','@PLANETER','@ORBITKIN','@SATELLITEMAN','@SPACER','@STARSHIPKIN','@ALIENMAN','@ROBOTER','@CYBORGKIN','@HUMANOID','@CLONEMAN','@ANDROIDER','@AIKIN','@MACHINEMAN','@ENGINEER','@MECHANIC','@TECHNOMAN','@GADGETKIN','@DEVICEMAN','@WIDGETER','@GIZMOKIN','@THINGAMY','@DOOHICKEY','@WHATZIT','@DOODADER','@GADGETMAN','@TOOLKIN','@IMPLEMENT','@INSTRUMENT','@APPARATUS','@CONTRAPTION','@DEVICEKIN','@MACHINERY','@EQUIPMENT','@HARDWARE','@SOFTWARE','@FIRMWARE','@CODEBASE','@SOURCEKIN','@BINARYMAN','@HEXER','@DECIMALMAN','@OCTALKIN','@HEXADECIMAL','@BITSER','@BYTEKIN','@KILOBYTE','@MEGABYTE','@GIGABYTE','@TERABYTE','@PETABYTE','@EXABYTE','@ZETTABYTE','@YOTTABYTE','@BRONSKI','@BEATOV','@TECHNO','@HOUSEMAN','@TRANCEER','@DUBSTEPKIN','@DRUMANDBASS','@BREAKBEAT','@JUNGLEKIN','@GARAGEER','@GRIMEKIN','@DRILLMAN','@UKGARAGE','@BASSKIN','@HARDCORE','@TERRORIST','@RAVERKIN','@CLUBER','@PARTYMAN','@DJKIN','@MCER','@PRODUCER','@RECORDKIN','@VINYLMAN','@CDER','@MP3KIN','@FLACMAN','@WAVER','@AIFFKIN','@OGGMAN','@OPUSER','@REAPERKIN','@PROTOOLS','@LOGICMAN','@CUBASEER','@FLSTUDIO','@ABLETONMAN','@BITWIGKIN','@REASONER','@CAKEWALK','@GARAGEBAND','@AUDACITYER','@SOUNDFORGE','@WAVELAB','@SPECTRALMAN','@FREQUENCYKIN','@HERTZER','@KILOHERTZ','@MEGAHERTZ','@GIGAHERTZ','@DECIBELMAN','@AMPLITUDE','@WAVEFORM','@SINEWAVE','@SAWTOOTH','@SQUAREWAVE','@TRIANGLE','@PULSEWAVE','@NOISEKIN','@SILENCEMAN','@ECHOER','@REVERBKIN','@DELAYMAN','@CHORUSER','@FLANGERKIN','@PHASER','@DISTORTION','@OVERDRIVE','@FUZZKIN','@CRUNCHMAN','@GAINER','@VOLUMEMAN','@PANER','@STEREOKIN','@MONOMAN','@QUADER','@SURROUND'];
+
+    function getRandomUsername() { return USERNAMES[Math.floor(Math.random() * USERNAMES.length)]; }
+
+    function showFakeNotification() {
+        const names = ['только что купил', 'приобрёл', 'заказал', 'взял', 'оформил'];
+        const actions = ['5000 ботов', '1000 ботов', '25000 ботов', '100000 ботов', 'Премиум пакет'];
+        const username = getRandomUsername();
+        const action = actions[Math.floor(Math.random() * actions.length)];
+        const verb = names[Math.floor(Math.random() * names.length)];
+        const time = new Date().toLocaleTimeString('ru-RU');
+        const notif = document.createElement('div');
+        notif.className = 'notif-toast';
+        notif.innerHTML = `<div><span class="notif-name">${username}</span> ${verb} <strong>${action}</strong></div><div class="notif-time">${time}</div>`;
+        notifContainer.appendChild(notif);
+        setTimeout(() => { if (notif.parentNode) notif.remove(); }, 5000);
+        setTimeout(() => { if (notif.parentNode) { notif.style.opacity = '0'; notif.style.transition = 'opacity 0.5s'; setTimeout(() => { if (notif.parentNode) notif.remove(); }, 500); } }, 4000);
+    }
+
+    function initFakeNotifications() {
+        showFakeNotification();
+        setTimeout(() => showFakeNotification(), 7000);
+        setTimeout(() => showFakeNotification(), 15000);
+        setInterval(() => showFakeNotification(), 20000 + Math.random() * 15000);
+    }
+
+    // ===== ЗАДАНИЯ =====
+    function generateQuests() {
+        const quests = [
+            { id: 1, title: 'Купить 1000 ботов', desc: 'Приобретите ботнет от 1000 ботов', reward: 5, type: 'buy_bots', target: 1000, icon: '🤖' },
+            { id: 2, title: 'Сделать 2 поиска по номеру', desc: 'Выполните 2 поиска по номеру телефона', reward: 5, type: 'phone_search', target: 2, icon: '📱' },
+            { id: 3, title: 'Запустить атаку', desc: 'Запустите любую DDoS атаку', reward: 3, type: 'attack', target: 1, icon: '⚔️' },
+            { id: 4, title: 'Пополнить баланс', desc: 'Пополните баланс от $10', reward: 10, type: 'deposit', target: 10, icon: '💰' },
+            { id: 5, title: 'Пригласить друга', desc: 'Пригласите друга в VO1D SHOP', reward: 5, type: 'referral', target: 1, icon: '👥' },
+            { id: 6, title: 'Купить 5000 ботов', desc: 'Приобретите ботнет от 5000 ботов', reward: 10, type: 'buy_bots', target: 5000, icon: '🔥' },
+            { id: 7, title: 'Сделать 5 поисков по IP', desc: 'Выполните 5 поисков по IP адресу', reward: 7, type: 'ip_search', target: 5, icon: '🌐' },
+            { id: 8, title: 'Потратить $50', desc: 'Потратьте $50 на любые услуги', reward: 8, type: 'spend', target: 50, icon: '💎' },
+        ];
+        // Перемешиваем и берём 4 случайных
+        const shuffled = quests.sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 4);
+    }
+
+    function getDailyQuests() {
+        const now = Date.now();
+        const day = 24 * 60 * 60 * 1000;
+        if (now - parseInt(lastQuestReset) > day) {
+            const newQuests = generateQuests();
+            localStorage.setItem('dailyQuests', JSON.stringify(newQuests));
+            localStorage.setItem('lastQuestReset', now.toString());
+            lastQuestReset = now;
+            questsCache = newQuests;
+            return newQuests;
+        }
+        const saved = localStorage.getItem('dailyQuests');
+        if (saved) {
+            questsCache = JSON.parse(saved);
+            return questsCache;
+        }
+        const newQuests = generateQuests();
+        localStorage.setItem('dailyQuests', JSON.stringify(newQuests));
+        localStorage.setItem('lastQuestReset', now.toString());
+        lastQuestReset = now;
+        questsCache = newQuests;
+        return newQuests;
+    }
 
     function apiFetch(endpoint, options = {}) {
         const token = localStorage.getItem(TOKEN_KEY);
         const headers = { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}), ...(options.headers || {}) };
-        console.log(`📡 Запрос к ${endpoint}`, { method: options.method || 'GET', body: options.body });
-        return fetch(`${API_BASE}${endpoint}`, { ...options, headers }).then(r => { console.log(`📥 Ответ от ${endpoint}:`, r.status); return r.json(); }).then(data => { console.log(`📦 Данные от ${endpoint}:`, data); return data; }).catch(err => { console.error(`❌ Ошибка запроса к ${endpoint}:`, err); throw err; });
+        return fetch(`${API_BASE}${endpoint}`, { ...options, headers }).then(r => r.json()).catch(err => { console.error(err); throw err; });
     }
 
     function formatCurrency(amount) { return `$${Number(amount).toFixed(2)}`; }
@@ -291,7 +367,6 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
                 newBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
-                    console.log(`🔘 Нажата кнопка: ${a.label}`);
                     if (typeof a.action === 'function') a.action();
                     else if (typeof a.action === 'string') { try { eval(a.action); } catch(err) { console.error('Ошибка выполнения action:', err); } }
                 });
@@ -308,7 +383,6 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
             const wrappedActions = actions.map(a => ({
                 ...a,
                 action: function() {
-                    console.log(`🔘 Выполняется действие для: ${a.label}`);
                     if (typeof a.action === 'function') a.action();
                     else if (typeof a.action === 'string') { try { eval(a.action); } catch(err) { console.error('Ошибка выполнения action:', err); } }
                     modalRoot.innerHTML = '';
@@ -316,7 +390,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
                     if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; }
                 }
             }));
-            wrappedActions.push({ label: '❌ Отмена', cls: 'btn-outline', action: function() { console.log('🔘 Нажата кнопка "Отмена"'); modalRoot.innerHTML = ''; if (modalResolve) { modalResolve(false); modalResolve = null; } if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; } } });
+            wrappedActions.push({ label: '❌ Отмена', cls: 'btn-outline', action: function() { modalRoot.innerHTML = ''; if (modalResolve) { modalResolve(false); modalResolve = null; } if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; } } });
             showModal(title, body, wrappedActions, icon);
         });
     }
@@ -345,67 +419,56 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     function showLowBotWarning(count) {
         return new Promise((resolve) => {
             showModal('⚠️ ВНИМАНИЕ! МАЛО БОТОВ', `<div style="text-align:center;padding:10px;"><div style="font-size:64px;margin-bottom:12px;">🤏</div><p style="font-size:20px;font-weight:700;color:var(--accent-gold);">Вы покупаете всего <strong>${count}</strong> ботов</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p style="font-size:16px;color:var(--text-primary);">Сайты с защитой (Cloudflare, DDoS-Guard) <strong style="color:var(--accent-red);">МОГУТ НЕ УПАСТЬ!</strong></p><p style="font-size:14px;color:var(--text-secondary);margin-top:8px;">Рекомендуем купить <strong style="color:var(--accent-green);">от 1000+ ботов</strong> для гарантии.</p></div><p style="font-size:13px;color:var(--text-secondary);">Уровень мощности: <strong>${getPowerLevelDescription(count)}</strong></p></div>`,
-            [{ label: '✅ ВСЁ РАВНО КУПИТЬ', cls: 'btn-red', action: function() { console.log('✅ Пользователь подтвердил покупку малого количества ботов'); resolve(true); } }, { label: '🔙 ИЗМЕНИТЬ КОЛИЧЕСТВО', cls: 'btn-gold', action: function() { console.log('❌ Пользователь решил изменить количество ботов'); resolve(false); } }], '⚠️');
+            [{ label: '✅ ВСЁ РАВНО КУПИТЬ', cls: 'btn-red', action: function() { resolve(true); } }, { label: '🔙 ИЗМЕНИТЬ КОЛИЧЕСТВО', cls: 'btn-gold', action: function() { resolve(false); } }], '⚠️');
         });
     }
 
     window.handleBuy = async function() {
-        console.log('🛒 ===== НАЧАЛО ПРОЦЕССА ПОКУПКИ =====');
         const slider = document.getElementById('botSlider');
         const durationSelect = document.getElementById('durationSelect');
-        if (!slider || !durationSelect) { console.error('❌ Элементы формы не найдены'); showModal('❌ Ошибка', 'Не удалось найти элементы формы. Обновите страницу.'); return; }
+        if (!slider || !durationSelect) { showModal('❌ Ошибка', 'Не удалось найти элементы формы. Обновите страницу.'); return; }
         const count = parseInt(slider.value);
         const days = parseInt(durationSelect.value);
         const options = {};
         document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
-        console.log('📦 Данные для покупки:', { count, days, options });
         const validation = validateBotCount(count);
         if (!validation.valid) { showModal('❌ Ошибка валидации', validation.message); return; }
         const price = calculatePrice(count, days, options);
         const currentBalance = currentUser ? currentUser.balance : 0;
-        console.log(`💰 Стоимость: $${price}, Баланс: $${currentBalance}`);
         if (currentBalance < price) {
             showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств на балансе</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>💳 Ваш баланс: <strong style="color:var(--accent-green);">${formatCurrency(currentBalance)}</strong></p><p>💰 Нужно: <strong style="color:var(--accent-gold);">${formatCurrency(price)}</strong></p><p style="font-size:14px;color:var(--text-secondary);margin-top:8px;">Не хватает: <strong style="color:var(--accent-red);">${formatCurrency(price - currentBalance)}</strong></p></div></div>`, [{ label: '💎 ПОПОЛНИТЬ БАЛАНС', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
             return;
         }
         let userConfirmed = true;
         if (count >= 500 && count < 1000) {
-            console.log('⚠️ Показываем предупреждение для', count, 'ботов');
             userConfirmed = await showLowBotWarning(count);
-            if (!userConfirmed) { console.log('❌ Покупка отменена пользователем'); return; }
-            console.log('✅ Пользователь подтвердил покупку');
+            if (!userConfirmed) return;
         }
-        console.log('📤 Отправка запроса на сервер...');
         try {
             const res = await apiFetch('/buy', { method: 'POST', body: JSON.stringify({ bot_count: count, duration_days: days, options }) });
-            console.log('📥 Ответ сервера:', res);
             if (res.success === true || res.botnet_id) {
-                console.log('✅ Покупка успешна!');
                 currentUser.balance = res.new_balance;
                 localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                if (typeof explosionEffect === 'function') explosionEffect();
-                showModal('✅ Покупка успешна!', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🎉</div><p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ботнет успешно куплен!</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>🤖 <strong>${res.bot_count}</strong> ботов</p><p>📅 <strong>${res.duration_days}</strong> дней</p><p>💰 Стоимость: <strong style="color:var(--accent-gold);">${formatCurrency(res.price)}</strong></p><p>💳 Новый баланс: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p></div>${res.bot_count < 1000 ? `<p style="color:var(--accent-gold);">⚠️ ${res.bot_count} ботов — защищённый сайт может не упасть!</p>` : `<p style="color:var(--accent-green);">🔥 ${res.bot_count} ботов — гарантированный успех!</p>`}<p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Уровень мощности: <strong>${getPowerLevelDescription(res.bot_count)}</strong></p></div>`,
+                explosionEffect();
+                showModal('✅ Покупка успешна!', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🎉</div><p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ботнет успешно куплен!</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>🤖 <strong>${res.bot_count}</strong> ботов</p><p>📅 <strong>${res.duration_days}</strong> дней</p><p>💰 Стоимость: <strong style="color:var(--accent-gold);">${formatCurrency(res.price)}</strong></p><p>💳 Новый баланс: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p></div><p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Уровень мощности: <strong>${getPowerLevelDescription(res.bot_count)}</strong></p></div>`,
                 [{ label: '⚔️ К АТАКЕ', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊 ДАШБОРД', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
                 userBalance.textContent = formatCurrency(currentUser.balance);
-                if (typeof showNotification === 'function') showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
+                showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
+                // Проверяем задания
+                checkQuests('buy_bots', count);
                 return;
             }
             if (res.error) {
-                console.error('❌ Ошибка от сервера:', res.error);
                 if (res.error.includes('Insufficient balance')) {
                     showModal('❌ Недостаточно средств', `<p>У вас недостаточно средств для покупки.</p><div style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>💰 Нужно: <strong>${formatCurrency(price)}</strong></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
                     return;
                 }
-                showModal('❌ Ошибка покупки', `<p>Произошла ошибка при покупке:</p><p style="color:var(--accent-red);">${res.error}</p><p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Попробуйте обновить страницу и повторить попытку.</p>`);
+                showModal('❌ Ошибка покупки', `<p>Произошла ошибка при покупке:</p><p style="color:var(--accent-red);">${res.error}</p>`);
                 return;
             }
-            console.warn('⚠️ Неизвестный ответ от сервера:', res);
-            showModal('⚠️ Неизвестный ответ', `<p>Сервер вернул неожиданный ответ.</p><pre style="background:#0a0a0a;padding:8px;border-radius:4px;font-size:11px;overflow-x:auto;max-height:200px;">${JSON.stringify(res, null, 2)}</pre><p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Попробуйте обновить страницу и повторить попытку.</p>`);
         } catch(e) {
-            console.error('❌ Ошибка при покупке:', e);
-            showModal('❌ Ошибка соединения', `<p>Не удалось связаться с сервером.</p><p style="color:var(--text-secondary);">${e.message || 'Неизвестная ошибка'}</p><p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Проверьте подключение к интернету и попробуйте снова.</p>`);
+            showModal('❌ Ошибка', 'Сервер недоступен или ошибка соединения.');
         }
-        console.log('🛒 ===== КОНЕЦ ПРОЦЕССА ПОКУПКИ =====');
     };
 
     window.updatePriceDisplay = function() {
@@ -435,13 +498,45 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         if (buyButton) {
             const newBuyButton = buyButton.cloneNode(true);
             buyButton.parentNode.replaceChild(newBuyButton, buyButton);
-            newBuyButton.addEventListener('click', function(e) { console.log('🔴 КЛИК ПО КНОПКЕ КУПИТЬ'); handleBuy(); });
+            newBuyButton.addEventListener('click', function(e) { handleBuy(); });
         }
         window.updatePriceDisplay();
     }
 
     const originalRenderShop = renderShop;
     renderShop = async function() { await originalRenderShop(); setTimeout(initShopHandlers, 100); };
+
+    // ===== ЗАДАНИЯ ПРОВЕРКА =====
+    function checkQuests(type, value) {
+        const quests = getDailyQuests();
+        let completed = false;
+        quests.forEach(q => {
+            if (q.type === type && !q.completed) {
+                if (q.target <= value) {
+                    q.completed = true;
+                    q.claimed = false;
+                    completed = true;
+                }
+            }
+        });
+        if (completed) {
+            localStorage.setItem('dailyQuests', JSON.stringify(quests));
+            showNotification('🎯 Задание выполнено! Проверьте вкладку "Задания"', 'success');
+        }
+    }
+
+    function claimQuestReward(questId) {
+        const quests = getDailyQuests();
+        const quest = quests.find(q => q.id === questId);
+        if (!quest || !quest.completed || quest.claimed) return;
+        quest.claimed = true;
+        currentUser.balance = (currentUser.balance || 0) + quest.reward;
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        localStorage.setItem('dailyQuests', JSON.stringify(quests));
+        userBalance.textContent = formatCurrency(currentUser.balance);
+        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
+        renderQuests();
+    }
 
     // ===== НАВИГАЦИЯ =====
     window.navigateTo = function(page, data = null) { currentPage = page; renderNav(); renderPage(page, data); window.scrollTo({ top: 0, behavior: 'smooth' }); };
@@ -453,6 +548,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
             html += `<a class="${currentPage === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">📊 Дашборд</a>`;
             html += `<a class="${currentPage === 'shop' ? 'active' : ''}" onclick="navigateTo('shop')">🛒 Магазин</a>`;
             html += `<a class="${currentPage === 'attack' ? 'active' : ''}" onclick="navigateTo('attack')">⚔️ Атака</a>`;
+            html += `<a class="${currentPage === 'quests' ? 'active' : ''}" onclick="navigateTo('quests')">🎯 Задания</a>`;
             html += `<a class="${currentPage === 'profile' ? 'active' : ''}" onclick="navigateTo('profile')">👤 Профиль</a>`;
             if (currentUser && currentUser.role === 'admin') html += `<a class="${currentPage === 'admin' ? 'active' : ''}" onclick="navigateTo('admin')">🔧 Админ</a>`;
             html += `<button onclick="logout()">🚪 Выйти</button>`;
@@ -473,6 +569,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
             case 'dashboard': renderDashboard(); break;
             case 'shop': renderShop(); break;
             case 'attack': renderAttack(data); break;
+            case 'quests': renderQuests(); break;
             case 'profile': renderProfile(); break;
             case 'admin': renderAdmin(); break;
             default: renderHome();
@@ -481,7 +578,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
     // ===== HOME =====
     function renderHome() {
-        pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">500,000+ ботов</div><div class="desc">Мощность, которой хватит на всё</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div></div>`;
+        pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии, без ограничений</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div></div>`;
     }
 
     // ===== LOGIN =====
@@ -565,8 +662,8 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         if (!currentUser) { navigateTo('login'); return; }
         const options = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
         const durations = [1, 3, 7, 14, 30];
-        pageContainer.innerHTML = `<div class="shop-container"><h1 style="text-align:center;">🛒 Магазин ботнетов</h1><div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div><div class="slider-container"><label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label><input type="range" id="botSlider" min="500" max="500000" step="500" value="500"><div class="slider-labels"><span>500</span><span>500,000</span></div></div><div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div><div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button></div></div>`;
-        document.getElementById('buyButton').addEventListener('click', function(e) { console.log('🔴 КЛИК ПО КНОПКЕ (addEventListener)'); handleBuy(); });
+        pageContainer.innerHTML = `<div class="shop-container"><h1 style="text-align:center;">🛒 Магазин ботнетов</h1><div style="text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:8px;">🔥 Ботнеты всегда в наличии! Бесконечный запас</div><div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div><div class="slider-container"><label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label><input type="range" id="botSlider" min="500" max="500000" step="500" value="500"><div class="slider-labels"><span>500</span><span>500,000+</span></div></div><div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div><div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button></div></div>`;
+        document.getElementById('buyButton').addEventListener('click', function(e) { handleBuy(); });
         const slider = $('botSlider');
         const updatePrice = () => {
             const count = parseInt(slider.value);
@@ -582,6 +679,33 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         $('durationSelect').addEventListener('change', updatePrice);
         document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', updatePrice));
         updatePrice();
+    }
+
+    // ===== QUESTS =====
+    function renderQuests() {
+        if (!currentUser) { navigateTo('login'); return; }
+        const quests = getDailyQuests();
+        let html = `<h1>🎯 Ежедневные задания</h1><p style="color:var(--text-secondary);margin-bottom:16px;">Задания обновляются каждые 24 часа. Выполняй и получай бонусы!</p><div style="display:grid;gap:12px;">`;
+        quests.forEach(q => {
+            const status = q.completed ? (q.claimed ? '✅ Получено' : '🎯 Выполнено!') : '⏳ В процессе';
+            const btn = q.completed && !q.claimed ? `<button class="btn btn-green btn-sm" onclick="claimQuestReward(${q.id})">ЗАБРАТЬ $${q.reward}</button>` : '';
+            html += `<div class="dash-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;"><div><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:24px;">${q.icon}</span><span style="font-weight:700;">${q.title}</span></div><div style="font-size:14px;color:var(--text-secondary);">${q.desc}</div><div style="font-size:13px;color:var(--text-secondary);">Награда: <strong style="color:var(--accent-gold);">$${q.reward}</strong></div></div><div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:${q.completed ? 'var(--accent-green)' : 'var(--text-secondary)'};">${status}</span>${btn}</div></div>`;
+        });
+        html += `</div>`;
+        pageContainer.innerHTML = html;
+    }
+
+    function claimQuestReward(questId) {
+        const quests = getDailyQuests();
+        const quest = quests.find(q => q.id === questId);
+        if (!quest || !quest.completed || quest.claimed) return;
+        quest.claimed = true;
+        currentUser.balance = (currentUser.balance || 0) + quest.reward;
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        localStorage.setItem('dailyQuests', JSON.stringify(quests));
+        userBalance.textContent = formatCurrency(currentUser.balance);
+        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
+        renderQuests();
     }
 
     // ===== ATTACK =====
@@ -614,7 +738,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         try {
             const res = await apiFetch('/attack', { method: 'POST', body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration }) });
             if (res.error) { showModal('Ошибка', res.error); return; }
-            if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀 Атака запущена на ' + target, 'success'); addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`); startAttackMonitoring(activeAttackId); }
+            if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀 Атака запущена на ' + target, 'success'); addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`); startAttackMonitoring(activeAttackId); checkQuests('attack', 1); }
         } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
     };
 
@@ -749,7 +873,6 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
     console.log(`%c\n╔═══════════════════════════════════════╗\n║                                       ║\n║   ██╗   ██╗ ██████╗ ██╗ ██████╗     ║\n║   ██║   ██║██╔═══██╗██║██╔═══██╗    ║\n║   ██║   ██║██║   ██║██║██║   ██║    ║\n║   ╚██╗ ██╔╝██║   ██║██║██║   ██║    ║\n║    ╚████╔╝ ╚██████╔╝██║╚██████╔╝    ║\n║     ╚═══╝   ╚═════╝ ╚═╝ ╚═════╝     ║\n║                                       ║\n║      VO1D SHOP — RENT THE VOID       ║\n║          DESTROY ANYTHING            ║\n║                                       ║\n╚═══════════════════════════════════════╝\n`, 'color: #8b5cf6; font-size: 14px; font-weight: bold;');
     console.log('%c🔥 WELCOME TO THE VOID, HACKER!', 'color: #06d6a0; font-size: 18px; font-weight: bold;');
-    console.log('%c💀 500,000+ bots ready for destruction', 'color: #ef4444; font-size: 14px;');
 
     function init() {
         const saved = localStorage.getItem(USER_KEY);
@@ -762,6 +885,21 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         }
         renderNav();
         navigateTo(currentUser ? 'dashboard' : 'home');
+        getDailyQuests();
+        initFakeNotifications();
+        setInterval(() => {
+            const now = Date.now();
+            const day = 24 * 60 * 60 * 1000;
+            if (now - parseInt(lastQuestReset) > day) {
+                const newQuests = generateQuests();
+                localStorage.setItem('dailyQuests', JSON.stringify(newQuests));
+                localStorage.setItem('lastQuestReset', now.toString());
+                lastQuestReset = now;
+                questsCache = newQuests;
+                if (currentPage === 'quests') renderQuests();
+                showNotification('🔄 Новые ежедневные задания доступны!', 'warning');
+            }
+        }, 60000);
         setInterval(async () => {
             if (currentUser) {
                 try {
