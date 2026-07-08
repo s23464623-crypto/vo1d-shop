@@ -267,13 +267,11 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
 function generateQuests() {
     const quests = [
-        { id: 1, title: 'Купить 1000 ботов', desc: 'Приобретите ботнет от 1000 ботов', reward: 5, type: 'buy_bots', target: 1000, icon: '🤖' },
-        { id: 2, title: 'Сделать 2 поиска по IP', desc: 'Выполните 2 поиска по IP адресу', reward: 5, type: 'ip_search', target: 2, icon: '🌐' },
+        { id: 1, title: 'Купить 1000 ботов', desc: 'Приобретите ботнет от 1000 ботов', reward: 15, type: 'buy_bots', target: 1000, icon: '🤖' },
         { id: 3, title: 'Запустить атаку', desc: 'Запустите любую DDoS атаку', reward: 3, type: 'attack', target: 1, icon: '⚔️' },
-        { id: 4, title: 'Пополнить баланс', desc: 'Пополните баланс от $10', reward: 10, type: 'deposit', target: 10, icon: '💰' },
+        { id: 4, title: 'Пополнить баланс', desc: 'Пополните баланс от $10', reward: 20, type: 'deposit', target: 10, icon: '💰' },
         { id: 5, title: 'Пригласить друга', desc: 'Пригласите друга в VO1D SHOP', reward: 5, type: 'referral', target: 1, icon: '👥' },
-        { id: 6, title: 'Купить 5000 ботов', desc: 'Приобретите ботнет от 5000 ботов', reward: 10, type: 'buy_bots', target: 5000, icon: '🔥' },
-        { id: 7, title: 'Сделать 5 поисков по IP', desc: 'Выполните 5 поисков по IP адресу', reward: 7, type: 'ip_search', target: 5, icon: '🌐' },
+        { id: 6, title: 'Купить 5000 ботов', desc: 'Приобретите ботнет от 5000 ботов', reward: 60, type: 'buy_bots', target: 5000, icon: '🔥' },
         { id: 8, title: 'Потратить $50', desc: 'Потратьте $50 на любые услуги', reward: 8, type: 'spend', target: 50, icon: '💎' },
     ];
     const shuffled = quests.sort(() => 0.5 - Math.random());
@@ -343,39 +341,84 @@ function checkQuests(type, value) {
     }
 }
 
+// ===== ЗАБРАТЬ НАГРАДУ (ОТКРЫВАЕТ МОДАЛКУ С КОНТАКТОМ) =====
 function claimQuestReward(questId) {
+    console.log('🔘 claimQuestReward вызвана, questId:', questId);
+    
     if (!currentUser) {
         showNotification('❌ Войдите в аккаунт!', 'error');
         return;
     }
+    
     const quests = getDailyQuests();
     const quest = quests.find(q => q.id === questId);
+    
     if (!quest) {
         showNotification('❌ Задание не найдено', 'error');
         return;
     }
+    
     if (!quest.completed) {
         showNotification('❌ Задание ещё не выполнено', 'error');
         return;
     }
+    
     if (quest.claimed) {
         showNotification('❌ Награда уже получена', 'error');
         return;
     }
-
-    quest.claimed = true;
-    currentUser.balance = (currentUser.balance || 0) + quest.reward;
-    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-
-    const username = currentUser.username;
-    localStorage.setItem(`dailyQuests_${username}`, JSON.stringify({
-        timestamp: parseInt(localStorage.getItem(`lastQuestReset_${username}`)) || Date.now(),
-        quests: quests
-    }));
-
-    userBalance.textContent = formatCurrency(currentUser.balance);
-    showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
-    if (currentPage === 'quests') renderQuests();
+    
+    // ===== ПОКАЗЫВАЕМ МОДАЛКУ С КОНТАКТОМ АДМИНА =====
+    showModal(
+        '💎 ЗАБРАТЬ БАЛАНС С КВЕСТА',
+        `
+        <div style="text-align:center; padding:10px;">
+            <div style="font-size:48px; margin-bottom:12px;">💎</div>
+            <p style="font-size:18px; font-weight:700; color:var(--accent-gold);">
+                Задание выполнено!
+            </p>
+            <p style="font-size:16px; margin:8px 0;">
+                Вы заработали <strong style="color:var(--accent-green);">$${quest.reward}</strong>
+            </p>
+            <p style="font-size:14px; color:var(--text-secondary); margin:4px 0;">
+                Задание: <strong>${quest.title}</strong>
+            </p>
+            <div style="margin:16px 0; padding:16px; background:var(--bg-surface-2); border-radius:var(--radius-sm);">
+                <p style="font-size:16px; margin-bottom:8px;">💎 Для получения денег с квеста свяжитесь с администратором:</p>
+                <a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a>
+                <p style="margin-top:12px; font-size:13px; color:var(--text-secondary);">🕒 Обработка: до 5 минут</p>
+            </div>
+        </div>
+        `,
+        [
+            { 
+                label: '📱 Написать @VO1D_NETWORK', 
+                cls: 'btn-gold', 
+                action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' 
+            },
+            { 
+                label: '✅ Я НАПИСАЛ', 
+                cls: 'btn-green', 
+                action: function() { 
+                    // Отмечаем задание как полученное
+                    const quests = getDailyQuests();
+                    const q = quests.find(q => q.id === questId);
+                    if (q) {
+                        q.claimed = true;
+                        const username = currentUser.username;
+                        localStorage.setItem(`dailyQuests_${username}`, JSON.stringify({ 
+                            timestamp: parseInt(localStorage.getItem(`lastQuestReset_${username}`)) || Date.now(), 
+                            quests: quests 
+                        }));
+                        showNotification('✅ Задание отмечено как полученное!', 'success');
+                        if (currentPage === 'quests') renderQuests();
+                        closeModal();
+                    }
+                } 
+            }
+        ],
+        '💎'
+    );
 }
 
 function renderQuests() {
