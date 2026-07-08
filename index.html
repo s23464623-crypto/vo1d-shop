@@ -524,36 +524,126 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     const originalRenderShop = renderShop;
     renderShop = async function() { await originalRenderShop(); setTimeout(initShopHandlers, 100); };
 
-    // ===== ЗАДАНИЯ ПРОВЕРКА =====
+        // ===== ЗАДАНИЯ ПРОВЕРКА =====
     function checkQuests(type, value) {
         const quests = getDailyQuests();
-        let completed = false;
+        let updated = false;
         quests.forEach(q => {
             if (q.type === type && !q.completed) {
                 if (q.target <= value) {
                     q.completed = true;
                     q.claimed = false;
-                    completed = true;
+                    updated = true;
                 }
             }
         });
-        if (completed) {
+        if (updated) {
             localStorage.setItem('dailyQuests', JSON.stringify(quests));
-            showNotification('🎯 Задание выполнено! Проверьте вкладку "Задания"', 'success');
+            questsCache = quests;
+            showNotification('🎯 Задание выполнено! Забери награду во вкладке "Задания"', 'success');
+            if (currentPage === 'quests') renderQuests();
         }
     }
 
     function claimQuestReward(questId) {
-        const quests = getDailyQuests();
+        console.log('🎯 Пытаемся забрать награду за квест:', questId);
+
+        let quests = JSON.parse(localStorage.getItem('dailyQuests') || '[]');
+        if (!quests || quests.length === 0) {
+            quests = generateQuests();
+            localStorage.setItem('dailyQuests', JSON.stringify(quests));
+        }
+
         const quest = quests.find(q => q.id === questId);
-        if (!quest || !quest.completed || quest.claimed) return;
+        if (!quest) {
+            showNotification('❌ Квест не найден', 'error');
+            return;
+        }
+
+        if (!quest.completed) {
+            showNotification('❌ Задание ещё не выполнено', 'error');
+            return;
+        }
+
+        if (quest.claimed) {
+            showNotification('❌ Награда уже получена', 'warning');
+            return;
+        }
+
+        const rewardAmount = quest.reward;
+        currentUser.balance = (currentUser.balance || 0) + rewardAmount;
         quest.claimed = true;
-        currentUser.balance = (currentUser.balance || 0) + quest.reward;
-        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+
         localStorage.setItem('dailyQuests', JSON.stringify(quests));
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        questsCache = quests;
+
         userBalance.textContent = formatCurrency(currentUser.balance);
-        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
+        explosionEffect();
+        showNotification(`✅ Получено $${rewardAmount} за задание "${quest.title}"`, 'success');
+        console.log('✅ Награда получена! Новый баланс:', currentUser.balance);
+
         renderQuests();
+    }
+
+    // ===== ОТОБРАЖЕНИЕ КВЕСТОВ =====
+    function renderQuests() {
+        if (!currentUser) { navigateTo('login'); return; }
+
+        const quests = getDailyQuests();
+        questsCache = quests;
+
+        let html = `
+            <h1>🎯 Ежедневные задания</h1>
+            <p style="color:var(--text-secondary);margin-bottom:16px;">
+                Задания обновляются каждые 24 часа. Выполняй и получай бонусы!
+                ${quests.some(q => q.completed && !q.claimed) ? ' <span style="color:var(--accent-green);">🔥 Есть готовые награды!</span>' : ''}
+            </p>
+            <div style="display:grid;gap:12px;">
+        `;
+
+        quests.forEach(q => {
+            let statusText = '⏳ В процессе';
+            let statusClass = 'pending';
+            let btn = '';
+
+            if (q.completed) {
+                if (q.claimed) {
+                    statusText = '✅ Получено';
+                    statusClass = 'claimed';
+                } else {
+                    statusText = '🎯 Выполнено!';
+                    statusClass = 'done';
+                    btn = `<button class="btn btn-green btn-sm" onclick="claimQuestReward(${q.id})" style="animation:pulse 2s infinite;">🎁 ЗАБРАТЬ $${q.reward}</button>`;
+                }
+            }
+
+            html += `
+                <div class="quest-card">
+                    <div class="quest-info">
+                        <span class="quest-icon">${q.icon}</span>
+                        <div>
+                            <div class="quest-title">${q.title}</div>
+                            <div class="quest-desc">${q.desc}</div>
+                            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">
+                                🎯 Требуется: ${q.type === 'buy_bots' ? 'купить ' + q.target + ' ботов' :
+                                             q.type === 'attack' ? 'запустить ' + q.target + ' атаку' :
+                                             q.type === 'geo_search' ? 'сделать ' + q.target + ' поиск(а) по IP' :
+                                             'выполнить задание'}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                        <span class="quest-reward">💰 $${q.reward}</span>
+                        <span class="quest-status ${statusClass}">${statusText}</span>
+                        ${btn}
+                    </div>
+                </div>
+            `;
+        });
+
+        html += `</div>`;
+        pageContainer.innerHTML = html;
     }
 
     // ===== НАВИГАЦИЯ =====
