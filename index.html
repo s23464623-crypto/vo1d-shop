@@ -38,7 +38,6 @@
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         @keyframes matrixRain { 0% { background-position: 0% 0%; } 100% { background-position: 0% 100%; } }
         @keyframes glitchSweep { 0% { left: -100%; } 100% { left: 100%; } }
-        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: rgba(139, 92, 246, 0.05); animation: scanline 4s linear infinite; pointer-events: none; z-index: 9999; }
         .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.03; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(6, 214, 160, 0.05) 2px, rgba(6, 214, 160, 0.05) 4px); animation: matrixRain 20s linear infinite; }
         .neon-text { animation: neonPulse 2s infinite; color: var(--accent-purple); }
@@ -171,11 +170,12 @@
         .music-player .controls .play-btn { background: var(--accent-purple); border: none; color: #fff; padding: 4px 12px; border-radius: var(--radius-full); cursor: pointer; font-size: 14px; font-weight: 700; transition: var(--transition); flex-shrink: 0; }
         .music-player .controls .play-btn:hover { background: var(--accent-green); transform: scale(1.05); }
         .music-player .track-name { font-size: 10px; color: var(--text-secondary); margin-top: 4px; text-align: center; letter-spacing: 0.05em; }
-        .notif-toast { position: fixed; bottom: 80px; right: 20px; z-index: 10000; min-width: 280px; max-width: 400px; background: var(--bg-surface); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); border: 1px solid var(--border-color); }
-        .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
-        .notif-toast .notif-action { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-        .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
-        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .page-container { padding: 16px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; } .music-player .controls audio { height: 24px; } .notif-toast { bottom: 70px; right: 10px; min-width: 200px; padding: 10px 12px; } }
+        .geo-container { max-width: 700px; margin: 0 auto; }
+        .geo-container .geo-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; margin: 16px 0; transition: var(--transition); }
+        .geo-container .geo-card:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-glow); }
+        .geo-container .geo-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        .geo-container .geo-row:last-child { border-bottom: none; }
+        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .page-container { padding: 16px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; } .music-player .controls audio { height: 24px; } }
     </style>
 </head>
 <body>
@@ -201,7 +201,6 @@
     <div class="track-name">🎵 CYBERPUNK BEAT</div>
 </div>
 <div id="modalRoot"></div>
-<div id="notifContainer"></div>
 <script>
 let musicPlaying = false;
 const audio = document.getElementById('bgMusic');
@@ -219,83 +218,36 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     let attackInterval = null;
     let activeAttackId = null;
     let botnetsCache = [];
-    let questsCache = [];
-    let lastQuestReset = localStorage.getItem('lastQuestReset') || 0;
+    let fakeBuyers = ['@WIIKAWAOA', '@SOKLOMKOV', '@MOVOLIK', '@KARAPUZIK', '@ZELIBOBA', '@MAMOKLAD', '@RADOMIRKA', '@VOVOLIKO', '@KOLOBOKOV', '@BURATINKA', '@MALVINKA', '@PIEROTIK', '@KARBASIK', '@BAMBARBIA', '@SHURUPCHIK', '@GVOZDIKOV', '@MOLOTOKOV', '@TOPORIKOV', '@PIKACHUHA', '@BULDOZER', '@EKAVATOR', '@TRAKTORIK', '@SAMOSVAL', '@BETONMIX', '@KRANOVSKY', '@LIFTERIK', '@POGROZKA', '@GRUZCHIK', '@PAKETIKOV', '@KOROBKIN', '@YASHIKOV', '@SKLADKIN', '@TARAKANOV'];
+    let fakeNotifications = [
+        ' только что купил 500 ботов!',
+        ' только что купил 1000 ботов!',
+        ' только что купил 5000 ботов!',
+        ' только что арендовал ботнет на 7 дней!',
+        ' только что запустил атаку на сайт!',
+        ' только что пополнил баланс на $50!',
+        ' только что купил 10000 ботов!',
+        ' только что активировал премиум!'
+    ];
+    let tasks = [
+        { id: 1, name: 'Купи 1000 ботов', reward: '$5 + 2 поиска по IP', target: 1000, type: 'buy', completed: false },
+        { id: 2, name: 'Сделай 3 атаки', reward: '$3', target: 3, type: 'attack', completed: false },
+        { id: 3, name: 'Пополни баланс на $10', reward: '$2', target: 10, type: 'deposit', completed: false },
+        { id: 4, name: 'Купи 5000 ботов', reward: '$10 + 5 поисков по IP', target: 5000, type: 'buy', completed: false },
+        { id: 5, name: 'Запусти 5 атак', reward: '$5', target: 5, type: 'attack', completed: false },
+        { id: 6, name: 'Купи 10000 ботов', reward: '$20 + 10 поисков по IP', target: 10000, type: 'buy', completed: false },
+        { id: 7, name: 'Пополни баланс на $25', reward: '$5', target: 25, type: 'deposit', completed: false }
+    ];
+    let taskResetTimer = null;
+    let geoSearchCount = 0;
+    let maxFreeGeoSearches = 3;
+
     const $ = (id) => document.getElementById(id);
     const pageContainer = $('pageContainer');
     const navLinks = $('navLinks');
     const userName = $('userName');
     const userBalance = $('userBalance');
     const modalRoot = $('modalRoot');
-    const notifContainer = $('notifContainer');
-
-    // ===== СПИСОК ЮЗЕРНЕЙМОВ =====
-    const USERNAMES = ['@WIIKAWAOA','@SOKLOMKOV','@MOVOLIK','@KARAPUZIK','@ZELIBOBA','@MAMOKLAD','@RADOMIRKA','@VOVOLIKO','@KOLOBOKOV','@BURATINKA','@MALVINKA','@PIEROTIK','@KARBASIK','@BAMBARBIA','@SHURUPCHIK','@GVOZDIKOV','@MOLOTOKOV','@TOPORIKOV','@PIKACHUHA','@BULDOZER','@EKAVATOR','@TRAKTORIK','@SAMOSVAL','@BETONMIX','@KRANOVSKY','@LIFTERIK','@POGROZKA','@GRUZCHIK','@PAKETIKOV','@KOROBKIN','@YASHIKOV','@SKLADKIN','@TARAKANOV','@TARAKASHKA','@BUKASHKIN','@KOMARIKOV','@MURAWEY','@PAUCHOK','@STREKOZA','@BABOCHKA','@ZHUKOVSKY','@OSIKIN','@PCHOLKIN','@SHMELIKOV','@MURAVEYKO','@TARANTUL','@SKORPION','@KOBRAKIN','@PYTHONOV','@BOAKIN','@ZMEIKIN','@DRACONOV','@LIZARDKIN','@IGUANOV','@KAMELEON','@GEKKONOV','@VORONKIN','@SOKOLOVSKY','@ORELKIN','@YASTREBOV','@FALCONER','@BERKUTOV','@KANAREYKA','@POPUGAICHIK','@PINGVINOV','@PENGUINOV','@ALBATROS','@CHAYKIN','@UTKINOV','@GUSAKIN','@LEBEDKIN','@PAVLINOV','@FAZANCHIK','@KURITSA','@PETUKHOV','@INDYUKOV','@STRUSKIN','@ZEBRIK','@TIGRENOK','@LENIVEC','@SLONIKOV','@BEHEMOT','@NOSOROG','@GIPPO','@KROKODIL','@ALLIGATOR','@KAYMANOV','@VARANOV','@TERMITOV','@MURAVEYNIK','@ULITKIN','@SMAYKLIK','@EMOJIKIN','@STIKEROV','@GIFKIN','@MEMASIK','@HACKERMAN','@CODERKIN','@DEVELOPER','@PROGRAMIST','@ALGORITM','@PYTHONCHIK','@JAVAKIN','@PHPNIK','@RUBYMAN','@GOOGLER','@YANDEXOV','@MAILKIN','@TELEGRAM','@WHATSAPP','@VIBERKIN','@SIGNALOV','@SKYPEKIN','@ZOOMER','@MEETKIN','@DISCORDANT','@TWITCHER','@YOUTUBER','@TIKTOKER','@INSTAGRAM','@FACEBOOK','@TWITTEROV','@LINKEDIN','@GITHUBER','@GITLABOV','@STACKER','@REDDITOR','@PINTEREST','@SNAPCHAT','@TUMBLRIN','@FLICKROV','@SPOTIFY','@SOUNDCLOUD','@APPLEMUSIC','@DEEZEROV','@TIDALKIN','@AMAZONER','@EBAYOV','@ALIEXPRESS','@OZONKIN','@WILDBERRIES','@AVITOKIN','@YULAKIN','@CRAIGLIST','@OLXKIN','@PRODAVEC','@POKUPATEL','@BARGAINER','@TRADERKIN','@BROKEROV','@INVESTOR','@FINANCE','@BANKIR','@KASSAKIN','@MONEYMAN','@RUBLIK','@DOLLAROV','@EVROKIN','@BITCOINER','@ETHEREUM','@LITECOIN','@DOGECOIN','@RIPPLEKIN','@SOLANER','@POLKADOT','@AVALANCHE','@CHAINLINK','@UNISWAP','@AAVEKIN','@MAKERMAN','@COMPOUND','@YIELDKIN','@FARMEROV','@STAKERMAN','@MINERKIN','@BLOCKCHAIN','@NODERUNNER','@VALIDATOR','@DELEGATOR','@PROPOSER','@VOTERKIN','@GOVERNANCE','@DAOERKIN','@TOKENMAN','@NFTKIN','@METAVERSE','@DIGITALMAN','@CYBERPUNK','@NEONMAN','@SYNTHWAVE','@RETROWAVE','@VAPORWAVE','@OUTRUNER','@LASERKIN','@GRIDKIN','@MATRIXMAN','@HOLOGRAM','@VIRTUALMAN','@AUGMENTED','@ROBOTKIN','@DROIDMAN','@ANDROIDKIN','@CYBORGMAN','@AIMAN','@NEURALNET','@DEEPMIND','@TENSORFLOW','@PYTORCHMAN','@KERASER','@SKLEARNER','@PANDASOV','@NUMPYMAN','@MATPLOTLIB','@SEABORNOV','@PLOTLYER','@DASHKIN','@STREAMLIT','@GRADIOV','@FLASKMAN','@DJANGOKIN','@FASTAPIER','@TORNADOER','@ASYNCIOMAN','@AIOHTTPKIN','@REQUESTSER','@BEAUTIFULSOUP','@SCRAPYKIN','@SELENIUMER','@PLAYWRIGHT','@PUPPETEER','@CYPRESSOV','@JESTKIN','@MOCHAMAN','@CHAIER','@JASMINER','@KARMAMAN','@CYPRESSER','@TESTERKIN','@QAENGINEER','@DEVOPSMAN','@KUBERNETES','@DOCKERKIN','@K8SMAN','@HELMER','@ANSIBLEER','@TERRAFORM','@PUPPETMAN','@CHEFKIN','@SALTSTACK','@GRAFANAOV','@PROMETHEUS','@ALERTMANAGER','@LOKIER','@TEMPOER','@MILLEROV','@TRACERMAN','@JAEGERER','@ZIPKINMAN','@ELASTICSEARCH','@LOGSTASHER','@KIBANAMAN','@BEATKIN','@SPLUNKER','@DATADOGMAN','@NEWRELICER','@APPMAN','@SCALERMAN','@LOADBALANCER','@PROXYKIN','@NGINXMAN','@APACHEER','@TOMCATKIN','@JETTYER','@UNDERTOWMAN','@WILDFLYER','@GLASSFISH','@WEBLOGIC','@JBOSSMAN','@SPRINGBOOT','@QUARKUSER','@MICRONAUT','@VERTXMAN','@PLAYERKIN','@AKKAER','@AKKAMAN','@SCALAER','@KOTLINMAN','@GROOVYKIN','@CLOJURER','@SCHEMEER','@LISPMASTER','@HASKELLER','@ERLANGMAN','@ELIXIRKIN','@RUSTMAN','@GOER','@SWIFTER','@OBJECTIVEC','@CPPMAN','@CPLUSPLUS','@C_MASTER','@ASSEMBLER','@MASMKIN','@NASMER','@ARMER','@RISCVMAN','@MIPSER','@VERILOGMAN','@VHDLKIN','@SYSTEMVERILOG','@CHISELER','@BLUESPEC','@SPINALHDL','@CLASHMAN','@AMBERMAN','@MYTHRIL','@SILVERKIN','@GOLDENER','@PLATINUMAN','@DIAMONDKIN','@CRYSTALMAN','@ONYXER','@JADEKIN','@OBSIDIANMAN','@BASALTKIN','@GRANITEER','@MARBLEMAN','@QUARTZKIN','@SANDSTONE','@LIMESTONE','@CHALKMER','@GYPSUMAN','@SALTMAN','@PEPPERKIN','@CINNAMONER','@VANILLAMAN','@CHOCOLATE','@COFFEEER','@TEAKIN','@MATCHAER','@LATTEKIN','@ESPRESSOMAN','@CAPPUCCINO','@MOCHAKIN','@FRAPPUCCINO','@SMOOTHIEER','@JUICEKIN','@WATERMAN','@SODAKIN','@COLAER','@PEPSIMAN','@SPRITEER','@FANTAKIN','@MIRINDAMAN','@TARHUNER','@BAIKALMAN','@KVASKIN','@LEMONADER','@ORANGEJUICE','@APPLEJUICE','@GRAPEKIN','@BANANAMAN','@STRAWBERRY','@RASPBERRY','@BLUEBERRY','@BLACKBERRY','@CRANBERRY','@POMEGRANATE','@MANGOER','@PINEAPPLE','@COCONUTMAN','@PAPAYAKIN','@KIWIER','@AVOCADOMAN','@TOMATOKIN','@CUCUMBERER','@POTATOMAN','@CARROTKIN','@ONIONER','@GARLICMAN','@PEPPERKIN','@CHILIMAN','@BASILER','@MINTKIN','@ROSEMARY','@THYMEER','@PARSLEYMAN','@DILLKIN','@SAGEER','@OREGANOMAN','@CORIANDER','@CUMINKIN','@TURMERIC','@GINGERMAN','@CINNAMONKIN','@NUTMEGER','@CLOVEKIN','@CARDAMOM','@STARANISE','@FENNELKIN','@ANISEER','@LICORICEMAN','@HONEYKIN','@SUGARER','@SALTMAN','@PEPPERKIN','@VINEGARER','@OILMAN','@BUTTERKIN','@CREAMER','@MILKMAN','@CHEESEKIN','@YOGURTER','@KEFIRMAN','@RYAZHENKA','@SNOWBALLER','@ICEKIN','@FROZENMAN','@COLDER','@HOTKIN','@WARMMAN','@SUNNYER','@RAINYKIN','@CLOUDMAN','@STORMER','@WINDKIN','@SNOWMAN','@FROSTMAN','@ICYER','@GLACIERKIN','@ARCTICMAN','@ANTARCTIC','@TUNDRAER','@TAIGAKIN','@FORESTMAN','@JUNGLEER','@SAVANNAH','@DESERTKIN','@OASISMAN','@OCEANER','@SEAKIN','@WAVEMAN','@CURRENTKIN','@TIDEMAN','@CORALER','@REEFKIN','@LAGOONMAN','@BAYER','@GULFKIN','@STRAITMAN','@CHANNELER','@FJORDKIN','@ISLANDMAN','@PENINSULA','@CAPEKIN','@MOUNTAINER','@HILLMAN','@VALLEYKIN','@PLATEAUER','@CANYONMAN','@MESAER','@BUTTEKIN','@CLIFFMAN','@ROCKER','@STONEKIN','@BOULDERMAN','@PEBBLEER','@GRAVELKIN','@SANDMAN','@DUSTER','@MISTKIN','@FOGMAN','@HAZEER','@SMOGKIN','@SMOKEMAN','@FLAMEKIN','@BLAZER','@INFERNOER','@VOLCANOMAN','@MAGMAKIN','@LAVAER','@ASHMAN','@PUMICEKIN','@OBSIDIANER','@CRYSTALKIN','@GEMSTONEMAN','@JEWELER','@DIAMONDKIN','@RUBYMAN','@SAPPHIREKIN','@EMERALDER','@AMETHYST','@PEARLKIN','@OPALMAN','@JADEER','@TOPAZKIN','@GARNETMAN','@SUNSTONE','@MOONSTONE','@STARMAN','@GALAXYKIN','@UNIVERSEER','@COSMOSMAN','@ASTEROIDKIN','@COMETER','@METEORMAN','@PLANETER','@ORBITKIN','@SATELLITEMAN','@SPACER','@STARSHIPKIN','@ALIENMAN','@ROBOTER','@CYBORGKIN','@HUMANOID','@CLONEMAN','@ANDROIDER','@AIKIN','@MACHINEMAN','@ENGINEER','@MECHANIC','@TECHNOMAN','@GADGETKIN','@DEVICEMAN','@WIDGETER','@GIZMOKIN','@THINGAMY','@DOOHICKEY','@WHATZIT','@DOODADER','@GADGETMAN','@TOOLKIN','@IMPLEMENT','@INSTRUMENT','@APPARATUS','@CONTRAPTION','@DEVICEKIN','@MACHINERY','@EQUIPMENT','@HARDWARE','@SOFTWARE','@FIRMWARE','@CODEBASE','@SOURCEKIN','@BINARYMAN','@HEXER','@DECIMALMAN','@OCTALKIN','@HEXADECIMAL','@BITSER','@BYTEKIN','@KILOBYTE','@MEGABYTE','@GIGABYTE','@TERABYTE','@PETABYTE','@EXABYTE','@ZETTABYTE','@YOTTABYTE','@BRONSKI','@BEATOV','@TECHNO','@HOUSEMAN','@TRANCEER','@DUBSTEPKIN','@DRUMANDBASS','@BREAKBEAT','@JUNGLEKIN','@GARAGEER','@GRIMEKIN','@DRILLMAN','@UKGARAGE','@BASSKIN','@HARDCORE','@TERRORIST','@RAVERKIN','@CLUBER','@PARTYMAN','@DJKIN','@MCER','@PRODUCER','@RECORDKIN','@VINYLMAN','@CDER','@MP3KIN','@FLACMAN','@WAVER','@AIFFKIN','@OGGMAN','@OPUSER','@REAPERKIN','@PROTOOLS','@LOGICMAN','@CUBASEER','@FLSTUDIO','@ABLETONMAN','@BITWIGKIN','@REASONER','@CAKEWALK','@GARAGEBAND','@AUDACITYER','@SOUNDFORGE','@WAVELAB','@SPECTRALMAN','@FREQUENCYKIN','@HERTZER','@KILOHERTZ','@MEGAHERTZ','@GIGAHERTZ','@DECIBELMAN','@AMPLITUDE','@WAVEFORM','@SINEWAVE','@SAWTOOTH','@SQUAREWAVE','@TRIANGLE','@PULSEWAVE','@NOISEKIN','@SILENCEMAN','@ECHOER','@REVERBKIN','@DELAYMAN','@CHORUSER','@FLANGERKIN','@PHASER','@DISTORTION','@OVERDRIVE','@FUZZKIN','@CRUNCHMAN','@GAINER','@VOLUMEMAN','@PANER','@STEREOKIN','@MONOMAN','@QUADER','@SURROUND'];
-
-    function getRandomUsername() { return USERNAMES[Math.floor(Math.random() * USERNAMES.length)]; }
-
-    function showFakeNotification() {
-        const names = ['только что купил', 'приобрёл', 'заказал', 'взял', 'оформил'];
-        const actions = ['5000 ботов', '1000 ботов', '25000 ботов', '100000 ботов', 'Премиум пакет'];
-        const username = getRandomUsername();
-        const action = actions[Math.floor(Math.random() * actions.length)];
-        const verb = names[Math.floor(Math.random() * names.length)];
-        const time = new Date().toLocaleTimeString('ru-RU');
-        const notif = document.createElement('div');
-        notif.className = 'notif-toast';
-        notif.innerHTML = `<div><span class="notif-name">${username}</span> ${verb} <strong>${action}</strong></div><div class="notif-time">${time}</div>`;
-        notifContainer.appendChild(notif);
-        setTimeout(() => { if (notif.parentNode) notif.remove(); }, 5000);
-        setTimeout(() => { if (notif.parentNode) { notif.style.opacity = '0'; notif.style.transition = 'opacity 0.5s'; setTimeout(() => { if (notif.parentNode) notif.remove(); }, 500); } }, 4000);
-    }
-
-    function initFakeNotifications() {
-        showFakeNotification();
-        setTimeout(() => showFakeNotification(), 7000);
-        setTimeout(() => showFakeNotification(), 15000);
-        setInterval(() => showFakeNotification(), 20000 + Math.random() * 15000);
-    }
-
-    // ===== ЗАДАНИЯ =====
-    function generateQuests() {
-        const quests = [
-            { id: 1, title: 'Купить 1000 ботов', desc: 'Приобретите ботнет от 1000 ботов', reward: 5, type: 'buy_bots', target: 1000, icon: '🤖' },
-            { id: 2, title: 'Сделать 2 поиска по номеру', desc: 'Выполните 2 поиска по номеру телефона', reward: 5, type: 'phone_search', target: 2, icon: '📱' },
-            { id: 3, title: 'Запустить атаку', desc: 'Запустите любую DDoS атаку', reward: 3, type: 'attack', target: 1, icon: '⚔️' },
-            { id: 4, title: 'Пополнить баланс', desc: 'Пополните баланс от $10', reward: 10, type: 'deposit', target: 10, icon: '💰' },
-            { id: 5, title: 'Пригласить друга', desc: 'Пригласите друга в VO1D SHOP', reward: 5, type: 'referral', target: 1, icon: '👥' },
-            { id: 6, title: 'Купить 5000 ботов', desc: 'Приобретите ботнет от 5000 ботов', reward: 10, type: 'buy_bots', target: 5000, icon: '🔥' },
-            { id: 7, title: 'Сделать 5 поисков по IP', desc: 'Выполните 5 поисков по IP адресу', reward: 7, type: 'ip_search', target: 5, icon: '🌐' },
-            { id: 8, title: 'Потратить $50', desc: 'Потратьте $50 на любые услуги', reward: 8, type: 'spend', target: 50, icon: '💎' },
-        ];
-        // Перемешиваем и берём 4 случайных
-        const shuffled = quests.sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, 4);
-    }
-
-    function getDailyQuests() {
-        const now = Date.now();
-        const day = 24 * 60 * 60 * 1000;
-        if (now - parseInt(lastQuestReset) > day) {
-            const newQuests = generateQuests();
-            localStorage.setItem('dailyQuests', JSON.stringify(newQuests));
-            localStorage.setItem('lastQuestReset', now.toString());
-            lastQuestReset = now;
-            questsCache = newQuests;
-            return newQuests;
-        }
-        const saved = localStorage.getItem('dailyQuests');
-        if (saved) {
-            questsCache = JSON.parse(saved);
-            return questsCache;
-        }
-        const newQuests = generateQuests();
-        localStorage.setItem('dailyQuests', JSON.stringify(newQuests));
-        localStorage.setItem('lastQuestReset', now.toString());
-        lastQuestReset = now;
-        questsCache = newQuests;
-        return newQuests;
-    }
 
     function apiFetch(endpoint, options = {}) {
         const token = localStorage.getItem(TOKEN_KEY);
@@ -333,10 +285,24 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         setTimeout(() => { notif.style.transform = 'translateX(120%)'; setTimeout(() => notif.remove(), 500); }, 4000);
     }
 
+    // ===== FAKE НОТИФИКАЦИИ (КАЖДЫЕ 10 СЕКУНД) =====
+    function startFakeNotifications() {
+        setInterval(() => {
+            const buyer = fakeBuyers[Math.floor(Math.random() * fakeBuyers.length)];
+            const action = fakeNotifications[Math.floor(Math.random() * fakeNotifications.length)];
+            const notif = document.createElement('div');
+            notif.style.cssText = `position:fixed;bottom:80px;right:20px;background:var(--bg-surface-2);border:1px solid var(--accent-green);border-radius:var(--radius-sm);padding:8px 16px;color:var(--text-primary);z-index:9998;font-size:12px;opacity:0;transform:translateX(50px);transition:all 0.5s ease;max-width:300px;font-family:var(--font-main);`;
+            notif.innerHTML = `<span style="color:var(--accent-green);">●</span> ${buyer} ${action}`;
+            document.body.appendChild(notif);
+            setTimeout(() => { notif.style.opacity = '1'; notif.style.transform = 'translateX(0)'; }, 100);
+            setTimeout(() => { notif.style.opacity = '0'; notif.style.transform = 'translateX(50px)'; }, 8000);
+            setTimeout(() => { notif.remove(); }, 9000);
+        }, 10000);
+    }
+
     // ===== МОДАЛКА =====
     let modalResolve = null;
     let modalResolveTimer = null;
-
     function generateUniqueId(prefix) { return `${prefix}_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`; }
 
     function showModal(title, body, actions = [], icon = '', isDeposit = false) {
@@ -450,25 +416,15 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
                 currentUser.balance = res.new_balance;
                 localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
                 explosionEffect();
-                showModal('✅ Покупка успешна!', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🎉</div><p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ботнет успешно куплен!</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>🤖 <strong>${res.bot_count}</strong> ботов</p><p>📅 <strong>${res.duration_days}</strong> дней</p><p>💰 Стоимость: <strong style="color:var(--accent-gold);">${formatCurrency(res.price)}</strong></p><p>💳 Новый баланс: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p></div><p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Уровень мощности: <strong>${getPowerLevelDescription(res.bot_count)}</strong></p></div>`,
+                showModal('✅ Покупка успешна!', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🎉</div><p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ботнет успешно куплен!</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>🤖 <strong>${res.bot_count}</strong> ботов</p><p>📅 <strong>${res.duration_days}</strong> дней</p><p>💰 Стоимость: <strong style="color:var(--accent-gold);">${formatCurrency(res.price)}</strong></p><p>💳 Новый баланс: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p></div>${res.bot_count < 1000 ? `<p style="color:var(--accent-gold);">⚠️ ${res.bot_count} ботов — защищённый сайт может не упасть!</p>` : `<p style="color:var(--accent-green);">🔥 ${res.bot_count} ботов — гарантированный успех!</p>`}<p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Уровень мощности: <strong>${getPowerLevelDescription(res.bot_count)}</strong></p></div>`,
                 [{ label: '⚔️ К АТАКЕ', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊 ДАШБОРД', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
                 userBalance.textContent = formatCurrency(currentUser.balance);
                 showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
-                // Проверяем задания
-                checkQuests('buy_bots', count);
+                checkTasks('buy', count);
                 return;
             }
-            if (res.error) {
-                if (res.error.includes('Insufficient balance')) {
-                    showModal('❌ Недостаточно средств', `<p>У вас недостаточно средств для покупки.</p><div style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>💰 Нужно: <strong>${formatCurrency(price)}</strong></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
-                    return;
-                }
-                showModal('❌ Ошибка покупки', `<p>Произошла ошибка при покупке:</p><p style="color:var(--accent-red);">${res.error}</p>`);
-                return;
-            }
-        } catch(e) {
-            showModal('❌ Ошибка', 'Сервер недоступен или ошибка соединения.');
-        }
+            if (res.error) showModal('❌ Ошибка покупки', res.error);
+        } catch(e) { showModal('❌ Ошибка', 'Сервер недоступен'); }
     };
 
     window.updatePriceDisplay = function() {
@@ -506,37 +462,123 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     const originalRenderShop = renderShop;
     renderShop = async function() { await originalRenderShop(); setTimeout(initShopHandlers, 100); };
 
-    // ===== ЗАДАНИЯ ПРОВЕРКА =====
-    function checkQuests(type, value) {
-        const quests = getDailyQuests();
-        let completed = false;
-        quests.forEach(q => {
-            if (q.type === type && !q.completed) {
-                if (q.target <= value) {
-                    q.completed = true;
-                    q.claimed = false;
-                    completed = true;
+    // ===== ЗАДАНИЯ =====
+    function checkTasks(type, value) {
+        tasks.forEach(task => {
+            if (task.completed) return;
+            if (task.type === type && value >= task.target) {
+                task.completed = true;
+                let reward = task.reward;
+                let bonus = '';
+                if (reward.includes('поиска по IP')) {
+                    geoSearchCount += parseInt(reward.match(/\d+/)[0]);
+                    bonus = ` + ${parseInt(reward.match(/\d+/)[0])} поисков по IP`;
                 }
+                if (reward.includes('$')) {
+                    const amount = parseFloat(reward.match(/\$(\d+)/)[1]);
+                    currentUser.balance = (currentUser.balance || 0) + amount;
+                    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                    userBalance.textContent = formatCurrency(currentUser.balance);
+                    bonus += ` + $${amount}`;
+                }
+                showNotification(`✅ Задание выполнено: ${task.name}! Получено: ${reward}`, 'success');
+                explosionEffect();
             }
         });
-        if (completed) {
-            localStorage.setItem('dailyQuests', JSON.stringify(quests));
-            showNotification('🎯 Задание выполнено! Проверьте вкладку "Задания"', 'success');
-        }
     }
 
-    function claimQuestReward(questId) {
-        const quests = getDailyQuests();
-        const quest = quests.find(q => q.id === questId);
-        if (!quest || !quest.completed || quest.claimed) return;
-        quest.claimed = true;
-        currentUser.balance = (currentUser.balance || 0) + quest.reward;
-        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-        localStorage.setItem('dailyQuests', JSON.stringify(quests));
-        userBalance.textContent = formatCurrency(currentUser.balance);
-        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
-        renderQuests();
+    function resetTasks() {
+        tasks.forEach(task => task.completed = false);
+        showNotification('🔄 Задания обновлены! Выполняй и получай награды!', 'info');
     }
+
+    function startTaskReset() {
+        if (taskResetTimer) clearInterval(taskResetTimer);
+        taskResetTimer = setInterval(resetTasks, 86400000); // 24 часа
+    }
+
+    // ===== ГЕОЛОКАЦИЯ ПО IP (РЕАЛЬНАЯ) =====
+    window.handleGeoLookup = async function() {
+        const ipInput = document.getElementById('ipInput');
+        const ip = ipInput.value.trim();
+        if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
+        const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+        if (!ipRegex.test(ip) && ip !== 'localhost' && ip !== '127.0.0.1') { showModal('❌ Ошибка', 'Введите корректный IP адрес'); return; }
+
+        // Проверка бесплатных поисков
+        if (geoSearchCount <= 0 && (!currentUser || currentUser.balance < 2)) {
+            showModal('❌ Нет бесплатных поисков', `<p>У вас закончились бесплатные поиски по IP.</p><p style="margin-top:8px;">💳 Стоимость: <strong>$2</strong> за один поиск.</p><p style="margin-top:8px;">🔍 Доступно: <strong>${geoSearchCount}</strong> бесплатных поисков.</p>`, [{ label: '💎 КУПИТЬ ПОИСК ЗА $2', cls: 'btn-gold', action: function() { closeModal(); buyGeoSearch(); } }]);
+            return;
+        }
+
+        const resultDiv = document.getElementById('geoResult');
+        resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
+
+        try {
+            const response = await fetch(`https://ipapi.co/${ip}/json/`);
+            const data = await response.json();
+            if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`; return; }
+
+            // Списываем бесплатный поиск
+            if (geoSearchCount > 0) geoSearchCount--;
+            else if (currentUser) {
+                currentUser.balance -= 2;
+                localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                userBalance.textContent = formatCurrency(currentUser.balance);
+            }
+
+            const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
+            const isLocal = ip === '127.0.0.1' || ip === 'localhost' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.16.');
+
+            resultDiv.innerHTML = `
+                <div class="geo-card" style="animation: fadeInUp 0.5s ease;">
+                    <h3 style="color:var(--accent-purple); margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3>
+                    ${isLocal ? `<p style="color:var(--accent-gold); margin-bottom:12px;">⚠️ Локальный IP (не маршрутизируется)</p>` : ''}
+                    <div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div>
+                    <div class="geo-row"><span style="color:var(--text-secondary);">💱 Валюта:</span> <strong>${data.currency || '—'}</strong></div>
+                    ${data.postal ? `<div class="geo-row"><span style="color:var(--text-secondary);">📮 Индекс:</span> <strong>${data.postal}</strong></div>` : ''}
+                    ${data.asn ? `<div class="geo-row"><span style="color:var(--text-secondary);">🔢 ASN:</span> <strong>${data.asn}</strong></div>` : ''}
+                    <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border-color); display:flex; gap:16px; flex-wrap:wrap;">
+                        <a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple); text-decoration:none; font-weight:600;">🗺️ Открыть на карте</a>
+                        <a href="https://whatismyipaddress.com/ip/${ip}" target="_blank" style="color:var(--text-secondary); text-decoration:none; font-size:14px;">🔍 Подробнее</a>
+                    </div>
+                    <div style="margin-top:12px; padding:8px; background:var(--bg-surface-2); border-radius:var(--radius-sm); font-size:12px; color:var(--text-secondary);">
+                        🔍 Осталось бесплатных поисков: <strong style="color:var(--accent-green);">${geoSearchCount}</strong>
+                    </div>
+                </div>
+            `;
+        } catch(e) {
+            resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных. Проверьте подключение.</p>`;
+        }
+    };
+
+    function buyGeoSearch() {
+        if (!currentUser || currentUser.balance < 2) {
+            showModal('❌ Недостаточно средств', `<p>У вас недостаточно средств для покупки поиска.</p><p style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">💳 Ваш баланс: <strong>${formatCurrency(currentUser ? currentUser.balance : 0)}</strong><br>💰 Нужно: <strong>$2</strong></p>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+            return;
+        }
+        currentUser.balance -= 2;
+        geoSearchCount += 1;
+        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+        userBalance.textContent = formatCurrency(currentUser.balance);
+        showNotification('✅ Куплен 1 поиск по IP!', 'success');
+        closeModal();
+        document.getElementById('ipInput').focus();
+    }
+
+    window.getMyIp = async function() {
+        try {
+            const res = await fetch('https://api.ipify.org?format=json');
+            const data = await res.json();
+            document.getElementById('ipInput').value = data.ip;
+            handleGeoLookup();
+        } catch(e) { showModal('❌ Ошибка', 'Не удалось определить ваш IP'); }
+    };
 
     // ===== НАВИГАЦИЯ =====
     window.navigateTo = function(page, data = null) { currentPage = page; renderNav(); renderPage(page, data); window.scrollTo({ top: 0, behavior: 'smooth' }); };
@@ -548,7 +590,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
             html += `<a class="${currentPage === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">📊 Дашборд</a>`;
             html += `<a class="${currentPage === 'shop' ? 'active' : ''}" onclick="navigateTo('shop')">🛒 Магазин</a>`;
             html += `<a class="${currentPage === 'attack' ? 'active' : ''}" onclick="navigateTo('attack')">⚔️ Атака</a>`;
-            html += `<a class="${currentPage === 'quests' ? 'active' : ''}" onclick="navigateTo('quests')">🎯 Задания</a>`;
+            html += `<a class="${currentPage === 'geo' ? 'active' : ''}" onclick="navigateTo('geo')">🗺️ Гео</a>`;
             html += `<a class="${currentPage === 'profile' ? 'active' : ''}" onclick="navigateTo('profile')">👤 Профиль</a>`;
             if (currentUser && currentUser.role === 'admin') html += `<a class="${currentPage === 'admin' ? 'active' : ''}" onclick="navigateTo('admin')">🔧 Админ</a>`;
             html += `<button onclick="logout()">🚪 Выйти</button>`;
@@ -569,7 +611,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
             case 'dashboard': renderDashboard(); break;
             case 'shop': renderShop(); break;
             case 'attack': renderAttack(data); break;
-            case 'quests': renderQuests(); break;
+            case 'geo': renderGeo(); break;
             case 'profile': renderProfile(); break;
             case 'admin': renderAdmin(); break;
             default: renderHome();
@@ -578,7 +620,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
     // ===== HOME =====
     function renderHome() {
-        pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии, без ограничений</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div></div>`;
+        pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">500,000+ ботов</div><div class="desc">Мощность, которой хватит на всё</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div></div>`;
     }
 
     // ===== LOGIN =====
@@ -622,8 +664,31 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     // ===== DASHBOARD =====
     async function renderDashboard() {
         if (!currentUser) { navigateTo('login'); return; }
-        pageContainer.innerHTML = `<h1>👋 Добро пожаловать, <span class="text-gradient neon-text">${currentUser.username}</span></h1><div class="dash-grid"><div class="dash-card card-animated"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div><div class="dash-card card-animated"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div><div class="dash-card card-animated"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;"><button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button><button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="botnetList" class="botnet-list"></div><h2 style="margin-top:24px;">📜 История атак</h2><div id="attackHistory"></div>`;
+        const activeTasks = tasks.filter(t => !t.completed).length;
+        pageContainer.innerHTML = `<h1>👋 Добро пожаловать, <span class="text-gradient neon-text">${currentUser.username}</span></h1><div class="dash-grid"><div class="dash-card card-animated"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div><div class="dash-card card-animated"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div><div class="dash-card card-animated"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div><div class="dash-card card-animated"><div class="card-title">📋 Заданий осталось</div><div class="card-value gold">${activeTasks}</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;"><button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button><button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button></div><h2 style="margin-top:24px;">📋 Активные задания</h2><div id="tasksList" style="margin-bottom:24px;"></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="botnetList" class="botnet-list"></div><h2 style="margin-top:24px;">📜 История атак</h2><div id="attackHistory"></div>`;
+        renderTasks();
         await refreshDashboard();
+    }
+
+    function renderTasks() {
+        const container = document.getElementById('tasksList');
+        if (!container) return;
+        const active = tasks.filter(t => !t.completed);
+        if (active.length === 0) {
+            container.innerHTML = `<p style="color:var(--accent-green);">✅ Все задания выполнены! Новые появятся через 24 часа.</p>`;
+            return;
+        }
+        container.innerHTML = active.map(t => `
+            <div class="dash-card" style="margin:8px 0; padding:16px; border-left: 3px solid var(--accent-gold);">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                    <div>
+                        <strong style="color:var(--text-white);">${t.name}</strong>
+                        <span style="color:var(--text-secondary); font-size:13px; margin-left:12px;">🎁 ${t.reward}</span>
+                    </div>
+                    <span style="color:var(--accent-gold); font-size:13px;">⏳ Выполните задание</span>
+                </div>
+            </div>
+        `).join('');
     }
 
     window.refreshDashboard = async function() {
@@ -662,7 +727,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         if (!currentUser) { navigateTo('login'); return; }
         const options = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
         const durations = [1, 3, 7, 14, 30];
-        pageContainer.innerHTML = `<div class="shop-container"><h1 style="text-align:center;">🛒 Магазин ботнетов</h1><div style="text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:8px;">🔥 Ботнеты всегда в наличии! Бесконечный запас</div><div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div><div class="slider-container"><label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label><input type="range" id="botSlider" min="500" max="500000" step="500" value="500"><div class="slider-labels"><span>500</span><span>500,000+</span></div></div><div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div><div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button></div></div>`;
+        pageContainer.innerHTML = `<div class="shop-container"><h1 style="text-align:center;">🛒 Магазин ботнетов</h1><div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div><div class="slider-container"><label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label><input type="range" id="botSlider" min="500" max="500000" step="500" value="500"><div class="slider-labels"><span>500</span><span>500,000</span></div></div><div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div><div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button></div></div>`;
         document.getElementById('buyButton').addEventListener('click', function(e) { handleBuy(); });
         const slider = $('botSlider');
         const updatePrice = () => {
@@ -681,31 +746,26 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         updatePrice();
     }
 
-    // ===== QUESTS =====
-    function renderQuests() {
+    // ===== GEO =====
+    function renderGeo() {
         if (!currentUser) { navigateTo('login'); return; }
-        const quests = getDailyQuests();
-        let html = `<h1>🎯 Ежедневные задания</h1><p style="color:var(--text-secondary);margin-bottom:16px;">Задания обновляются каждые 24 часа. Выполняй и получай бонусы!</p><div style="display:grid;gap:12px;">`;
-        quests.forEach(q => {
-            const status = q.completed ? (q.claimed ? '✅ Получено' : '🎯 Выполнено!') : '⏳ В процессе';
-            const btn = q.completed && !q.claimed ? `<button class="btn btn-green btn-sm" onclick="claimQuestReward(${q.id})">ЗАБРАТЬ $${q.reward}</button>` : '';
-            html += `<div class="dash-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;"><div><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:24px;">${q.icon}</span><span style="font-weight:700;">${q.title}</span></div><div style="font-size:14px;color:var(--text-secondary);">${q.desc}</div><div style="font-size:13px;color:var(--text-secondary);">Награда: <strong style="color:var(--accent-gold);">$${q.reward}</strong></div></div><div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:${q.completed ? 'var(--accent-green)' : 'var(--text-secondary)'};">${status}</span>${btn}</div></div>`;
-        });
-        html += `</div>`;
-        pageContainer.innerHTML = html;
-    }
-
-    function claimQuestReward(questId) {
-        const quests = getDailyQuests();
-        const quest = quests.find(q => q.id === questId);
-        if (!quest || !quest.completed || quest.claimed) return;
-        quest.claimed = true;
-        currentUser.balance = (currentUser.balance || 0) + quest.reward;
-        localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-        localStorage.setItem('dailyQuests', JSON.stringify(quests));
-        userBalance.textContent = formatCurrency(currentUser.balance);
-        showNotification(`✅ Получено $${quest.reward} за задание "${quest.title}"`, 'success');
-        renderQuests();
+        pageContainer.innerHTML = `
+            <div class="geo-container">
+                <h1>🗺️ Геолокация по IP</h1>
+                <p style="color:var(--text-secondary); margin-bottom:16px;">
+                    Введите IP адрес для определения местоположения.
+                    🔍 Бесплатных поисков: <strong style="color:var(--accent-green);">${geoSearchCount}</strong>
+                    ${geoSearchCount <= 0 ? ' <span style="color:var(--accent-gold);">(купите за $2)</span>' : ''}
+                </p>
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <input type="text" id="ipInput" placeholder="Введите IP (например: 8.8.8.8)" style="flex:1; min-width:200px;">
+                    <button class="btn btn-purple btn-glitch" onclick="handleGeoLookup()">🔍 ОПРЕДЕЛИТЬ</button>
+                    <button class="btn btn-outline" onclick="getMyIp()">📍 МОЙ IP</button>
+                    ${geoSearchCount <= 0 ? `<button class="btn btn-gold btn-sm" onclick="buyGeoSearch()">💎 КУПИТЬ ПОИСК $2</button>` : ''}
+                </div>
+                <div id="geoResult" style="margin-top:20px;"></div>
+            </div>
+        `;
     }
 
     // ===== ATTACK =====
@@ -738,7 +798,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
         try {
             const res = await apiFetch('/attack', { method: 'POST', body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration }) });
             if (res.error) { showModal('Ошибка', res.error); return; }
-            if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀 Атака запущена на ' + target, 'success'); addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`); startAttackMonitoring(activeAttackId); checkQuests('attack', 1); }
+            if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀 Атака запущена на ' + target, 'success'); addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`); startAttackMonitoring(activeAttackId); checkTasks('attack', 1); }
         } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
     };
 
@@ -794,7 +854,9 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
     // ===== PROFILE =====
     async function renderProfile() {
         if (!currentUser) { navigateTo('login'); return; }
-        pageContainer.innerHTML = `<h1>👤 Профиль</h1><div class="dash-card" style="max-width:500px;"><div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div><div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div><div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div><div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div>${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}<div style="display:flex;gap:12px;flex-wrap:wrap;"><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button></div></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="profileBotnets" class="botnet-list"></div>`;
+        const activeTasks = tasks.filter(t => !t.completed).length;
+        pageContainer.innerHTML = `<h1>👤 Профиль</h1><div class="dash-card" style="max-width:600px;"><div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div><div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div><div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div><div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div><div class="form-group"><label>🔍 Бесплатных поисков IP</label><input type="text" value="${geoSearchCount}" disabled style="color:var(--accent-purple);"></div>${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}<div style="display:flex;gap:12px;flex-wrap:wrap;"><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button></div></div><h2 style="margin-top:24px;">📋 Задания (${activeTasks} активных)</h2><div id="profileTasks"></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="profileBotnets" class="botnet-list"></div>`;
+        renderProfileTasks();
         try {
             const botnets = await apiFetch('/my-botnets');
             if (!botnets.error) {
@@ -804,6 +866,24 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
                 else { container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active?'':'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)}</div></div><div class="status ${b.active?'active':'expired'}">${b.active?'✅ Активен':'⏳ Истёк'}</div></div>`).join(''); }
             }
         } catch(e) {}
+    }
+
+    function renderProfileTasks() {
+        const container = document.getElementById('profileTasks');
+        if (!container) return;
+        const active = tasks.filter(t => !t.completed);
+        if (active.length === 0) {
+            container.innerHTML = `<p style="color:var(--accent-green);">✅ Все задания выполнены! Новые через 24 часа.</p>`;
+            return;
+        }
+        container.innerHTML = active.map(t => `
+            <div class="dash-card" style="margin:8px 0; padding:12px 16px; border-left: 3px solid var(--accent-gold);">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                    <span style="color:var(--text-white);">${t.name}</span>
+                    <span style="color:var(--accent-gold); font-size:13px;">🎁 ${t.reward}</span>
+                </div>
+            </div>
+        `).join('');
     }
 
     // ===== ADMIN =====
@@ -847,7 +927,7 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
 
     // ===== ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ =====
     window.showDepositModal = function() {
-        showModal('💎 Пополнение баланса', '<p style="font-size:16px;">Пополните баланс для покупки ботнетов.</p>', [{ label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }], '💰', true);
+        showModal('💎 Пополнение баланса', '<p style="font-size:16px;">Пополните баланс для покупки ботнетов и услуг.</p><p style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">💰 Минимальная сумма: $5</p>', [{ label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }], '💰', true);
     };
 
     window.adminDeposit = async function() {
@@ -883,23 +963,16 @@ document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.p
                 if (!token) { currentUser = null; localStorage.removeItem(USER_KEY); }
             } catch(e) { currentUser = null; }
         }
+        // Загружаем количество бесплатных поисков
+        const savedGeo = localStorage.getItem('vo1d_geo_count');
+        if (savedGeo) geoSearchCount = parseInt(savedGeo) || 0;
+        else geoSearchCount = 3; // 3 бесплатных поиска при регистрации
+
         renderNav();
         navigateTo(currentUser ? 'dashboard' : 'home');
-        getDailyQuests();
-        initFakeNotifications();
-        setInterval(() => {
-            const now = Date.now();
-            const day = 24 * 60 * 60 * 1000;
-            if (now - parseInt(lastQuestReset) > day) {
-                const newQuests = generateQuests();
-                localStorage.setItem('dailyQuests', JSON.stringify(newQuests));
-                localStorage.setItem('lastQuestReset', now.toString());
-                lastQuestReset = now;
-                questsCache = newQuests;
-                if (currentPage === 'quests') renderQuests();
-                showNotification('🔄 Новые ежедневные задания доступны!', 'warning');
-            }
-        }, 60000);
+        startFakeNotifications();
+        startTaskReset();
+
         setInterval(async () => {
             if (currentUser) {
                 try {
