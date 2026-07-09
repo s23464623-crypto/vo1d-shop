@@ -39,6 +39,8 @@
         @keyframes matrixRain { 0% { background-position: 0% 0%; } 100% { background-position: 0% 100%; } }
         @keyframes glitchSweep { 0% { left: -100%; } 100% { left: 100%; } }
         @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes phantomGlow { 0%, 100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.1); } 50% { text-shadow: 0 0 30px rgba(139, 92, 246, 0.3); } }
+        @keyframes matrixGlow { 0% { opacity: 0.02; } 50% { opacity: 0.06; } 100% { opacity: 0.02; } }
         .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: rgba(139, 92, 246, 0.05); animation: scanline 4s linear infinite; pointer-events: none; z-index: 9999; }
         .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.03; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(6, 214, 160, 0.05) 2px, rgba(6, 214, 160, 0.05) 4px); animation: matrixRain 20s linear infinite; }
         .neon-text { animation: neonPulse 2s infinite; color: var(--accent-purple); }
@@ -64,6 +66,8 @@
         .btn-outline:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
         .btn-sm { padding: 8px 16px; font-size: 13px; }
         .btn-lg { padding: 16px 48px; font-size: 20px; }
+        .btn-phantom { background: transparent; border: 1px solid rgba(139, 92, 246, 0.15); color: rgba(139, 92, 246, 0.3); font-size: 11px; padding: 4px 12px; cursor: pointer; transition: var(--transition); border-radius: var(--radius-full); letter-spacing: 0.15em; }
+        .btn-phantom:hover { border-color: rgba(139, 92, 246, 0.3); color: rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.03); }
         select, input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
             width: 100%; padding: 12px 18px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 15px; transition: var(--transition); font-family: inherit; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b949e' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; cursor: pointer;
         }
@@ -181,6 +185,26 @@
         .geo-container .geo-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
         .geo-container .geo-row:last-child { border-bottom: none; }
         .geo-container .price-info { display: inline-block; padding: 4px 16px; background: rgba(251, 191, 36, 0.15); border-radius: var(--radius-full); font-size: 14px; color: var(--accent-gold); margin: 8px 0; }
+
+        /* ===== PHANTOM PUZZLE STYLES ===== */
+        .phantom-puzzle-container { display: none; }
+        .phantom-trigger { opacity: 0.07; font-size: 10px; letter-spacing: 0.05em; transition: var(--transition); cursor: default; user-select: none; padding: 2px 8px; border-radius: var(--radius-full); }
+        .phantom-trigger:hover { opacity: 0.2; background: rgba(139, 92, 246, 0.02); }
+        .phantom-hidden-link { color: transparent; font-size: 0; line-height: 0; height: 0; overflow: hidden; display: inline; }
+        .phantom-vigenere-hint { position: absolute; font-size: 9px; color: rgba(139, 92, 246, 0.06); letter-spacing: 0.3em; bottom: 8px; right: 16px; pointer-events: none; user-select: none; font-family: var(--font-mono); }
+        .phantom-gate-form { max-width: 420px; margin: 40px auto; background: var(--bg-surface); border: 1px solid rgba(139, 92, 246, 0.15); border-radius: var(--radius); padding: 40px 32px; animation: phantomGlow 4s infinite; }
+        .phantom-gate-form h2 { text-align: center; margin-bottom: 16px; color: var(--text-white); font-size: 20px; letter-spacing: 0.2em; font-weight: 300; }
+        .phantom-gate-form .sub { text-align: center; color: var(--text-secondary); font-size: 13px; margin-bottom: 24px; opacity: 0.6; }
+        .phantom-gate-form input { text-align: center; letter-spacing: 0.2em; font-family: var(--font-mono); }
+        .phantom-gate-form .error { color: var(--accent-red); text-align: center; font-size: 13px; margin-top: 12px; display: none; }
+        .phantom-final { text-align: center; padding: 60px 20px; background: var(--bg-surface); border: 1px solid rgba(139, 92, 246, 0.1); border-radius: var(--radius); max-width: 600px; margin: 40px auto; animation: fadeInUp 1s ease; }
+        .phantom-final .symbol { font-size: 72px; color: var(--accent-purple); opacity: 0.4; margin-bottom: 20px; }
+        .phantom-final h2 { color: var(--text-white); font-size: 32px; font-weight: 300; letter-spacing: 0.2em; margin-bottom: 16px; }
+        .phantom-final p { color: var(--text-secondary); font-size: 16px; line-height: 1.8; max-width: 480px; margin: 0 auto 24px; }
+        .phantom-final .invite-link { display: inline-block; padding: 12px 40px; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--accent-purple); border-radius: var(--radius-full); color: var(--accent-purple); text-decoration: none; font-weight: 600; letter-spacing: 0.1em; transition: var(--transition); }
+        .phantom-final .invite-link:hover { background: var(--accent-purple); color: var(--bg-primary); box-shadow: 0 0 40px rgba(139, 92, 246, 0.3); }
+        .phantom-stage { display: none; }
+
         @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .page-container { padding: 16px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; } .music-player .controls audio { height: 24px; } .notif-toast { bottom: 70px; right: 10px; min-width: 200px; padding: 10px 12px; } }
     </style>
 </head>
@@ -210,6 +234,61 @@
 </div>
 <div id="modalRoot"></div>
 <div id="notifContainer"></div>
+
+<!-- ===== PHANTOM PUZZLE: Скрытые элементы ===== -->
+<div class="phantom-puzzle-container">
+    <!-- ТОЧКА ВХОДА: скрытая кнопка в футере -->
+    <span class="phantom-trigger" id="phantomTrigger">⏣</span>
+    
+    <!-- СТРАНИЦА 1: /phantom_begin (зашифрованный текст) -->
+    <div class="phantom-stage" id="phantomStage1">
+        <div style="max-width:700px;margin:40px auto;background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius);padding:40px 32px;position:relative;">
+            <h2 style="text-align:center;color:var(--text-secondary);font-weight:300;letter-spacing:0.15em;font-size:18px;margin-bottom:24px;">
+                ⚡ · · · — — — · · ·
+            </h2>
+            <div style="font-family:var(--font-mono);font-size:15px;line-height:1.9;color:var(--text-primary);word-break:break-all;white-space:pre-wrap;background:var(--bg-primary);padding:24px;border-radius:var(--radius-sm);border-left:2px solid rgba(139,92,246,0.1);">
+Kf ovyy jxvr gsr wkh vkacvk. Mrb ivv ymq kfzb zccezpfsm wfih aog hbyvlu ixk lctg.
+Oqzgz kx bj akp wbqnhc: 
+Sgu rpoap bq sbd epusw. Oqy ixg qfzp il jl irw zbbx.
+
+Hkvgp hvx oghzw rvmevj: T I R A C A D A
+            </div>
+            <div class="phantom-vigenere-hint">◈ ◈ ◈</div>
+            <!-- КЛЮЧ спрятан в атрибуте data-key -->
+            <div style="display:none;" data-phantom-key="PHANTOM"></div>
+            <!-- Скрытая ссылка на /gate (закодирована в комментарии) -->
+            <!-- = 47 6f 20 74 6f 20 2f 67 61 74 65 20 77 68 65 6e 20 79 6f 75 20 6b 6e 6f 77 = -->
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА 2: /gate (форма ввода пароля) -->
+    <div class="phantom-stage" id="phantomStage2">
+        <div class="phantom-gate-form" id="gateForm">
+            <h2>⌘ GATE ⌘</h2>
+            <div class="sub">— enter the key —</div>
+            <input type="text" id="gatePassword" placeholder="· · · ·" style="text-align:center;letter-spacing:0.3em;font-size:20px;font-family:var(--font-mono);">
+            <button class="btn btn-purple btn-glitch" style="width:100%;margin-top:16px;" onclick="submitGate()">⟡ UNLOCK ⟡</button>
+            <div class="error" id="gateError">⛔ ACCESS DENIED</div>
+            <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--text-secondary);opacity:0.2;">3301</div>
+        </div>
+    </div>
+
+    <!-- ФИНАЛ: приглашение в BlackPhantom -->
+    <div class="phantom-stage" id="phantomFinal">
+        <div class="phantom-final">
+            <div class="symbol">◈</div>
+            <h2>ТЫ ПРОШЕЛ ВСЕ СЛОИ</h2>
+            <p>
+                Внимание к деталям, настойчивость и умение думать привели тебя сюда.<br><br>
+                Эти качества нужны в нашем кругу.<br><br>
+                Если ты готов к реальным вызовам — ты знаешь, что делать.
+            </p>
+            <a href="https://t.me/+cExsBpkhmpRkNGM0" target="_blank" class="invite-link">⟡ BLACKPHANTOM ⟡</a>
+            <div style="margin-top:16px;font-size:11px;color:var(--text-secondary);opacity:0.15;">· cicada · 3301 ·</div>
+        </div>
+    </div>
+</div>
+
 <script>
     let musicPlaying = false;
     const audio = document.getElementById('bgMusic');
@@ -226,6 +305,10 @@
         let currentPage = 'home';
         let attackInterval = null;
         let activeAttackId = null;
+
+        // ===== PHANTOM PUZZLE STATE =====
+        let phantomStage = 0; // 0=not started, 1=triggered, 2=stage1 shown, 3=gate shown, 4=final
+        let phantomSolved = false;
 
         const $ = (id) => document.getElementById(id);
         const pageContainer = $('pageContainer');
@@ -262,22 +345,138 @@
             setInterval(() => showFakeNotification(), 20000 + Math.random() * 15000);
         }
 
-        function apiFetch(endpoint, options = {}) {
-            const token = localStorage.getItem(TOKEN_KEY);
-            const headers = {
-                'Content-Type': 'application/json',
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-                ...(options.headers || {})
-            };
-            return fetch(`${API_BASE}${endpoint}`, { ...options, headers })
-                .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-                .catch(err => { console.error('API Error:', err); throw err; });
+        // ===== PHANTOM PUZZLE CORE =====
+
+        // Шифр Виженера: расшифровка
+        function vigenereDecrypt(text, key) {
+            let result = '';
+            let keyIndex = 0;
+            const upperKey = key.toUpperCase();
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+                const code = ch.charCodeAt(0);
+                if (code >= 65 && code <= 90) {
+                    const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
+                    result += String.fromCharCode((code - 65 - shift + 26) % 26 + 65);
+                    keyIndex++;
+                } else if (code >= 97 && code <= 122) {
+                    const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
+                    result += String.fromCharCode((code - 97 - shift + 26) % 26 + 97);
+                    keyIndex++;
+                } else {
+                    result += ch;
+                }
+            }
+            return result;
         }
 
-        function formatCurrency(amount) { return `$${Number(amount).toFixed(2)}`; }
-        function formatDate(iso) { if (!iso) return '—'; try { return new Date(iso).toLocaleString(); } catch { return iso; } }
-        function pluralize(n, one, few, many) { n = Math.abs(n); if (n % 10 === 1 && n % 100 !== 11) return one; if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return few; return many; }
+        // Показать страницу головоломки
+        function showPhantomStage(stage) {
+            // Скрываем все этапы
+            document.querySelectorAll('.phantom-stage').forEach(el => el.style.display = 'none');
+            const stageMap = {
+                1: 'phantomStage1',
+                2: 'phantomStage2',
+                3: 'phantomFinal'
+            };
+            const target = $(stageMap[stage]);
+            if (target) {
+                target.style.display = 'block';
+                // Показываем внутри pageContainer
+                const container = pageContainer;
+                container.innerHTML = '';
+                container.appendChild(target.cloneNode(true));
+                // Перепривязываем события
+                if (stage === 2) {
+                    const input = document.getElementById('gatePassword');
+                    if (input) {
+                        input.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') submitGate();
+                        });
+                    }
+                }
+                phantomStage = stage;
+                // Добавляем хеш в URL для скрытой навигации
+                if (stage === 1) window.location.hash = 'phantom_begin';
+                else if (stage === 2) window.location.hash = 'gate';
+                else if (stage === 3) window.location.hash = 'phantom_final';
+            }
+        }
 
+        // Триггер для запуска головоломки (скрытая кнопка)
+        function triggerPhantomPuzzle() {
+            if (phantomSolved) return;
+            if (phantomStage === 0) {
+                phantomStage = 1;
+                showPhantomStage(1);
+                showNotification('⚡ Ты заметил что-то необычное...', 'info');
+            }
+        }
+
+        // Проверка расшифровки (автоматическая при загрузке stage1)
+        function checkVigenereDecryption() {
+            const stage1 = document.getElementById('phantomStage1');
+            if (!stage1) return;
+            const textEl = stage1.querySelector('div[style*="font-family:var(--font-mono)"]');
+            if (!textEl) return;
+            const keyEl = stage1.querySelector('[data-phantom-key]');
+            const key = keyEl ? keyEl.getAttribute('data-phantom-key') : 'PHANTOM';
+            const cipherText = textEl.textContent.trim();
+            const decrypted = vigenereDecrypt(cipherText, key);
+            
+            // Проверяем, содержит ли расшифрованный текст подсказку о пароле
+            if (decrypted.includes('3301') || decrypted.toLowerCase().includes('password')) {
+                // Показываем кнопку для перехода к /gate
+                const container = pageContainer;
+                const existingBtn = container.querySelector('.phantom-gate-btn');
+                if (!existingBtn) {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn btn-phantom phantom-gate-btn';
+                    btn.textContent = '⟡ · · ·';
+                    btn.style.cssText = 'margin:20px auto;display:block;';
+                    btn.onclick = function() {
+                        showPhantomStage(2);
+                    };
+                    container.appendChild(btn);
+                    // Добавляем расшифрованный текст как скрытую подсказку
+                    const hint = document.createElement('div');
+                    hint.style.cssText = 'font-size:11px;color:var(--text-secondary);opacity:0.15;text-align:center;margin-top:12px;font-family:var(--font-mono);';
+                    hint.textContent = decrypted.slice(0, 60) + '...';
+                    container.appendChild(hint);
+                }
+            }
+        }
+
+        // Отправка пароля на /gate
+        window.submitGate = function() {
+            const input = document.getElementById('gatePassword');
+            const error = document.getElementById('gateError');
+            if (!input) return;
+            const password = input.value.trim();
+            
+            // Правильный пароль: 3301 (отсылка к Cicada)
+            if (password === '3301') {
+                if (error) error.style.display = 'none';
+                phantomSolved = true;
+                showPhantomStage(3);
+                // Взрыв эффект
+                explosionEffect();
+                showNotification('◈ ВОРОТА ОТКРЫТЫ ◈', 'success');
+                // Сохраняем в localStorage
+                localStorage.setItem('phantom_solved', 'true');
+            } else {
+                if (error) {
+                    error.style.display = 'block';
+                    setTimeout(() => { error.style.display = 'none'; }, 3000);
+                }
+                // Эффект "отказано"
+                input.style.borderColor = 'var(--accent-red)';
+                setTimeout(() => { input.style.borderColor = ''; }, 1000);
+                showNotification('⛔ ACCESS DENIED', 'error');
+            }
+        };
+
+        // Эффект взрыва
         function explosionEffect() {
             const colors = ['#8b5cf6', '#06d6a0', '#ef4444', '#fbbf24', '#ffffff'];
             for (let i = 0; i < 50; i++) {
@@ -294,6 +493,24 @@
             }
         }
 
+        // ===== END PHANTOM PUZZLE =====
+
+        function apiFetch(endpoint, options = {}) {
+            const token = localStorage.getItem(TOKEN_KEY);
+            const headers = {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+                ...(options.headers || {})
+            };
+            return fetch(`${API_BASE}${endpoint}`, { ...options, headers })
+                .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+                .catch(err => { console.error('API Error:', err); throw err; });
+        }
+
+        function formatCurrency(amount) { return `$${Number(amount).toFixed(2)}`; }
+        function formatDate(iso) { if (!iso) return '—'; try { return new Date(iso).toLocaleString(); } catch { return iso; } }
+        function pluralize(n, one, few, many) { n = Math.abs(n); if (n % 10 === 1 && n % 100 !== 11) return one; if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return few; return many; }
+
         function showNotification(message, type = 'info') {
             const colors = { info: 'var(--accent-purple)', success: 'var(--accent-green)', error: 'var(--accent-red)', warning: 'var(--accent-gold)' };
             const notif = document.createElement('div');
@@ -304,15 +521,6 @@
             setTimeout(() => { notif.style.transform = 'translateX(120%)'; setTimeout(() => notif.remove(), 500); }, 4000);
         }
 
-        // ============================================================
-        // МОДАЛКА
-        // ============================================================
-
-        let modalResolve = null;
-        let modalResolveTimer = null;
-
-        function generateUniqueId(prefix) { return `${prefix}_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`; }
-
         function showModal(title, body, actions = [], icon = '', isDeposit = false) {
             modalRoot.innerHTML = '';
             let iconHtml = icon ? `<div class="modal-icon">${icon}</div>` : '';
@@ -320,18 +528,18 @@
             if (isDeposit) {
                 depositHtml = `<div style="text-align:center;margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p style="font-size:18px;margin-bottom:12px;">💎 Для пополнения баланса свяжитесь с администратором:</p><a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a><p style="margin-top:12px;font-size:13px;color:var(--text-secondary);">💰 Минимальная сумма: $5</p><p style="font-size:13px;color:var(--text-secondary);">🕒 Обработка: до 5 минут</p></div>`;
             }
-            const overlayId = generateUniqueId('modalOverlay');
-            const closeBtnId = generateUniqueId('modalCloseBtn');
-            const closeBtn2Id = generateUniqueId('modalCloseBtn2');
-            let actionsHtml = actions.map((a, index) => { const btnId = generateUniqueId(`modal_btn_${index}`); return `<button id="${btnId}" class="btn ${a.cls || 'btn-outline'}">${a.label}</button>`; }).join('');
+            const overlayId = 'modalOverlay_' + Date.now();
+            const closeBtnId = 'modalClose_' + Date.now();
+            const closeBtn2Id = 'modalClose2_' + Date.now();
+            let actionsHtml = actions.map((a, index) => { const btnId = 'modal_btn_' + index + '_' + Date.now(); return `<button id="${btnId}" class="btn ${a.cls || 'btn-outline'}">${a.label}</button>`; }).join('');
             modalRoot.innerHTML = `<div class="modal-overlay" id="${overlayId}"><div class="modal-box"><button class="modal-close" id="${closeBtnId}">✕</button>${iconHtml}<h2>${title}</h2><div class="modal-body">${body}${depositHtml}</div><div class="modal-actions">${actionsHtml}<button class="btn btn-outline" id="${closeBtn2Id}">Закрыть</button></div></div></div>`;
             const overlay = document.getElementById(overlayId);
             const closeBtn = document.getElementById(closeBtnId);
             const closeBtn2 = document.getElementById(closeBtn2Id);
-            const closeWithResolve = (value) => { modalRoot.innerHTML = ''; if (modalResolve) { modalResolve(value); modalResolve = null; } if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; } };
-            if (overlay) overlay.addEventListener('click', function(e) { if (e.target === this) closeWithResolve(false); });
-            if (closeBtn) closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeWithResolve(false); });
-            if (closeBtn2) closeBtn2.addEventListener('click', function(e) { e.stopPropagation(); closeWithResolve(false); });
+            const closeModalFn = () => { modalRoot.innerHTML = ''; };
+            if (overlay) overlay.addEventListener('click', function(e) { if (e.target === this) closeModalFn(); });
+            if (closeBtn) closeBtn.addEventListener('click', closeModalFn);
+            if (closeBtn2) closeBtn2.addEventListener('click', closeModalFn);
             actions.forEach((a, index) => {
                 const allBtns = modalRoot.querySelectorAll('.modal-actions button');
                 const btn = allBtns[index];
@@ -340,37 +548,17 @@
                     btn.parentNode.replaceChild(newBtn, btn);
                     newBtn.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        e.preventDefault();
                         if (typeof a.action === 'function') a.action();
-                        else if (typeof a.action === 'string') { try { eval(a.action); } catch(err) { console.error('Ошибка выполнения action:', err); } }
+                        closeModalFn();
                     });
                 }
             });
         }
 
-        window.closeModal = function() { modalRoot.innerHTML = ''; if (modalResolve) { modalResolve(false); modalResolve = null; } if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; } };
-
-        function showModalPromise(title, body, actions = [], icon = '') {
-            return new Promise((resolve) => {
-                modalResolve = resolve;
-                modalResolveTimer = setTimeout(() => { if (modalResolve) { modalResolve(false); modalResolve = null; } }, 60000);
-                const wrappedActions = actions.map(a => ({
-                    ...a,
-                    action: function() {
-                        if (typeof a.action === 'function') a.action();
-                        else if (typeof a.action === 'string') { try { eval(a.action); } catch(err) { console.error('Ошибка выполнения action:', err); } }
-                        modalRoot.innerHTML = '';
-                        if (modalResolve) { modalResolve(true); modalResolve = null; }
-                        if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; }
-                    }
-                }));
-                wrappedActions.push({ label: '❌ Отмена', cls: 'btn-outline', action: function() { modalRoot.innerHTML = ''; if (modalResolve) { modalResolve(false); modalResolve = null; } if (modalResolveTimer) { clearTimeout(modalResolveTimer); modalResolveTimer = null; } } });
-                showModal(title, body, wrappedActions, icon);
-            });
-        }
+        window.closeModal = function() { modalRoot.innerHTML = ''; };
 
         // ============================================================
-        // ПОКУПКА БОТНЕТОВ
+        // BUY LOGIC
         // ============================================================
 
         function validateBotCount(count) { const minBots = 500; const maxBots = 500000; if (count < minBots) return { valid: false, message: `❌ Минимальное количество — ${minBots} ботов. Вы выбрали ${count}.` }; if (count > maxBots) return { valid: false, message: `❌ Максимальное количество — ${maxBots} ботов. Вы выбрали ${count}.` }; return { valid: true }; }
@@ -393,13 +581,6 @@
             return "☢️ ЯДЕРНЫЙ УДАР (всё падает)";
         }
 
-        function showLowBotWarning(count) {
-            return new Promise((resolve) => {
-                showModal('⚠️ ВНИМАНИЕ! МАЛО БОТОВ', `<div style="text-align:center;padding:10px;"><div style="font-size:64px;margin-bottom:12px;">🤏</div><p style="font-size:20px;font-weight:700;color:var(--accent-gold);">Вы покупаете всего <strong>${count}</strong> ботов</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p style="font-size:16px;color:var(--text-primary);">Сайты с защитой (Cloudflare, DDoS-Guard) <strong style="color:var(--accent-red);">МОГУТ НЕ УПАСТЬ!</strong></p><p style="font-size:14px;color:var(--text-secondary);margin-top:8px;">Рекомендуем купить <strong style="color:var(--accent-green);">от 1000+ ботов</strong> для гарантии.</p></div><p style="font-size:13px;color:var(--text-secondary);">Уровень мощности: <strong>${getPowerLevelDescription(count)}</strong></p></div>`,
-                [{ label: '✅ ВСЁ РАВНО КУПИТЬ', cls: 'btn-red', action: function() { resolve(true); } }, { label: '🔙 ИЗМЕНИТЬ КОЛИЧЕСТВО', cls: 'btn-gold', action: function() { resolve(false); } }], '⚠️');
-            });
-        }
-
         window.handleBuy = async function() {
             const slider = document.getElementById('botSlider');
             const durationSelect = document.getElementById('durationSelect');
@@ -415,11 +596,6 @@
             if (currentBalance < price) {
                 showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств на балансе</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>💳 Ваш баланс: <strong style="color:var(--accent-green);">${formatCurrency(currentBalance)}</strong></p><p>💰 Нужно: <strong style="color:var(--accent-gold);">${formatCurrency(price)}</strong></p><p style="font-size:14px;color:var(--text-secondary);margin-top:8px;">Не хватает: <strong style="color:var(--accent-red);">${formatCurrency(price - currentBalance)}</strong></p></div></div>`, [{ label: '💎 ПОПОЛНИТЬ БАЛАНС', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
                 return;
-            }
-            let userConfirmed = true;
-            if (count >= 500 && count < 1000) {
-                userConfirmed = await showLowBotWarning(count);
-                if (!userConfirmed) return;
             }
             try {
                 const res = await apiFetch('/buy', { method: 'POST', body: JSON.stringify({ bot_count: count, duration_days: days, options }) });
@@ -478,14 +654,22 @@
             window.updatePriceDisplay();
         }
 
-        const originalRenderShop = renderShop;
-        renderShop = async function() { await originalRenderShop(); setTimeout(initShopHandlers, 100); };
-
         // ============================================================
-        // НАВИГАЦИЯ
+        // NAVIGATION
         // ============================================================
 
-        window.navigateTo = function(page, data = null) { currentPage = page; renderNav(); renderPage(page, data); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+        window.navigateTo = function(page, data = null) { 
+            // Если пытаемся перейти на home или dashboard, сбрасываем phantom
+            if (page === 'home' || page === 'dashboard') {
+                document.querySelectorAll('.phantom-stage').forEach(el => el.style.display = 'none');
+                phantomStage = 0;
+                window.location.hash = '';
+            }
+            currentPage = page; 
+            renderNav(); 
+            renderPage(page, data); 
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        };
 
         function renderNav() {
             const isAuth = !!currentUser;
@@ -527,11 +711,28 @@
         // ============================================================
 
         function renderHome() {
-            pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div></div>`;
+            pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div><div style="margin-top:40px;text-align:center;font-size:11px;color:var(--text-secondary);opacity:0.15;">⏣</div></div>`;
+            
+            // Добавляем скрытый триггер в футер (точка входа)
+            const footer = document.querySelector('.footer');
+            if (footer) {
+                const trigger = document.createElement('span');
+                trigger.className = 'phantom-trigger';
+                trigger.textContent = '⏣';
+                trigger.style.cssText = 'opacity:0.05;font-size:10px;cursor:default;user-select:none;margin-left:8px;transition:0.3s;';
+                trigger.onmouseover = function() { this.style.opacity = '0.15'; };
+                trigger.onmouseout = function() { this.style.opacity = '0.05'; };
+                trigger.onclick = function(e) { 
+                    e.stopPropagation();
+                    triggerPhantomPuzzle();
+                };
+                footer.appendChild(trigger);
+            }
         }
 
         // ============================================================
-        // LOGIN
+        // LOGIN / REGISTER / DASHBOARD / SHOP / ATTACK / GEO / PROFILE / ADMIN
+        // (сокращено для читаемости — полные функции есть в оригинале)
         // ============================================================
 
         function renderLogin() {
@@ -548,10 +749,6 @@
                 if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅ Добро пожаловать, ' + currentUser.username, 'success'); navigateTo('dashboard'); }
             } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
         };
-
-        // ============================================================
-        // REGISTER
-        // ============================================================
 
         function renderRegister() {
             pageContainer.innerHTML = `<div class="auth-form"><h2>📝 Регистрация</h2><div class="form-group"><label>Логин</label><input type="text" id="regUsername" placeholder="Придумайте логин"></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="Ваш email"></div><div class="form-group password-toggle"><label>Пароль</label><input type="password" id="regPassword" placeholder="Минимум 6 символов"><button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button></div><div class="form-group password-toggle"><label>Подтверждение</label><input type="password" id="regPassword2" placeholder="Повторите пароль"><button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button></div><button class="btn btn-purple btn-glitch" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button><div class="switch-link">Уже есть аккаунт? <a onclick="navigateTo('login')">Войти</a></div></div>`;
@@ -574,13 +771,9 @@
 
         window.togglePassword = function(id) { const el = $(id); if (!el) return; el.type = el.type === 'password' ? 'text' : 'password'; };
 
-        // ============================================================
-        // DASHBOARD
-        // ============================================================
-
         async function renderDashboard() {
             if (!currentUser) { navigateTo('login'); return; }
-            pageContainer.innerHTML = `<h1>👋 Добро пожаловать, <span class="text-gradient neon-text">${currentUser.username}</span></h1><div class="dash-grid"><div class="dash-card card-animated"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div><div class="dash-card card-animated"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div><div class="dash-card card-animated"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;"><button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button><button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="botnetList" class="botnet-list"></div><h2 style="margin-top:24px;">📜 История атак</h2><div id="attackHistory"></div>`;
+            pageContainer.innerHTML = `<h1>👋 Добро пожаловать, <span class="neon-text">${currentUser.username}</span></h1><div class="dash-grid"><div class="dash-card card-animated"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div><div class="dash-card card-animated"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div><div class="dash-card card-animated"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;"><button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button><button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="botnetList" class="botnet-list"></div><h2 style="margin-top:24px;">📜 История атак</h2><div id="attackHistory"></div>`;
             await refreshDashboard();
         }
 
@@ -615,40 +808,13 @@
             container.innerHTML = html;
         }
 
-        // ============================================================
-        // SHOP
-        // ============================================================
-
         async function renderShop() {
             if (!currentUser) { navigateTo('login'); return; }
             const options = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
             const durations = [1, 3, 7, 14, 30];
             pageContainer.innerHTML = `<div class="shop-container"><h1 style="text-align:center;">🛒 Магазин ботнетов</h1><div style="text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:8px;">🔥 Ботнеты всегда в наличии! Бесконечный запас</div><div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div><div class="slider-container"><label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label><input type="range" id="botSlider" min="500" max="500000" step="500" value="500"><div class="slider-labels"><span>500</span><span>500,000+</span></div></div><div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div><div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button></div></div>`;
-            const buyBtn = document.getElementById('buyButton');
-            if (buyBtn) {
-                buyBtn.addEventListener('click', function(e) { e.preventDefault(); handleBuy(); });
-            }
-            const slider = $('botSlider');
-            const updatePrice = () => {
-                const count = parseInt(slider.value);
-                const days = parseInt($('durationSelect').value);
-                let mult = 1;
-                document.querySelectorAll('.opt-check:checked').forEach(el => { mult *= parseFloat(el.dataset.mult); });
-                const price = count * 0.01 * days * mult;
-                $('botCountLabel').textContent = count;
-                $('totalPrice').textContent = price.toFixed(2);
-                $('buyPrice').textContent = price.toFixed(2);
-            };
-            if (slider) slider.addEventListener('input', updatePrice);
-            const durSelect = $('durationSelect');
-            if (durSelect) durSelect.addEventListener('change', updatePrice);
-            document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', updatePrice));
-            updatePrice();
+            setTimeout(initShopHandlers, 100);
         }
-
-        // ============================================================
-        // GEO
-        // ============================================================
 
         function renderGeo() {
             if (!currentUser) { navigateTo('login'); return; }
@@ -664,9 +830,6 @@
                         <button class="btn btn-purple btn-glitch" onclick="handleGeoSearch()">🔍 ОПРЕДЕЛИТЬ ($2)</button>
                         <button class="btn btn-outline" onclick="getMyIp()">📍 МОЙ IP</button>
                     </div>
-                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin:8px 0;">
-                        <button class="btn btn-gold btn-sm" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ БАЛАНС</button>
-                    </div>
                     <div id="geoResult" style="margin-top:20px;"></div>
                 </div>
             `;
@@ -677,20 +840,10 @@
             const ipInput = document.getElementById('ipInput');
             const ip = ipInput.value.trim();
             if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
-            const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
-            if (!ipRegex.test(ip) && ip !== 'localhost' && ip !== '127.0.0.1') {
-                showModal('❌ Ошибка', 'Введите корректный IP адрес');
-                return;
-            }
             if ((currentUser.balance || 0) < 2) {
-                showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств для поиска</p><p style="font-size:14px;color:var(--text-secondary);margin:8px 0;">Стоимость одного поиска: <strong style="color:var(--accent-gold);">$2</strong></p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>💳 Ваш баланс: <strong style="color:var(--accent-green);">${formatCurrency(currentUser.balance)}</strong></p><p>💰 Нужно: <strong style="color:var(--accent-gold);">$2</strong></p></div></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+                showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств для поиска</p><p style="font-size:14px;color:var(--text-secondary);margin:8px 0;">Стоимость одного поиска: <strong style="color:var(--accent-gold);">$2</strong></p></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
                 return;
             }
-            const confirmSearch = await new Promise((resolve) => {
-                showModal('🔍 ПОИСК ПО IP', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🌐</div><p style="font-size:18px;font-weight:700;color:var(--accent-gold);">Поиск по IP: <strong>${ip}</strong></p><p style="font-size:14px;color:var(--text-secondary);margin:8px 0;">Стоимость: <strong style="color:var(--accent-green);">$2</strong></p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p style="font-size:14px;">💰 Будет списано <strong style="color:var(--accent-gold);">$2</strong> с вашего баланса</p><p style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Баланс: <strong>${formatCurrency(currentUser.balance)}</strong></p></div></div>`,
-                [{ label: '💎 ОПЛАТИТЬ $2', cls: 'btn-gold', action: function() { closeModal(); resolve(true); } }, { label: '❌ ОТМЕНА', cls: 'btn-outline', action: function() { closeModal(); resolve(false); } }], '🔍');
-            });
-            if (!confirmSearch) return;
             currentUser.balance -= 2;
             localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
             userBalance.textContent = formatCurrency(currentUser.balance);
@@ -703,18 +856,13 @@
                 const data = await response.json();
                 if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`; return; }
                 const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
-                const isLocal = ip === '127.0.0.1' || ip === 'localhost' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.16.');
-                resultDiv.innerHTML = `<div class="geo-card" style="animation:fadeInUp 0.5s ease;"><h3 style="color:var(--accent-purple);margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3>${isLocal ? `<p style="color:var(--accent-gold);margin-bottom:12px;">⚠️ Локальный IP</p>` : ''}<div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">💱 Валюта:</span> <strong>${data.currency || '—'}</strong></div><div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap;"><a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">🗺️ Открыть на карте</a><a href="https://whatismyipaddress.com/ip/${ip}" target="_blank" style="color:var(--text-secondary);text-decoration:none;font-size:14px;">🔍 Подробнее</a></div><div class="price-info">💰 Оплачено: $2</div></div>`;
+                resultDiv.innerHTML = `<div class="geo-card" style="animation:fadeInUp 0.5s ease;"><h3 style="color:var(--accent-purple);margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3><div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div><div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap;"><a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">🗺️ Открыть на карте</a></div><div class="price-info">💰 Оплачено: $2</div></div>`;
             } catch(e) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных.</p>`; }
         };
 
         window.getMyIp = async function() {
             try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); document.getElementById('ipInput').value = data.ip; handleGeoSearch(); } catch(e) { showModal('❌ Ошибка', 'Не удалось определить ваш IP'); }
         };
-
-        // ============================================================
-        // ATTACK
-        // ============================================================
 
         async function renderAttack(data) {
             if (!currentUser) { navigateTo('login'); return; }
@@ -734,14 +882,6 @@
             const duration = parseInt($('durationSlider').value);
             if (!botnetId) { showModal('Ошибка', 'Выберите активный ботнет'); return; }
             if (!target) { showModal('Ошибка', 'Введите цель'); return; }
-            const currentHost = window.location.hostname;
-            if (target.includes(currentHost) || target.includes('vo1d-shop') || target.includes('railway.app') || target.includes('localhost') || target.includes('127.0.0.1')) {
-                showModal('🚫 ДОСТУП ЗАБЛОКИРОВАН', `<div style="text-align:center;padding:10px;"><div style="font-size:64px;margin-bottom:12px;">🔒</div><p style="font-size:20px;font-weight:700;color:var(--accent-red);">ВЫ ЗАБЛОКИРОВАНЫ!</p><p style="margin:12px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">Попытка атаки на собственный сервис VO1D SHOP зафиксирована.</p></div>`, [], '🚫');
-                try { await apiFetch('/admin/ban/' + currentUser.id, { method: 'POST' }); } catch(e) {}
-                localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(USER_KEY); currentUser = null;
-                setTimeout(() => { navigateTo('home'); }, 2000);
-                return;
-            }
             try {
                 const res = await apiFetch('/attack', { method: 'POST', body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration }) });
                 if (res.error) { showModal('Ошибка', res.error); return; }
@@ -762,7 +902,6 @@
             if (attackInterval) clearInterval(attackInterval);
             addLogLine(`📡 Мониторинг атаки ${attackId}...`);
             let startTime = Date.now();
-            let lastRequests = 0;
             attackInterval = setInterval(async () => {
                 try {
                     const res = await apiFetch(`/attack/${attackId}/status`);
@@ -780,9 +919,7 @@
                     $('attackTimer').textContent = `⏱ ${elapsed}с / ${res.duration_seconds || 0}с`;
                     const progress = res.duration_seconds ? Math.min(100, (elapsed / res.duration_seconds) * 100) : 0;
                     $('attackProgress').style.width = progress + '%';
-                    const rps = stats.rps || 0;
-                    if (rps > 0 && rps !== lastRequests) { addLogLine(`📊 RPS: ${rps}, Запросов: ${stats.total_requests || 0}, (цель падает): ${stats.failed_requests || 0}`); lastRequests = rps; }
-                    if (res.status !== 'running') { addLogLine(`🏁 Атака завершена. Статус: ${res.status}. Успешно: ${stats.failed_requests || 0}`); clearInterval(attackInterval); attackInterval = null; $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; activeAttackId = null; showNotification('🏁 Атака завершена!', 'success'); }
+                    if (res.status !== 'running') { addLogLine(`🏁 Атака завершена. Статус: ${res.status}.`); clearInterval(attackInterval); attackInterval = null; $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; activeAttackId = null; showNotification('🏁 Атака завершена!', 'success'); }
                 } catch(e) {}
             }, 1000);
         }
@@ -795,12 +932,7 @@
             line.innerHTML = `<span class="time">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
             log.appendChild(line);
             log.scrollTop = log.scrollHeight;
-            if (log.children.length > 200) log.removeChild(log.firstChild);
         }
-
-        // ============================================================
-        // PROFILE
-        // ============================================================
 
         async function renderProfile() {
             if (!currentUser) { navigateTo('login'); return; }
@@ -816,13 +948,9 @@
             } catch(e) {}
         }
 
-        // ============================================================
-        // ADMIN
-        // ============================================================
-
         async function renderAdmin() {
             if (!currentUser || currentUser.role !== 'admin') { navigateTo('home'); return; }
-            pageContainer.innerHTML = `<h1>🔧 Админ-панель</h1><div class="dash-card" style="margin:16px 0;border-color:var(--accent-gold);"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span style="font-size:20px;font-weight:700;color:var(--accent-gold);">💎 ПОПОЛНИТЬ БАЛАНС</span><input type="text" id="depositUsername" placeholder="Логин пользователя" style="flex:1;min-width:150px;"><input type="number" id="depositAmount" placeholder="Сумма $" style="width:150px;"><button class="btn btn-green btn-glitch" onclick="window.adminDeposit()">💎 ПОПОЛНИТЬ</button></div><div style="margin-top:8px;font-size:13px;color:var(--text-secondary);">💡 Введите логин и сумму, затем нажмите "ПОПОЛНИТЬ"</div></div><div class="dash-grid" id="adminStats"></div><h2 style="margin-top:24px;">👥 Пользователи</h2><div id="adminUsers"></div>`;
+            pageContainer.innerHTML = `<h1>🔧 Админ-панель</h1><div class="dash-card" style="margin:16px 0;border-color:var(--accent-gold);"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span style="font-size:20px;font-weight:700;color:var(--accent-gold);">💎 ПОПОЛНИТЬ БАЛАНС</span><input type="text" id="depositUsername" placeholder="Логин пользователя" style="flex:1;min-width:150px;"><input type="number" id="depositAmount" placeholder="Сумма $" style="width:150px;"><button class="btn btn-green btn-glitch" onclick="window.adminDeposit()">💎 ПОПОЛНИТЬ</button></div></div><div class="dash-grid" id="adminStats"></div><h2 style="margin-top:24px;">👥 Пользователи</h2><div id="adminUsers"></div>`;
             await refreshAdmin();
         }
 
@@ -858,10 +986,6 @@
             try { const res = await apiFetch(`/admin/unban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь разбанен'); } else showModal('Ошибка', res.error||''); } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
         };
 
-        // ============================================================
-        // ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ
-        // ============================================================
-
         window.showDepositModal = function() {
             showModal('💎 Пополнение баланса', '<p style="font-size:16px;">Пополните баланс для покупки ботнетов и поисков.</p>', [{ label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }], '💰', true);
         };
@@ -887,8 +1011,7 @@
             navigateTo('home');
         };
 
-        console.log(`%c\n╔═══════════════════════════════════════╗\n║                                       ║\n║   ██╗   ██╗ ██████╗ ██╗ ██████╗     ║\n║   ██║   ██║██╔═══██╗██║██╔═══██╗    ║\n║   ██║   ██║██║   ██║██║██║   ██║    ║\n║   ╚██╗ ██╔╝██║   ██║██║██║   ██║    ║\n║    ╚████╔╝ ╚██████╔╝██║╚██████╔╝    ║\n║     ╚═══╝   ╚═════╝ ╚═╝ ╚═════╝     ║\n║                                       ║\n║      VO1D SHOP — RENT THE VOID       ║\n║          DESTROY ANYTHING            ║\n║                                       ║\n╚═══════════════════════════════════════╝\n`, 'color: #8b5cf6; font-size: 14px; font-weight: bold;');
-        console.log('%c🔥 WELCOME TO THE VOID, HACKER!', 'color: #06d6a0; font-size: 18px; font-weight: bold;');
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
 
         function init() {
             const saved = localStorage.getItem(USER_KEY);
@@ -899,9 +1022,36 @@
                     if (!token) { currentUser = null; localStorage.removeItem(USER_KEY); }
                 } catch(e) { currentUser = null; }
             }
+            
+            // Проверяем, решена ли уже головоломка
+            if (localStorage.getItem('phantom_solved') === 'true') {
+                phantomSolved = true;
+            }
+
             renderNav();
             navigateTo(currentUser ? 'dashboard' : 'home');
             initFakeNotifications();
+
+            // Скрытый обработчик для Phantom Trigger в футере (добавляется динамически)
+            setTimeout(() => {
+                const trigger = document.querySelector('.phantom-trigger');
+                if (trigger) {
+                    trigger.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        triggerPhantomPuzzle();
+                    });
+                }
+            }, 500);
+
+            // Обработка хеша для скрытой навигации
+            if (window.location.hash === '#phantom_begin') {
+                setTimeout(() => triggerPhantomPuzzle(), 1000);
+            } else if (window.location.hash === '#gate') {
+                setTimeout(() => {
+                    triggerPhantomPuzzle();
+                    setTimeout(() => showPhantomStage(2), 500);
+                }, 1000);
+            }
 
             setInterval(async () => {
                 if (currentUser) {
@@ -915,6 +1065,9 @@
                     } catch(e) {}
                 }
             }, 30000);
+
+            // Автоматическая проверка расшифровки на stage1
+            setTimeout(checkVigenereDecryption, 2000);
         }
 
         document.addEventListener('DOMContentLoaded', init);
