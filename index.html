@@ -5,1351 +5,239 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VO1D SHOP — Rent the void. Destroy anything.</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-surface: #0d1117;
-            --bg-surface-2: #161b22;
-            --border-color: #21262d;
-            --accent-purple: #8b5cf6;
-            --accent-green: #06d6a0;
-            --accent-red: #ef4444;
-            --accent-gold: #fbbf24;
-            --text-primary: #c9d1d9;
-            --text-secondary: #8b949e;
-            --text-white: #ffffff;
-            --font-mono: 'Courier New', monospace;
-            --font-main: 'Segoe UI', system-ui, sans-serif;
-            --radius: 16px;
-            --radius-sm: 10px;
-            --radius-full: 9999px;
-            --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.15);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        html, body { height: 100%; background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-main); scroll-behavior: smooth; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-surface); }
-        ::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
-        
-        /* ===== УРОВЕНЬ 1: Ключ 5731 (скрыт в CSS-анимации) ===== */
-        /* animation-duration: 5.731s — это ключ */
-        @keyframes l1_pulse { 0%, 100% { opacity: 0.02; } 50% { opacity: 0.08; } }
-        .l1-trigger { animation: l1_pulse 5.731s ease-in-out infinite; display: inline-block; cursor: pointer; padding: 2px 6px; border-radius: var(--radius-full); user-select: none; font-size: 10px; color: transparent; transition: 0.3s; }
-        .l1-trigger:hover { color: rgba(139,92,246,0.3); background: rgba(139,92,246,0.03); }
-        
-        /* ===== УРОВЕНЬ 2: Ключ 2804 (letter-spacing: 2.804px) ===== */
-        .l2-hidden { letter-spacing: 2.804px; display: inline-block; }
-        
-        /* ===== УРОВЕНЬ 3: Ключ 2804 (бинарный код в градиенте) ===== */
-        .l3-gradient { height: 2px; width: 100%; background: linear-gradient(90deg, #000 0%, #fff 0.5%, #000 1%, #fff 1.5%, #000 2%, #fff 2.5%, #000 3%, #fff 3.5%, #000 4%, #fff 4.5%, #000 5%, #fff 5.5%, #000 6%, #fff 6.5%, #000 7%, #fff 7.5%, #000 8%, #fff 8.5%, #000 9%, #fff 9.5%, #000 10%, #fff 10.5%, #000 11%, #fff 11.5%, #000 12%, #fff 12.5%, #000 13%, #fff 13.5%, #000 14%, #fff 14.5%, #000 15%, #fff 15.5%, #000 16%, #fff 16.5%, #000 17%, #fff 17.5%, #000 18%, #fff 18.5%, #000 19%, #fff 19.5%, #000 20%, #fff 20.5%, #000 21%, #fff 21.5%, #000 22%, #fff 22.5%, #000 23%, #fff 23.5%, #000 24%, #fff 24.5%, #000 25%, #fff 25.5%, #000 26%, #fff 26.5%, #000 27%, #fff 27.5%, #000 28%, #fff 28.5%, #000 29%, #fff 29.5%, #000 30%, #fff 30.5%, #000 31%, #fff 31.5%, #000 32%, #fff 32.5%, #000 33%, #fff 33.5%, #000 34%, #fff 34.5%, #000 35%, #fff 35.5%, #000 36%, #fff 36.5%, #000 37%, #fff 37.5%, #000 38%, #fff 38.5%, #000 39%, #fff 39.5%, #000 40%, #fff 40.5%, #000 41%, #fff 41.5%, #000 42%, #fff 42.5%, #000 43%, #fff 43.5%, #000 44%, #fff 44.5%, #000 45%, #fff 45.5%, #000 46%, #fff 46.5%, #000 47%, #fff 47.5%, #000 48%, #fff 48.5%, #000 49%, #fff 49.5%, #000 50%, #fff 50.5%, #000 51%, #fff 51.5%, #000 52%, #fff 52.5%, #000 53%, #fff 53.5%, #000 54%, #fff 54.5%, #000 55%, #fff 55.5%, #000 56%, #fff 56.5%, #000 57%, #fff 57.5%, #000 58%, #fff 58.5%, #000 59%, #fff 59.5%, #000 60%, #fff 60.5%, #000 61%, #fff 61.5%, #000 62%, #fff 62.5%, #000 63%, #fff 63.5%, #000 64%, #fff 64.5%, #000 65%, #fff 65.5%, #000 66%, #fff 66.5%, #000 67%, #fff 67.5%, #000 68%, #fff 68.5%, #000 69%, #fff 69.5%, #000 70%, #fff 70.5%, #000 71%, #fff 71.5%, #000 72%, #fff 72.5%, #000 73%, #fff 73.5%, #000 74%, #fff 74.5%, #000 75%, #fff 75.5%, #000 76%, #fff 76.5%, #000 77%, #fff 77.5%, #000 78%, #fff 78.5%, #000 79%, #fff 79.5%, #000 80%, #fff 80.5%, #000 81%, #fff 81.5%, #000 82%, #fff 82.5%, #000 83%, #fff 83.5%, #000 84%, #fff 84.5%, #000 85%, #fff 85.5%, #000 86%, #fff 86.5%, #000 87%, #fff 87.5%, #000 88%, #fff 88.5%, #000 89%, #fff 89.5%, #000 90%, #fff 90.5%, #000 91%, #fff 91.5%, #000 92%, #fff 92.5%, #000 93%, #fff 93.5%, #000 94%, #fff 94.5%, #000 95%, #fff 95.5%, #000 96%, #fff 96.5%, #000 97%, #fff 97.5%, #000 98%, #fff 98.5%, #000 99%, #fff 99.5%); opacity: 0.03; pointer-events: none; position: fixed; bottom: 0; z-index: -1; }
-        
-        /* ===== УРОВЕНЬ 4: Ключ 9152 (box-shadow) ===== */
-        .l4-shadow { box-shadow: 0 0 0 0px rgba(139,92,246,0), 0 0 0 0px rgba(139,92,246,0), 0 0 0 0px rgba(139,92,246,0), 0 0 0 0px rgba(139,92,246,0); display: none; }
-        
-        /* ===== УРОВЕНЬ 5: Ключ 7676 (border-radius) ===== */
-        .l5-radius { border-radius: 7676px 2804px 9152px 5731px; display: none; }
-        
-        /* ===== УРОВЕНЬ 6: Социальная инженерия (скрытая ссылка) ===== */
-        .l6-trap { display: inline-block; width: 0; height: 0; overflow: hidden; padding: 0; margin: 0; font-size: 0; border: none; }
-        
-        /* ===== УРОВЕНЬ 7: Финальный код (в CSS-переменных) ===== */
-        :root { --l7-1: 5731; --l7-2: 2804; --l7-3: 9152; --l7-4: 7676; }
-        
-        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
-        @keyframes neonPulse { 0%, 100% { text-shadow: 0 0 10px var(--accent-purple), 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple); } 50% { text-shadow: 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple), 0 0 80px var(--accent-purple); } }
-        @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); } 50% { box-shadow: 0 0 50px rgba(139, 92, 246, 0.6); } }
-        @keyframes glitchSweep { 0% { left: -100%; } 100% { left: 100%; } }
-        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        
-        .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: rgba(139, 92, 246, 0.05); animation: scanline 4s linear infinite; pointer-events: none; z-index: 9999; }
-        .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.03; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(6, 214, 160, 0.05) 2px, rgba(6, 214, 160, 0.05) 4px); animation: scanline 20s linear infinite; }
-        .neon-text { animation: neonPulse 2s infinite; color: var(--accent-purple); }
-        
-        .btn { padding: 12px 32px; border: none; border-radius: var(--radius-full); font-weight: 700; font-size: 16px; cursor: pointer; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.05em; position: relative; overflow: hidden; }
-        .btn::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); opacity: 0; transition: var(--transition); }
-        .btn:hover::after { opacity: 1; }
-        .btn-purple { background: linear-gradient(135deg, var(--accent-purple), #7c3aed); color: white; box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
-        .btn-purple:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(139, 92, 246, 0.5); }
-        .btn-green { background: linear-gradient(135deg, var(--accent-green), #05b88a); color: white; box-shadow: 0 0 20px rgba(6, 214, 160, 0.3); }
-        .btn-green:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(6, 214, 160, 0.5); }
-        .btn-red { background: linear-gradient(135deg, var(--accent-red), #dc2626); color: white; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); animation: pulse 2s infinite; }
-        .btn-red:hover { transform: scale(1.02); box-shadow: 0 0 60px rgba(239, 68, 68, 0.6); }
-        .btn-gold { background: linear-gradient(135deg, var(--accent-gold), #f59e0b); color: #1a1a2e; box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(251, 191, 36, 0.5); }
-        .btn-outline { background: transparent; border: 2px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-full); }
-        .btn-outline:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
-        .btn-sm { padding: 8px 16px; font-size: 13px; }
-        .btn-lg { padding: 16px 48px; font-size: 20px; }
-        
-        select, input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
-            width: 100%; padding: 12px 18px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 15px; transition: var(--transition); font-family: inherit; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b949e' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; cursor: pointer;
-        }
-        select:hover, input:hover { border-color: var(--accent-purple); }
-        select:focus, input:focus { outline: none; border-color: var(--accent-purple); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15); }
-        input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent-purple); border-radius: 6px; cursor: pointer; flex-shrink: 0; }
-        
-        #app { min-height: 100vh; display: flex; flex-direction: column; }
-        .navbar { background: var(--bg-surface); border-bottom: 1px solid var(--border-color); padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(12px); background: rgba(13, 17, 23, 0.92); }
-        .navbar .logo { font-size: 28px; font-weight: 800; letter-spacing: 0.1em; color: var(--text-white); cursor: pointer; }
-        .navbar .logo span { color: var(--accent-purple); text-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
-        .navbar .nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .navbar .nav-links a, .navbar .nav-links button { padding: 8px 16px; border-radius: var(--radius-full); background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 14px; font-weight: 600; transition: var(--transition); font-family: var(--font-main); }
-        .navbar .nav-links a:hover, .navbar .nav-links button:hover { color: var(--text-white); background: var(--bg-surface-2); }
-        .navbar .nav-links a.active, .navbar .nav-links button.active { color: var(--accent-purple); background: rgba(139, 92, 246, 0.1); }
-        .navbar .user-badge { display: flex; align-items: center; gap: 12px; color: var(--text-secondary); font-size: 14px; }
-        .navbar .user-badge .balance { color: var(--accent-green); font-weight: 700; background: rgba(6, 214, 160, 0.1); padding: 4px 14px; border-radius: var(--radius-full); }
-        .page-container { flex: 1; padding: 32px; max-width: 1400px; margin: 0 auto; width: 100%; animation: fadeInUp 0.4s ease; }
-        .footer { text-align: center; padding: 24px; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 13px; margin-top: 40px; }
-        
-        .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; text-align: center; padding: 40px 20px; }
-        .hero .logo-big { font-size: 80px; font-weight: 900; letter-spacing: 0.15em; color: var(--text-white); text-shadow: 0 0 60px rgba(139, 92, 246, 0.2); margin-bottom: 16px; }
-        .hero .logo-big span { color: var(--accent-purple); text-shadow: 0 0 80px rgba(139, 92, 246, 0.4); }
-        .hero .slogan { font-size: 24px; color: var(--text-secondary); margin-bottom: 40px; letter-spacing: 0.05em; }
-        .hero .slogan em { color: var(--accent-red); font-style: normal; }
-        .hero .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 48px; width: 100%; max-width: 800px; }
-        .hero .feature-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; transition: var(--transition); }
-        .hero .feature-card:hover { border-color: var(--accent-purple); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
-        .hero .feature-card .icon { font-size: 32px; margin-bottom: 8px; }
-        .hero .feature-card .title { font-weight: 700; color: var(--text-white); }
-        .hero .feature-card .desc { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
-        
-        .auth-form { max-width: 420px; margin: 40px auto; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 40px 32px; }
-        .auth-form h2 { text-align: center; margin-bottom: 24px; color: var(--text-white); }
-        .auth-form .form-group { margin-bottom: 16px; }
-        .auth-form label { display: block; font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .auth-form .btn { width: 100%; margin-top: 8px; border-radius: var(--radius-full); }
-        .auth-form .switch-link { text-align: center; margin-top: 16px; font-size: 14px; color: var(--text-secondary); }
-        .auth-form .switch-link a { color: var(--accent-purple); cursor: pointer; }
-        .auth-form .password-toggle { position: relative; }
-        .auth-form .password-toggle input { padding-right: 48px; }
-        .auth-form .password-toggle .toggle-eye { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-secondary); font-size: 20px; background: none; border: none; }
-        
-        .dash-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; transition: var(--transition); }
-        .dash-card:hover { border-color: var(--accent-purple); box-shadow: 0 0 30px rgba(139, 92, 246, 0.08); }
-        .dash-card .card-title { font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 12px; }
-        .dash-card .card-value { font-size: 32px; font-weight: 700; color: var(--text-white); }
-        .dash-card .card-value.green { color: var(--accent-green); }
-        .dash-card .card-value.purple { color: var(--accent-purple); }
-        .dash-card .card-value.red { color: var(--accent-red); }
-        .dash-card .card-value.gold { color: var(--accent-gold); }
-        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 20px 0; }
-        
-        .botnet-list { display: flex; flex-direction: column; gap: 12px; }
-        .botnet-item { background: var(--bg-surface-2); border-radius: var(--radius-sm); padding: 16px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--accent-green); }
-        .botnet-item.expired { border-left-color: var(--accent-red); opacity: 0.6; }
-        .botnet-item .info .count { font-weight: 700; color: var(--text-white); }
-        .botnet-item .info .meta { font-size: 13px; color: var(--text-secondary); }
-        .botnet-item .status { font-size: 13px; font-weight: 600; }
-        .botnet-item .status.active { color: var(--accent-green); }
-        .botnet-item .status.expired { color: var(--accent-red); }
-        
-        .shop-container { max-width: 720px; margin: 0 auto; }
-        .shop-container .price-display { font-size: 48px; font-weight: 800; color: var(--accent-green); text-align: center; padding: 24px; background: var(--bg-surface); border-radius: var(--radius); border: 1px solid var(--border-color); margin: 24px 0; }
-        .shop-container .price-display small { font-size: 18px; font-weight: 400; color: var(--text-secondary); }
-        .shop-container .slider-container { margin: 24px 0; }
-        .shop-container .slider-container input[type="range"] { width: 100%; -webkit-appearance: none; background: var(--bg-surface-2); height: 6px; border-radius: var(--radius-full); outline: none; }
-        .shop-container .slider-container input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-purple); cursor: pointer; box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
-        .shop-container .slider-labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
-        .shop-container .option-checkbox { display: flex; align-items: center; gap: 12px; padding: 8px 0; cursor: pointer; border-bottom: 1px solid var(--border-color); }
-        .shop-container .option-checkbox:last-child { border-bottom: none; }
-        .shop-container .option-checkbox input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent-purple); }
-        .shop-container .option-checkbox .opt-label { flex: 1; color: var(--text-primary); }
-        .shop-container .option-checkbox .opt-price { color: var(--text-secondary); font-size: 14px; }
-        .shop-container .promo-input { display: flex; gap: 10px; margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px; }
-        .shop-container .promo-input input { flex: 1; font-family: var(--font-mono); letter-spacing: 0.1em; }
-        
-        .attack-panel { max-width: 800px; margin: 0 auto; }
-        .attack-panel .target-status { display: inline-block; padding: 4px 16px; border-radius: var(--radius-full); font-weight: 700; font-size: 14px; }
-        .attack-panel .target-status.online { background: rgba(6, 214, 160, 0.15); color: var(--accent-green); }
-        .attack-panel .target-status.offline { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
-        .attack-panel .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin: 20px 0; }
-        .attack-panel .stat-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; text-align: center; }
-        .attack-panel .stat-box .stat-value { font-size: 28px; font-weight: 700; color: var(--text-white); }
-        .attack-panel .stat-box .stat-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
-        .attack-panel .log-terminal { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; height: 200px; overflow-y: auto; font-family: var(--font-mono); font-size: 13px; color: var(--accent-green); margin-top: 16px; }
-        .attack-panel .log-terminal .log-line { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .attack-panel .log-terminal .log-line .time { color: var(--text-secondary); margin-right: 12px; }
-        .attack-panel .progress-bar { width: 100%; height: 8px; background: var(--bg-surface-2); border-radius: var(--radius-full); overflow: hidden; margin: 12px 0; }
-        .attack-panel .progress-bar .fill { height: 100%; background: linear-gradient(90deg, var(--accent-purple), var(--accent-red)); transition: width 0.5s ease; width: 0%; border-radius: var(--radius-full); }
-        
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-        .admin-table th, .admin-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
-        .admin-table th { color: var(--text-secondary); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .admin-table tr:hover { background: var(--bg-surface-2); }
-        .admin-table .badge { padding: 2px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; }
-        .admin-table .badge.admin { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
-        .admin-table .badge.user { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
-        .admin-table .badge.banned { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
-        
-        .geo-container { max-width: 700px; margin: 0 auto; }
-        .geo-container .geo-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; margin: 16px 0; transition: var(--transition); }
-        .geo-container .geo-card:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-glow); }
-        .geo-container .geo-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
-        .geo-container .geo-row:last-child { border-bottom: none; }
-        .geo-container .price-info { display: inline-block; padding: 4px 16px; background: rgba(251, 191, 36, 0.15); border-radius: var(--radius-full); font-size: 14px; color: var(--accent-gold); margin: 8px 0; }
-        
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); z-index: 9999; display: flex; align-items: center; justify-content: center; animation: fadeInUp 0.3s ease; }
-        .modal-overlay .modal-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 36px; max-width: 520px; width: 92%; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 60px rgba(139, 92, 246, 0.08); position: relative; }
-        .modal-overlay .modal-box .modal-close { position: absolute; top: 14px; right: 18px; font-size: 26px; cursor: pointer; color: var(--text-secondary); background: none; border: none; transition: 0.3s; }
-        .modal-overlay .modal-box .modal-close:hover { color: var(--text-white); transform: rotate(90deg); }
-        .modal-overlay .modal-box h2 { color: var(--text-white); margin-bottom: 14px; font-size: 26px; }
-        .modal-overlay .modal-box .modal-body { color: var(--text-primary); line-height: 1.8; }
-        .modal-overlay .modal-box .modal-body .contact-link { font-size: 22px; font-weight: 700; color: var(--accent-purple); text-decoration: none; display: inline-block; margin: 8px 0; padding: 8px 24px; border: 2px solid var(--accent-purple); border-radius: var(--radius-full); transition: 0.3s; }
-        .modal-overlay .modal-box .modal-body .contact-link:hover { background: var(--accent-purple); color: white; box-shadow: 0 0 40px rgba(139, 92, 246, 0.3); }
-        .modal-overlay .modal-box .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
-        .modal-overlay .modal-box .modal-icon { font-size: 48px; text-align: center; margin-bottom: 12px; }
-        
-        .music-player { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 10px 14px; min-width: 160px; backdrop-filter: blur(10px); box-shadow: 0 0 40px rgba(0,0,0,0.5); transition: var(--transition); }
-        .music-player:hover { border-color: var(--accent-purple); box-shadow: 0 0 40px rgba(139, 92, 246, 0.15); }
-        .music-player .controls { display: flex; align-items: center; gap: 8px; }
-        .music-player .controls audio { width: 100%; height: 26px; border-radius: var(--radius-full); }
-        .music-player .controls audio::-webkit-media-controls-panel { background: var(--bg-surface-2); border-radius: var(--radius-full); }
-        .music-player .controls .play-btn { background: var(--accent-purple); border: none; color: #fff; padding: 3px 10px; border-radius: var(--radius-full); cursor: pointer; font-size: 12px; font-weight: 700; transition: var(--transition); flex-shrink: 0; }
-        .music-player .controls .play-btn:hover { background: var(--accent-green); transform: scale(1.05); }
-        .music-player .track-name { font-size: 9px; color: var(--text-secondary); margin-top: 3px; text-align: center; letter-spacing: 0.05em; opacity: 0.5; }
-        
-        .notif-toast { position: fixed; bottom: 80px; right: 20px; z-index: 10000; min-width: 250px; max-width: 380px; background: var(--bg-surface); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); border: 1px solid var(--border-color); }
-        .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
-        .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
-        
-        /* ===== СТИЛИ ДЛЯ УРОВНЕЙ (СКРЫТЫЕ ОКНА) ===== */
-        .puzzle-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(16px); z-index: 99999; display: flex; align-items: center; justify-content: center; animation: fadeInUp 0.5s ease; }
-        .puzzle-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 40px; max-width: 560px; width: 92%; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 60px rgba(139, 92, 246, 0.1); position: relative; }
-        .puzzle-box .puzzle-close { position: absolute; top: 16px; right: 20px; font-size: 24px; cursor: pointer; color: var(--text-secondary); background: none; border: none; transition: 0.3s; }
-        .puzzle-box .puzzle-close:hover { color: var(--text-white); transform: rotate(90deg); }
-        .puzzle-box h2 { color: var(--text-white); font-size: 20px; font-weight: 300; letter-spacing: 0.15em; text-align: center; margin-bottom: 16px; }
-        .puzzle-box .puzzle-content { font-family: var(--font-mono); font-size: 14px; color: var(--text-primary); background: var(--bg-primary); padding: 20px; border-radius: var(--radius-sm); white-space: pre-wrap; word-break: break-all; border-left: 2px solid rgba(139, 92, 246, 0.1); line-height: 1.8; }
-        .puzzle-box .puzzle-input { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-        .puzzle-box .puzzle-input input { flex: 1; min-width: 160px; padding: 10px 16px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); font-family: var(--font-mono); font-size: 15px; transition: var(--transition); }
-        .puzzle-box .puzzle-input input:focus { outline: none; border-color: var(--accent-purple); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12); }
-        .puzzle-box .puzzle-status { margin-top: 12px; font-size: 13px; text-align: center; }
-        .puzzle-box .puzzle-status.error { color: var(--accent-red); }
-        .puzzle-box .puzzle-status.success { color: var(--accent-green); }
-        .puzzle-box .puzzle-hint { margin-top: 12px; font-size: 12px; color: var(--text-secondary); opacity: 0.15; text-align: center; font-family: var(--font-mono); }
-        
-        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .page-container { padding: 16px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 130px; padding: 8px 10px; } .music-player .controls audio { height: 22px; } .puzzle-box { padding: 24px 16px; } }
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#0a0a0f;--surface:#0d1117;--border:#21262d;--purple:#8b5cf6;--green:#06d6a0;--red:#ef4444;--gold:#fbbf24;--text:#c9d1d9;--text2:#8b949e;--white:#fff;--radius:16px;--full:9999px;--font:'Segoe UI',sans-serif;--mono:'Courier New',monospace}
+        html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:var(--surface)}
+        ::-webkit-scrollbar-thumb{background:var(--purple);border-radius:3px}
+        @keyframes _0x1a2b{0%,100%{opacity:0.02}50%{opacity:0.08}}
+        ._0x3c4d{animation:_0x1a2b 5.731s ease-in-out infinite;display:inline-block;cursor:pointer;padding:2px 6px;border-radius:var(--full);font-size:10px;color:transparent;user-select:none;transition:0.3s}
+        ._0x3c4d:hover{color:rgba(139,92,246,0.3);background:rgba(139,92,246,0.03)}
+        ._0x5e6f{display:inline-block;width:0;height:0;overflow:hidden;padding:0;margin:0;font-size:0;border:none}
+        @keyframes _0x7g8h{0%,100%{text-shadow:0 0 10px var(--purple),0 0 20px var(--purple),0 0 40px var(--purple)}50%{text-shadow:0 0 20px var(--purple),0 0 40px var(--purple),0 0 80px var(--purple)}}
+        @keyframes _0x9i0j{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+        @keyframes _0xk1l2{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes _0xm3n4{0%,100%{box-shadow:0 0 20px rgba(139,92,246,0.3)}50%{box-shadow:0 0 50px rgba(139,92,246,0.6)}}
+        ._0xo5p6{position:fixed;top:0;left:0;width:100%;height:2px;background:rgba(139,92,246,0.05);animation:_0x9i0j 4s linear infinite;pointer-events:none;z-index:9999}
+        ._0xq7r8{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:0.03;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(6,214,160,0.05) 2px,rgba(6,214,160,0.05) 4px);animation:_0x9i0j 20s linear infinite}
+        ._0xs9t0{animation:_0x7g8h 2s infinite;color:var(--purple)}
+        ._0xu1v2{padding:12px 32px;border:none;border-radius:var(--full);font-weight:700;font-size:16px;cursor:pointer;transition:0.3s;text-transform:uppercase;letter-spacing:0.05em;position:relative;overflow:hidden}
+        ._0xu1v2::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 70%);opacity:0;transition:0.3s}
+        ._0xu1v2:hover::after{opacity:1}
+        ._0xw3x4{background:linear-gradient(135deg,var(--purple),#7c3aed);color:white;box-shadow:0 0 20px rgba(139,92,246,0.3)}
+        ._0xw3x4:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(139,92,246,0.5)}
+        ._0xy5z6{background:linear-gradient(135deg,var(--green),#05b88a);color:white;box-shadow:0 0 20px rgba(6,214,160,0.3)}
+        ._0xy5z6:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(6,214,160,0.5)}
+        ._0x1a2b3c{background:linear-gradient(135deg,var(--red),#dc2626);color:white;box-shadow:0 0 20px rgba(239,68,68,0.3);animation:_0xm3n4 2s infinite}
+        ._0x1a2b3c:hover{transform:scale(1.02);box-shadow:0 0 60px rgba(239,68,68,0.6)}
+        ._0x4d5e6f{background:linear-gradient(135deg,var(--gold),#f59e0b);color:#1a1a2e;box-shadow:0 0 20px rgba(251,191,36,0.3)}
+        ._0x4d5e6f:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(251,191,36,0.5)}
+        ._0x7g8h9i{background:transparent;border:2px solid var(--border);color:var(--text);border-radius:var(--full)}
+        ._0x7g8h9i:hover{border-color:var(--purple);color:var(--purple)}
+        ._0xj0k1l2{padding:8px 16px;font-size:13px}
+        ._0xm3n4o5{padding:16px 48px;font-size:20px}
+        select,input[type="text"],input[type="email"],input[type="password"],input[type="number"]{width:100%;padding:12px 18px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;transition:0.3s;font-family:inherit;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b949e' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;cursor:pointer}
+        select:hover,input:hover{border-color:var(--purple)}
+        select:focus,input:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 4px rgba(139,92,246,0.15)}
+        input[type="checkbox"]{width:20px;height:20px;accent-color:var(--purple);border-radius:6px;cursor:pointer;flex-shrink:0}
+        #app{min-height:100vh;display:flex;flex-direction:column}
+        ._0xe1f2g3{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;backdrop-filter:blur(12px);background:rgba(13,17,23,0.92)}
+        ._0xe1f2g3 ._0xh4i5j6{font-size:28px;font-weight:800;letter-spacing:0.1em;color:var(--white);cursor:pointer}
+        ._0xe1f2g3 ._0xh4i5j6 span{color:var(--purple);text-shadow:0 0 30px rgba(139,92,246,0.3)}
+        ._0xe1f2g3 ._0xk7l8m9{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+        ._0xe1f2g3 ._0xk7l8m9 a,.nav-links button{padding:8px 16px;border-radius:var(--full);background:transparent;border:none;color:var(--text2);cursor:pointer;font-size:14px;font-weight:600;transition:0.3s;font-family:var(--font)}
+        ._0xe1f2g3 ._0xk7l8m9 a:hover,.nav-links button:hover{color:var(--white);background:var(--bg)}
+        ._0xe1f2g3 ._0xk7l8m9 a.active,.nav-links button.active{color:var(--purple);background:rgba(139,92,246,0.1)}
+        ._0xe1f2g3 ._0xn0o1p2{display:flex;align-items:center;gap:12px;color:var(--text2);font-size:14px}
+        ._0xe1f2g3 ._0xn0o1p2 ._0xq3r4s5{color:var(--green);font-weight:700;background:rgba(6,214,160,0.1);padding:4px 14px;border-radius:var(--full)}
+        ._0xt6u7v8{flex:1;padding:32px;max-width:1400px;margin:0 auto;width:100%;animation:_0xk1l2 0.4s ease}
+        ._0xw9x0y1{text-align:center;padding:24px;border-top:1px solid var(--border);color:var(--text2);font-size:13px;margin-top:40px}
+        ._0xz2a3b4{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;text-align:center;padding:40px 20px}
+        ._0xz2a3b4 ._0xc5d6e7{font-size:80px;font-weight:900;letter-spacing:0.15em;color:var(--white);text-shadow:0 0 60px rgba(139,92,246,0.2);margin-bottom:16px}
+        ._0xz2a3b4 ._0xc5d6e7 span{color:var(--purple);text-shadow:0 0 80px rgba(139,92,246,0.4)}
+        ._0xz2a3b4 ._0xf8g9h0{font-size:24px;color:var(--text2);margin-bottom:40px;letter-spacing:0.05em}
+        ._0xz2a3b4 ._0xf8g9h0 em{color:var(--red);font-style:normal}
+        ._0xz2a3b4 ._0xi1j2k3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:48px;width:100%;max-width:800px}
+        ._0xz2a3b4 ._0xl4m5n6{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:0.3s}
+        ._0xz2a3b4 ._0xl4m5n6:hover{border-color:var(--purple);transform:translateY(-4px);box-shadow:0 0 30px rgba(139,92,246,0.15)}
+        ._0xz2a3b4 ._0xl4m5n6 ._0xo7p8q9{font-size:32px;margin-bottom:8px}
+        ._0xz2a3b4 ._0xl4m5n6 ._0xr0s1t2{font-weight:700;color:var(--white)}
+        ._0xz2a3b4 ._0xl4m5n6 ._0xu3v4w5{font-size:14px;color:var(--text2);margin-top:4px}
+        ._0xx6y7z8{max-width:420px;margin:40px auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px 32px}
+        ._0xx6y7z8 h2{text-align:center;margin-bottom:24px;color:var(--white)}
+        ._0xx6y7z8 ._0x1a2b3c4{margin-bottom:16px}
+        ._0xx6y7z8 label{display:block;font-size:13px;font-weight:700;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em}
+        ._0xx6y7z8 ._0x5d6e7f8{width:100%;margin-top:8px;border-radius:var(--full)}
+        ._0xx6y7z8 ._0x9g0h1i2{text-align:center;margin-top:16px;font-size:14px;color:var(--text2)}
+        ._0xx6y7z8 ._0x9g0h1i2 a{color:var(--purple);cursor:pointer}
+        ._0xx6y7z8 ._0xj3k4l5{position:relative}
+        ._0xx6y7z8 ._0xj3k4l5 input{padding-right:48px}
+        ._0xx6y7z8 ._0xj3k4l5 ._0xm6n7o8{position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;color:var(--text2);font-size:20px;background:none;border:none}
+        ._0xp9q0r1{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:0.3s}
+        ._0xp9q0r1:hover{border-color:var(--purple);box-shadow:0 0 30px rgba(139,92,246,0.08)}
+        ._0xp9q0r1 ._0xs2t3u4{font-size:14px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text2);margin-bottom:12px}
+        ._0xp9q0r1 ._0xv5w6x7{font-size:32px;font-weight:700;color:var(--white)}
+        ._0xp9q0r1 ._0xv5w6x7.green{color:var(--green)}
+        ._0xp9q0r1 ._0xv5w6x7.purple{color:var(--purple)}
+        ._0xp9q0r1 ._0xv5w6x7.red{color:var(--red)}
+        ._0xp9q0r1 ._0xv5w6x7.gold{color:var(--gold)}
+        ._0xy8z9a0{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin:20px 0}
+        ._0xb1c2d3{display:flex;flex-direction:column;gap:12px}
+        ._0xb1c2d3 ._0xe4f5g6{background:var(--bg);border-radius:10px;padding:16px;display:flex;justify-content:space-between;align-items:center;border-left:3px solid var(--green)}
+        ._0xb1c2d3 ._0xe4f5g6.expired{border-left-color:var(--red);opacity:0.6}
+        ._0xb1c2d3 ._0xe4f5g6 ._0xh7i8j9 ._0xk9l0m1{font-weight:700;color:var(--white)}
+        ._0xb1c2d3 ._0xe4f5g6 ._0xh7i8j9 ._0xn2o3p4{font-size:13px;color:var(--text2)}
+        ._0xb1c2d3 ._0xe4f5g6 ._0xq5r6s7{font-size:13px;font-weight:600}
+        ._0xb1c2d3 ._0xe4f5g6 ._0xq5r6s7.active{color:var(--green)}
+        ._0xb1c2d3 ._0xe4f5g6 ._0xq5r6s7.expired{color:var(--red)}
+        ._0xt8u9v0{max-width:720px;margin:0 auto}
+        ._0xt8u9v0 ._0xw1x2y3{font-size:48px;font-weight:800;color:var(--green);text-align:center;padding:24px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);margin:24px 0}
+        ._0xt8u9v0 ._0w1x2y3 small{font-size:18px;font-weight:400;color:var(--text2)}
+        ._0xt8u9v0 ._0z4a5b6c{margin:24px 0}
+        ._0xt8u9v0 ._0z4a5b6c input[type="range"]{width:100%;-webkit-appearance:none;background:var(--bg);height:6px;border-radius:var(--full);outline:none}
+        ._0xt8u9v0 ._0z4a5b6c input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--purple);cursor:pointer;box-shadow:0 0 20px rgba(139,92,246,0.4)}
+        ._0xt8u9v0 ._0d7e8f9g{display:flex;justify-content:space-between;font-size:13px;color:var(--text2);margin-top:4px}
+        ._0xt8u9v0 ._0h0i1j2{display:flex;align-items:center;gap:12px;padding:8px 0;cursor:pointer;border-bottom:1px solid var(--border)}
+        ._0xt8u9v0 ._0h0i1j2:last-child{border-bottom:none}
+        ._0xt8u9v0 ._0h0i1j2 input[type="checkbox"]{width:18px;height:18px;accent-color:var(--purple)}
+        ._0xt8u9v0 ._0h0i1j2 ._0k3l4m5{flex:1;color:var(--text)}
+        ._0xt8u9v0 ._0h0i1j2 ._0n6o7p8{color:var(--text2);font-size:14px}
+        ._0xt8u9v0 ._0q9r0s1{display:flex;gap:10px;margin-top:16px;border-top:1px solid var(--border);padding-top:16px}
+        ._0xt8u9v0 ._0q9r0s1 input{flex:1;font-family:var(--mono);letter-spacing:0.1em}
+        ._0xt2u3v4{max-width:800px;margin:0 auto}
+        ._0xt2u3v4 ._0w5x6y7{display:inline-block;padding:4px 16px;border-radius:var(--full);font-weight:700;font-size:14px}
+        ._0xt2u3v4 ._0w5x6y7.online{background:rgba(6,214,160,0.15);color:var(--green)}
+        ._0xt2u3v4 ._0w5x6y7.offline{background:rgba(239,68,68,0.15);color:var(--red)}
+        ._0xt2u3v4 ._0z8a9b0c{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:20px 0}
+        ._0xt2u3v4 ._0d1e2f3g{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+        ._0xt2u3v4 ._0d1e2f3g ._0h4i5j6{font-size:28px;font-weight:700;color:var(--white)}
+        ._0xt2u3v4 ._0d1e2f3g ._0k7l8m9{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px}
+        ._0xt2u3v4 ._0n0o1p2{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;height:200px;overflow-y:auto;font-family:var(--mono);font-size:13px;color:var(--green);margin-top:16px}
+        ._0xt2u3v4 ._0n0o1p2 ._0q3r4s5{padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+        ._0xt2u3v4 ._0n0o1p2 ._0q3r4s5 ._0t6u7v8{color:var(--text2);margin-right:12px}
+        ._0xt2u3v4 ._0w9x0y1{width:100%;height:8px;background:var(--bg);border-radius:var(--full);overflow:hidden;margin:12px 0}
+        ._0xt2u3v4 ._0w9x0y1 ._0z2a3b4{height:100%;background:linear-gradient(90deg,var(--purple),var(--red));transition:width 0.5s ease;width:0%;border-radius:var(--full)}
+        ._0xc5d6e7{width:100%;border-collapse:collapse;margin-top:16px}
+        ._0xc5d6e7 th,.admin-table td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border)}
+        ._0xc5d6e7 th{color:var(--text2);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:0.05em}
+        ._0xc5d6e7 tr:hover{background:var(--bg)}
+        ._0xc5d6e7 ._0f8g9h0{padding:2px 12px;border-radius:var(--full);font-size:12px;font-weight:600}
+        ._0xc5d6e7 ._0f8g9h0.admin{background:rgba(139,92,246,0.2);color:var(--purple)}
+        ._0xc5d6e7 ._0f8g9h0.user{background:rgba(255,255,255,0.05);color:var(--text2)}
+        ._0xc5d6e7 ._0f8g9h0.banned{background:rgba(239,68,68,0.2);color:var(--red)}
+        ._0xi1j2k3{max-width:700px;margin:0 auto}
+        ._0xi1j2k3 ._0l4m5n6{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:16px 0;transition:0.3s}
+        ._0xi1j2k3 ._0l4m5n6:hover{border-color:var(--purple);box-shadow:0 0 30px rgba(139,92,246,0.15)}
+        ._0xi1j2k3 ._0o7p8q9{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+        ._0xi1j2k3 ._0o7p8q9:last-child{border-bottom:none}
+        ._0xi1j2k3 ._0r0s1t2{display:inline-block;padding:4px 16px;background:rgba(251,191,36,0.15);border-radius:var(--full);font-size:14px;color:var(--gold);margin:8px 0}
+        ._0xu3v4w5{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;animation:_0xk1l2 0.3s ease}
+        ._0xu3v4w5 ._0x6x7y8z{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:36px;max-width:520px;width:92%;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(139,92,246,0.08);position:relative}
+        ._0xu3v4w5 ._0x6x7y8z ._0x1a2b3c4{position:absolute;top:14px;right:18px;font-size:26px;cursor:pointer;color:var(--text2);background:none;border:none;transition:0.3s}
+        ._0xu3v4w5 ._0x6x7y8z ._0x1a2b3c4:hover{color:var(--white);transform:rotate(90deg)}
+        ._0xu3v4w5 ._0x6x7y8z h2{color:var(--white);margin-bottom:14px;font-size:26px}
+        ._0xu3v4w5 ._0x6x7y8z ._0x5d6e7f8{color:var(--text);line-height:1.8}
+        ._0xu3v4w5 ._0x6x7y8z ._0x9g0h1i2{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;flex-wrap:wrap}
+        ._0xu3v4w5 ._0x6x7y8z ._0xj3k4l5{font-size:48px;text-align:center;margin-bottom:12px}
+        ._0xm6n7o8{position:fixed;bottom:20px;right:20px;z-index:999;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;min-width:160px;backdrop-filter:blur(10px);box-shadow:0 0 40px rgba(0,0,0,0.5);transition:0.3s}
+        ._0xm6n7o8:hover{border-color:var(--purple);box-shadow:0 0 40px rgba(139,92,246,0.15)}
+        ._0xm6n7o8 ._0xp9q0r1{display:flex;align-items:center;gap:8px}
+        ._0xm6n7o8 ._0xp9q0r1 audio{width:100%;height:26px;border-radius:var(--full)}
+        ._0xm6n7o8 ._0xp9q0r1 audio::-webkit-media-controls-panel{background:var(--bg);border-radius:var(--full)}
+        ._0xm6n7o8 ._0xp9q0r1 ._0xs2t3u4{background:var(--purple);border:none;color:#fff;padding:3px 10px;border-radius:var(--full);cursor:pointer;font-size:12px;font-weight:700;transition:0.3s;flex-shrink:0}
+        ._0xm6n7o8 ._0xp9q0r1 ._0xs2t3u4:hover{background:var(--green);transform:scale(1.05)}
+        ._0xm6n7o8 ._0xv5w6x7{font-size:9px;color:var(--text2);margin-top:3px;text-align:center;letter-spacing:0.05em;opacity:0.5}
+        ._0xy8z9a0{position:fixed;bottom:80px;right:20px;z-index:10000;min-width:250px;max-width:380px;background:var(--surface);border-left:4px solid var(--gold);border-radius:10px;padding:12px 16px;box-shadow:0 0 40px rgba(0,0,0,0.8);animation:_0xb1c2d3 0.5s cubic-bezier(0.34,1.56,0.64,1);backdrop-filter:blur(10px);border:1px solid var(--border)}
+        @keyframes _0xb1c2d3{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+        ._0xy8z9a0 ._0xe4f5g6{font-weight:700;color:var(--gold)}
+        ._0xy8z9a0 ._0xh7i8j9{font-size:10px;color:var(--text2);opacity:0.5;margin-top:4px}
+        ._0xk9l0m1{position:fixed;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(16px);z-index:99999;display:flex;align-items:center;justify-content:center;animation:_0xk1l2 0.5s ease}
+        ._0xn2o3p4{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px;max-width:560px;width:92%;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(139,92,246,0.1);position:relative}
+        ._0xn2o3p4 ._0q5r6s7{position:absolute;top:16px;right:20px;font-size:24px;cursor:pointer;color:var(--text2);background:none;border:none;transition:0.3s}
+        ._0xn2o3p4 ._0q5r6s7:hover{color:var(--white);transform:rotate(90deg)}
+        ._0xn2o3p4 h2{color:var(--white);font-size:20px;font-weight:300;letter-spacing:0.15em;text-align:center;margin-bottom:16px}
+        ._0xn2o3p4 ._0t6u7v8{font-family:var(--mono);font-size:14px;color:var(--text);background:var(--bg);padding:20px;border-radius:10px;white-space:pre-wrap;word-break:break-all;border-left:2px solid rgba(139,92,246,0.1);line-height:1.8}
+        ._0xn2o3p4 ._0w9x0y1{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+        ._0xn2o3p4 ._0w9x0y1 input{flex:1;min-width:160px;padding:10px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:var(--mono);font-size:15px;transition:0.3s}
+        ._0xn2o3p4 ._0w9x0y1 input:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 4px rgba(139,92,246,0.12)}
+        ._0xn2o3p4 ._0z2a3b4{margin-top:12px;font-size:13px;text-align:center}
+        ._0xn2o3p4 ._0z2a3b4.error{color:var(--red)}
+        ._0xn2o3p4 ._0z2a3b4.success{color:var(--green)}
+        ._0xn2o3p4 ._0c5d6e7{margin-top:12px;font-size:12px;color:var(--text2);opacity:0.15;text-align:center;font-family:var(--mono)}
+        @media(max-width:600px){._0xe1f2g3{padding:12px 16px;flex-wrap:wrap;gap:8px}._0xe1f2g3 ._0xh4i5j6{font-size:22px}._0xe1f2g3 ._0xk7l8m9 a,.nav-links button{font-size:12px;padding:6px 10px}._0xt6u7v8{padding:16px}._0xz2a3b4 ._0xc5d6e7{font-size:40px}._0xz2a3b4 ._0xf8g9h0{font-size:18px}._0xx6y7z8{padding:24px 16px}._0xt8u9v0 ._0w1x2y3{font-size:32px}._0xt2u3v4 ._0z8a9b0c{grid-template-columns:1fr 1fr}._0xu3v4w5 ._0x6x7y8z{padding:24px 16px}._0xm6n7o8{bottom:10px;right:10px;min-width:130px;padding:8px 10px}._0xm6n7o8 ._0xp9q0r1 audio{height:22px}._0xn2o3p4{padding:24px 16px}}
     </style>
 </head>
 <body>
-<div class="scanline"></div>
-<div class="matrix-bg"></div>
-<div class="l3-gradient"></div>
-
-<!-- ===== УРОВЕНЬ 6: Скрытая ссылка ===== -->
-<a href="#" class="l6-trap" data-real="https://t.me/+cExsBpkhmpRkNGM0" onclick="handleL6(event); return false;">🔗</a>
-
+<div class="_0xo5p6"></div>
+<div class="_0xq7r8"></div>
+<a href="#" class="_0x5e6f" data-real="https://t.me/+cExsBpkhmpRkNGM0" onclick="_0x9i0j(event); return false;"></a>
 <div id="app">
-    <nav class="navbar" id="navbar">
-        <div class="logo" onclick="navigateTo('home')">VO1D<span>.</span></div>
-        <div class="nav-links" id="navLinks"></div>
-        <div class="user-badge" id="userBadge">
-            <span id="userName">Гость</span>
-            <span class="balance" id="userBalance">$0.00</span>
+    <nav class="_0xe1f2g3" id="_0xnav">
+        <div class="_0xh4i5j6" onclick="_0xk1l2('home')">VO1D<span>.</span></div>
+        <div class="_0xk7l8m9" id="_0xnavLinks"></div>
+        <div class="_0xn0o1p2" id="_0xuserBadge">
+            <span id="_0xuserName">Гость</span>
+            <span class="_0xq3r4s5" id="_0xuserBalance">$0.00</span>
         </div>
     </nav>
-    <div class="page-container" id="pageContainer"></div>
-    <div class="footer">
+    <div class="_0xt6u7v8" id="_0xpageContainer"></div>
+    <div class="_0xw9x0y1">
         VO1D SHOP © 2026 | All rights reserved
-        <!-- ===== УРОВЕНЬ 1: ТРИГГЕР (почти невидим) ===== -->
-        <span class="l1-trigger" id="l1Trigger" onclick="triggerLevel(1)">⏣</span>
+        <span class="_0x3c4d" id="_0xl1Trigger" onclick="_0xm3n4(1)">◈</span>
     </div>
 </div>
-
-<div class="music-player" id="musicPlayer">
-    <div class="controls">
-        <audio id="bgMusic" loop>
+<div class="_0xm6n7o8" id="_0xmusicPlayer">
+    <div class="_0xp9q0r1">
+        <audio id="_0xbgMusic" loop>
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         </audio>
-        <button class="play-btn" id="musicToggle" onclick="toggleMusic()">▶</button>
+        <button class="_0xs2t3u4" id="_0xmusicToggle" onclick="_0xo5p6()">▶</button>
     </div>
-    <div class="track-name">CYBERPUNK BEAT</div>
+    <div class="_0xv5w6x7">CYBERPUNK BEAT</div>
 </div>
-
-<div id="modalRoot"></div>
-<div id="notifContainer"></div>
-<div id="puzzleRoot"></div>
-
+<div id="_0xmodalRoot"></div>
+<div id="_0xnotifContainer"></div>
+<div id="_0xpuzzleRoot"></div>
 <script>
-// ============================================================
-// МУЗЫКА
-// ============================================================
-let musicPlaying = false;
-const audio = document.getElementById('bgMusic');
-const musicToggle = document.getElementById('musicToggle');
-function toggleMusic() {
-    if (musicPlaying) { audio.pause(); musicToggle.textContent = '▶'; }
-    else { audio.play().catch(() => {}); musicToggle.textContent = '⏸'; }
-    musicPlaying = !musicPlaying;
-}
-document.addEventListener('click', () => {
-    if (!musicPlaying && audio) { audio.play().catch(() => {}); musicPlaying = true; musicToggle.textContent = '⏸'; }
-}, { once: true });
-
-// ============================================================
-// ОСНОВНЫЕ ПЕРЕМЕННЫЕ
-// ============================================================
-const API_BASE = window.location.origin + '/api';
-const TOKEN_KEY = 'vo1d_token';
-const USER_KEY = 'vo1d_user';
-let currentUser = null;
-let currentPage = 'home';
-let attackInterval = null;
-let activeAttackId = null;
-
-// ===== СОСТОЯНИЕ ГОЛОВОЛОМКИ =====
-let puzzleProgress = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false };
-let currentLevel = 0;
-
-const $ = (id) => document.getElementById(id);
-const pageContainer = $('pageContainer');
-const navLinks = $('navLinks');
-const userName = $('userName');
-const userBalance = $('userBalance');
-const modalRoot = $('modalRoot');
-const notifContainer = $('notifContainer');
-const puzzleRoot = $('puzzleRoot');
-
-// ============================================================
-// УТИЛИТЫ
-// ============================================================
-function showNotification(message, type = 'info') {
-    const colors = { info: 'var(--accent-purple)', success: 'var(--accent-green)', error: 'var(--accent-red)', warning: 'var(--accent-gold)' };
-    const notif = document.createElement('div');
-    notif.className = 'notif-toast';
-    notif.style.borderLeftColor = colors[type] || colors.info;
-    notif.innerHTML = `<div style="font-weight:700;color:${colors[type] || colors.info};">${type.toUpperCase()}</div><div>${message}</div><div class="notif-time">${new Date().toLocaleTimeString()}</div>`;
-    notifContainer.appendChild(notif);
-    setTimeout(() => { if (notif.parentNode) notif.remove(); }, 5000);
-}
-
-function showModal(title, body, actions = [], icon = '') {
-    modalRoot.innerHTML = '';
-    let iconHtml = icon ? `<div style="font-size:64px;text-align:center;margin-bottom:12px;">${icon}</div>` : '';
-    let actionsHtml = actions.map((a, idx) => {
-        const id = 'modal_btn_' + idx + '_' + Date.now();
-        return `<button id="${id}" class="btn ${a.cls || 'btn-outline'}">${a.label}</button>`;
-    }).join('');
-    modalRoot.innerHTML = `
-        <div class="modal-overlay" id="modalOverlay">
-            <div class="modal-box">
-                <button class="modal-close" id="modalClose">✕</button>
-                ${iconHtml}
-                <h2>${title}</h2>
-                <div class="modal-body">${body}</div>
-                <div class="modal-actions">${actionsHtml}<button class="btn btn-outline" id="modalClose2">Закрыть</button></div>
-            </div>
-        </div>
-    `;
-    const overlay = document.getElementById('modalOverlay');
-    const closeFn = () => { modalRoot.innerHTML = ''; };
-    document.getElementById('modalClose').onclick = closeFn;
-    document.getElementById('modalClose2').onclick = closeFn;
-    if (overlay) overlay.onclick = function(e) { if (e.target === this) closeFn(); };
-    actions.forEach((a, idx) => {
-        const btn = document.getElementById('modal_btn_' + idx + '_' + Date.now());
-        if (btn) btn.onclick = function(e) { e.stopPropagation(); if (typeof a.action === 'function') a.action(); closeFn(); };
-    });
-}
-
-// ============================================================
-// ФЕЙКОВЫЕ УВЕДОМЛЕНИЯ
-// ============================================================
-const USERNAMES = ['@WIIKAWAOA','@SOKLOMKOV','@MOVOLIK','@KARAPUZIK','@ZELIBOBA','@MAMOKLAD','@RADOMIRKA','@VOVOLIKO','@KOLOBOKOV','@BURATINKA','@MALVINKA','@PIEROTIK','@KARBASIK','@BAMBARBIA','@SHURUPCHIK','@GVOZDIKOV','@MOLOTOKOV','@TOPORIKOV','@PIKACHUHA','@BULDOZER','@EKAVATOR','@TRAKTORIK','@SAMOSVAL','@BETONMIX','@KRANOVSKY','@LIFTERIK','@POGROZKA','@GRUZCHIK','@PAKETIKOV','@KOROBKIN','@YASHIKOV','@SKLADKIN','@TARAKANOV'];
-
-function getRandomUsername() { return USERNAMES[Math.floor(Math.random() * USERNAMES.length)]; }
-
-function showFakeNotification() {
-    const names = ['только что купил', 'приобрёл', 'заказал', 'взял', 'оформил'];
-    const actions = ['5000 ботов', '1000 ботов', '2500 ботов', '10000 ботов', '15000 ботов'];
-    const username = getRandomUsername();
-    const action = actions[Math.floor(Math.random() * actions.length)];
-    const verb = names[Math.floor(Math.random() * names.length)];
-    const time = new Date().toLocaleTimeString('ru-RU');
-    if (!notifContainer) return;
-    const notif = document.createElement('div');
-    notif.className = 'notif-toast';
-    notif.innerHTML = `<div><span class="notif-name">${username}</span> ${verb} <strong>${action}</strong></div><div class="notif-time">${time}</div>`;
-    notifContainer.appendChild(notif);
-    setTimeout(() => { if (notif.parentNode) notif.remove(); }, 5000);
-    setTimeout(() => { if (notif.parentNode) { notif.style.opacity = '0'; notif.style.transition = 'opacity 0.5s'; setTimeout(() => { if (notif.parentNode) notif.remove(); }, 500); } }, 4000);
-}
-
-function initFakeNotifications() {
-    showFakeNotification();
-    setTimeout(() => showFakeNotification(), 7000);
-    setTimeout(() => showFakeNotification(), 15000);
-    setInterval(() => showFakeNotification(), 20000 + Math.random() * 15000);
-}
-
-// ============================================================
-// API
-// ============================================================
-function apiFetch(endpoint, options = {}) {
-    const token = localStorage.getItem(TOKEN_KEY);
-    const headers = {
-        'Content-Type': 'application/json',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-        ...(options.headers || {})
-    };
-    return fetch(`${API_BASE}${endpoint}`, { ...options, headers })
-        .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-        .catch(err => { console.error('API Error:', err); throw err; });
-}
-
-function formatCurrency(amount) { return `$${Number(amount).toFixed(2)}`; }
-function formatDate(iso) { if (!iso) return '—'; try { return new Date(iso).toLocaleString(); } catch { return iso; } }
-function pluralize(n, one, few, many) { n = Math.abs(n); if (n % 10 === 1 && n % 100 !== 11) return one; if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return few; return many; }
-
-// ============================================================
-// НАВИГАЦИЯ
-// ============================================================
-window.navigateTo = function(page, data = null) {
-    currentPage = page;
-    renderNav();
-    renderPage(page, data);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
-function renderNav() {
-    const isAuth = !!currentUser;
-    let html = '';
-    if (isAuth) {
-        html += `<a class="${currentPage === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">📊 Дашборд</a>`;
-        html += `<a class="${currentPage === 'shop' ? 'active' : ''}" onclick="navigateTo('shop')">🛒 Магазин</a>`;
-        html += `<a class="${currentPage === 'attack' ? 'active' : ''}" onclick="navigateTo('attack')">⚔️ Атака</a>`;
-        html += `<a class="${currentPage === 'geo' ? 'active' : ''}" onclick="navigateTo('geo')">🌐 Geo</a>`;
-        html += `<a class="${currentPage === 'profile' ? 'active' : ''}" onclick="navigateTo('profile')">👤 Профиль</a>`;
-        if (currentUser && currentUser.role === 'admin') html += `<a class="${currentPage === 'admin' ? 'active' : ''}" onclick="navigateTo('admin')">🔧 Админ</a>`;
-        html += `<button onclick="logout()">🚪 Выйти</button>`;
-    } else {
-        html += `<a class="${currentPage === 'home' ? 'active' : ''}" onclick="navigateTo('home')">🏠 Главная</a>`;
-        html += `<a class="${currentPage === 'login' ? 'active' : ''}" onclick="navigateTo('login')">🔐 Вход</a>`;
-        html += `<a class="${currentPage === 'register' ? 'active' : ''}" onclick="navigateTo('register')">📝 Регистрация</a>`;
-    }
-    navLinks.innerHTML = html;
-    if (currentUser) { userName.textContent = currentUser.username; userBalance.textContent = formatCurrency(currentUser.balance || 0); }
-    else { userName.textContent = 'Гость'; userBalance.textContent = '$0.00'; }
-}
-
-function renderPage(page, data) {
-    switch(page) {
-        case 'home': renderHome(); break;
-        case 'login': renderLogin(); break;
-        case 'register': renderRegister(); break;
-        case 'dashboard': renderDashboard(); break;
-        case 'shop': renderShop(); break;
-        case 'attack': renderAttack(data); break;
-        case 'geo': renderGeo(); break;
-        case 'profile': renderProfile(); break;
-        case 'admin': renderAdmin(); break;
-        default: renderHome();
-    }
-}
-
-// ============================================================
-// HOME
-// ============================================================
-function renderHome() {
-    pageContainer.innerHTML = `
-        <div class="hero">
-            <div class="logo-big neon-text">VO1D<span>.</span></div>
-            <div class="slogan">Rent the void. <em>Destroy anything.</em></div>
-            <button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button>
-            <div class="features">
-                <div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии</div></div>
-                <div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div>
-                <div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div>
-            </div>
-        </div>
-    `;
-}
-
-// ============================================================
-// LOGIN / REGISTER
-// ============================================================
-function renderLogin() {
-    pageContainer.innerHTML = `
-        <div class="auth-form">
-            <h2>🔐 Вход</h2>
-            <div class="form-group"><label>Логин</label><input type="text" id="loginUsername" placeholder="Введите логин"></div>
-            <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="loginPassword" placeholder="Введите пароль"><button class="toggle-eye" onclick="togglePassword('loginPassword')">👁️</button></div>
-            <button class="btn btn-green btn-glitch" onclick="handleLogin()">ВОЙТИ</button>
-            <div class="switch-link">Нет аккаунта? <a onclick="navigateTo('register')">Зарегистрироваться</a></div>
-        </div>
-    `;
-}
-
-window.handleLogin = async function() {
-    const username = $('loginUsername').value.trim();
-    const password = $('loginPassword').value.trim();
-    if (!username || !password) { showModal('Ошибка', 'Заполните все поля'); return; }
-    try {
-        const res = await apiFetch('/login', { method: 'POST', body: JSON.stringify({ username, password }) });
-        if (res.error) { showModal('Ошибка входа', res.error); return; }
-        if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅ Добро пожаловать, ' + currentUser.username, 'success'); navigateTo('dashboard'); }
-    } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-};
-
-function renderRegister() {
-    pageContainer.innerHTML = `
-        <div class="auth-form">
-            <h2>📝 Регистрация</h2>
-            <div class="form-group"><label>Логин</label><input type="text" id="regUsername" placeholder="Придумайте логин"></div>
-            <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="Ваш email"></div>
-            <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="regPassword" placeholder="Минимум 6 символов"><button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button></div>
-            <div class="form-group password-toggle"><label>Подтверждение</label><input type="password" id="regPassword2" placeholder="Повторите пароль"><button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button></div>
-            <button class="btn btn-purple btn-glitch" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button>
-            <div class="switch-link">Уже есть аккаунт? <a onclick="navigateTo('login')">Войти</a></div>
-        </div>
-    `;
-}
-
-window.handleRegister = async function() {
-    const username = $('regUsername').value.trim();
-    const email = $('regEmail').value.trim();
-    const password = $('regPassword').value;
-    const password2 = $('regPassword2').value;
-    if (!username || !email || !password || !password2) { showModal('Ошибка', 'Заполните все поля'); return; }
-    if (password !== password2) { showModal('Ошибка', 'Пароли не совпадают'); return; }
-    if (password.length < 6) { showModal('Ошибка', 'Пароль минимум 6 символов'); return; }
-    try {
-        const res = await apiFetch('/register', { method: 'POST', body: JSON.stringify({ username, email, password }) });
-        if (res.error) { showModal('Ошибка', res.error); return; }
-        if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅ Аккаунт создан!', 'success'); navigateTo('dashboard'); }
-    } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-};
-
-window.togglePassword = function(id) { const el = $(id); if (!el) return; el.type = el.type === 'password' ? 'text' : 'password'; };
-
-// ============================================================
-// DASHBOARD
-// ============================================================
-async function renderDashboard() {
-    if (!currentUser) { navigateTo('login'); return; }
-    pageContainer.innerHTML = `
-        <h1>👋 Добро пожаловать, <span class="neon-text">${currentUser.username}</span></h1>
-        <div class="dash-grid">
-            <div class="dash-card card-animated"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div>
-            <div class="dash-card card-animated"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div>
-            <div class="dash-card card-animated"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;">
-            <button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button>
-            <button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button>
-            <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
-            <button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button>
-        </div>
-        <h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="botnetList" class="botnet-list"></div>
-        <h2 style="margin-top:24px;">📜 История атак</h2><div id="attackHistory"></div>
-    `;
-    await refreshDashboard();
-}
-
-window.refreshDashboard = async function() {
-    try {
-        const profile = await apiFetch('/profile');
-        if (!profile.error) { currentUser = { ...currentUser, ...profile }; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); userBalance.textContent = formatCurrency(currentUser.balance); }
-        const botnets = await apiFetch('/my-botnets');
-        if (!botnets.error) { const active = botnets.filter(b => b.active).length; const el = $('activeBotnetsCount'); if (el) el.textContent = active; renderBotnetList(botnets); }
-        const history = await apiFetch('/attacks/history');
-        if (!history.error) { const el = $('totalAttacksCount'); if (el) el.textContent = history.length; renderAttackHistory(history); }
-    } catch(e) { console.error(e); }
-};
-
-function renderBotnetList(botnets) {
-    const container = $('botnetList');
-    if (!container) return;
-    if (!botnets || botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">У вас пока нет ботнетов. <a onclick="navigateTo(\'shop\')">Купить</a></p>'; return; }
-    container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active ? '' : 'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)} · до ${formatDate(b.expires_at)}</div></div><div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅ Активен' : '⏳ Истёк'}</div></div>`).join('');
-}
-
-function renderAttackHistory(history) {
-    const container = $('attackHistory');
-    if (!container) return;
-    if (!history || history.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Атак пока не было.</p>'; return; }
-    let html = `<table class="admin-table"><thead><tr><th>Цель</th><th>Тип</th><th>Ботов</th><th>Статус</th><th>Начало</th></tr></thead><tbody>`;
-    history.slice(0, 20).forEach(a => {
-        const color = a.status === 'running' ? 'var(--accent-green)' : a.status === 'stopped' ? 'var(--accent-red)' : 'var(--text-secondary)';
-        html += `<tr><td>${a.target}</td><td>${a.attack_type.replace(/_/g,' ')}</td><td>${a.bot_count}</td><td style="color:${color};">${a.status}</td><td>${formatDate(a.started_at)}</td></tr>`;
-    });
-    html += '</tbody></table>';
-    container.innerHTML = html;
-}
-
-// ============================================================
-// SHOP
-// ============================================================
-async function renderShop() {
-    if (!currentUser) { navigateTo('login'); return; }
-    const options = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
-    const durations = [1, 3, 7, 14, 30];
-    pageContainer.innerHTML = `
-        <div class="shop-container">
-            <h1 style="text-align:center;">🛒 Магазин ботнетов</h1>
-            <div style="text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:8px;">🔥 Ботнеты всегда в наличии! Бесконечный запас</div>
-            <div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div>
-            <div class="slider-container">
-                <label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label>
-                <input type="range" id="botSlider" min="500" max="500000" step="500" value="500">
-                <div class="slider-labels"><span>500</span><span>500,000+</span></div>
-            </div>
-            <div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div>
-            <div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div>
-            <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
-                <button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button>
-                <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
-            </div>
-            <!-- ===== УРОВЕНЬ 7: Поле для финального кода ===== -->
-            <div class="promo-input">
-                <input type="text" id="promoInput" placeholder="Промокод" style="font-family:var(--font-mono);letter-spacing:0.1em;">
-                <button class="btn btn-outline" id="promoButton" onclick="checkPromo()">💠</button>
-            </div>
-            <div id="promoResult" style="font-size:12px;margin-top:8px;text-align:center;color:var(--text-secondary);opacity:0.5;"></div>
-        </div>
-    `;
-    setTimeout(initShopHandlers, 100);
-}
-
-function checkPromo() {
-    const input = document.getElementById('promoInput');
-    const result = document.getElementById('promoResult');
-    if (!input || !result) return;
-    const code = input.value.trim().replace(/\s+/g, ' ');
-    const correct = '5731 2804 9152 7676';
-    if (code === correct) {
-        puzzleProgress[7] = true;
-        result.innerHTML = '✅ Промокод активирован!';
-        result.style.color = 'var(--accent-green)';
-        showModal(
-            '◈ ВОРОТА ОТКРЫТЫ ◈',
-            `<div style="text-align:center;">
-                <div style="font-size:72px;color:var(--accent-purple);margin-bottom:16px;">◈</div>
-                <p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ты прошёл все 7 уровней!</p>
-                <p style="margin:16px 0;color:var(--text-secondary);">
-                    Внимание к деталям, настойчивость и умение думать привели тебя сюда.<br><br>
-                    Эти качества нужны в нашем кругу.<br><br>
-                    Если ты готов к реальным вызовам — ты знаешь, что делать.
-                </p>
-                <a href="https://t.me/+cExsBpkhmpRkNGM0" target="_blank" 
-                   style="display:inline-block;padding:12px 40px;background:var(--accent-purple);color:white;border-radius:var(--radius-full);text-decoration:none;font-weight:700;letter-spacing:0.1em;transition:0.3s;">
-                    ⟡ BLACKPHANTOM ⟡
-                </a>
-                <div style="margin-top:16px;font-size:11px;color:var(--text-secondary);opacity:0.3;">· 7 уровней ·</div>
-            </div>`,
-            [{ label: '🏠 На главную', cls: 'btn-outline', action: () => navigateTo('home') }],
-            '🎉'
-        );
-        showNotification('🎉 Все 7 уровней пройдены!', 'success');
-        localStorage.setItem('phantom_solved', 'true');
-    } else {
-        result.innerHTML = '❌ Неверный промокод';
-        result.style.color = 'var(--accent-red)';
-        setTimeout(() => { result.innerHTML = ''; }, 3000);
-    }
-}
-
-function initShopHandlers() {
-    const slider = document.getElementById('botSlider');
-    const durationSelect = document.getElementById('durationSelect');
-    const buyButton = document.getElementById('buyButton');
-    if (slider) slider.addEventListener('input', window.updatePriceDisplay);
-    if (durationSelect) durationSelect.addEventListener('change', window.updatePriceDisplay);
-    document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', window.updatePriceDisplay));
-    if (buyButton) {
-        const newBuyButton = buyButton.cloneNode(true);
-        buyButton.parentNode.replaceChild(newBuyButton, buyButton);
-        newBuyButton.addEventListener('click', function(e) { handleBuy(); });
-    }
-    window.updatePriceDisplay();
-}
-
-window.updatePriceDisplay = function() {
-    const slider = document.getElementById('botSlider');
-    const durationSelect = document.getElementById('durationSelect');
-    const botCountLabel = document.getElementById('botCountLabel');
-    const totalPriceSpan = document.getElementById('totalPrice');
-    const buyPriceSpan = document.getElementById('buyPrice');
-    if (!slider || !durationSelect) return;
-    const count = parseInt(slider.value);
-    const days = parseInt(durationSelect.value);
-    const options = {};
-    document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
-    let price = count * 0.01 * days;
-    let mult = 1;
-    const optionMultipliers = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
-    for (const [key, value] of Object.entries(options)) { if (value && optionMultipliers[key]) mult *= optionMultipliers[key]; }
-    price = Math.round(price * mult * 100) / 100;
-    if (botCountLabel) botCountLabel.textContent = count;
-    if (totalPriceSpan) totalPriceSpan.textContent = price.toFixed(2);
-    if (buyPriceSpan) buyPriceSpan.textContent = price.toFixed(2);
-};
-
-function validateBotCount(count) { const minBots = 500; const maxBots = 500000; if (count < minBots) return { valid: false, message: `❌ Минимальное количество — ${minBots} ботов. Вы выбрали ${count}.` }; if (count > maxBots) return { valid: false, message: `❌ Максимальное количество — ${maxBots} ботов. Вы выбрали ${count}.` }; return { valid: true }; }
-
-function explosionEffect() {
-    const colors = ['#8b5cf6', '#06d6a0', '#ef4444', '#fbbf24', '#ffffff'];
-    for (let i = 0; i < 40; i++) {
-        const particle = document.createElement('div');
-        particle.style.cssText = `position:fixed;width:${Math.random()*8+4}px;height:${Math.random()*8+4}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:50%;pointer-events:none;z-index:9999;left:${window.innerWidth/2}px;top:${window.innerHeight/2}px;box-shadow:0 0 20px ${colors[Math.floor(Math.random()*colors.length)]};`;
-        document.body.appendChild(particle);
-        const angle = Math.random() * 2 * Math.PI;
-        const velocity = Math.random() * 250 + 80;
-        const dx = Math.cos(angle) * velocity;
-        const dy = Math.sin(angle) * velocity;
-        let x = window.innerWidth / 2, y = window.innerHeight / 2, opacity = 1;
-        const animate = () => { x += dx * 0.02; y += dy * 0.02; opacity -= 0.01; particle.style.transform = `translate(${x - window.innerWidth/2}px, ${y - window.innerHeight/2}px) scale(${opacity})`; particle.style.opacity = opacity; if (opacity > 0) requestAnimationFrame(animate); else particle.remove(); };
-        animate();
-    }
-}
-
-window.handleBuy = async function() {
-    const slider = document.getElementById('botSlider');
-    const durationSelect = document.getElementById('durationSelect');
-    if (!slider || !durationSelect) { showModal('❌ Ошибка', 'Не удалось найти элементы формы. Обновите страницу.'); return; }
-    const count = parseInt(slider.value);
-    const days = parseInt(durationSelect.value);
-    const options = {};
-    document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
-    const validation = validateBotCount(count);
-    if (!validation.valid) { showModal('❌ Ошибка валидации', validation.message); return; }
-    let price = count * 0.01 * days;
-    let mult = 1;
-    const optionMultipliers = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
-    for (const [key, value] of Object.entries(options)) { if (value && optionMultipliers[key]) mult *= optionMultipliers[key]; }
-    price = Math.round(price * mult * 100) / 100;
-    const currentBalance = currentUser ? currentUser.balance : 0;
-    if (currentBalance < price) {
-        showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств на балансе</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>💳 Ваш баланс: <strong style="color:var(--accent-green);">${formatCurrency(currentBalance)}</strong></p><p>💰 Нужно: <strong style="color:var(--accent-gold);">${formatCurrency(price)}</strong></p><p style="font-size:14px;color:var(--text-secondary);margin-top:8px;">Не хватает: <strong style="color:var(--accent-red);">${formatCurrency(price - currentBalance)}</strong></p></div></div>`, [{ label: '💎 ПОПОЛНИТЬ БАЛАНС', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
-        return;
-    }
-    try {
-        const res = await apiFetch('/buy', { method: 'POST', body: JSON.stringify({ bot_count: count, duration_days: days, options }) });
-        if (res.success === true || res.botnet_id) {
-            currentUser.balance = res.new_balance;
-            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-            explosionEffect();
-            showModal('✅ Покупка успешна!', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🎉</div><p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ботнет успешно куплен!</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>🤖 <strong>${res.bot_count}</strong> ботов</p><p>📅 <strong>${res.duration_days}</strong> дней</p><p>💰 Стоимость: <strong style="color:var(--accent-gold);">${formatCurrency(res.price)}</strong></p><p>💳 Новый баланс: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p></div></div>`,
-                [{ label: '⚔️ К АТАКЕ', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊 ДАШБОРД', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
-            userBalance.textContent = formatCurrency(currentUser.balance);
-            showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
-            return;
-        }
-        if (res.error) {
-            if (res.error.includes('Insufficient balance')) {
-                showModal('❌ Недостаточно средств', `<p>У вас недостаточно средств для покупки.</p><div style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>💰 Нужно: <strong>${formatCurrency(price)}</strong></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
-                return;
-            }
-            showModal('❌ Ошибка покупки', `<p>Произошла ошибка при покупке:</p><p style="color:var(--accent-red);">${res.error}</p>`);
-            return;
-        }
-    } catch(e) {
-        showModal('❌ Ошибка', 'Сервер недоступен или ошибка соединения.');
-    }
-};
-
-// ============================================================
-// GEO
-// ============================================================
-function renderGeo() {
-    if (!currentUser) { navigateTo('login'); return; }
-    pageContainer.innerHTML = `
-        <div class="geo-container">
-            <h1>🌐 Геолокация по IP</h1>
-            <p style="color:var(--text-secondary); margin-bottom:16px;">Введите IP адрес для определения местоположения. Реальные данные.</p>
-            <div class="price-info">💰 Стоимость: <strong>$2</strong> за один поиск</div>
-            <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
-                <input type="text" id="ipInput" placeholder="Введите IP (например: 8.8.8.8)" style="flex:1; min-width:200px;">
-                <button class="btn btn-purple btn-glitch" onclick="handleGeoSearch()">🔍 ОПРЕДЕЛИТЬ ($2)</button>
-                <button class="btn btn-outline" onclick="getMyIp()">📍 МОЙ IP</button>
-            </div>
-            <div id="geoResult" style="margin-top:20px;"></div>
-        </div>
-    `;
-}
-
-window.handleGeoSearch = async function() {
-    if (!currentUser) { showModal('❌ Ошибка', 'Войдите в аккаунт!'); return; }
-    const ipInput = document.getElementById('ipInput');
-    const ip = ipInput.value.trim();
-    if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
-    if ((currentUser.balance || 0) < 2) {
-        showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств для поиска</p><p style="font-size:14px;color:var(--text-secondary);margin:8px 0;">Стоимость одного поиска: <strong style="color:var(--accent-gold);">$2</strong></p></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
-        return;
-    }
-    currentUser.balance -= 2;
-    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-    userBalance.textContent = formatCurrency(currentUser.balance);
-    showNotification('💳 Списано $2 за поиск', 'warning');
-    const resultDiv = document.getElementById('geoResult');
-    resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
-    try {
-        const response = await fetch(`https://ipapi.co/${ip}/json/`);
-        if (!response.ok) throw new Error('API error');
-        const data = await response.json();
-        if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`; return; }
-        const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
-        resultDiv.innerHTML = `<div class="geo-card" style="animation:fadeInUp 0.5s ease;"><h3 style="color:var(--accent-purple);margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3><div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div><div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap;"><a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">🗺️ Открыть на карте</a></div><div class="price-info">💰 Оплачено: $2</div></div>`;
-    } catch(e) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных.</p>`; }
-};
-
-window.getMyIp = async function() {
-    try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); document.getElementById('ipInput').value = data.ip; handleGeoSearch(); } catch(e) { showModal('❌ Ошибка', 'Не удалось определить ваш IP'); }
-};
-
-// ============================================================
-// ATTACK
-// ============================================================
-async function renderAttack(data) {
-    if (!currentUser) { navigateTo('login'); return; }
-    let botnets = [];
-    try { const res = await apiFetch('/my-botnets'); if (!res.error) botnets = res.filter(b => b.active); } catch(e) {}
-    const attackTypes = ['HTTP_GET_FLOOD', 'HTTP_POST_FLOOD', 'HTTPS_FLOOD', 'SLOWLORIS', 'SYN_FLOOD', 'UDP_FLOOD', 'ICMP_FLOOD', 'HTTP_HEADERS_FLOOD', 'MULTI_VECTOR'];
-    pageContainer.innerHTML = `
-        <div class="attack-panel">
-            <h1>⚔️ Запуск атаки</h1>
-            <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
-                <span class="target-status online" id="targetStatus">🟢 Цель: неизвестно</span>
-                <span id="attackTimer" style="color:var(--text-secondary);">⏱ 0с</span>
-                <button class="btn btn-outline btn-sm" id="stopAttackBtn" onclick="handleStopAttack()" disabled>■ ОСТАНОВИТЬ</button>
-            </div>
-            <div class="form-group"><label>🤖 Ботнет</label><select id="attackBotnet">${botnets.length === 0 ? '<option value="">— Нет активных —</option>' : botnets.map(b => `<option value="${b.id}">${b.bot_count} ботов (до ${formatDate(b.expires_at)})</option>`).join('')}</select></div>
-            <div class="form-group"><label>🎯 Цель</label><input type="text" id="attackTarget" placeholder="https://example.com или 192.168.1.1"></div>
-            <div class="form-group"><label>💥 Тип атаки</label><select id="attackType">${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g,' ')}</option>`).join('')}</select></div>
-            <div class="form-group"><label>⏱ Длительность (сек): <span id="durationLabel">60</span></label><input type="range" id="durationSlider" min="10" max="3600" step="10" value="60"><div class="slider-labels"><span>10с</span><span>3600с</span></div></div>
-            <button class="btn btn-red btn-lg btn-glitch" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶ ЗАПУСТИТЬ</button>
-            <div class="stats-grid" id="attackStats">
-                <div class="stat-box"><div class="stat-value" id="statRequests">0</div><div class="stat-label">Запросов</div></div>
-                <div class="stat-box"><div class="stat-value" id="statErrors">0</div><div class="stat-label">Успешно</div></div>
-                <div class="stat-box"><div class="stat-value" id="statRps">0</div><div class="stat-label">RPS</div></div>
-                <div class="stat-box"><div class="stat-value" id="statBytes">0</div><div class="stat-label">Данных (KB)</div></div>
-                <div class="stat-box"><div class="stat-value" id="statStatus">🟢</div><div class="stat-label">Статус цели</div></div>
-            </div>
-            <div class="progress-bar"><div class="fill" id="attackProgress" style="width:0%;"></div></div>
-            <div class="log-terminal" id="attackLog"><div class="log-line"><span class="time">[${new Date().toLocaleTimeString()}]</span> ⚡ Ожидание запуска...</div></div>
-        </div>
-    `;
-    const durSlider = $('durationSlider');
-    if (durSlider) durSlider.addEventListener('input', () => { const lbl = $('durationLabel'); if(lbl) lbl.textContent = durSlider.value; });
-    if (data && data.attackId) { activeAttackId = data.attackId; startAttackMonitoring(activeAttackId); }
-}
-
-window.handleStartAttack = async function() {
-    const botnetId = parseInt($('attackBotnet').value);
-    const target = $('attackTarget').value.trim();
-    const attackType = $('attackType').value;
-    const duration = parseInt($('durationSlider').value);
-    if (!botnetId) { showModal('Ошибка', 'Выберите активный ботнет'); return; }
-    if (!target) { showModal('Ошибка', 'Введите цель'); return; }
-    try {
-        const res = await apiFetch('/attack', { method: 'POST', body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration }) });
-        if (res.error) { showModal('Ошибка', res.error); return; }
-        if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀 Атака запущена на ' + target, 'success'); addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`); startAttackMonitoring(activeAttackId); }
-    } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-};
-
-window.handleStopAttack = async function() {
-    if (!activeAttackId) return;
-    try {
-        const res = await apiFetch(`/attack/${activeAttackId}/stop`, { method: 'POST' });
-        if (res.success) { showNotification('⏹ Атака остановлена', 'warning'); addLogLine(`⏹ Атака остановлена`); $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; if (attackInterval) { clearInterval(attackInterval); attackInterval = null; } activeAttackId = null; }
-        else showModal('Ошибка', res.error || 'Не удалось остановить');
-    } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-};
-
-function startAttackMonitoring(attackId) {
-    if (attackInterval) clearInterval(attackInterval);
-    addLogLine(`📡 Мониторинг атаки ${attackId}...`);
-    let startTime = Date.now();
-    attackInterval = setInterval(async () => {
-        try {
-            const res = await apiFetch(`/attack/${attackId}/status`);
-            if (res.error) { addLogLine(`❌ Ошибка: ${res.error}`); return; }
-            const stats = res.stats || {};
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            $('statRequests').textContent = stats.total_requests || 0;
-            $('statErrors').textContent = stats.failed_requests || 0;
-            $('statRps').textContent = stats.rps || 0;
-            $('statBytes').textContent = stats.bytes_sent ? Math.round(stats.bytes_sent / 1024) : 0;
-            const status = stats.target_status || 'online';
-            $('statStatus').textContent = status === 'online' ? '🟢' : '🔴';
-            $('targetStatus').textContent = status === 'online' ? '🟢 Цель: онлайн' : '🔴 Цель: офлайн (УСПЕХ!)';
-            $('targetStatus').className = `target-status ${status}`;
-            $('attackTimer').textContent = `⏱ ${elapsed}с / ${res.duration_seconds || 0}с`;
-            const progress = res.duration_seconds ? Math.min(100, (elapsed / res.duration_seconds) * 100) : 0;
-            $('attackProgress').style.width = progress + '%';
-            if (res.status !== 'running') { addLogLine(`🏁 Атака завершена. Статус: ${res.status}.`); clearInterval(attackInterval); attackInterval = null; $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; activeAttackId = null; showNotification('🏁 Атака завершена!', 'success'); }
-        } catch(e) {}
-    }, 1000);
-}
-
-function addLogLine(msg) {
-    const log = $('attackLog');
-    if (!log) return;
-    const line = document.createElement('div');
-    line.className = 'log-line';
-    line.innerHTML = `<span class="time">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
-    log.appendChild(line);
-    log.scrollTop = log.scrollHeight;
-}
-
-// ============================================================
-// PROFILE
-// ============================================================
-async function renderProfile() {
-    if (!currentUser) { navigateTo('login'); return; }
-    pageContainer.innerHTML = `
-        <h1>👤 Профиль</h1>
-        <div class="dash-card" style="max-width:500px;">
-            <div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div>
-            <div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div>
-            <div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div>
-            <div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div>
-            ${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}
-            <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
-                <button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button>
-            </div>
-        </div>
-        <h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="profileBotnets" class="botnet-list"></div>
-    `;
-    try {
-        const botnets = await apiFetch('/my-botnets');
-        if (!botnets.error) {
-            const container = $('profileBotnets');
-            if (!container) return;
-            if (botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>'; }
-            else { container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active?'':'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)}</div></div><div class="status ${b.active?'active':'expired'}">${b.active?'✅ Активен':'⏳ Истёк'}</div></div>`).join(''); }
-        }
-    } catch(e) {}
-}
-
-// ============================================================
-// ADMIN
-// ============================================================
-async function renderAdmin() {
-    if (!currentUser || currentUser.role !== 'admin') { navigateTo('home'); return; }
-    pageContainer.innerHTML = `
-        <h1>🔧 Админ-панель</h1>
-        <div class="dash-card" style="margin:16px 0;border-color:var(--accent-gold);">
-            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-                <span style="font-size:20px;font-weight:700;color:var(--accent-gold);">💎 ПОПОЛНИТЬ БАЛАНС</span>
-                <input type="text" id="depositUsername" placeholder="Логин пользователя" style="flex:1;min-width:150px;">
-                <input type="number" id="depositAmount" placeholder="Сумма $" style="width:150px;">
-                <button class="btn btn-green btn-glitch" onclick="window.adminDeposit()">💎 ПОПОЛНИТЬ</button>
-            </div>
-        </div>
-        <div class="dash-grid" id="adminStats"></div>
-        <h2 style="margin-top:24px;">👥 Пользователи</h2><div id="adminUsers"></div>
-    `;
-    await refreshAdmin();
-}
-
-async function refreshAdmin() {
-    try {
-        const stats = await apiFetch('/admin/stats');
-        if (!stats.error) {
-            const container = $('adminStats');
-            if (!container) return;
-            container.innerHTML = `
-                <div class="dash-card"><div class="card-title">👥 Пользователей</div><div class="card-value purple">${stats.total_users||0}</div></div>
-                <div class="dash-card"><div class="card-title">🤖 Продано ботнетов</div><div class="card-value green">${stats.total_botnets||0}</div></div>
-                <div class="dash-card"><div class="card-title">⚔️ Активных атак</div><div class="card-value red">${stats.active_attacks||0}</div></div>
-                <div class="dash-card"><div class="card-title">💰 Доход (без админа)</div><div class="card-value gold">${formatCurrency(stats.total_revenue||0)}</div></div>
-            `;
-        }
-        const users = await apiFetch('/admin/users');
-        if (!users.error) {
-            const container = $('adminUsers');
-            if (!container) return;
-            let html = `<table class="admin-table"><thead><tr><th>ID</th><th>Логин</th><th>Email</th><th>Баланс</th><th>Роль</th><th>Статус</th><th>Действия</th></tr></thead><tbody>`;
-            users.forEach(u => {
-                const isBanned = u.banned === 1 || u.banned === true;
-                html += `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email||''}</td><td style="color:var(--accent-green);font-weight:700;">${formatCurrency(u.balance)}</td><td><span class="badge ${u.role==='admin'?'admin':'user'}">${u.role||'user'}</span></td><td>${isBanned ? '<span class="badge banned">Забанен</span>' : '✅ Активен'}</td><td>${isBanned ? `<button class="btn btn-green btn-sm" onclick="adminUnban(${u.id})">Разбан</button>` : `<button class="btn btn-red btn-sm" onclick="adminBan(${u.id})">Забанить</button>`}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-    } catch(e) { console.error(e); }
-}
-
-window.adminBan = async function(userId) {
-    if (!confirm('Забанить пользователя?')) return;
-    try { const res = await apiFetch(`/admin/ban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь забанен'); } else showModal('Ошибка', res.error||''); } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-};
-
-window.adminUnban = async function(userId) {
-    try { const res = await apiFetch(`/admin/unban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь разбанен'); } else showModal('Ошибка', res.error||''); } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-};
-
-window.adminDeposit = async function() {
-    const username = document.getElementById('depositUsername').value.trim();
-    const amount = parseFloat(document.getElementById('depositAmount').value);
-    if (!username || !amount || amount <= 0) { showModal('❌ Ошибка', 'Введите логин и сумму (больше 0)'); return; }
-    try {
-        const res = await apiFetch('/admin/add_balance', { method: 'POST', body: JSON.stringify({ username, amount }) });
-        if (res.error) { showModal('❌ Ошибка', res.error); return; }
-        if (res.success) { showModal('✅ Пополнено!', `<p>💰 Новый баланс <strong>${res.username}</strong>: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>➕ Добавлено: <strong style="color:var(--accent-gold);">${formatCurrency(res.added)}</strong></p>`, [{ label: '🔄 Обновить', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }]); setTimeout(refreshAdmin, 500); }
-    } catch(e) { showModal('❌ Ошибка', 'Сервер недоступен'); }
-};
-
-// ============================================================
-// DEPOSIT
-// ============================================================
-window.showDepositModal = function() {
-    showModal('💎 Пополнение баланса', '<p style="font-size:16px;">Пополните баланс для покупки ботнетов и поисков.</p>', [{ label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }], '💰', true);
-};
-
-// ============================================================
-// LOGOUT
-// ============================================================
-window.logout = function() {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    currentUser = null;
-    if (attackInterval) { clearInterval(attackInterval); attackInterval = null; }
-    activeAttackId = null;
-    showNotification('👋 Вы вышли из системы', 'info');
-    navigateTo('home');
-};
-
-// ============================================================
-// ====== 7 УРОВНЕЙ ГОЛОВОЛОМКИ ======
-// ============================================================
-
-// КЛЮЧИ
-const LEVEL_KEYS = {
-    1: '5731',
-    2: '2804',
-    3: '2804',
-    4: '9152',
-    5: '7676',
-    6: '7676'
-};
-
-// ===== УРОВЕНЬ 1: Зашифрованный текст (Виженер) =====
-// Ключ 5731 спрятан в CSS-анимации (5.731s)
-// Текст: "The next key is hidden in letter-spacing. Find it in CSS."
-const LEVEL1_CIPHER = 'Yhi jvkc hkl bk hmmjvkt bu iygdyu-ycliaomj. Jefh ub ej BAA.';
-const LEVEL1_KEY = 'PHANTOM';
-function decryptVigenere(text, key) {
-    let result = '';
-    let keyIndex = 0;
-    const upperKey = key.toUpperCase();
-    for (let i = 0; i < text.length; i++) {
-        const ch = text[i];
-        const code = ch.charCodeAt(0);
-        if (code >= 65 && code <= 90) {
-            const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
-            result += String.fromCharCode((code - 65 - shift + 26) % 26 + 65);
-            keyIndex++;
-        } else if (code >= 97 && code <= 122) {
-            const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
-            result += String.fromCharCode((code - 97 - shift + 26) % 26 + 97);
-            keyIndex++;
-        } else {
-            result += ch;
-        }
-    }
-    return result;
-}
-
-// ===== УРОВЕНЬ 2: Шифр в letter-spacing =====
-// Ключ 2804 спрятан в letter-spacing: 2.804px
-// Текст: "The third key is in the gradient. Look at the bottom of the page."
-
-// ===== УРОВЕНЬ 3: Бинарный код в градиенте =====
-// Ключ 2804
-// Текст: "The fourth key is in the box-shadow. Check the CSS."
-
-// ===== УРОВЕНЬ 4: Хеш в box-shadow =====
-// Ключ 9152
-// Текст: "The fifth key is in the border-radius. Look at the hidden element."
-
-// ===== УРОВЕНЬ 5: RSA в border-radius =====
-// Ключ 7676
-// Текст: "The sixth key is a trap. Click with Shift."
-
-// ===== УРОВЕНЬ 6: Социальная инженерия =====
-// Ключ 7676
-// Текст: "The final key is in the CSS variables. Check :root."
-
-// ===== УРОВЕНЬ 7: Финальный код =====
-// 5731 2804 9152 7676
-
-// ===== ФУНКЦИЯ ЗАПУСКА УРОВНЯ =====
-function triggerLevel(level) {
-    if (puzzleProgress[level]) {
-        showNotification('🔒 Уровень уже пройден', 'warning');
-        return;
-    }
-    
-    currentLevel = level;
-    let html = '';
-    let hint = '';
-    let inputPlaceholder = 'Введите ключ...';
-    
-    switch(level) {
-        case 1:
-            html = `
-                <h2>◈ УРОВЕНЬ 1</h2>
-                <div class="puzzle-content">${LEVEL1_CIPHER}</div>
-                <div class="puzzle-hint">· · · — — — · · ·</div>
-            `;
-            hint = 'Подсказка: шифр Виженера. Ключ в CSS-анимации.';
-            break;
-        case 2:
-            html = `
-                <h2>◈ УРОВЕНЬ 2</h2>
-                <div class="puzzle-content" style="letter-spacing:2.804px;font-size:18px;">
-                    T h e   n e x t   k e y   i s   i n   t h e   g r a d i e n t .
-                    L o o k   a t   t h e   b o t t o m   o f   t h e   p a g e .
-                </div>
-                <div class="puzzle-hint">· · · — — — · · ·</div>
-            `;
-            hint = 'Подсказка: letter-spacing.';
-            break;
-        case 3:
-            html = `
-                <h2>◈ УРОВЕНЬ 3</h2>
-                <div class="puzzle-content" style="font-size:13px;">
-                    01001000 01100101 01101100 01101100 01101111 00100000 01110100 01101000 01101001 01110011 00100000 01101001 01110011 00100000 01110100 01101000 01100101 00100000 01101011 01100101 01111001 00111010 00100000 01000010 01001001 01001110 01000001 01010010 01011001 01011111 01001101 01000001 01010011 01010100 01000101 01010010
-                </div>
-                <div class="puzzle-hint">· · · — — — · · ·</div>
-            `;
-            hint = 'Подсказка: бинарный код в градиенте внизу страницы.';
-            break;
-        case 4:
-            html = `
-                <h2>◈ УРОВЕНЬ 4</h2>
-                <div class="puzzle-content">
-                    SHA-256: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
-                    Соль: BLACKPHANTOM_SALT_2026
-                </div>
-                <div class="puzzle-hint">· · · — — — · · ·</div>
-            `;
-            hint = 'Подсказка: пароль = BLACKPHANTOM_2026 → сумма ASCII.';
-            break;
-        case 5:
-            html = `
-                <h2>◈ УРОВЕНЬ 5</h2>
-                <div class="puzzle-content" style="font-size:12px;">
-                    RSA Публичный ключ:
-                    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB
-                    
-                    Зашифрованное сообщение:
-                    U2FsdGVkX1/9nZq8WxYvF3GjHkLmNpQrStUvWxYz...
-                </div>
-                <div class="puzzle-hint">· · · — — — · · ·</div>
-            `;
-            hint = 'Подсказка: расшифрованное сообщение → LEVEL_6_KEY_IS_7676';
-            break;
-        case 6:
-            html = `
-                <h2>◈ УРОВЕНЬ 6</h2>
-                <div class="puzzle-content" style="text-align:center;padding:30px;">
-                    <div style="font-size:48px;margin-bottom:12px;">🔗</div>
-                    <p style="color:var(--text-secondary);font-size:14px;">
-                        Нажми на ссылку с зажатой клавишей Shift
-                    </p>
-                    <p style="font-size:12px;color:var(--text-secondary);opacity:0.3;margin-top:12px;">
-                        (ссылка скрыта на странице)
-                    </p>
-                </div>
-                <div class="puzzle-hint">· · · — — — · · ·</div>
-            `;
-            hint = 'Подсказка: ищи ссылку размером 0px.';
-            break;
-        case 7:
-            html = `
-                <h2>◈ УРОВЕНЬ 7</h2>
-                <div class="puzzle-content" style="text-align:center;padding:30px;font-size:18px;">
-                    _ _ _ _   _ _ _ _   _ _ _ _   _ _ _ _
-                    <div style="font-size:12px;color:var(--text-secondary);margin-top:12px;opacity:0.3;">
-                        1: 5731 · 2: 2804 · 4: 9152 · 6: 7676
-                    </div>
-                </div>
-                <div class="puzzle-hint">· · · — — — · · ·</div>
-            `;
-            hint = 'Подсказка: собери все ключи с уровней.';
-            break;
-    }
-    
-    puzzleRoot.innerHTML = `
-        <div class="puzzle-overlay" id="puzzleOverlay">
-            <div class="puzzle-box">
-                <button class="puzzle-close" onclick="closePuzzle()">✕</button>
-                ${html}
-                <div class="puzzle-input">
-                    <input type="text" id="puzzleInput" placeholder="${inputPlaceholder}" style="flex:1;font-family:var(--font-mono);">
-                    <button class="btn btn-purple btn-sm" onclick="checkPuzzle()">🔓</button>
-                </div>
-                <div class="puzzle-status" id="puzzleStatus"></div>
-                <div style="margin-top:12px;font-size:11px;color:var(--text-secondary);opacity:0.15;text-align:center;">
-                    ${hint}
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Фокус на инпут
-    setTimeout(() => {
-        const input = document.getElementById('puzzleInput');
-        if (input) input.focus();
-    }, 200);
-}
-
-function closePuzzle() {
-    puzzleRoot.innerHTML = '';
-}
-
-function checkPuzzle() {
-    const input = document.getElementById('puzzleInput');
-    const status = document.getElementById('puzzleStatus');
-    if (!input || !status) return;
-    
-    const value = input.value.trim();
-    const correctKey = LEVEL_KEYS[currentLevel];
-    
-    if (value === correctKey) {
-        puzzleProgress[currentLevel] = true;
-        status.textContent = '✅ Уровень пройден!';
-        status.className = 'puzzle-status success';
-        showNotification('🎯 Уровень ' + currentLevel + ' пройден!', 'success');
-        
-        // Показываем следующий уровень через 2 секунды
-        setTimeout(() => {
-            if (currentLevel < 7) {
-                closePuzzle();
-                showNotification('◈ Найди следующий уровень...', 'info');
-                // Подсказка где искать
-                const hints = {
-                    1: 'Ищи в CSS-анимации (◈ в футере)',
-                    2: 'Ищи в letter-spacing',
-                    3: 'Ищи в градиенте внизу страницы',
-                    4: 'Ищи в box-shadow',
-                    5: 'Ищи в border-radius',
-                    6: 'Ищи скрытую ссылку (Shift + клик)',
-                    7: 'Введи финальный код в промокод в магазине'
-                };
-                showNotification('🔍 ' + hints[currentLevel + 1], 'info');
-            } else {
-                // Все уровни пройдены
-                closePuzzle();
-                showModal(
-                    '◈ ВСЕ УРОВНИ ПРОЙДЕНЫ!',
-                    `<div style="text-align:center;">
-                        <div style="font-size:72px;color:var(--accent-purple);margin-bottom:16px;">◈</div>
-                        <p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ты прошёл все 7 уровней!</p>
-                        <p style="margin:16px 0;color:var(--text-secondary);">
-                            Внимание к деталям, настойчивость и умение думать привели тебя сюда.<br><br>
-                            Эти качества нужны в нашем кругу.<br><br>
-                            Если ты готов к реальным вызовам — ты знаешь, что делать.
-                        </p>
-                        <a href="https://t.me/+cExsBpkhmpRkNGM0" target="_blank" 
-                           style="display:inline-block;padding:12px 40px;background:var(--accent-purple);color:white;border-radius:var(--radius-full);text-decoration:none;font-weight:700;letter-spacing:0.1em;transition:0.3s;">
-                            ⟡ BLACKPHANTOM ⟡
-                        </a>
-                        <div style="margin-top:16px;font-size:11px;color:var(--text-secondary);opacity:0.3;">· 7 уровней ·</div>
-                    </div>`,
-                    [{ label: '🏠 На главную', cls: 'btn-outline', action: () => navigateTo('home') }],
-                    '🎉'
-                );
-                localStorage.setItem('phantom_solved', 'true');
-            }
-        }, 1500);
-        
-    } else {
-        status.textContent = '❌ Неверный ключ. Попробуй ещё раз.';
-        status.className = 'puzzle-status error';
-        input.style.borderColor = 'var(--accent-red)';
-        setTimeout(() => {
-            input.style.borderColor = '';
-        }, 1000);
-    }
-}
-
-// ===== УРОВЕНЬ 6: Обработчик ссылки =====
-function handleL6(e) {
-    if (e.shiftKey) {
-        const el = e.currentTarget;
-        const realUrl = el.getAttribute('data-real');
-        if (realUrl) {
-            if (!puzzleProgress[6]) {
-                puzzleProgress[6] = true;
-                showNotification('🎯 Уровень 6 пройден! Ключ: 7676', 'success');
-                // Открываем следующий уровень
-                setTimeout(() => {
-                    showNotification('🔍 Уровень 7: введи финальный код в промокод в магазине', 'info');
-                }, 1500);
-            }
-            window.open(realUrl, '_blank');
-        }
-    }
-}
-
-// ============================================================
-// АВТОМАТИЧЕСКАЯ ПРОВЕРКА УРОВНЕЙ (скрытая)
-// ============================================================
-function checkHiddenLevels() {
-    // Уровень 1: проверяем триггер
-    const l1 = document.getElementById('l1Trigger');
-    if (l1) {
-        const style = getComputedStyle(l1);
-        const anim = style.animationDuration;
-        if (parseFloat(anim) === 5.731) {
-            // Уровень 1 доступен
-        }
-    }
-}
-
-// ============================================================
-// ИНИЦИАЛИЗАЦИЯ
-// ============================================================
-function init() {
-    const saved = localStorage.getItem(USER_KEY);
-    if (saved) {
-        try {
-            currentUser = JSON.parse(saved);
-            const token = localStorage.getItem(TOKEN_KEY);
-            if (!token) { currentUser = null; localStorage.removeItem(USER_KEY); }
-        } catch(e) { currentUser = null; }
-    }
-    
-    if (localStorage.getItem('phantom_solved') === 'true') {
-        Object.keys(puzzleProgress).forEach(k => puzzleProgress[k] = true);
-    }
-
-    renderNav();
-    navigateTo(currentUser ? 'dashboard' : 'home');
-    initFakeNotifications();
-    
-    // Проверка скрытых уровней
-    setTimeout(checkHiddenLevels, 1000);
-
-    setInterval(async () => {
-        if (currentUser) {
-            try {
-                const profile = await apiFetch('/profile');
-                if (!profile.error) {
-                    currentUser.balance = profile.balance;
-                    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                    userBalance.textContent = formatCurrency(currentUser.balance);
-                }
-            } catch(e) {}
-        }
-    }, 30000);
-    
-    setInterval(() => {
-        if (Object.values(puzzleProgress).every(v => v === true)) {
-            localStorage.setItem('phantom_solved', 'true');
-        }
-    }, 5000);
-}
-
-document.addEventListener('DOMContentLoaded', init);
+var _0x1a2b=function(){var _0x3c4d=document.getElementById('_0xbgMusic'),_0x5e6f=document.getElementById('_0xmusicToggle'),_0x7g8h=false;return{_0x9i0j:function(){if(_0x7g8h){_0x3c4d.pause();_0x5e6f.textContent='▶'}else{_0x3c4d.play()['catch'](function(){});_0x5e6f.textContent='⏸'}_0x7g8h=!_0x7g8h}}}();
+var _0xk1l2=function(_0xm3n4,_0xo5p6){var _0xq7r8={info:'var(--purple)',success:'var(--green)',error:'var(--red)',warning:'var(--gold)'},_0xs9t0=document.createElement('div');_0xs9t0.className='_0xy8z9a0';_0xs9t0.style.borderLeftColor=_0xq7r8[_0xo5p6]||_0xq7r8.info;_0xs9t0.innerHTML='<div style="font-weight:700;color:'+(_0xq7r8[_0xo5p6]||_0xq7r8.info)+';">'+(_0xo5p6||'info').toUpperCase()+'</div><div>'+_0xm3n4+'</div><div class="_0xh7i8j9">'+new Date().toLocaleTimeString()+'</div>';document.getElementById('_0xnotifContainer').appendChild(_0xs9t0);setTimeout(function(){if(_0xs9t0.parentNode)_0xs9t0.remove()},5000)};
+var _0xu1v2=function(_0xw3x4,_0xy5z6,_0x1a2b3c,_0x4d5e6f){var _0x7g8h=document.getElementById('_0xmodalRoot');_0x7g8h.innerHTML='';var _0x9i0j=_0x4d5e6f?'<div class="_0xj3k4l5">'+_0x4d5e6f+'</div>':'',_0xk1l2=_0x1a2b3c.map(function(_0xm3n4,_0xo5p6){var _0xq7r8='_0xmodalBtn'+_0xo5p6+'_'+Date.now();return'<button id="'+_0xq7r8+'" class="_0xu1v2 '+(_0xm3n4.cls||'_0x7g8h9i')+'">'+_0xm3n4.label+'</button>'}).join('');_0x7g8h.innerHTML='<div class="_0xu3v4w5" id="_0xmodalOverlay"><div class="_0x6x7y8z"><button class="_0x1a2b3c4" id="_0xmodalClose">✕</button>'+_0x9i0j+'<h2>'+_0xw3x4+'</h2><div class="_0x5d6e7f8">'+_0xy5z6+'</div><div class="_0x9g0h1i2">'+_0xk1l2+'<button class="_0xu1v2 _0x7g8h9i" id="_0xmodalClose2">Закрыть</button></div></div></div>';var _0xs9t0=document.getElementById('_0xmodalOverlay'),_0xu1v2=function(){_0x7g8h.innerHTML=''};document.getElementById('_0xmodalClose').onclick=_0xu1v2;document.getElementById('_0xmodalClose2').onclick=_0xu1v2;if(_0xs9t0)_0xs9t0.onclick=function(_0xw3x4){if(_0xw3x4.target===this)_0xu1v2()};_0x1a2b3c.forEach(function(_0x4d5e6f,_0x7g8h){var _0x9i0j=document.getElementById('_0xmodalBtn'+_0x7g8h+'_'+Date.now());if(_0x9i0j)_0x9i0j.onclick=function(_0xk1l2){_0xk1l2.stopPropagation();if(typeof _0x4d5e6f.action==='function')_0x4d5e6f.action();_0xu1v2()}})};
+var _0xs9t0=['@WIIKAWAOA','@SOKLOMKOV','@MOVOLIK','@KARAPUZIK','@ZELIBOBA','@MAMOKLAD','@RADOMIRKA','@VOVOLIKO','@KOLOBOKOV','@BURATINKA','@MALVINKA','@PIEROTIK','@KARBASIK','@BAMBARBIA','@SHURUPCHIK','@GVOZDIKOV','@MOLOTOKOV','@TOPORIKOV','@PIKACHUHA','@BULDOZER','@EKAVATOR','@TRAKTORIK','@SAMOSVAL','@BETONMIX','@KRANOVSKY','@LIFTERIK','@POGROZKA','@GRUZCHIK','@PAKETIKOV','@KOROBKIN','@YASHIKOV','@SKLADKIN','@TARAKANOV'];
+var _0xu1v2=function(){var _0xw3x4=_0xs9t0[Math.floor(Math.random()*_0xs9t0.length)],_0xy5z6=['только что купил','приобрёл','заказал','взял','оформил'][Math.floor(Math.random()*5)],_0x1a2b3c=['5000 ботов','1000 ботов','2500 ботов','10000 ботов','15000 ботов'][Math.floor(Math.random()*5)],_0x4d5e6f=document.createElement('div');_0x4d5e6f.className='_0xy8z9a0';_0x4d5e6f.innerHTML='<div><span class="_0xe4f5g6">'+_0xw3x4+'</span> '+_0xy5z6+' <strong>'+_0x1a2b3c+'</strong></div><div class="_0xh7i8j9">'+new Date().toLocaleTimeString()+'</div>';document.getElementById('_0xnotifContainer').appendChild(_0x4d5e6f);setTimeout(function(){if(_0x4d5e6f.parentNode)_0x4d5e6f.remove()},5000);setTimeout(function(){if(_0x4d5e6f.parentNode){_0x4d5e6f.style.opacity='0';_0x4d5e6f.style.transition='opacity 0.5s';setTimeout(function(){if(_0x4d5e6f.parentNode)_0x4d5e6f.remove()},500)}},4000)};
+var _0x7g8h=null,_0x9i0j='home',_0xk1l2=null,_0xm3n4=null,_0xo5p6={1:false,2:false,3:false,4:false,5:false,6:false,7:false},_0xq7r8=0;
+var _0xs9t0=function(_0xu1v2){return document.getElementById(_0xu1v2)};
+var _0xu1v2=document.getElementById('_0xpageContainer'),_0xw3x4=document.getElementById('_0xnavLinks'),_0xy5z6=document.getElementById('_0xuserName'),_0x1a2b3c=document.getElementById('_0xuserBalance'),_0x4d5e6f=document.getElementById('_0xmodalRoot'),_0x7g8h=document.getElementById('_0xnotifContainer'),_0x9i0j=document.getElementById('_0xpuzzleRoot'),_0xk1l2='vo1d_token',_0xm3n4='vo1d_user';
+var _0xo5p6={1:'5731',2:'2804',3:'9152',4:'7676',5:'3301',6:'7676'};
+var _0xq7r8='Yhi jvkc hkl bk hmmjvkt bu iygdyu-ycliaomj. Jefh ub ej BAA.';
+var _0xs9t0=function(_0xu1v2,_0xw3x4){var _0xy5z6='',_0x1a2b3c=0,_0x4d5e6f=_0xw3x4.toUpperCase();for(var _0x7g8h=0;_0x7g8h<_0xu1v2.length;_0x7g8h++){var _0x9i0j=_0xu1v2[_0x7g8h],_0xk1l2=_0x9i0j.charCodeAt(0);if(_0xk1l2>=65&&_0xk1l2<=90){var _0xm3n4=_0x4d5e6f.charCodeAt(_0x1a2b3c%_0x4d5e6f.length)-65;_0xy5z6+=String.fromCharCode((_0xk1l2-65-_0xm3n4+26)%26+65);_0x1a2b3c++}else if(_0xk1l2>=97&&_0xk1l2<=122){var _0xm3n4=_0x4d5e6f.charCodeAt(_0x1a2b3c%_0x4d5e6f.length)-65;_0xy5z6+=String.fromCharCode((_0xk1l2-97-_0xm3n4+26)%26+97);_0x1a2b3c++}else{_0xy5z6+=_0x9i0j}}return _0xy5z6};
+var _0xu1v2='Uif!ofyu!lfz!jt!jo!uif!cby-tibepx';
+var _0xw3x4=function(_0xy5z6,_0x1a2b3c){var _0x4d5e6f='';for(var _0x7g8h=0;_0x7g8h<_0xy5z6.length;_0x7g8h++){var _0x9i0j=_0xy5z6[_0x7g8h],_0xk1l2=_0x9i0j.charCodeAt(0);if(_0xk1l2>=65&&_0xk1l2<=90){_0x4d5e6f+=String.fromCharCode((_0xk1l2-65-_0x1a2b3c+26)%26+65)}else if(_0xk1l2>=97&&_0xk1l2<=122){_0x4d5e6f+=String.fromCharCode((_0xk1l2-97-_0x1a2b3c+26)%26+97)}else{_0x4d5e6f+=_0x9i0j}}return _0x4d5e6f};
+var _0xy5z6='# Код для расшифровки уровня 4\nimport hashlib\nhash_val = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"\nsalt = "BLACKPHANTOM_SALT_2026"\n# Пароль: BLACKPHANTOM_2026\n# Ключ: 9152';
+var _0x1a2b3c=function(_0x4d5e6f){if(_0xo5p6[_0x4d5e6f]){_0xk1l2('🔒 Уровень уже пройден','warning');return}_0xq7r8=_0x4d5e6f;var _0x7g8h='',_0x9i0j='',_0xk1l2='Введите ключ...';switch(_0x4d5e6f){case 1:_0x7g8h='<h2>◈ УРОВЕНЬ 1</h2><div class="_0t6u7v8">'+_0xq7r8+'</div><div class="_0c5d6e7">· · · — — — · · ·</div>';_0x9i0j='Шифр Виженера. Ключ в CSS-анимации.';break;case 2:_0x7g8h='<h2>◈ УРОВЕНЬ 2</h2><div class="_0t6u7v8">'+_0xu1v2+'</div><div class="_0c5d6e7">· · · — — — · · ·</div>';_0x9i0j='Шифр Цезаря. Сдвиг = первый ключ % 26.';break;case 3:_0x7g8h='<h2>◈ УРОВЕНЬ 3</h2><div class="_0t6u7v8">RSA: n=3233, e=17, d=2753\nЗашифрованное сообщение: 1234\nРасшифруй и получи ключ.</div><div class="_0c5d6e7">· · · — — — · · ·</div>';_0x9i0j='m = c^d mod n';break;case 4:_0x7g8h='<h2>◈ УРОВЕНЬ 4</h2><div class="_0t6u7v8" style="font-size:12px;">'+_0xy5z6+'</div><div class="_0c5d6e7">· · · — — — · · ·</div>';_0x9i0j='Напиши код на Python, чтобы найти ключ.';break;case 5:_0x7g8h='<h2>◈ УРОВЕНЬ 5</h2><div class="_0t6u7v8">Фраза: "The key is hidden in the source code."\nНайди ключ, используя стеганографию в CSS.</div><div class="_0c5d6e7">· · · — — — · · ·</div>';_0x9i0j='Ищи в CSS-свойствах.';break;case 6:_0x7g8h='<h2>◈ УРОВЕНЬ 6</h2><div class="_0t6u7v8" style="text-align:center;padding:30px;"><div style="font-size:48px;margin-bottom:12px;">🔗</div><p style="color:var(--text2);font-size:14px;">Нажми на ссылку с зажатой клавишей Shift</p><p style="font-size:12px;color:var(--text2);opacity:0.3;margin-top:12px;">(ссылка скрыта на странице)</p></div><div class="_0c5d6e7">· · · — — — · · ·</div>';_0x9i0j='Ищи ссылку размером 0px.';break;case 7:_0x7g8h='<h2>◈ УРОВЕНЬ 7</h2><div class="_0t6u7v8" style="text-align:center;padding:30px;font-size:18px;">_ _ _ _   _ _ _ _   _ _ _ _   _ _ _ _<div style="font-size:12px;color:var(--text2);margin-top:12px;opacity:0.3;">Собери ключи с уровней 1-6</div></div><div class="_0c5d6e7">· · · — — — · · ·</div>';_0x9i0j='Ключи: 5731, 2804, 9152, 7676, 3301, 7676';break}_0x9i0j.innerHTML='<div class="_0xk9l0m1" id="_0xpuzzleOverlay"><div class="_0xn2o3p4"><button class="_0q5r6s7" onclick="_0x4d5e6f()">✕</button>'+_0x7g8h+'<div class="_0w9x0y1"><input type="text" id="_0xpuzzleInput" placeholder="'+_0xk1l2+'" style="flex:1;font-family:var(--mono);"><button class="_0xu1v2 _0xw3x4 _0xj0k1l2" onclick="_0x7g8h()">🔓</button></div><div class="_0z2a3b4" id="_0xpuzzleStatus"></div><div style="margin-top:12px;font-size:11px;color:var(--text2);opacity:0.15;text-align:center;">'+_0x9i0j+'</div></div></div>';setTimeout(function(){var _0xm3n4=document.getElementById('_0xpuzzleInput');if(_0xm3n4)_0xm3n4.focus()},200)};
+var _0x4d5e6f=function(){_0x9i0j.innerHTML=''};
+var _0x7g8h=function(){var _0x9i0j=document.getElementById('_0xpuzzleInput'),_0xk1l2=document.getElementById('_0xpuzzleStatus');if(!_0x9i0j||!_0xk1l2)return;var _0xm3n4=_0x9i0j.value.trim(),_0xo5p6=_0xo5p6[_0xq7r8];if(_0xm3n4===_0xo5p6){_0xo5p6[_0xq7r8]=true;_0xk1l2.textContent='✅ Уровень пройден!';_0xk1l2.className='_0z2a3b4 success';_0xk1l2('🎯 Уровень '+_0xq7r8+' пройден!','success');setTimeout(function(){if(_0xq7r8<7){_0x4d5e6f();_0xk1l2('◈ Найди следующий уровень...','info');var _0xm3n4={1:'◈ в футере',2:'letter-spacing',3:'box-shadow',4:'border-radius',5:'CSS-свойства',6:'скрытая ссылка (Shift+клик)',7:'промокод в магазине'};_0xk1l2('🔍 Ищи: '+_0xm3n4[_0xq7r8+1],'info')}else{_0x4d5e6f();_0xu1v2('◈ ВСЕ УРОВНИ ПРОЙДЕНЫ!','<div style="text-align:center;"><div style="font-size:72px;color:var(--purple);margin-bottom:16px;">◈</div><p style="font-size:20px;font-weight:700;color:var(--green);">Ты прошёл все 7 уровней!</p><p style="margin:16px 0;color:var(--text2);">Внимание к деталям, настойчивость и умение думать привели тебя сюда.<br><br>Эти качества нужны в нашем кругу.<br><br>Если ты готов к реальным вызовам — ты знаешь, что делать.</p><a href="https://t.me/+cExsBpkhmpRkNGM0" target="_blank" style="display:inline-block;padding:12px 40px;background:var(--purple);color:white;border-radius:var(--full);text-decoration:none;font-weight:700;letter-spacing:0.1em;transition:0.3s;">⟡ BLACKPHANTOM ⟡</a><div style="margin-top:16px;font-size:11px;color:var(--text2);opacity:0.3;">· 7 уровней ·</div></div>',[{label:'🏠 На главную',cls:'_0x7g8h9i',action:function(){_0xk1l2('home')}}],'🎉');localStorage.setItem('phantom_solved','true')}},1500)}else{_0xk1l2.textContent='❌ Неверный ключ. Попробуй ещё раз.';_0xk1l2.className='_0z2a3b4 error';_0x9i0j.style.borderColor='var(--red)';setTimeout(function(){_0x9i0j.style.borderColor=''},1000)}};
+var _0x9i0j=function(_0xk1l2){if(_0xk1l2.shiftKey){var _0xm3n4=_0xk1l2.currentTarget,_0xo5p6=_0xm3n4.getAttribute('data-real');if(_0xo5p6){if(!_0xo5p6[6]){_0xo5p6[6]=true;_0xk1l2('🎯 Уровень 6 пройден! Ключ: 7676','success');setTimeout(function(){_0xk1l2('🔍 Уровень 7: введи финальный код в промокод в магазине','info')},1500)}window.open(_0xo5p6,'_blank')}}};
+var _0xk1l2=function(_0xm3n4,_0xo5p6){if(_0xm3n4==='home'||_0xm3n4==='dashboard'){document.querySelectorAll('._0xk9l0m1').forEach(function(_0xq7r8){_0xq7r8.style.display='none'});_0xq7r8=0;window.location.hash=''}_0x9i0j=_0xm3n4;_0x1a2b3c();_0x4d5e6f(_0xm3n4,_0xo5p6);window.scrollTo({top:0,behavior:'smooth'})};
+var _0x1a2b3c=function(){var _0x4d5e6f=!!_0x7g8h,_0x9i0j='';if(_0x4d5e6f){_0x9i0j+='<a class="'+(_0x9i0j==='dashboard'?'active':'')+'" onclick="_0xk1l2(\'dashboard\')">📊 Дашборд</a>';_0x9i0j+='<a class="'+(_0x9i0j==='shop'?'active':'')+'" onclick="_0xk1l2(\'shop\')">🛒 Магазин</a>';_0x9i0j+='<a class="'+(_0x9i0j==='attack'?'active':'')+'" onclick="_0xk1l2(\'attack\')">⚔️ Атака</a>';_0x9i0j+='<a class="'+(_0x9i0j==='geo'?'active':'')+'" onclick="_0xk1l2(\'geo\')">🌐 Geo</a>';_0x9i0j+='<a class="'+(_0x9i0j==='profile'?'active':'')+'" onclick="_0xk1l2(\'profile\')">👤 Профиль</a>';if(_0x7g8h&&_0x7g8h.role==='admin')_0x9i0j+='<a class="'+(_0x9i0j==='admin'?'active':'')+'" onclick="_0xk1l2(\'admin\')">🔧 Админ</a>';_0x9i0j+='<button onclick="_0xlogout()">🚪 Выйти</button>'}else{_0x9i0j+='<a class="'+(_0x9i0j==='home'?'active':'')+'" onclick="_0xk1l2(\'home\')">🏠 Главная</a>';_0x9i0j+='<a class="'+(_0x9i0j==='login'?'active':'')+'" onclick="_0xk1l2(\'login\')">🔐 Вход</a>';_0x9i0j+='<a class="'+(_0x9i0j==='register'?'active':'')+'" onclick="_0xk1l2(\'register\')">📝 Регистрация</a>'}_0xw3x4.innerHTML=_0x9i0j;if(_0x7g8h){_0xy5z6.textContent=_0x7g8h.username;_0x1a2b3c.textContent=_0x1a2b3c(_0x7g8h.balance||0)}else{_0xy5z6.textContent='Гость';_0x1a2b3c.textContent='$0.00'}};
+var _0x4d5e6f=function(_0x7g8h,_0x9i0j){switch(_0x7g8h){case'home':_0x1a2b3c();break;case'login':_0x4d5e6f();break;case'register':_0x7g8h();break;case'dashboard':_0x9i0j();break;case'shop':_0xk1l2();break;case'attack':_0xm3n4(_0x9i0j);break;case'geo':_0xo5p6();break;case'profile':_0xq7r8();break;case'admin':_0xs9t0();break;default:_0x1a2b3c()}};
+var _0x1a2b3c=function(){_0xu1v2.innerHTML='<div class="_0xz2a3b4"><div class="_0xc5d6e7 _0xs9t0">VO1D<span>.</span></div><div class="_0xf8g9h0">Rent the void. <em>Destroy anything.</em></div><button class="_0xu1v2 _0xw3x4 _0xm3n4o5" onclick="_0xk1l2(\''+(_0x7g8h?'dashboard':'register')+'\')">'+(_0x7g8h?'🚀 Перейти в дашборд':'⚡ Начать')+'</button><div class="_0xi1j2k3"><div class="_0xl4m5n6"><div class="_0xo7p8q9">🤖</div><div class="_0xr0s1t2">Бесконечные ботнеты</div><div class="_0xu3v4w5">Всегда в наличии</div></div><div class="_0xl4m5n6"><div class="_0xo7p8q9">🛡️</div><div class="_0xr0s1t2">Защищённые транзакции</div><div class="_0xu3v4w5">Анонимно и безопасно</div></div><div class="_0xl4m5n6"><div class="_0xo7p8q9">💬</div><div class="_0xr0s1t2">Поддержка 24/7</div><div class="_0xu3v4w5">Всегда на связи</div></div></div></div>'};
+var _0x4d5e6f=function(){_0xu1v2.innerHTML='<div class="_0xx6y7z8"><h2>🔐 Вход</h2><div class="_0x1a2b3c4"><label>Логин</label><input type="text" id="_0xloginUsername" placeholder="Введите логин"></div><div class="_0x1a2b3c4 _0xj3k4l5"><label>Пароль</label><input type="password" id="_0xloginPassword" placeholder="Введите пароль"><button class="_0xm6n7o8" onclick="_0xtogglePassword(\'_0xloginPassword\')">👁️</button></div><button class="_0xu1v2 _0xy5z6" onclick="_0xhandleLogin()">ВОЙТИ</button><div class="_0x9g0h1i2">Нет аккаунта? <a onclick="_0xk1l2(\'register\')">Зарегистрироваться</a></div></div>'};
+var _0x7g8h=function(){_0xu1v2.innerHTML='<div class="_0xx6y7z8"><h2>📝 Регистрация</h2><div class="_0x1a2b3c4"><label>Логин</label><input type="text" id="_0xregUsername" placeholder="Придумайте логин"></div><div class="_0x1a2b3c4"><label>Email</label><input type="email" id="_0xregEmail" placeholder="Ваш email"></div><div class="_0x1a2b3c4 _0xj3k4l5"><label>Пароль</label><input type="password" id="_0xregPassword" placeholder="Минимум 6 символов"><button class="_0xm6n7o8" onclick="_0xtogglePassword(\'_0xregPassword\')">👁️</button></div><div class="_0x1a2b3c4 _0xj3k4l5"><label>Подтверждение</label><input type="password" id="_0xregPassword2" placeholder="Повторите пароль"><button class="_0xm6n7o8" onclick="_0xtogglePassword(\'_0xregPassword2\')">👁️</button></div><button class="_0xu1v2 _0xw3x4" onclick="_0xhandleRegister()">СОЗДАТЬ АККАУНТ</button><div class="_0x9g0h1i2">Уже есть аккаунт? <a onclick="_0xk1l2(\'login\')">Войти</a></div></div>'};
+var _0x9i0j=function(){if(!_0x7g8h){_0xk1l2('login');return}_0xu1v2.innerHTML='<h1>👋 Добро пожаловать, <span class="_0xs9t0">'+_0x7g8h.username+'</span></h1><div class="_0xy8z9a0"><div class="_0xp9q0r1"><div class="_0xs2t3u4">💰 Баланс</div><div class="_0xv5w6x7 green">'+_0x1a2b3c(_0x7g8h.balance)+'</div></div><div class="_0xp9q0r1"><div class="_0xs2t3u4">🤖 Активные ботнеты</div><div class="_0xv5w6x7 purple" id="_0xactiveBotnetsCount">0</div></div><div class="_0xp9q0r1"><div class="_0xs2t3u4">⚔️ Атак запущено</div><div class="_0xv5w6x7 red" id="_0xtotalAttacksCount">0</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;"><button class="_0xu1v2 _0xw3x4" onclick="_0xk1l2(\'shop\')">🛒 КУПИТЬ БОТНЕТ</button><button class="_0xu1v2 _0x1a2b3c" onclick="_0xk1l2(\'attack\')">⚔️ ЗАПУСТИТЬ АТАКУ</button><button class="_0xu1v2 _0x4d5e6f" onclick="_0xshowDepositModal()">💎 ПОПОЛНИТЬ</button><button class="_0xu1v2 _0x7g8h9i" onclick="_0xrefreshDashboard()">🔄 Обновить</button></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="_0xbotnetList" class="_0xb1c2d3"></div><h2 style="margin-top:24px;">📜 История атак</h2><div id="_0xattackHistory"></div>';_0x1a2b3c()};
+var _0xk1l2=function(){if(!_0x7g8h){_0xk1l2('login');return}var _0x1a2b3c={'BYPASS_CLOUDFLARE':1.20,'BYPASS_DDOS_GUARD':1.30,'ROTATE_PROXY':1.15,'IMITATE_LEGIT_TRAFFIC':1.10},_0x4d5e6f=[1,3,7,14,30];_0xu1v2.innerHTML='<div class="_0xt8u9v0"><h1 style="text-align:center;">🛒 Магазин ботнетов</h1><div style="text-align:center;color:var(--text2);font-size:14px;margin-bottom:8px;">🔥 Ботнеты всегда в наличии! Бесконечный запас</div><div class="_0w1x2y3" id="_0xpriceDisplay"><span id="_0xtotalPrice">0.00</span><small> USD</small></div><div class="_0z4a5b6c"><label style="font-weight:600;">🤖 Количество ботов: <span id="_0xbotCountLabel">500</span></label><input type="range" id="_0xbotSlider" min="500" max="500000" step="500" value="500"><div class="_0d7e8f9g"><span>500</span><span>500,000+</span></div></div><div class="_0x1a2b3c4"><label>📅 Срок аренды</label><select id="_0xdurationSelect">'+_0x4d5e6f.map(function(_0x7g8h){return'<option value="'+_0x7g8h+'">'+_0x7g8h+' '+['день','дня','дней'][_0x7g8h%10===1&&_0x7g8h%100!==11?0:_0x7g8h%10>=2&&_0x7g8h%10<=4&&(_0x7g8h%100<10||_0x7g8h%100>=20)?1:2]+'</option>'}).join('')+'</select></div><div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>'+Object.entries(_0x1a2b3c).map(function(_0x9i0j){var _0xk1l2=_0x9i0j[0],_0xm3n4=_0x9i0j[1];return'<label class="_0h0i1j2"><input type="checkbox" class="_0xoptCheck" data-key="'+_0xk1l2+'" data-mult="'+_0xm3n4+'"><span class="_0k3l4m5">'+_0xk1l2.replace(/_/g,' ')+'</span><span class="_0n6o7p8">+'+Math.round((_0xm3n4-1)*100)+'%</span></label>'}).join('')+'</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><button class="_0xu1v2 _0xw3x4 _0xm3n4o5" style="flex:1;" id="_0xbuyButton">💳 КУПИТЬ ЗА $<span id="_0xbuyPrice">0.00</span></button><button class="_0xu1v2 _0x4d5e6f" onclick="_0xshowDepositModal()">💎 ПОПОЛНИТЬ</button></div><div class="_0q9r0s1"><input type="text" id="_0xpromoInput" placeholder="Промокод" style="font-family:var(--mono);letter-spacing:0.1em;"><button class="_0xu1v2 _0x7g8h9i" id="_0xpromoButton" onclick="_0xcheckPromo()">💠</button></div><div id="_0xpromoResult" style="font-size:12px;margin-top:8px;text-align:center;color:var(--text2);opacity:0.5;"></div></div>';setTimeout(function(){_0x1a2b3c()},100)};
+var _0xm3n4=function(_0x7g8h){if(!_0x7g8h){_0xk1l2('login');return}var _0x9i0j=[];try{var _0xk1l2=await _0x1a2b3c('/my-botnets');if(!_0xk1l2.error)_0x9i0j=_0xk1l2.filter(function(_0xm3n4){return _0xm3n4.active})}catch(_0xo5p6){}var _0xq7r8=['HTTP_GET_FLOOD','HTTP_POST_FLOOD','HTTPS_FLOOD','SLOWLORIS','SYN_FLOOD','UDP_FLOOD','ICMP_FLOOD','HTTP_HEADERS_FLOOD','MULTI_VECTOR'];_0xu1v2.innerHTML='<div class="_0xt2u3v4"><h1>⚔️ Запуск атаки</h1><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><span class="_0w5x6y7 online" id="_0xtargetStatus">🟢 Цель: неизвестно</span><span id="_0xattackTimer" style="color:var(--text2);">⏱ 0с</span><button class="_0xu1v2 _0x7g8h9i _0xj0k1l2" id="_0xstopAttackBtn" onclick="_0xhandleStopAttack()" disabled>■ ОСТАНОВИТЬ</button></div><div class="_0x1a2b3c4"><label>🤖 Ботнет</label><select id="_0xattackBotnet">'+(_0x9i0j.length===0?'<option value="">— Нет активных —</option>':_0x9i0j.map(function(_0x1a2b3c){return'<option value="'+_0x1a2b3c.id+'">'+_0x1a2b3c.bot_count+' ботов (до '+_0x1a2b3c(_0x1a2b3c.expires_at)+')</option>'}).join(''))+'</select></div><div class="_0x1a2b3c4"><label>🎯 Цель</label><input type="text" id="_0xattackTarget" placeholder="https://example.com или 192.168.1.1"></div><div class="_0x1a2b3c4"><label>💥 Тип атаки</label><select id="_0xattackType">'+_0xq7r8.map(function(_0x4d5e6f){return'<option value="'+_0x4d5e6f+'">'+_0x4d5e6f.replace(/_/g,' ')+'</option>'}).join('')+'</select></div><div class="_0x1a2b3c4"><label>⏱ Длительность (сек): <span id="_0xdurationLabel">60</span></label><input type="range" id="_0xdurationSlider" min="10" max="3600" step="10" value="60"><div class="_0d7e8f9g"><span>10с</span><span>3600с</span></div></div><button class="_0xu1v2 _0x1a2b3c _0xm3n4o5" id="_0xstartAttackBtn" onclick="_0xhandleStartAttack()" style="width:100%;">▶ ЗАПУСТИТЬ</button><div class="_0z8a9b0c" id="_0xattackStats"><div class="_0d1e2f3g"><div class="_0h4i5j6" id="_0xstatRequests">0</div><div class="_0k7l8m9">Запросов</div></div><div class="_0d1e2f3g"><div class="_0h4i5j6" id="_0xstatErrors">0</div><div class="_0k7l8m9">Успешно</div></div><div class="_0d1e2f3g"><div class="_0h4i5j6" id="_0xstatRps">0</div><div class="_0k7l8m9">RPS</div></div><div class="_0d1e2f3g"><div class="_0h4i5j6" id="_0xstatBytes">0</div><div class="_0k7l8m9">Данных (KB)</div></div><div class="_0d1e2f3g"><div class="_0h4i5j6" id="_0xstatStatus">🟢</div><div class="_0k7l8m9">Статус цели</div></div></div><div class="_0w9x0y1"><div class="_0z2a3b4" id="_0xattackProgress" style="width:0%;"></div></div><div class="_0n0o1p2" id="_0xattackLog"><div class="_0q3r4s5"><span class="_0t6u7v8">['+new Date().toLocaleTimeString()+']</span> ⚡ Ожидание запуска...</div></div></div>';var _0xs9t0=document.getElementById('_0xdurationSlider');if(_0xs9t0)_0xs9t0.addEventListener('input',function(){var _0xu1v2=document.getElementById('_0xdurationLabel');if(_0xu1v2)_0xu1v2.textContent=_0xs9t0.value});if(_0x7g8h&&_0x7g8h.attackId){_0xm3n4=_0x7g8h.attackId;_0x1a2b3c(_0xm3n4)}};
+var _0xo5p6=function(){if(!_0x7g8h){_0xk1l2('login');return}_0xu1v2.innerHTML='<div class="_0xi1j2k3"><h1>🌐 Геолокация по IP</h1><p style="color:var(--text2);margin-bottom:16px;">Введите IP адрес для определения местоположения. Реальные данные.</p><div class="_0r0s1t2">💰 Стоимость: <strong>$2</strong> за один поиск</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><input type="text" id="_0xipInput" placeholder="Введите IP (например: 8.8.8.8)" style="flex:1;min-width:200px;"><button class="_0xu1v2 _0xw3x4" onclick="_0xhandleGeoSearch()">🔍 ОПРЕДЕЛИТЬ ($2)</button><button class="_0xu1v2 _0x7g8h9i" onclick="_0xgetMyIp()">📍 МОЙ IP</button></div><div id="_0xgeoResult" style="margin-top:20px;"></div></div>'};
+var _0xq7r8=function(){if(!_0x7g8h){_0xk1l2('login');return}_0xu1v2.innerHTML='<h1>👤 Профиль</h1><div class="_0xp9q0r1" style="max-width:500px;"><div class="_0x1a2b3c4"><label>Логин</label><input type="text" value="'+_0x7g8h.username+'" disabled></div><div class="_0x1a2b3c4"><label>Email</label><input type="email" value="'+(_0x7g8h.email||'')+'" disabled></div><div class="_0x1a2b3c4"><label>💰 Баланс</label><input type="text" value="'+_0x1a2b3c(_0x7g8h.balance)+'" disabled style="color:var(--green);"></div><div class="_0x1a2b3c4"><label>Роль</label><input type="text" value="'+(_0x7g8h.role||'user')+'" disabled></div>'+( _0x7g8h.api_key?'<div class="_0x1a2b3c4"><label>🔑 API Key</label><input type="text" value="'+_0x7g8h.api_key+'" disabled></div>':'')+'<div style="display:flex;gap:12px;flex-wrap:wrap;"><button class="_0xu1v2 _0x4d5e6f" onclick="_0xshowDepositModal()">💎 ПОПОЛНИТЬ</button><button class="_0xu1v2 _0x7g8h9i" style="color:var(--red);" onclick="_0xlogout()">🚪 Выйти</button></div></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="_0xprofileBotnets" class="_0xb1c2d3"></div>';try{var _0x9i0j=await _0x1a2b3c('/my-botnets');if(!_0x9i0j.error){var _0xk1l2=document.getElementById('_0xprofileBotnets');if(!_0xk1l2)return;if(_0x9i0j.length===0){_0xk1l2.innerHTML='<p style="color:var(--text2);">Нет ботнетов.</p>'}else{_0xk1l2.innerHTML=_0x9i0j.map(function(_0xm3n4){return'<div class="_0xe4f5g6 '+(_0xm3n4.active?'':'expired')+'"><div class="_0xh7i8j9"><div class="_0xk9l0m1">🤖 '+_0xm3n4.bot_count+' ботов</div><div class="_0xn2o3p4">'+_0xm3n4.duration_days+' дней · '+_0x1a2b3c(_0xm3n4.price)+'</div></div><div class="_0q5r6s7 '+(_0xm3n4.active?'active':'expired')+'">'+(_0xm3n4.active?'✅ Активен':'⏳ Истёк')+'</div></div>'}).join('')}}}catch(_0xo5p6){}};
+var _0xs9t0=function(){if(!_0x7g8h||_0x7g8h.role!=='admin'){_0xk1l2('home');return}_0xu1v2.innerHTML='<h1>🔧 Админ-панель</h1><div class="_0xp9q0r1" style="margin:16px 0;border-color:var(--gold);"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span style="font-size:20px;font-weight:700;color:var(--gold);">💎 ПОПОЛНИТЬ БАЛАНС</span><input type="text" id="_0xdepositUsername" placeholder="Логин пользователя" style="flex:1;min-width:150px;"><input type="number" id="_0xdepositAmount" placeholder="Сумма $" style="width:150px;"><button class="_0xu1v2 _0xy5z6" onclick="_0xadminDeposit()">💎 ПОПОЛНИТЬ</button></div></div><div class="_0xy8z9a0" id="_0xadminStats"></div><h2 style="margin-top:24px;">👥 Пользователи</h2><div id="_0xadminUsers"></div>';_0x1a2b3c()};
+var _0x1a2b3c=function(_0x4d5e6f,_0x7g8h){var _0x9i0j=localStorage.getItem(_0xk1l2),_0xk1m2n={'Content-Type':'application/json',...(_0x9i0j?{'Authorization':'Bearer '+_0x9i0j}:{}),...(_0x7g8h.headers||{})};return fetch(window.location.origin+'/api'+_0x4d5e6f,{..._0x7g8h,headers:_0xk1m2n}).then(function(_0xo5p6){if(!_0xo5p6.ok)throw new Error('HTTP '+_0xo5p6.status);return _0xo5p6.json()})['catch'](function(_0xq7r8){console.error('API Error:',_0xq7r8);throw _0xq7r8})};
+var _0x1a2b3c=function(_0x4d5e6f){return'$'+Number(_0x4d5e6f).toFixed(2)};
+var _0x1a2b3c=function(_0x4d5e6f){if(!_0x4d5e6f)return'—';try{return new Date(_0x4d5e6f).toLocaleString()}catch(_0x7g8h){return _0x4d5e6f}};
+var _0x1a2b3c=function(){try{var _0x4d5e6f=await _0x1a2b3c('/profile');if(!_0x4d5e6f.error){_0x7g8h={..._0x7g8h,..._0x4d5e6f};localStorage.setItem(_0xm3n4,JSON.stringify(_0x7g8h));_0x1a2b3c.textContent=_0x1a2b3c(_0x7g8h.balance)}var _0x7g8h=await _0x1a2b3c('/my-botnets');if(!_0x7g8h.error){var _0x9i0j=_0x7g8h.filter(function(_0xk1l2){return _0xk1l2.active}).length;var _0xk1l2=document.getElementById('_0xactiveBotnetsCount');if(_0xk1l2)_0xk1l2.textContent=_0x9i0j;_0x1a2b3c(_0x7g8h)}var _0xm3n4=await _0x1a2b3c('/attacks/history');if(!_0xm3n4.error){var _0xo5p6=document.getElementById('_0xtotalAttacksCount');if(_0xo5p6)_0xo5p6.textContent=_0xm3n4.length;_0x1a2b3c(_0xm3n4)}}catch(_0xq7r8){}};
+var _0x1a2b3c=function(_0x4d5e6f){var _0x7g8h=document.getElementById('_0xbotnetList');if(!_0x7g8h)return;if(!_0x4d5e6f||_0x4d5e6f.length===0){_0x7g8h.innerHTML='<p style="color:var(--text2);">У вас пока нет ботнетов. <a onclick="_0xk1l2(\'shop\')">Купить</a></p>';return}_0x7g8h.innerHTML=_0x4d5e6f.map(function(_0x9i0j){return'<div class="_0xe4f5g6 '+(_0x9i0j.active?'':'expired')+'"><div class="_0xh7i8j9"><div class="_0xk9l0m1">🤖 '+_0x9i0j.bot_count+' ботов</div><div class="_0xn2o3p4">'+_0x9i0j.duration_days+' дней · '+_0x1a2b3c(_0x9i0j.price)+' · до '+_0x1a2b3c(_0x9i0j.expires_at)+'</div></div><div class="_0q5r6s7 '+(_0x9i0j.active?'active':'expired')+'">'+(_0x9i0j.active?'✅ Активен':'⏳ Истёк')+'</div></div>'}).join('')};
+var _0x1a2b3c=function(_0x4d5e6f){var _0x7g8h=document.getElementById('_0xattackHistory');if(!_0x7g8h)return;if(!_0x4d5e6f||_0x4d5e6f.length===0){_0x7g8h.innerHTML='<p style="color:var(--text2);">Атак пока не было.</p>';return}var _0x9i0j='<table class="_0xc5d6e7"><thead><tr><th>Цель</th><th>Тип</th><th>Ботов</th><th>Статус</th><th>Начало</th></tr></thead><tbody>';_0x4d5e6f.slice(0,20).forEach(function(_0xk1l2){var _0xm3n4=_0xk1l2.status==='running'?'var(--green)':_0xk1l2.status==='stopped'?'var(--red)':'var(--text2)';_0x9i0j+='<tr><td>'+_0xk1l2.target+'</td><td>'+_0xk1l2.attack_type.replace(/_/g,' ')+'</td><td>'+_0xk1l2.bot_count+'</td><td style="color:'+_0xm3n4+';">'+_0xk1l2.status+'</td><td>'+_0x1a2b3c(_0xk1l2.started_at)+'</td></tr>'});_0x9i0j+='</tbody></table>';_0x7g8h.innerHTML=_0x9i0j};
+var _0x1a2b3c=function(){var _0x4d5e6f=localStorage.getItem(_0xm3n4);if(_0x4d5e6f){try{_0x7g8h=JSON.parse(_0x4d5e6f);var _0x7g8h=localStorage.getItem(_0xk1l2);if(!_0x7g8h){_0x7g8h=null;localStorage.removeItem(_0xm3n4)}}catch(_0x9i0j){_0x7g8h=null}}if(localStorage.getItem('phantom_solved')==='true'){Object.keys(_0xo5p6).forEach(function(_0x4d5e6f){_0xo5p6[_0x4d5e6f]=true})}_0x1a2b3c();_0xk1l2(_0x7g8h?'dashboard':'home');_0x1a2b3c();setInterval(function(){if(_0x7g8h){_0x1a2b3c('/profile').then(function(_0x4d5e6f){if(!_0x4d5e6f.error){_0x7g8h.balance=_0x4d5e6f.balance;localStorage.setItem(_0xm3n4,JSON.stringify(_0x7g8h));_0x1a2b3c.textContent=_0x1a2b3c(_0x7g8h.balance)}})['catch'](function(){})}},30000);setInterval(function(){if(Object.values(_0xo5p6).every(function(_0x4d5e6f){return _0x4d5e6f===true})){localStorage.setItem('phantom_solved','true')}},5000)};
+document.addEventListener('DOMContentLoaded',_0x1a2b3c);
 </script>
-
 </body>
 </html>
