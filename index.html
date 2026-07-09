@@ -38,7 +38,7 @@
         /* Скрытый комментарий: ═════ УРОВЕНЬ 1: 5731 ═════ */
         
         /* ===== УРОВЕНЬ 3: Бинарный код в градиентах ===== */
-        .l3-binary { height: 4px; width: 100%; background: linear-gradient(90deg, #000 0%, #fff 1%, #000 2%, #fff 3%, #000 4%, #fff 5%, #000 6%, #fff 7%, #000 8%, #fff 9%, #000 10%, #fff 11%, #000 12%, #fff 13%, #000 14%, #fff 15%, #000 16%, #fff 17%, #000 18%, #fff 19%, #000 20%, #fff 21%, #000 22%, #fff 23%, #000 24%, #fff 25%, #000 26%, #fff 27%, #000 28%, #fff 29%, #000 30%, #fff 31%, #000 32%, #fff 33%, #000 34%, #fff 35%, #000 36%, #fff 37%, #000 38%, #fff 39%, #000 40%, #fff 41%, #000 42%, #fff 43%, #000 44%, #fff 45%, #000 46%, #fff 47%, #000 48%, #fff 49%, #000 50%, #fff 51%, #000 52%, #fff 53%, #000 54%, #fff 55%, #000 56%, #fff 57%, #000 58%, #fff 59%, #000 60%, #fff 61%, #000 62%, #fff 63%, #000 64%, #fff 65%, #000 66%, #fff 67%, #000 68%, #fff 69%, #000 70%, #fff 71%, #000 72%, #fff 73%, #000 74%, #fff 75%, #000 76%, #fff 77%, #000 78%, #fff 79%, #000 80%, #fff 81%, #000 82%, #fff 83%, #000 84%, #fff 85%, #000 86%, #fff 87%, #000 88%, #fff 89%, #000 90%, #fff 91%, #000 92%, #fff 93%, #000 94%, #fff 95%, #000 96%, #fff 97%, #000 98%, #fff 99%, #000 100%); opacity: 0.08; pointer-events: none; }
+        .l3-binary { height: 3px; width: 100%; background: linear-gradient(90deg, #000 0%, #fff 1%, #000 2%, #fff 3%, #000 4%, #fff 5%, #000 6%, #fff 7%, #000 8%, #fff 9%, #000 10%, #fff 11%, #000 12%, #fff 13%, #000 14%, #fff 15%, #000 16%, #fff 17%, #000 18%, #fff 19%, #000 20%, #fff 21%, #000 22%, #fff 23%, #000 24%, #fff 25%, #000 26%, #fff 27%, #000 28%, #fff 29%, #000 30%, #fff 31%, #000 32%, #fff 33%, #000 34%, #fff 35%, #000 36%, #fff 37%, #000 38%, #fff 39%, #000 40%, #fff 41%, #000 42%, #fff 43%, #000 44%, #fff 45%, #000 46%, #fff 47%, #000 48%, #fff 49%, #000 50%, #fff 51%, #000 52%, #fff 53%, #000 54%, #fff 55%, #000 56%, #fff 57%, #000 58%, #fff 59%, #000 60%, #fff 61%, #000 62%, #fff 63%, #000 64%, #fff 65%, #000 66%, #fff 67%, #000 68%, #fff 69%, #000 70%, #fff 71%, #000 72%, #fff 73%, #000 74%, #fff 75%, #000 76%, #fff 77%, #000 78%, #fff 79%, #000 80%, #fff 81%, #000 82%, #fff 83%, #000 84%, #fff 85%, #000 86%, #fff 87%, #000 88%, #fff 89%, #000 90%, #fff 91%, #000 92%, #fff 93%, #000 94%, #fff 95%, #000 96%, #fff 97%, #000 98%, #fff 99%, #000 100%); opacity: 0.06; pointer-events: none; }
         /* Бинарный код: 01001000 01100101 01101100 01101100 01101111 → "Hello this is the second key: BINARY_MASTER" */
         
         /* ===== УРОВЕНЬ 4: Хеш ===== */
@@ -77,8 +77,8 @@
         .btn-outline:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
         .btn-sm { padding: 8px 16px; font-size: 13px; }
         .btn-lg { padding: 16px 48px; font-size: 20px; }
-        .btn-phantom { background: transparent; border: 1px solid rgba(139, 92, 246, 0.12); color: rgba(139, 92, 246, 0.25); font-size: 11px; padding: 4px 12px; cursor: pointer; transition: var(--transition); border-radius: var(--radius-full); letter-spacing: 0.15em; }
-        .btn-phantom:hover { border-color: rgba(139, 92, 246, 0.25); color: rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.02); }
+        .btn-phantom { background: transparent; border: 1px solid rgba(139, 92, 246, 0.12); color: rgba(139, 92, 246, 0.2); font-size: 10px; padding: 3px 10px; cursor: pointer; transition: var(--transition); border-radius: var(--radius-full); letter-spacing: 0.15em; }
+        .btn-phantom:hover { border-color: rgba(139, 92, 246, 0.2); color: rgba(139, 92, 246, 0.35); background: rgba(139, 92, 246, 0.02); }
         
         select, input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
             width: 100%; padding: 12px 18px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 15px; transition: var(--transition); font-family: inherit; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b949e' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; cursor: pointer;
@@ -99,39 +99,107 @@
         .navbar .user-badge .balance { color: var(--accent-green); font-weight: 700; background: rgba(6, 214, 160, 0.1); padding: 4px 14px; border-radius: var(--radius-full); }
         .page-container { flex: 1; padding: 32px; max-width: 1400px; margin: 0 auto; width: 100%; animation: fadeInUp 0.4s ease; }
         .footer { text-align: center; padding: 24px; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 13px; margin-top: 40px; }
-        .phantom-trigger { opacity: 0.04; font-size: 10px; transition: var(--transition); cursor: default; user-select: none; padding: 2px 8px; border-radius: var(--radius-full); }
-        .phantom-trigger:hover { opacity: 0.15; background: rgba(139, 92, 246, 0.02); }
+        .phantom-trigger { opacity: 0.03; font-size: 9px; transition: var(--transition); cursor: default; user-select: none; padding: 2px 6px; border-radius: var(--radius-full); }
+        .phantom-trigger:hover { opacity: 0.12; background: rgba(139, 92, 246, 0.015); }
         
-        /* ===== СТИЛИ УРОВНЕЙ ===== */
-        .puzzle-container { max-width: 900px; margin: 0 auto; }
-        .puzzle-container .level-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 28px; margin: 20px 0; transition: var(--transition); position: relative; }
-        .puzzle-container .level-card:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-glow); }
-        .puzzle-container .level-card .level-badge { position: absolute; top: -12px; right: 20px; background: var(--accent-purple); color: white; padding: 4px 14px; border-radius: var(--radius-full); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; }
-        .puzzle-container .level-card .level-title { font-size: 18px; font-weight: 700; color: var(--text-white); margin-bottom: 6px; }
-        .puzzle-container .level-card .level-desc { color: var(--text-secondary); font-size: 13px; margin-bottom: 12px; opacity: 0.6; }
-        .puzzle-container .level-card .level-content { font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); background: var(--bg-primary); padding: 14px; border-radius: var(--radius-sm); white-space: pre-wrap; word-break: break-all; border-left: 2px solid rgba(139, 92, 246, 0.08); }
-        .puzzle-container .level-card .level-input { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
-        .puzzle-container .level-card .level-input input { flex: 1; min-width: 160px; padding: 8px 14px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 14px; transition: var(--transition); font-family: var(--font-mono); }
-        .puzzle-container .level-card .level-input input:focus { outline: none; border-color: var(--accent-purple); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12); }
-        .puzzle-container .level-card .level-status { margin-top: 10px; font-size: 12px; font-weight: 600; }
-        .puzzle-container .level-card .level-status.locked { color: var(--accent-red); }
-        .puzzle-container .level-card .level-status.unlocked { color: var(--accent-green); }
-        .puzzle-container .level-card .level-status .hint { color: var(--text-secondary); font-weight: 400; font-size: 11px; display: none; }
+        .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; text-align: center; padding: 40px 20px; }
+        .hero .logo-big { font-size: 80px; font-weight: 900; letter-spacing: 0.15em; color: var(--text-white); text-shadow: 0 0 60px rgba(139, 92, 246, 0.2); margin-bottom: 16px; }
+        .hero .logo-big span { color: var(--accent-purple); text-shadow: 0 0 80px rgba(139, 92, 246, 0.4); }
+        .hero .slogan { font-size: 24px; color: var(--text-secondary); margin-bottom: 40px; letter-spacing: 0.05em; }
+        .hero .slogan em { color: var(--accent-red); font-style: normal; }
+        .hero .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 48px; width: 100%; max-width: 800px; }
+        .hero .feature-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; transition: var(--transition); }
+        .hero .feature-card:hover { border-color: var(--accent-purple); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+        .hero .feature-card .icon { font-size: 32px; margin-bottom: 8px; }
+        .hero .feature-card .title { font-weight: 700; color: var(--text-white); }
+        .hero .feature-card .desc { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
         
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(12px); z-index: 9999; display: flex; align-items: center; justify-content: center; animation: fadeInUp 0.3s ease; }
+        .auth-form { max-width: 420px; margin: 40px auto; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 40px 32px; }
+        .auth-form h2 { text-align: center; margin-bottom: 24px; color: var(--text-white); }
+        .auth-form .form-group { margin-bottom: 16px; }
+        .auth-form label { display: block; font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .auth-form .btn { width: 100%; margin-top: 8px; border-radius: var(--radius-full); }
+        .auth-form .switch-link { text-align: center; margin-top: 16px; font-size: 14px; color: var(--text-secondary); }
+        .auth-form .switch-link a { color: var(--accent-purple); cursor: pointer; }
+        .auth-form .password-toggle { position: relative; }
+        .auth-form .password-toggle input { padding-right: 48px; }
+        .auth-form .password-toggle .toggle-eye { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-secondary); font-size: 20px; background: none; border: none; }
+        
+        .dash-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; transition: var(--transition); }
+        .dash-card:hover { border-color: var(--accent-purple); box-shadow: 0 0 30px rgba(139, 92, 246, 0.08); }
+        .dash-card .card-title { font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 12px; }
+        .dash-card .card-value { font-size: 32px; font-weight: 700; color: var(--text-white); }
+        .dash-card .card-value.green { color: var(--accent-green); }
+        .dash-card .card-value.purple { color: var(--accent-purple); }
+        .dash-card .card-value.red { color: var(--accent-red); }
+        .dash-card .card-value.gold { color: var(--accent-gold); }
+        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 20px 0; }
+        
+        .botnet-list { display: flex; flex-direction: column; gap: 12px; }
+        .botnet-item { background: var(--bg-surface-2); border-radius: var(--radius-sm); padding: 16px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--accent-green); }
+        .botnet-item.expired { border-left-color: var(--accent-red); opacity: 0.6; }
+        .botnet-item .info .count { font-weight: 700; color: var(--text-white); }
+        .botnet-item .info .meta { font-size: 13px; color: var(--text-secondary); }
+        .botnet-item .status { font-size: 13px; font-weight: 600; }
+        .botnet-item .status.active { color: var(--accent-green); }
+        .botnet-item .status.expired { color: var(--accent-red); }
+        
+        .shop-container { max-width: 720px; margin: 0 auto; }
+        .shop-container .price-display { font-size: 48px; font-weight: 800; color: var(--accent-green); text-align: center; padding: 24px; background: var(--bg-surface); border-radius: var(--radius); border: 1px solid var(--border-color); margin: 24px 0; }
+        .shop-container .price-display small { font-size: 18px; font-weight: 400; color: var(--text-secondary); }
+        .shop-container .slider-container { margin: 24px 0; }
+        .shop-container .slider-container input[type="range"] { width: 100%; -webkit-appearance: none; background: var(--bg-surface-2); height: 6px; border-radius: var(--radius-full); outline: none; }
+        .shop-container .slider-container input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-purple); cursor: pointer; box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+        .shop-container .slider-labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+        .shop-container .option-checkbox { display: flex; align-items: center; gap: 12px; padding: 8px 0; cursor: pointer; border-bottom: 1px solid var(--border-color); }
+        .shop-container .option-checkbox:last-child { border-bottom: none; }
+        .shop-container .option-checkbox input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent-purple); }
+        .shop-container .option-checkbox .opt-label { flex: 1; color: var(--text-primary); }
+        .shop-container .option-checkbox .opt-price { color: var(--text-secondary); font-size: 14px; }
+        .shop-container .promo-input { display: flex; gap: 10px; margin-top: 16px; }
+        .shop-container .promo-input input { flex: 1; }
+        
+        .attack-panel { max-width: 800px; margin: 0 auto; }
+        .attack-panel .target-status { display: inline-block; padding: 4px 16px; border-radius: var(--radius-full); font-weight: 700; font-size: 14px; }
+        .attack-panel .target-status.online { background: rgba(6, 214, 160, 0.15); color: var(--accent-green); }
+        .attack-panel .target-status.offline { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        .attack-panel .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin: 20px 0; }
+        .attack-panel .stat-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; text-align: center; }
+        .attack-panel .stat-box .stat-value { font-size: 28px; font-weight: 700; color: var(--text-white); }
+        .attack-panel .stat-box .stat-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+        .attack-panel .log-terminal { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; height: 200px; overflow-y: auto; font-family: var(--font-mono); font-size: 13px; color: var(--accent-green); margin-top: 16px; }
+        .attack-panel .log-terminal .log-line { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .attack-panel .log-terminal .log-line .time { color: var(--text-secondary); margin-right: 12px; }
+        .attack-panel .progress-bar { width: 100%; height: 8px; background: var(--bg-surface-2); border-radius: var(--radius-full); overflow: hidden; margin: 12px 0; }
+        .attack-panel .progress-bar .fill { height: 100%; background: linear-gradient(90deg, var(--accent-purple), var(--accent-red)); transition: width 0.5s ease; width: 0%; border-radius: var(--radius-full); }
+        
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .admin-table th, .admin-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .admin-table th { color: var(--text-secondary); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .admin-table tr:hover { background: var(--bg-surface-2); }
+        .admin-table .badge { padding: 2px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; }
+        .admin-table .badge.admin { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+        .admin-table .badge.user { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
+        .admin-table .badge.banned { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+        
+        .geo-container { max-width: 700px; margin: 0 auto; }
+        .geo-container .geo-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; margin: 16px 0; transition: var(--transition); }
+        .geo-container .geo-card:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-glow); }
+        .geo-container .geo-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        .geo-container .geo-row:last-child { border-bottom: none; }
+        .geo-container .price-info { display: inline-block; padding: 4px 16px; background: rgba(251, 191, 36, 0.15); border-radius: var(--radius-full); font-size: 14px; color: var(--accent-gold); margin: 8px 0; }
+        
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); z-index: 9999; display: flex; align-items: center; justify-content: center; animation: fadeInUp 0.3s ease; }
         .modal-overlay .modal-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 36px; max-width: 520px; width: 92%; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 60px rgba(139, 92, 246, 0.08); position: relative; }
         .modal-overlay .modal-box .modal-close { position: absolute; top: 14px; right: 18px; font-size: 26px; cursor: pointer; color: var(--text-secondary); background: none; border: none; transition: 0.3s; }
         .modal-overlay .modal-box .modal-close:hover { color: var(--text-white); transform: rotate(90deg); }
         .modal-overlay .modal-box h2 { color: var(--text-white); margin-bottom: 14px; font-size: 26px; }
         .modal-overlay .modal-box .modal-body { color: var(--text-primary); line-height: 1.8; }
-        .modal-overlay .modal-box .modal-body .success-icon { font-size: 64px; text-align: center; display: block; margin-bottom: 14px; }
+        .modal-overlay .modal-box .modal-body .contact-link { font-size: 22px; font-weight: 700; color: var(--accent-purple); text-decoration: none; display: inline-block; margin: 8px 0; padding: 8px 24px; border: 2px solid var(--accent-purple); border-radius: var(--radius-full); transition: 0.3s; }
+        .modal-overlay .modal-box .modal-body .contact-link:hover { background: var(--accent-purple); color: white; box-shadow: 0 0 40px rgba(139, 92, 246, 0.3); }
         .modal-overlay .modal-box .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
+        .modal-overlay .modal-box .modal-icon { font-size: 48px; text-align: center; margin-bottom: 12px; }
         
-        .notif-toast { position: fixed; bottom: 80px; right: 20px; z-index: 10000; min-width: 250px; max-width: 380px; background: var(--bg-surface); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); border: 1px solid var(--border-color); }
-        .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
-        .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
-        
-        /* ===== МУЗЫКА ===== */
         .music-player { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 10px 14px; min-width: 160px; backdrop-filter: blur(10px); box-shadow: 0 0 40px rgba(0,0,0,0.5); transition: var(--transition); }
         .music-player:hover { border-color: var(--accent-purple); box-shadow: 0 0 40px rgba(139, 92, 246, 0.15); }
         .music-player .controls { display: flex; align-items: center; gap: 8px; }
@@ -141,32 +209,66 @@
         .music-player .controls .play-btn:hover { background: var(--accent-green); transform: scale(1.05); }
         .music-player .track-name { font-size: 9px; color: var(--text-secondary); margin-top: 3px; text-align: center; letter-spacing: 0.05em; opacity: 0.5; }
         
-        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .page-container { padding: 16px; } .puzzle-container .level-card { padding: 18px; } .music-player { bottom: 10px; right: 10px; min-width: 130px; padding: 8px 10px; } .music-player .controls audio { height: 22px; } }
+        .notif-toast { position: fixed; bottom: 80px; right: 20px; z-index: 10000; min-width: 250px; max-width: 380px; background: var(--bg-surface); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); border: 1px solid var(--border-color); }
+        .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
+        .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
+        
+        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .page-container { padding: 16px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 130px; padding: 8px 10px; } .music-player .controls audio { height: 22px; } }
     </style>
 </head>
 <body>
 <div class="scanline"></div>
 <div class="matrix-bg"></div>
 
-<!-- ===== УРОВЕНЬ 2: Двойное шифрование ===== -->
+<!-- ===== УРОВЕНЬ 2: Двойное шифрование (скрыто) ===== -->
 <div id="l2-data" style="display:none;" data-encrypted="WmxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4LiBtemxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4Lg==" data-vigenere-key="CUNZGBZ"></div>
+<!-- 
+    УРОВЕНЬ 2:
+    Base64 → "Lkz mwz ukfv lkcvx mkcvx. mzlk mwz ukfv lkcvx mkcvx."
+    Виженер (ключ PHANTOM) → "The key for level three is in the gradient."
+    КЛЮЧ: 2804
+-->
 
-<!-- ===== УРОВЕНЬ 3: Бинарный код ===== -->
+<!-- ===== УРОВЕНЬ 3: Бинарный код в градиентах ===== -->
 <div class="l3-binary"></div>
+<!-- 
+    УРОВЕНЬ 3:
+    01001000 01100101 01101100 01101100 01101111 → "Hello this is the second key: BINARY_MASTER"
+    КЛЮЧ: 2804
+-->
 
 <!-- ===== УРОВЕНЬ 4: Хеш ===== -->
 <div id="l4-data" style="display:none;" data-hash="5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8" data-salt="BLACKPHANTOM_SALT_2026"></div>
+<!-- 
+    УРОВЕНЬ 4:
+    Пароль: BLACKPHANTOM_2026
+    КЛЮЧ: 9152
+-->
 
 <!-- ===== УРОВЕНЬ 5: RSA ===== -->
 <div id="l5-data" style="display:none;" data-rsa-public="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB" data-rsa-encrypted="U2FsdGVkX1/9nZq8WxYvF3GjHkLmNpQrStUvWxYz..."></div>
+<!-- 
+    УРОВЕНЬ 5:
+    Расшифрованное сообщение: "LEVEL_6_KEY_IS_7676"
+    КЛЮЧ: 7676
+-->
 
 <!-- ===== УРОВЕНЬ 6: Социальная инженерия ===== -->
 <div id="l6-data" style="display:none;">
-    <a href="#" class="l6-trap" data-real="https://t.me/+cExsBpkhmpRkNGM0" onclick="handleL6(event); return false;">🔗</a>
+    <a href="#" class="l6-trap" data-real="https://t.me/+cExsBpkhmpRkNGM0" onclick="handleL6(event); return false;" style="font-size:0px;padding:0;margin:0;display:inline-block;width:0;height:0;overflow:hidden;">🔗</a>
 </div>
+<!-- 
+    УРОВЕНЬ 6:
+    Клик + Shift → открывается канал
+    КЛЮЧ: 7676
+-->
 
-<!-- ===== УРОВЕНЬ 7: Финальный код ===== -->
+<!-- ===== УРОВЕНЬ 7: Финальный код (в поле промокода в магазине) ===== -->
 <div id="l7-data" style="display:none;"></div>
+<!-- 
+    УРОВЕНЬ 7:
+    Ввести в поле "Промокод" в магазине: 5731 2804 9152 7676
+-->
 
 <div id="app">
     <nav class="navbar" id="navbar">
@@ -224,9 +326,10 @@ let currentPage = 'home';
 let attackInterval = null;
 let activeAttackId = null;
 
-let levelProgress = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false };
-const collectedCodes = { 1: '5731', 2: '2804', 3: '2804', 4: '9152', 5: '7676', 6: '7676' };
-let phantomTriggered = false;
+// ===== СОСТОЯНИЕ ГОЛОВОЛОМКИ =====
+let puzzleProgress = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false };
+const puzzleKeys = { 1: '5731', 2: '2804', 3: '2804', 4: '9152', 5: '7676', 6: '7676' };
+let puzzleTriggered = false;
 
 const $ = (id) => document.getElementById(id);
 const pageContainer = $('pageContainer');
@@ -332,7 +435,6 @@ function pluralize(n, one, few, many) { n = Math.abs(n); if (n % 10 === 1 && n %
 // ============================================================
 window.navigateTo = function(page, data = null) {
     if (page === 'home' || page === 'dashboard') {
-        document.querySelectorAll('.puzzle-container').forEach(el => el.style.display = 'none');
         window.location.hash = '';
     }
     currentPage = page;
@@ -351,14 +453,12 @@ function renderNav() {
         html += `<a class="${currentPage === 'geo' ? 'active' : ''}" onclick="navigateTo('geo')">🌐 Geo</a>`;
         html += `<a class="${currentPage === 'profile' ? 'active' : ''}" onclick="navigateTo('profile')">👤 Профиль</a>`;
         if (currentUser && currentUser.role === 'admin') html += `<a class="${currentPage === 'admin' ? 'active' : ''}" onclick="navigateTo('admin')">🔧 Админ</a>`;
-        html += `<button onclick="logout()">🚪</button>`;
+        html += `<button onclick="logout()">🚪 Выйти</button>`;
     } else {
-        html += `<a class="${currentPage === 'home' ? 'active' : ''}" onclick="navigateTo('home')">🏠</a>`;
-        html += `<a class="${currentPage === 'login' ? 'active' : ''}" onclick="navigateTo('login')">🔐</a>`;
-        html += `<a class="${currentPage === 'register' ? 'active' : ''}" onclick="navigateTo('register')">📝</a>`;
+        html += `<a class="${currentPage === 'home' ? 'active' : ''}" onclick="navigateTo('home')">🏠 Главная</a>`;
+        html += `<a class="${currentPage === 'login' ? 'active' : ''}" onclick="navigateTo('login')">🔐 Вход</a>`;
+        html += `<a class="${currentPage === 'register' ? 'active' : ''}" onclick="navigateTo('register')">📝 Регистрация</a>`;
     }
-    // Скрытая ссылка на квест
-    html += `<a onclick="navigateTo('puzzle')" style="opacity:0.15;font-size:12px;">◈</a>`;
     navLinks.innerHTML = html;
     if (currentUser) { userName.textContent = currentUser.username; userBalance.textContent = formatCurrency(currentUser.balance || 0); }
     else { userName.textContent = 'Гость'; userBalance.textContent = '$0.00'; }
@@ -375,7 +475,6 @@ function renderPage(page, data) {
         case 'geo': renderGeo(); break;
         case 'profile': renderProfile(); break;
         case 'admin': renderAdmin(); break;
-        case 'puzzle': renderPuzzle(); break;
         default: renderHome();
     }
 }
@@ -388,27 +487,27 @@ function renderHome() {
         <div class="hero">
             <div class="logo-big neon-text">VO1D<span>.</span></div>
             <div class="slogan">Rent the void. <em>Destroy anything.</em></div>
-            <button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀' : '⚡'}</button>
+            <button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button>
             <div class="features">
-                <div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Ботнеты</div><div class="desc">∞</div></div>
-                <div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Транзакции</div><div class="desc">Анонимно</div></div>
-                <div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка</div><div class="desc">24/7</div></div>
+                <div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии</div></div>
+                <div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div>
+                <div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div>
             </div>
         </div>
     `;
 }
 
 // ============================================================
-// LOGIN / REGISTER / DASHBOARD / SHOP / ATTACK / GEO / PROFILE / ADMIN
+// LOGIN / REGISTER
 // ============================================================
 function renderLogin() {
     pageContainer.innerHTML = `
         <div class="auth-form">
-            <h2>🔐</h2>
-            <div class="form-group"><label>Логин</label><input type="text" id="loginUsername" placeholder="..."></div>
-            <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="loginPassword" placeholder="..."><button class="toggle-eye" onclick="togglePassword('loginPassword')">👁️</button></div>
+            <h2>🔐 Вход</h2>
+            <div class="form-group"><label>Логин</label><input type="text" id="loginUsername" placeholder="Введите логин"></div>
+            <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="loginPassword" placeholder="Введите пароль"><button class="toggle-eye" onclick="togglePassword('loginPassword')">👁️</button></div>
             <button class="btn btn-green btn-glitch" onclick="handleLogin()">ВОЙТИ</button>
-            <div class="switch-link">Нет? <a onclick="navigateTo('register')">Регистрация</a></div>
+            <div class="switch-link">Нет аккаунта? <a onclick="navigateTo('register')">Зарегистрироваться</a></div>
         </div>
     `;
 }
@@ -419,21 +518,21 @@ window.handleLogin = async function() {
     if (!username || !password) { showModal('Ошибка', 'Заполните все поля'); return; }
     try {
         const res = await apiFetch('/login', { method: 'POST', body: JSON.stringify({ username, password }) });
-        if (res.error) { showModal('Ошибка', res.error); return; }
-        if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅', 'success'); navigateTo('dashboard'); }
+        if (res.error) { showModal('Ошибка входа', res.error); return; }
+        if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅ Добро пожаловать, ' + currentUser.username, 'success'); navigateTo('dashboard'); }
     } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
 };
 
 function renderRegister() {
     pageContainer.innerHTML = `
         <div class="auth-form">
-            <h2>📝</h2>
-            <div class="form-group"><label>Логин</label><input type="text" id="regUsername" placeholder="..."></div>
-            <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="..."></div>
-            <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="regPassword" placeholder="..."><button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button></div>
-            <div class="form-group password-toggle"><label>Подтверждение</label><input type="password" id="regPassword2" placeholder="..."><button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button></div>
-            <button class="btn btn-purple btn-glitch" onclick="handleRegister()">СОЗДАТЬ</button>
-            <div class="switch-link">Уже есть? <a onclick="navigateTo('login')">Войти</a></div>
+            <h2>📝 Регистрация</h2>
+            <div class="form-group"><label>Логин</label><input type="text" id="regUsername" placeholder="Придумайте логин"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="Ваш email"></div>
+            <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="regPassword" placeholder="Минимум 6 символов"><button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button></div>
+            <div class="form-group password-toggle"><label>Подтверждение</label><input type="password" id="regPassword2" placeholder="Повторите пароль"><button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button></div>
+            <button class="btn btn-purple btn-glitch" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button>
+            <div class="switch-link">Уже есть аккаунт? <a onclick="navigateTo('login')">Войти</a></div>
         </div>
     `;
 }
@@ -455,23 +554,26 @@ window.handleRegister = async function() {
 
 window.togglePassword = function(id) { const el = $(id); if (!el) return; el.type = el.type === 'password' ? 'text' : 'password'; };
 
+// ============================================================
+// DASHBOARD
+// ============================================================
 async function renderDashboard() {
     if (!currentUser) { navigateTo('login'); return; }
     pageContainer.innerHTML = `
-        <h1>👋 <span class="neon-text">${currentUser.username}</span></h1>
+        <h1>👋 Добро пожаловать, <span class="neon-text">${currentUser.username}</span></h1>
         <div class="dash-grid">
-            <div class="dash-card card-animated"><div class="card-title">💰</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div>
-            <div class="dash-card card-animated"><div class="card-title">🤖</div><div class="card-value purple" id="activeBotnetsCount">0</div></div>
-            <div class="dash-card card-animated"><div class="card-title">⚔️</div><div class="card-value red" id="totalAttacksCount">0</div></div>
+            <div class="dash-card card-animated"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div>
+            <div class="dash-card card-animated"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div>
+            <div class="dash-card card-animated"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div>
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;">
-            <button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒</button>
-            <button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️</button>
-            <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎</button>
-            <button class="btn btn-outline" onclick="refreshDashboard()">🔄</button>
+            <button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button>
+            <button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button>
+            <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+            <button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button>
         </div>
-        <h2 style="margin-top:24px;">📦</h2><div id="botnetList" class="botnet-list"></div>
-        <h2 style="margin-top:24px;">📜</h2><div id="attackHistory"></div>
+        <h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="botnetList" class="botnet-list"></div>
+        <h2 style="margin-top:24px;">📜 История атак</h2><div id="attackHistory"></div>
     `;
     await refreshDashboard();
 }
@@ -490,14 +592,14 @@ window.refreshDashboard = async function() {
 function renderBotnetList(botnets) {
     const container = $('botnetList');
     if (!container) return;
-    if (!botnets || botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов. <a onclick="navigateTo(\'shop\')">Купить</a></p>'; return; }
-    container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active ? '' : 'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count}</div><div class="meta">${b.duration_days}д · ${formatCurrency(b.price)} · до ${formatDate(b.expires_at)}</div></div><div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅' : '⏳'}</div></div>`).join('');
+    if (!botnets || botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">У вас пока нет ботнетов. <a onclick="navigateTo(\'shop\')">Купить</a></p>'; return; }
+    container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active ? '' : 'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)} · до ${formatDate(b.expires_at)}</div></div><div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅ Активен' : '⏳ Истёк'}</div></div>`).join('');
 }
 
 function renderAttackHistory(history) {
     const container = $('attackHistory');
     if (!container) return;
-    if (!history || history.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Атак не было.</p>'; return; }
+    if (!history || history.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Атак пока не было.</p>'; return; }
     let html = `<table class="admin-table"><thead><tr><th>Цель</th><th>Тип</th><th>Ботов</th><th>Статус</th><th>Начало</th></tr></thead><tbody>`;
     history.slice(0, 20).forEach(a => {
         const color = a.status === 'running' ? 'var(--accent-green)' : a.status === 'stopped' ? 'var(--accent-red)' : 'var(--text-secondary)';
@@ -507,28 +609,77 @@ function renderAttackHistory(history) {
     container.innerHTML = html;
 }
 
+// ============================================================
+// SHOP (с hidden промокодом для уровня 7)
+// ============================================================
 async function renderShop() {
     if (!currentUser) { navigateTo('login'); return; }
     const options = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
     const durations = [1, 3, 7, 14, 30];
     pageContainer.innerHTML = `
         <div class="shop-container">
-            <h1 style="text-align:center;">🛒</h1>
+            <h1 style="text-align:center;">🛒 Магазин ботнетов</h1>
+            <div style="text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:8px;">🔥 Ботнеты всегда в наличии! Бесконечный запас</div>
             <div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div>
             <div class="slider-container">
-                <label style="font-weight:600;">🤖 <span id="botCountLabel">500</span></label>
+                <label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label>
                 <input type="range" id="botSlider" min="500" max="500000" step="500" value="500">
                 <div class="slider-labels"><span>500</span><span>500,000+</span></div>
             </div>
-            <div class="form-group"><label>📅</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div>
-            <div style="margin:16px 0;"><label style="font-weight:600;">⚙️</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div>
+            <div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div>
+            <div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div>
             <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
-                <button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 $<span id="buyPrice">0.00</span></button>
-                <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎</button>
+                <button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button>
+                <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
             </div>
+            <!-- ===== УРОВЕНЬ 7: Поле для финального кода ===== -->
+            <div class="promo-input" style="margin-top:20px;border-top:1px solid var(--border-color);padding-top:16px;">
+                <input type="text" id="promoInput" placeholder="Промокод" style="flex:1;font-family:var(--font-mono);letter-spacing:0.1em;">
+                <button class="btn btn-outline" id="promoButton" onclick="checkPromo()">💠</button>
+            </div>
+            <div id="promoResult" style="font-size:12px;margin-top:8px;text-align:center;color:var(--text-secondary);opacity:0.5;"></div>
         </div>
     `;
     setTimeout(initShopHandlers, 100);
+}
+
+// ===== УРОВЕНЬ 7: Проверка промокода =====
+function checkPromo() {
+    const input = document.getElementById('promoInput');
+    const result = document.getElementById('promoResult');
+    if (!input || !result) return;
+    const code = input.value.trim().replace(/\s+/g, ' ');
+    const correct = '5731 2804 9152 7676';
+    if (code === correct) {
+        puzzleProgress[7] = true;
+        result.innerHTML = '✅ Промокод активирован!';
+        result.style.color = 'var(--accent-green)';
+        showModal(
+            '◈ ВОРОТА ОТКРЫТЫ ◈',
+            `<div style="text-align:center;">
+                <div style="font-size:72px;color:var(--accent-purple);margin-bottom:16px;">◈</div>
+                <p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ты прошёл все 7 уровней!</p>
+                <p style="margin:16px 0;color:var(--text-secondary);">
+                    Внимание к деталям, настойчивость и умение думать привели тебя сюда.<br><br>
+                    Эти качества нужны в нашем кругу.<br><br>
+                    Если ты готов к реальным вызовам — ты знаешь, что делать.
+                </p>
+                <a href="https://t.me/+cExsBpkhmpRkNGM0" target="_blank" 
+                   style="display:inline-block;padding:12px 40px;background:var(--accent-purple);color:white;border-radius:var(--radius-full);text-decoration:none;font-weight:700;letter-spacing:0.1em;transition:0.3s;">
+                    ⟡ BLACKPHANTOM ⟡
+                </a>
+                <div style="margin-top:16px;font-size:11px;color:var(--text-secondary);opacity:0.3;">· 7 уровней ·</div>
+            </div>`,
+            [{ label: '🏠 На главную', cls: 'btn-outline', action: () => navigateTo('home') }],
+            '🎉'
+        );
+        showNotification('🎉 Все 7 уровней пройдены!', 'success');
+        localStorage.setItem('phantom_solved', 'true');
+    } else {
+        result.innerHTML = '❌ Неверный промокод';
+        result.style.color = 'var(--accent-red)';
+        setTimeout(() => { result.innerHTML = ''; }, 3000);
+    }
 }
 
 function initShopHandlers() {
@@ -567,7 +718,7 @@ window.updatePriceDisplay = function() {
     if (buyPriceSpan) buyPriceSpan.textContent = price.toFixed(2);
 };
 
-function validateBotCount(count) { const minBots = 500; const maxBots = 500000; if (count < minBots) return { valid: false, message: `❌ Минимальное количество — ${minBots} ботов.` }; if (count > maxBots) return { valid: false, message: `❌ Максимальное количество — ${maxBots} ботов.` }; return { valid: true }; }
+function validateBotCount(count) { const minBots = 500; const maxBots = 500000; if (count < minBots) return { valid: false, message: `❌ Минимальное количество — ${minBots} ботов. Вы выбрали ${count}.` }; if (count > maxBots) return { valid: false, message: `❌ Максимальное количество — ${maxBots} ботов. Вы выбрали ${count}.` }; return { valid: true }; }
 
 function explosionEffect() {
     const colors = ['#8b5cf6', '#06d6a0', '#ef4444', '#fbbf24', '#ffffff'];
@@ -588,13 +739,13 @@ function explosionEffect() {
 window.handleBuy = async function() {
     const slider = document.getElementById('botSlider');
     const durationSelect = document.getElementById('durationSelect');
-    if (!slider || !durationSelect) { showModal('❌', 'Обновите страницу.'); return; }
+    if (!slider || !durationSelect) { showModal('❌ Ошибка', 'Не удалось найти элементы формы. Обновите страницу.'); return; }
     const count = parseInt(slider.value);
     const days = parseInt(durationSelect.value);
     const options = {};
     document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
     const validation = validateBotCount(count);
-    if (!validation.valid) { showModal('❌', validation.message); return; }
+    if (!validation.valid) { showModal('❌ Ошибка валидации', validation.message); return; }
     let price = count * 0.01 * days;
     let mult = 1;
     const optionMultipliers = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
@@ -602,7 +753,7 @@ window.handleBuy = async function() {
     price = Math.round(price * mult * 100) / 100;
     const currentBalance = currentUser ? currentUser.balance : 0;
     if (currentBalance < price) {
-        showModal('❌', `<p>Недостаточно средств.</p><p>💳 ${formatCurrency(currentBalance)}</p><p>💰 ${formatCurrency(price)}</p>`, [{ label: '💎', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+        showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств на балансе</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>💳 Ваш баланс: <strong style="color:var(--accent-green);">${formatCurrency(currentBalance)}</strong></p><p>💰 Нужно: <strong style="color:var(--accent-gold);">${formatCurrency(price)}</strong></p><p style="font-size:14px;color:var(--text-secondary);margin-top:8px;">Не хватает: <strong style="color:var(--accent-red);">${formatCurrency(price - currentBalance)}</strong></p></div></div>`, [{ label: '💎 ПОПОЛНИТЬ БАЛАНС', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
         return;
     }
     try {
@@ -611,33 +762,39 @@ window.handleBuy = async function() {
             currentUser.balance = res.new_balance;
             localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
             explosionEffect();
-            showModal('✅', `<p>🎉 Ботнет куплен!</p><p>🤖 ${res.bot_count}</p><p>📅 ${res.duration_days}д</p><p>💰 ${formatCurrency(res.price)}</p>`,
-                [{ label: '⚔️', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
+            showModal('✅ Покупка успешна!', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🎉</div><p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ботнет успешно куплен!</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>🤖 <strong>${res.bot_count}</strong> ботов</p><p>📅 <strong>${res.duration_days}</strong> дней</p><p>💰 Стоимость: <strong style="color:var(--accent-gold);">${formatCurrency(res.price)}</strong></p><p>💳 Новый баланс: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p></div></div>`,
+                [{ label: '⚔️ К АТАКЕ', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊 ДАШБОРД', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
             userBalance.textContent = formatCurrency(currentUser.balance);
-            showNotification('✅', 'success');
+            showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
             return;
         }
         if (res.error) {
             if (res.error.includes('Insufficient balance')) {
-                showModal('❌', `<p>Недостаточно средств.</p>`, [{ label: '💎', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+                showModal('❌ Недостаточно средств', `<p>У вас недостаточно средств для покупки.</p><div style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>💰 Нужно: <strong>${formatCurrency(price)}</strong></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
                 return;
             }
-            showModal('❌', res.error);
+            showModal('❌ Ошибка покупки', `<p>Произошла ошибка при покупке:</p><p style="color:var(--accent-red);">${res.error}</p>`);
+            return;
         }
-    } catch(e) { showModal('❌', 'Сервер недоступен.'); }
+    } catch(e) {
+        showModal('❌ Ошибка', 'Сервер недоступен или ошибка соединения.');
+    }
 };
 
+// ============================================================
+// GEO
+// ============================================================
 function renderGeo() {
     if (!currentUser) { navigateTo('login'); return; }
     pageContainer.innerHTML = `
         <div class="geo-container">
-            <h1>🌐</h1>
-            <p style="color:var(--text-secondary);margin-bottom:16px;">IP</p>
-            <div class="price-info">💰 $2</div>
-            <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
-                <input type="text" id="ipInput" placeholder="8.8.8.8" style="flex:1;min-width:160px;">
-                <button class="btn btn-purple btn-glitch" onclick="handleGeoSearch()">🔍</button>
-                <button class="btn btn-outline" onclick="getMyIp()">📍</button>
+            <h1>🌐 Геолокация по IP</h1>
+            <p style="color:var(--text-secondary); margin-bottom:16px;">Введите IP адрес для определения местоположения. Реальные данные.</p>
+            <div class="price-info">💰 Стоимость: <strong>$2</strong> за один поиск</div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
+                <input type="text" id="ipInput" placeholder="Введите IP (например: 8.8.8.8)" style="flex:1; min-width:200px;">
+                <button class="btn btn-purple btn-glitch" onclick="handleGeoSearch()">🔍 ОПРЕДЕЛИТЬ ($2)</button>
+                <button class="btn btn-outline" onclick="getMyIp()">📍 МОЙ IP</button>
             </div>
             <div id="geoResult" style="margin-top:20px;"></div>
         </div>
@@ -645,46 +802,37 @@ function renderGeo() {
 }
 
 window.handleGeoSearch = async function() {
-    if (!currentUser) { showModal('❌', 'Войдите!'); return; }
+    if (!currentUser) { showModal('❌ Ошибка', 'Войдите в аккаунт!'); return; }
     const ipInput = document.getElementById('ipInput');
     const ip = ipInput.value.trim();
-    if (!ip) { showModal('❌', 'Введите IP'); return; }
+    if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
     if ((currentUser.balance || 0) < 2) {
-        showModal('❌', `<p>Недостаточно средств. $2</p>`, [{ label: '💎', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+        showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств для поиска</p><p style="font-size:14px;color:var(--text-secondary);margin:8px 0;">Стоимость одного поиска: <strong style="color:var(--accent-gold);">$2</strong></p></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
         return;
     }
     currentUser.balance -= 2;
     localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
     userBalance.textContent = formatCurrency(currentUser.balance);
-    showNotification('💳 -$2', 'warning');
+    showNotification('💳 Списано $2 за поиск', 'warning');
     const resultDiv = document.getElementById('geoResult');
-    resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ ${ip}...</p>`;
+    resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
     try {
         const response = await fetch(`https://ipapi.co/${ip}/json/`);
         if (!response.ok) throw new Error('API error');
         const data = await response.json();
-        if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌</p>`; return; }
-        const flag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
-        resultDiv.innerHTML = `
-            <div class="geo-card">
-                <h3 style="color:var(--accent-purple);">${flag} ${ip}</h3>
-                <div class="geo-row"><span style="color:var(--text-secondary);">🌍</span> <strong>${data.country_name || '—'}</strong></div>
-                <div class="geo-row"><span style="color:var(--text-secondary);">🏙️</span> <strong>${data.city || '—'}</strong></div>
-                <div class="geo-row"><span style="color:var(--text-secondary);">📡</span> <strong>${data.org || data.asn || '—'}</strong></div>
-                <div class="geo-row"><span style="color:var(--text-secondary);">🗺️</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div>
-                <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border-color);">
-                    <a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">🗺️</a>
-                </div>
-                <div class="price-info">💰 $2</div>
-            </div>
-        `;
-    } catch(e) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌</p>`; }
+        if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`; return; }
+        const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
+        resultDiv.innerHTML = `<div class="geo-card" style="animation:fadeInUp 0.5s ease;"><h3 style="color:var(--accent-purple);margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3><div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div><div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap;"><a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">🗺️ Открыть на карте</a></div><div class="price-info">💰 Оплачено: $2</div></div>`;
+    } catch(e) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных.</p>`; }
 };
 
 window.getMyIp = async function() {
-    try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); document.getElementById('ipInput').value = data.ip; handleGeoSearch(); } catch(e) { showModal('❌', 'Не удалось определить IP'); }
+    try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); document.getElementById('ipInput').value = data.ip; handleGeoSearch(); } catch(e) { showModal('❌ Ошибка', 'Не удалось определить ваш IP'); }
 };
 
+// ============================================================
+// ATTACK
+// ============================================================
 async function renderAttack(data) {
     if (!currentUser) { navigateTo('login'); return; }
     let botnets = [];
@@ -692,26 +840,26 @@ async function renderAttack(data) {
     const attackTypes = ['HTTP_GET_FLOOD', 'HTTP_POST_FLOOD', 'HTTPS_FLOOD', 'SLOWLORIS', 'SYN_FLOOD', 'UDP_FLOOD', 'ICMP_FLOOD', 'HTTP_HEADERS_FLOOD', 'MULTI_VECTOR'];
     pageContainer.innerHTML = `
         <div class="attack-panel">
-            <h1>⚔️</h1>
+            <h1>⚔️ Запуск атаки</h1>
             <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
-                <span class="target-status online" id="targetStatus">🟢</span>
+                <span class="target-status online" id="targetStatus">🟢 Цель: неизвестно</span>
                 <span id="attackTimer" style="color:var(--text-secondary);">⏱ 0с</span>
-                <button class="btn btn-outline btn-sm" id="stopAttackBtn" onclick="handleStopAttack()" disabled>■</button>
+                <button class="btn btn-outline btn-sm" id="stopAttackBtn" onclick="handleStopAttack()" disabled>■ ОСТАНОВИТЬ</button>
             </div>
-            <div class="form-group"><label>🤖</label><select id="attackBotnet">${botnets.length === 0 ? '<option value="">—</option>' : botnets.map(b => `<option value="${b.id}">${b.bot_count} (до ${formatDate(b.expires_at)})</option>`).join('')}</select></div>
-            <div class="form-group"><label>🎯</label><input type="text" id="attackTarget" placeholder="https://example.com"></div>
-            <div class="form-group"><label>💥</label><select id="attackType">${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g,' ')}</option>`).join('')}</select></div>
-            <div class="form-group"><label>⏱ <span id="durationLabel">60</span>с</label><input type="range" id="durationSlider" min="10" max="3600" step="10" value="60"><div class="slider-labels"><span>10с</span><span>3600с</span></div></div>
-            <button class="btn btn-red btn-lg btn-glitch" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶</button>
+            <div class="form-group"><label>🤖 Ботнет</label><select id="attackBotnet">${botnets.length === 0 ? '<option value="">— Нет активных —</option>' : botnets.map(b => `<option value="${b.id}">${b.bot_count} ботов (до ${formatDate(b.expires_at)})</option>`).join('')}</select></div>
+            <div class="form-group"><label>🎯 Цель</label><input type="text" id="attackTarget" placeholder="https://example.com или 192.168.1.1"></div>
+            <div class="form-group"><label>💥 Тип атаки</label><select id="attackType">${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g,' ')}</option>`).join('')}</select></div>
+            <div class="form-group"><label>⏱ Длительность (сек): <span id="durationLabel">60</span></label><input type="range" id="durationSlider" min="10" max="3600" step="10" value="60"><div class="slider-labels"><span>10с</span><span>3600с</span></div></div>
+            <button class="btn btn-red btn-lg btn-glitch" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶ ЗАПУСТИТЬ</button>
             <div class="stats-grid" id="attackStats">
                 <div class="stat-box"><div class="stat-value" id="statRequests">0</div><div class="stat-label">Запросов</div></div>
                 <div class="stat-box"><div class="stat-value" id="statErrors">0</div><div class="stat-label">Успешно</div></div>
                 <div class="stat-box"><div class="stat-value" id="statRps">0</div><div class="stat-label">RPS</div></div>
-                <div class="stat-box"><div class="stat-value" id="statBytes">0</div><div class="stat-label">KB</div></div>
-                <div class="stat-box"><div class="stat-value" id="statStatus">🟢</div><div class="stat-label">Статус</div></div>
+                <div class="stat-box"><div class="stat-value" id="statBytes">0</div><div class="stat-label">Данных (KB)</div></div>
+                <div class="stat-box"><div class="stat-value" id="statStatus">🟢</div><div class="stat-label">Статус цели</div></div>
             </div>
             <div class="progress-bar"><div class="fill" id="attackProgress" style="width:0%;"></div></div>
-            <div class="log-terminal" id="attackLog"><div class="log-line"><span class="time">[${new Date().toLocaleTimeString()}]</span> ⚡</div></div>
+            <div class="log-terminal" id="attackLog"><div class="log-line"><span class="time">[${new Date().toLocaleTimeString()}]</span> ⚡ Ожидание запуска...</div></div>
         </div>
     `;
     const durSlider = $('durationSlider');
@@ -724,32 +872,32 @@ window.handleStartAttack = async function() {
     const target = $('attackTarget').value.trim();
     const attackType = $('attackType').value;
     const duration = parseInt($('durationSlider').value);
-    if (!botnetId) { showModal('❌', 'Выберите ботнет'); return; }
-    if (!target) { showModal('❌', 'Введите цель'); return; }
+    if (!botnetId) { showModal('Ошибка', 'Выберите активный ботнет'); return; }
+    if (!target) { showModal('Ошибка', 'Введите цель'); return; }
     try {
         const res = await apiFetch('/attack', { method: 'POST', body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration }) });
-        if (res.error) { showModal('❌', res.error); return; }
-        if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀', 'success'); addLogLine(`🚀 ${target}`); startAttackMonitoring(activeAttackId); }
-    } catch(e) { showModal('❌', 'Сервер недоступен'); }
+        if (res.error) { showModal('Ошибка', res.error); return; }
+        if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀 Атака запущена на ' + target, 'success'); addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`); startAttackMonitoring(activeAttackId); }
+    } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
 };
 
 window.handleStopAttack = async function() {
     if (!activeAttackId) return;
     try {
         const res = await apiFetch(`/attack/${activeAttackId}/stop`, { method: 'POST' });
-        if (res.success) { showNotification('⏹', 'warning'); addLogLine(`⏹`); $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; if (attackInterval) { clearInterval(attackInterval); attackInterval = null; } activeAttackId = null; }
-        else showModal('❌', res.error || 'Не удалось остановить');
-    } catch(e) { showModal('❌', 'Сервер недоступен'); }
+        if (res.success) { showNotification('⏹ Атака остановлена', 'warning'); addLogLine(`⏹ Атака остановлена`); $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; if (attackInterval) { clearInterval(attackInterval); attackInterval = null; } activeAttackId = null; }
+        else showModal('Ошибка', res.error || 'Не удалось остановить');
+    } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
 };
 
 function startAttackMonitoring(attackId) {
     if (attackInterval) clearInterval(attackInterval);
-    addLogLine(`📡 ${attackId}`);
+    addLogLine(`📡 Мониторинг атаки ${attackId}...`);
     let startTime = Date.now();
     attackInterval = setInterval(async () => {
         try {
             const res = await apiFetch(`/attack/${attackId}/status`);
-            if (res.error) { addLogLine(`❌ ${res.error}`); return; }
+            if (res.error) { addLogLine(`❌ Ошибка: ${res.error}`); return; }
             const stats = res.stats || {};
             const elapsed = Math.floor((Date.now() - startTime) / 1000);
             $('statRequests').textContent = stats.total_requests || 0;
@@ -758,12 +906,12 @@ function startAttackMonitoring(attackId) {
             $('statBytes').textContent = stats.bytes_sent ? Math.round(stats.bytes_sent / 1024) : 0;
             const status = stats.target_status || 'online';
             $('statStatus').textContent = status === 'online' ? '🟢' : '🔴';
-            $('targetStatus').textContent = status === 'online' ? '🟢' : '🔴';
+            $('targetStatus').textContent = status === 'online' ? '🟢 Цель: онлайн' : '🔴 Цель: офлайн (УСПЕХ!)';
             $('targetStatus').className = `target-status ${status}`;
             $('attackTimer').textContent = `⏱ ${elapsed}с / ${res.duration_seconds || 0}с`;
             const progress = res.duration_seconds ? Math.min(100, (elapsed / res.duration_seconds) * 100) : 0;
             $('attackProgress').style.width = progress + '%';
-            if (res.status !== 'running') { addLogLine(`🏁 ${res.status}`); clearInterval(attackInterval); attackInterval = null; $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; activeAttackId = null; showNotification('🏁', 'success'); }
+            if (res.status !== 'running') { addLogLine(`🏁 Атака завершена. Статус: ${res.status}.`); clearInterval(attackInterval); attackInterval = null; $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; activeAttackId = null; showNotification('🏁 Атака завершена!', 'success'); }
         } catch(e) {}
     }, 1000);
 }
@@ -778,21 +926,25 @@ function addLogLine(msg) {
     log.scrollTop = log.scrollHeight;
 }
 
+// ============================================================
+// PROFILE
+// ============================================================
 async function renderProfile() {
     if (!currentUser) { navigateTo('login'); return; }
     pageContainer.innerHTML = `
-        <h1>👤</h1>
+        <h1>👤 Профиль</h1>
         <div class="dash-card" style="max-width:500px;">
             <div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div>
             <div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div>
-            <div class="form-group"><label>💰</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div>
+            <div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div>
             <div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div>
+            ${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}
             <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎</button>
-                <button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪</button>
+                <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button>
+                <button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button>
             </div>
         </div>
-        <h2 style="margin-top:24px;">📦</h2><div id="profileBotnets" class="botnet-list"></div>
+        <h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="profileBotnets" class="botnet-list"></div>
     `;
     try {
         const botnets = await apiFetch('/my-botnets');
@@ -800,25 +952,28 @@ async function renderProfile() {
             const container = $('profileBotnets');
             if (!container) return;
             if (botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>'; }
-            else { container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active?'':'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count}</div><div class="meta">${b.duration_days}д · ${formatCurrency(b.price)}</div></div><div class="status ${b.active?'active':'expired'}">${b.active?'✅':'⏳'}</div></div>`).join(''); }
+            else { container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active?'':'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)}</div></div><div class="status ${b.active?'active':'expired'}">${b.active?'✅ Активен':'⏳ Истёк'}</div></div>`).join(''); }
         }
     } catch(e) {}
 }
 
+// ============================================================
+// ADMIN
+// ============================================================
 async function renderAdmin() {
     if (!currentUser || currentUser.role !== 'admin') { navigateTo('home'); return; }
     pageContainer.innerHTML = `
-        <h1>🔧</h1>
+        <h1>🔧 Админ-панель</h1>
         <div class="dash-card" style="margin:16px 0;border-color:var(--accent-gold);">
             <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-                <span style="font-size:20px;font-weight:700;color:var(--accent-gold);">💎</span>
-                <input type="text" id="depositUsername" placeholder="Логин" style="flex:1;min-width:120px;">
-                <input type="number" id="depositAmount" placeholder="$" style="width:120px;">
-                <button class="btn btn-green btn-glitch" onclick="window.adminDeposit()">💎</button>
+                <span style="font-size:20px;font-weight:700;color:var(--accent-gold);">💎 ПОПОЛНИТЬ БАЛАНС</span>
+                <input type="text" id="depositUsername" placeholder="Логин пользователя" style="flex:1;min-width:150px;">
+                <input type="number" id="depositAmount" placeholder="Сумма $" style="width:150px;">
+                <button class="btn btn-green btn-glitch" onclick="window.adminDeposit()">💎 ПОПОЛНИТЬ</button>
             </div>
         </div>
         <div class="dash-grid" id="adminStats"></div>
-        <h2 style="margin-top:24px;">👥</h2><div id="adminUsers"></div>
+        <h2 style="margin-top:24px;">👥 Пользователи</h2><div id="adminUsers"></div>
     `;
     await refreshAdmin();
 }
@@ -830,10 +985,10 @@ async function refreshAdmin() {
             const container = $('adminStats');
             if (!container) return;
             container.innerHTML = `
-                <div class="dash-card"><div class="card-title">👥</div><div class="card-value purple">${stats.total_users||0}</div></div>
-                <div class="dash-card"><div class="card-title">🤖</div><div class="card-value green">${stats.total_botnets||0}</div></div>
-                <div class="dash-card"><div class="card-title">⚔️</div><div class="card-value red">${stats.active_attacks||0}</div></div>
-                <div class="dash-card"><div class="card-title">💰</div><div class="card-value gold">${formatCurrency(stats.total_revenue||0)}</div></div>
+                <div class="dash-card"><div class="card-title">👥 Пользователей</div><div class="card-value purple">${stats.total_users||0}</div></div>
+                <div class="dash-card"><div class="card-title">🤖 Продано ботнетов</div><div class="card-value green">${stats.total_botnets||0}</div></div>
+                <div class="dash-card"><div class="card-title">⚔️ Активных атак</div><div class="card-value red">${stats.active_attacks||0}</div></div>
+                <div class="dash-card"><div class="card-title">💰 Доход (без админа)</div><div class="card-value gold">${formatCurrency(stats.total_revenue||0)}</div></div>
             `;
         }
         const users = await apiFetch('/admin/users');
@@ -843,7 +998,7 @@ async function refreshAdmin() {
             let html = `<table class="admin-table"><thead><tr><th>ID</th><th>Логин</th><th>Email</th><th>Баланс</th><th>Роль</th><th>Статус</th><th>Действия</th></tr></thead><tbody>`;
             users.forEach(u => {
                 const isBanned = u.banned === 1 || u.banned === true;
-                html += `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email||''}</td><td style="color:var(--accent-green);font-weight:700;">${formatCurrency(u.balance)}</td><td><span class="badge ${u.role==='admin'?'admin':'user'}">${u.role||'user'}</span></td><td>${isBanned ? '<span class="badge banned">Забанен</span>' : '✅'}</td><td>${isBanned ? `<button class="btn btn-green btn-sm" onclick="adminUnban(${u.id})">Разбан</button>` : `<button class="btn btn-red btn-sm" onclick="adminBan(${u.id})">Забанить</button>`}</td></tr>`;
+                html += `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email||''}</td><td style="color:var(--accent-green);font-weight:700;">${formatCurrency(u.balance)}</td><td><span class="badge ${u.role==='admin'?'admin':'user'}">${u.role||'user'}</span></td><td>${isBanned ? '<span class="badge banned">Забанен</span>' : '✅ Активен'}</td><td>${isBanned ? `<button class="btn btn-green btn-sm" onclick="adminUnban(${u.id})">Разбан</button>` : `<button class="btn btn-red btn-sm" onclick="adminBan(${u.id})">Забанить</button>`}</td></tr>`;
             });
             html += '</tbody></table>';
             container.innerHTML = html;
@@ -852,51 +1007,60 @@ async function refreshAdmin() {
 }
 
 window.adminBan = async function(userId) {
-    if (!confirm('Забанить?')) return;
-    try { const res = await apiFetch(`/admin/ban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Забанен'); } else showModal('❌', res.error||''); } catch(e) { showModal('❌', 'Сервер недоступен'); }
+    if (!confirm('Забанить пользователя?')) return;
+    try { const res = await apiFetch(`/admin/ban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь забанен'); } else showModal('Ошибка', res.error||''); } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
 };
 
 window.adminUnban = async function(userId) {
-    try { const res = await apiFetch(`/admin/unban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Разбанен'); } else showModal('❌', res.error||''); } catch(e) { showModal('❌', 'Сервер недоступен'); }
+    try { const res = await apiFetch(`/admin/unban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь разбанен'); } else showModal('Ошибка', res.error||''); } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
 };
 
 window.adminDeposit = async function() {
     const username = document.getElementById('depositUsername').value.trim();
     const amount = parseFloat(document.getElementById('depositAmount').value);
-    if (!username || !amount || amount <= 0) { showModal('❌', 'Введите логин и сумму'); return; }
+    if (!username || !amount || amount <= 0) { showModal('❌ Ошибка', 'Введите логин и сумму (больше 0)'); return; }
     try {
         const res = await apiFetch('/admin/add_balance', { method: 'POST', body: JSON.stringify({ username, amount }) });
-        if (res.error) { showModal('❌', res.error); return; }
-        if (res.success) { showModal('✅', `<p>💰 ${res.username}: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>➕ ${formatCurrency(res.added)}</p>`, [{ label: '🔄', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }]); setTimeout(refreshAdmin, 500); }
-    } catch(e) { showModal('❌', 'Сервер недоступен'); }
+        if (res.error) { showModal('❌ Ошибка', res.error); return; }
+        if (res.success) { showModal('✅ Пополнено!', `<p>💰 Новый баланс <strong>${res.username}</strong>: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>➕ Добавлено: <strong style="color:var(--accent-gold);">${formatCurrency(res.added)}</strong></p>`, [{ label: '🔄 Обновить', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }]); setTimeout(refreshAdmin, 500); }
+    } catch(e) { showModal('❌ Ошибка', 'Сервер недоступен'); }
 };
 
+// ============================================================
+// DEPOSIT
+// ============================================================
 window.showDepositModal = function() {
-    showModal('💎', '<p>Пополните баланс для покупки ботнетов.</p>', [{ label: '📱 @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }], '💰', true);
+    showModal('💎 Пополнение баланса', '<p style="font-size:16px;">Пополните баланс для покупки ботнетов и поисков.</p>', [{ label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }], '💰', true);
 };
 
+// ============================================================
+// LOGOUT
+// ============================================================
 window.logout = function() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     currentUser = null;
     if (attackInterval) { clearInterval(attackInterval); attackInterval = null; }
     activeAttackId = null;
-    showNotification('👋', 'info');
+    showNotification('👋 Вы вышли из системы', 'info');
     navigateTo('home');
 };
 
 // ============================================================
-// ====== 7 УРОВНЕЙ ГОЛОВОЛОМКИ "BLACK PHANTOM" ======
+// ====== 7 УРОВНЕЙ ГОЛОВОЛОМКИ ======
 // ============================================================
 
-// ===== УРОВЕНЬ 1: Стеганография в CSS =====
-function checkLevel1(input) {
-    const correct = '5731';
-    if (input.trim() === correct) { levelProgress[1] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
-    else { showNotification('❌', 'error'); return false; }
+// УРОВЕНЬ 1: Стеганография в CSS (автоматическая проверка)
+function checkLevel1() {
+    // Уровень 1 проверяется автоматически при загрузке страницы
+    // Ключ 5731 спрятан в CSS
+    if (!puzzleProgress[1]) {
+        puzzleProgress[1] = true;
+        showNotification('🔍 Уровень 1 пройден! Ключ: 5731', 'success');
+    }
 }
 
-// ===== УРОВЕНЬ 2: Виженер + Base64 =====
+// УРОВЕНЬ 2: Виженер + Base64
 function vigenereDecrypt(text, key) {
     let result = '';
     let keyIndex = 0;
@@ -919,201 +1083,85 @@ function vigenereDecrypt(text, key) {
     return result;
 }
 
-function checkLevel2(input) {
-    const correct = '2804';
-    if (input.trim() === correct) { levelProgress[2] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
-    else { showNotification('❌', 'error'); return false; }
+function checkLevel2() {
+    if (puzzleProgress[2]) return true;
+    const el = document.getElementById('l2-data');
+    if (!el) return false;
+    const encrypted = el.getAttribute('data-encrypted');
+    const keyRot13 = el.getAttribute('data-vigenere-key');
+    if (!encrypted || !keyRot13) return false;
+    // ROT13 → PHANTOM
+    const key = keyRot13.replace(/[A-Z]/g, c => String.fromCharCode((c.charCodeAt(0) - 65 + 13) % 26 + 65));
+    try {
+        const decoded = atob(encrypted);
+        const decrypted = vigenereDecrypt(decoded, key);
+        if (decrypted.includes('gradient')) {
+            puzzleProgress[2] = true;
+            showNotification('🔐 Уровень 2 пройден! Ключ: 2804', 'success');
+            return true;
+        }
+    } catch(e) {}
+    return false;
 }
 
-// ===== УРОВЕНЬ 3: Бинарный код =====
-function checkLevel3(input) {
-    const correct = '2804';
-    if (input.trim() === correct) { levelProgress[3] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
-    else { showNotification('❌', 'error'); return false; }
+// УРОВЕНЬ 3: Бинарный код (автоматическая проверка)
+function checkLevel3() {
+    if (puzzleProgress[3]) return true;
+    // Бинарный код в градиенте уже есть на странице
+    // Проверяем, что пользователь заметил и ввёл ключ в промокод
+    // Ключ: 2804
+    return false;
 }
 
-// ===== УРОВЕНЬ 4: Хеш =====
-function checkLevel4(input) {
-    const correct = '9152';
-    if (input.trim() === correct) { levelProgress[4] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
-    else { showNotification('❌', 'error'); return false; }
+// УРОВЕНЬ 4: Хеш
+function checkLevel4() {
+    if (puzzleProgress[4]) return true;
+    const el = document.getElementById('l4-data');
+    if (!el) return false;
+    const hash = el.getAttribute('data-hash');
+    const salt = el.getAttribute('data-salt');
+    if (hash && salt) {
+        // Пароль: BLACKPHANTOM_2026
+        puzzleProgress[4] = true;
+        showNotification('🔑 Уровень 4 пройден! Ключ: 9152', 'success');
+        return true;
+    }
+    return false;
 }
 
-// ===== УРОВЕНЬ 5: RSA =====
-function checkLevel5(input) {
-    const correct = '7676';
-    if (input.trim() === correct) { levelProgress[5] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
-    else { showNotification('❌', 'error'); return false; }
+// УРОВЕНЬ 5: RSA
+function checkLevel5() {
+    if (puzzleProgress[5]) return true;
+    const el = document.getElementById('l5-data');
+    if (!el) return false;
+    const pub = el.getAttribute('data-rsa-public');
+    if (pub) {
+        puzzleProgress[5] = true;
+        showNotification('🔐 Уровень 5 пройден! Ключ: 7676', 'success');
+        return true;
+    }
+    return false;
 }
 
-// ===== УРОВЕНЬ 6: Социальная инженерия =====
+// УРОВЕНЬ 6: Социальная инженерия
 function handleL6(e) {
     if (e.shiftKey) {
         const el = e.currentTarget;
         const realUrl = el.getAttribute('data-real');
         if (realUrl) {
-            levelProgress[6] = true;
-            showNotification('✅', 'success');
-            renderPuzzle();
+            if (!puzzleProgress[6]) {
+                puzzleProgress[6] = true;
+                showNotification('🎭 Уровень 6 пройден! Ключ: 7676', 'success');
+            }
             window.open(realUrl, '_blank');
         }
     } else {
-        showNotification('❌', 'error');
+        // Ничего не делаем, чтобы не выдавать подсказку
     }
 }
 
-function checkLevel6(input) {
-    if (levelProgress[6]) { return true; }
-    else { showNotification('❌', 'error'); return false; }
-}
-
-// ===== УРОВЕНЬ 7: Финальный код =====
-function checkLevel7(input) {
-    const correct = '5731 2804 9152 7676';
-    const trimmed = input.trim().replace(/\s+/g, ' ');
-    if (trimmed === correct) {
-        levelProgress[7] = true;
-        showNotification('🎉', 'success');
-        showModal(
-            '◈ ВОРОТА ОТКРЫТЫ ◈',
-            `<div style="text-align:center;">
-                <div style="font-size:72px;color:var(--accent-purple);margin-bottom:16px;">◈</div>
-                <p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ты прошёл все 7 уровней!</p>
-                <p style="margin:16px 0;color:var(--text-secondary);">
-                    Внимание к деталям, настойчивость и умение думать привели тебя сюда.<br><br>
-                    Эти качества нужны в нашем кругу.<br><br>
-                    Если ты готов к реальным вызовам — ты знаешь, что делать.
-                </p>
-                <a href="https://t.me/+cExsBpkhmpRkNGM0" target="_blank" 
-                   style="display:inline-block;padding:12px 40px;background:var(--accent-purple);color:white;border-radius:var(--radius-full);text-decoration:none;font-weight:700;letter-spacing:0.1em;transition:0.3s;">
-                    ⟡ BLACKPHANTOM ⟡
-                </a>
-                <div style="margin-top:16px;font-size:11px;color:var(--text-secondary);opacity:0.3;">· 7 уровней ·</div>
-            </div>`,
-            [{ label: '🏠', cls: 'btn-outline', action: () => navigateTo('home') }],
-            '🎉'
-        );
-        renderPuzzle();
-        return true;
-    } else {
-        showNotification('❌', 'error');
-        return false;
-    }
-}
-
-// ============================================================
-// RENDER PUZZLE (7 УРОВНЕЙ)
-// ============================================================
-function renderPuzzle() {
-    const allDone = Object.values(levelProgress).every(v => v === true);
-    
-    let html = `
-        <div class="puzzle-container" style="max-width:900px;margin:0 auto;">
-            <h1 style="text-align:center;margin-bottom:4px;color:var(--text-white);font-size:24px;">🧩</h1>
-            <p style="text-align:center;color:var(--text-secondary);margin-bottom:24px;font-size:13px;opacity:0.4;">${allDone ? '✅' : '◈'}</p>
-    `;
-    
-    // УРОВЕНЬ 1
-    html += `
-        <div class="level-card">
-            <span class="level-badge">1</span>
-            <div class="level-title">📌</div>
-            <div class="level-content">/* HEX: 48 65 6c 6c 6f ... */</div>
-            <div class="level-input">
-                <input type="text" id="l1in" placeholder="..." ${levelProgress[1] ? 'disabled style="opacity:0.5;"' : ''}>
-                <button class="btn btn-purple btn-sm" onclick="checkLevel1(document.getElementById('l1in').value)" ${levelProgress[1] ? 'disabled' : ''}>${levelProgress[1] ? '✅' : '🔓'}</button>
-            </div>
-            <div class="level-status ${levelProgress[1] ? 'unlocked' : 'locked'}">${levelProgress[1] ? '✅' : '🔒'}</div>
-        </div>
-    `;
-    
-    // УРОВЕНЬ 2
-    html += `
-        <div class="level-card">
-            <span class="level-badge">2</span>
-            <div class="level-title">🔐</div>
-            <div class="level-content">WmxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4LiBtemxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4Lg==</div>
-            <div class="level-input">
-                <input type="text" id="l2in" placeholder="..." ${levelProgress[2] ? 'disabled style="opacity:0.5;"' : ''}>
-                <button class="btn btn-purple btn-sm" onclick="checkLevel2(document.getElementById('l2in').value)" ${levelProgress[2] ? 'disabled' : ''}>${levelProgress[2] ? '✅' : '🔓'}</button>
-            </div>
-            <div class="level-status ${levelProgress[2] ? 'unlocked' : 'locked'}">${levelProgress[2] ? '✅' : '🔒'}</div>
-        </div>
-    `;
-    
-    // УРОВЕНЬ 3
-    html += `
-        <div class="level-card">
-            <span class="level-badge">3</span>
-            <div class="level-title">💻</div>
-            <div class="level-content"><div class="l3-binary" style="height:12px;opacity:0.2;border-radius:4px;"></div><div style="font-size:10px;color:var(--text-secondary);margin-top:6px;font-family:var(--font-mono);">01001000 01100101 01101100 01101100 01101111</div></div>
-            <div class="level-input">
-                <input type="text" id="l3in" placeholder="..." ${levelProgress[3] ? 'disabled style="opacity:0.5;"' : ''}>
-                <button class="btn btn-purple btn-sm" onclick="checkLevel3(document.getElementById('l3in').value)" ${levelProgress[3] ? 'disabled' : ''}>${levelProgress[3] ? '✅' : '🔓'}</button>
-            </div>
-            <div class="level-status ${levelProgress[3] ? 'unlocked' : 'locked'}">${levelProgress[3] ? '✅' : '🔒'}</div>
-        </div>
-    `;
-    
-    // УРОВЕНЬ 4
-    html += `
-        <div class="level-card">
-            <span class="level-badge">4</span>
-            <div class="level-title">🔑</div>
-            <div class="level-content" style="font-size:11px;">5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</div>
-            <div class="level-input">
-                <input type="text" id="l4in" placeholder="..." ${levelProgress[4] ? 'disabled style="opacity:0.5;"' : ''}>
-                <button class="btn btn-purple btn-sm" onclick="checkLevel4(document.getElementById('l4in').value)" ${levelProgress[4] ? 'disabled' : ''}>${levelProgress[4] ? '✅' : '🔓'}</button>
-            </div>
-            <div class="level-status ${levelProgress[4] ? 'unlocked' : 'locked'}">${levelProgress[4] ? '✅' : '🔒'}</div>
-        </div>
-    `;
-    
-    // УРОВЕНЬ 5
-    html += `
-        <div class="level-card">
-            <span class="level-badge">5</span>
-            <div class="level-title">🔐</div>
-            <div class="level-content" style="font-size:10px;">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB</div>
-            <div class="level-input">
-                <input type="text" id="l5in" placeholder="..." ${levelProgress[5] ? 'disabled style="opacity:0.5;"' : ''}>
-                <button class="btn btn-purple btn-sm" onclick="checkLevel5(document.getElementById('l5in').value)" ${levelProgress[5] ? 'disabled' : ''}>${levelProgress[5] ? '✅' : '🔓'}</button>
-            </div>
-            <div class="level-status ${levelProgress[5] ? 'unlocked' : 'locked'}">${levelProgress[5] ? '✅' : '🔒'}</div>
-        </div>
-    `;
-    
-    // УРОВЕНЬ 6
-    html += `
-        <div class="level-card">
-            <span class="level-badge">6</span>
-            <div class="level-title">🎭</div>
-            <div class="level-content" style="text-align:center;padding:16px;">
-                <a href="#" class="l6-trap" data-real="https://t.me/+cExsBpkhmpRkNGM0" onclick="handleL6(event); return false;" style="display:inline-block;padding:10px 20px;border:1px solid var(--border-color);border-radius:var(--radius-full);color:var(--text-secondary);text-decoration:none;transition:0.3s;font-size:14px;">🔗</a>
-            </div>
-            <div class="level-status ${levelProgress[6] ? 'unlocked' : 'locked'}">${levelProgress[6] ? '✅' : '🔒'}</div>
-        </div>
-    `;
-    
-    // УРОВЕНЬ 7
-    html += `
-        <div class="level-card" style="border-color:${allDone ? 'var(--accent-green)' : 'var(--border-color)'};">
-            <span class="level-badge" style="background:${allDone ? 'var(--accent-green)' : 'var(--accent-purple)'};">7</span>
-            <div class="level-title">🔥</div>
-            <div class="level-content" style="font-family:var(--font-mono);font-size:16px;text-align:center;padding:16px;">
-                ${allDone ? '✅' : '_ _ _ _ · _ _ _ _ · _ _ _ _ · _ _ _ _'}
-            </div>
-            <div class="level-input">
-                <input type="text" id="l7in" placeholder="..." ${levelProgress[7] ? 'disabled style="opacity:0.5;"' : ''}>
-                <button class="btn btn-${allDone ? 'green' : 'purple'} btn-sm" onclick="checkLevel7(document.getElementById('l7in').value)" ${levelProgress[7] ? 'disabled' : ''}>${levelProgress[7] ? '✅' : '⟡'}</button>
-            </div>
-            <div class="level-status ${levelProgress[7] ? 'unlocked' : 'locked'}">${levelProgress[7] ? '✅' : '🔒'}</div>
-        </div>
-    `;
-    
-    html += '</div>';
-    pageContainer.innerHTML = html;
-}
+// УРОВЕНЬ 7: Финальный код (в промокоде)
+// Обрабатывается в checkPromo()
 
 // ============================================================
 // PHANTOM TRIGGER (скрытый триггер в футере)
@@ -1123,17 +1171,21 @@ function initPhantomTrigger() {
     if (trigger) {
         trigger.addEventListener('click', function(e) {
             e.stopPropagation();
-            if (!phantomTriggered) {
-                phantomTriggered = true;
-                showNotification('◈', 'info');
-                navigateTo('puzzle');
+            if (!puzzleTriggered) {
+                puzzleTriggered = true;
+                // Активируем все уровни автоматически
+                checkLevel1();
+                checkLevel2();
+                checkLevel4();
+                checkLevel5();
+                showNotification('◈ Ты заметил что-то необычное...', 'info');
             }
         });
         let clickCount = 0;
         trigger.addEventListener('dblclick', function(e) {
             clickCount++;
             if (clickCount >= 3) {
-                showNotification('⚡', 'warning');
+                showNotification('⚡ Скрытый триггер активирован! Ищи в CSS.', 'warning');
                 clickCount = 0;
             }
         });
@@ -1153,14 +1205,23 @@ function init() {
         } catch(e) { currentUser = null; }
     }
     
+    // Проверяем, решена ли головоломка
     if (localStorage.getItem('phantom_solved') === 'true') {
-        Object.keys(levelProgress).forEach(k => levelProgress[k] = true);
+        Object.keys(puzzleProgress).forEach(k => puzzleProgress[k] = true);
     }
 
     renderNav();
     navigateTo(currentUser ? 'dashboard' : 'home');
     initFakeNotifications();
     initPhantomTrigger();
+
+    // Автоматическая проверка уровней
+    setTimeout(() => {
+        checkLevel1();
+        checkLevel2();
+        checkLevel4();
+        checkLevel5();
+    }, 3000);
 
     setInterval(async () => {
         if (currentUser) {
@@ -1176,7 +1237,7 @@ function init() {
     }, 30000);
     
     setInterval(() => {
-        if (Object.values(levelProgress).every(v => v === true)) {
+        if (Object.values(puzzleProgress).every(v => v === true)) {
             localStorage.setItem('phantom_solved', 'true');
         }
     }, 5000);
@@ -1185,15 +1246,15 @@ function init() {
 document.addEventListener('DOMContentLoaded', init);
 </script>
 
-<!-- ===== СКРЫТЫЕ ДАННЫЕ ===== -->
+<!-- ===== СКРЫТЫЕ ДАННЫЕ (для уровней) ===== -->
 <!-- 
     УРОВЕНЬ 1: 5731 (в CSS: content, unicode-range, комментарии)
     УРОВЕНЬ 2: 2804 (Base64 + Виженер, ключ PHANTOM в ROT13)
     УРОВЕНЬ 3: 2804 (бинарный код в градиенте → BINARY_MASTER)
     УРОВЕНЬ 4: 9152 (SHA-256: BLACKPHANTOM_2026)
     УРОВЕНЬ 5: 7676 (RSA: LEVEL_6_KEY_IS_7676)
-    УРОВЕНЬ 6: 7676 (Shift + клик по ссылке)
-    УРОВЕНЬ 7: 5731 2804 9152 7676
+    УРОВЕНЬ 6: 7676 (Shift + клик по скрытой ссылке)
+    УРОВЕНЬ 7: 5731 2804 9152 7676 (ввести в поле "Промокод" в магазине)
 -->
 
 </body>
