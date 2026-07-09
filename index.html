@@ -31,24 +31,123 @@
         ::-webkit-scrollbar-track { background: var(--bg-surface); }
         ::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
         
-        /* ===== УРОВЕНЬ 1: Стеганография в CSS ===== */
-        /* HEX: 48 65 6c 6c 6f 20 74 68 69 73 20 69 73 20 74 68 65 20 66 69 72 73 74 20 6b 65 79 3a 20 35 37 33 31 */
-        .l1-hint::before { content: "\0048\0065\006c\006c\006f\0020\0074\0068\0069\0073\0020\0069\0073\0020\0074\0068\0065\0020\0066\0069\0072\0073\0074\0020\006b\0065\0079\003a\0020\0035\0037\0033\0031"; display: none; }
-        @font-face { font-family: 'L1'; src: local('Arial'); unicode-range: U+004C-0056, U+0031-0039; /* LEVEL_1_KEY_5731 */ }
-        /* Скрытый комментарий: ═════ УРОВЕНЬ 1: 5731 ═════ */
+        /* ===== УРОВЕНЬ 1: Стеганография через CSS-анимацию (НЕ ВИДНО В КОДЕ) ===== */
+        /* Ключ 5731 закодирован в длительности анимации: 5.731s */
+        @keyframes l1_pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .l1-hidden {
+            animation: l1_pulse 5.731s ease-in-out infinite;
+            display: none;
+        }
+        /* Второй фрагмент: задержка анимации 0.5731s */
+        .l1-hidden-2 {
+            animation-delay: 0.5731s;
+            display: none;
+        }
+        /* Третий фрагмент: transition-duration: 0.5731s */
         
-        /* ===== УРОВЕНЬ 3: Бинарный код в градиентах ===== */
-        .l3-binary { height: 3px; width: 100%; background: linear-gradient(90deg, #000 0%, #fff 1%, #000 2%, #fff 3%, #000 4%, #fff 5%, #000 6%, #fff 7%, #000 8%, #fff 9%, #000 10%, #fff 11%, #000 12%, #fff 13%, #000 14%, #fff 15%, #000 16%, #fff 17%, #000 18%, #fff 19%, #000 20%, #fff 21%, #000 22%, #fff 23%, #000 24%, #fff 25%, #000 26%, #fff 27%, #000 28%, #fff 29%, #000 30%, #fff 31%, #000 32%, #fff 33%, #000 34%, #fff 35%, #000 36%, #fff 37%, #000 38%, #fff 39%, #000 40%, #fff 41%, #000 42%, #fff 43%, #000 44%, #fff 45%, #000 46%, #fff 47%, #000 48%, #fff 49%, #000 50%, #fff 51%, #000 52%, #fff 53%, #000 54%, #fff 55%, #000 56%, #fff 57%, #000 58%, #fff 59%, #000 60%, #fff 61%, #000 62%, #fff 63%, #000 64%, #fff 65%, #000 66%, #fff 67%, #000 68%, #fff 69%, #000 70%, #fff 71%, #000 72%, #fff 73%, #000 74%, #fff 75%, #000 76%, #fff 77%, #000 78%, #fff 79%, #000 80%, #fff 81%, #000 82%, #fff 83%, #000 84%, #fff 85%, #000 86%, #fff 87%, #000 88%, #fff 89%, #000 90%, #fff 91%, #000 92%, #fff 93%, #000 94%, #fff 95%, #000 96%, #fff 97%, #000 98%, #fff 99%, #000 100%); opacity: 0.06; pointer-events: none; }
-        /* Бинарный код: 01001000 01100101 01101100 01101100 01101111 → "Hello this is the second key: BINARY_MASTER" */
+        /* ===== УРОВЕНЬ 2: Шифр в CSS-свойствах (НЕ В АТРИБУТАХ) ===== */
+        /* Ключ 2804 закодирован в letter-spacing: 2.804px */
+        .l2-cipher {
+            letter-spacing: 2.804px;
+            display: none;
+        }
+        /* Второй фрагмент: word-spacing: 28.04px */
         
-        /* ===== УРОВЕНЬ 4: Хеш ===== */
-        .l4-hash { display: none; }
-        /* SHA-256: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8 Соль: BLACKPHANTOM_SALT_2026 */
+        /* ===== УРОВЕНЬ 3: Бинарный код в градиенте (НЕ ВИДНО В HTML) ===== */
+        .l3-binary {
+            height: 2px;
+            width: 100%;
+            background: linear-gradient(
+                90deg, 
+                #000 0%, #fff 0.5%, #000 1%, #fff 1.5%,
+                #000 2%, #fff 2.5%, #000 3%, #fff 3.5%,
+                #000 4%, #fff 4.5%, #000 5%, #fff 5.5%,
+                #000 6%, #fff 6.5%, #000 7%, #fff 7.5%,
+                #000 8%, #fff 8.5%, #000 9%, #fff 9.5%,
+                #000 10%, #fff 10.5%, #000 11%, #fff 11.5%,
+                #000 12%, #fff 12.5%, #000 13%, #fff 13.5%,
+                #000 14%, #fff 14.5%, #000 15%, #fff 15.5%,
+                #000 16%, #fff 16.5%, #000 17%, #fff 17.5%,
+                #000 18%, #fff 18.5%, #000 19%, #fff 19.5%,
+                #000 20%, #fff 20.5%, #000 21%, #fff 21.5%,
+                #000 22%, #fff 22.5%, #000 23%, #fff 23.5%,
+                #000 24%, #fff 24.5%, #000 25%, #fff 25.5%,
+                #000 26%, #fff 26.5%, #000 27%, #fff 27.5%,
+                #000 28%, #fff 28.5%, #000 29%, #fff 29.5%,
+                #000 30%, #fff 30.5%, #000 31%, #fff 31.5%,
+                #000 32%, #fff 32.5%, #000 33%, #fff 33.5%,
+                #000 34%, #fff 34.5%, #000 35%, #fff 35.5%,
+                #000 36%, #fff 36.5%, #000 37%, #fff 37.5%,
+                #000 38%, #fff 38.5%, #000 39%, #fff 39.5%,
+                #000 40%, #fff 40.5%, #000 41%, #fff 41.5%,
+                #000 42%, #fff 42.5%, #000 43%, #fff 43.5%,
+                #000 44%, #fff 44.5%, #000 45%, #fff 45.5%,
+                #000 46%, #fff 46.5%, #000 47%, #fff 47.5%,
+                #000 48%, #fff 48.5%, #000 49%, #fff 49.5%,
+                #000 50%, #fff 50.5%, #000 51%, #fff 51.5%,
+                #000 52%, #fff 52.5%, #000 53%, #fff 53.5%,
+                #000 54%, #fff 54.5%, #000 55%, #fff 55.5%,
+                #000 56%, #fff 56.5%, #000 57%, #fff 57.5%,
+                #000 58%, #fff 58.5%, #000 59%, #fff 59.5%,
+                #000 60%, #fff 60.5%, #000 61%, #fff 61.5%,
+                #000 62%, #fff 62.5%, #000 63%, #fff 63.5%,
+                #000 64%, #fff 64.5%, #000 65%, #fff 65.5%,
+                #000 66%, #fff 66.5%, #000 67%, #fff 67.5%,
+                #000 68%, #fff 68.5%, #000 69%, #fff 69.5%,
+                #000 70%, #fff 70.5%, #000 71%, #fff 71.5%,
+                #000 72%, #fff 72.5%, #000 73%, #fff 73.5%,
+                #000 74%, #fff 74.5%, #000 75%, #fff 75.5%,
+                #000 76%, #fff 76.5%, #000 77%, #fff 77.5%,
+                #000 78%, #fff 78.5%, #000 79%, #fff 79.5%,
+                #000 80%, #fff 80.5%, #000 81%, #fff 81.5%,
+                #000 82%, #fff 82.5%, #000 83%, #fff 83.5%,
+                #000 84%, #fff 84.5%, #000 85%, #fff 85.5%,
+                #000 86%, #fff 86.5%, #000 87%, #fff 87.5%,
+                #000 88%, #fff 88.5%, #000 89%, #fff 89.5%,
+                #000 90%, #fff 90.5%, #000 91%, #fff 91.5%,
+                #000 92%, #fff 92.5%, #000 93%, #fff 93.5%,
+                #000 94%, #fff 94.5%, #000 95%, #fff 95.5%,
+                #000 96%, #fff 96.5%, #000 97%, #fff 97.5%,
+                #000 98%, #fff 98.5%, #000 99%, #fff 99.5%
+            );
+            opacity: 0.04;
+            pointer-events: none;
+            position: fixed;
+            bottom: 0;
+            z-index: -1;
+        }
+        /* Бинарный код: 01001000 01100101 01101100 01101100 01101111 → "Hello" */
         
-        /* ===== УРОВЕНЬ 6: Социальная инженерия ===== */
-        .l6-trap { color: var(--text-secondary); text-decoration: none; cursor: pointer; padding: 8px 16px; border: 1px solid transparent; border-radius: var(--radius-full); transition: var(--transition); }
-        .l6-trap:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
-        .l6-trap[data-real]:active { color: var(--accent-green); }
+        /* ===== УРОВЕНЬ 4: Хеш в box-shadow (НЕ ВИДНО) ===== */
+        .l4-hash {
+            box-shadow: 
+                0 0 0 0px rgba(0,0,0,0),
+                0 0 0 0px rgba(0,0,0,0),
+                0 0 0 0px rgba(0,0,0,0),
+                0 0 0 0px rgba(0,0,0,0);
+            display: none;
+        }
+        
+        /* ===== УРОВЕНЬ 5: RSA в border-radius (НЕ ВИДНО) ===== */
+        .l5-rsa {
+            border-radius: 7676px 2804px 9152px 5731px;
+            display: none;
+        }
+        
+        /* ===== УРОВЕНЬ 6: Социальная инженерия (скрытая ссылка) ===== */
+        .l6-trap {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            font-size: 0;
+            border: none;
+        }
         
         /* ===== ОСНОВНЫЕ СТИЛИ ===== */
         @keyframes neonPulse { 0%, 100% { text-shadow: 0 0 10px var(--accent-purple), 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple); } 50% { text-shadow: 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple), 0 0 80px var(--accent-purple); } }
@@ -77,8 +176,6 @@
         .btn-outline:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
         .btn-sm { padding: 8px 16px; font-size: 13px; }
         .btn-lg { padding: 16px 48px; font-size: 20px; }
-        .btn-phantom { background: transparent; border: 1px solid rgba(139, 92, 246, 0.12); color: rgba(139, 92, 246, 0.2); font-size: 10px; padding: 3px 10px; cursor: pointer; transition: var(--transition); border-radius: var(--radius-full); letter-spacing: 0.15em; }
-        .btn-phantom:hover { border-color: rgba(139, 92, 246, 0.2); color: rgba(139, 92, 246, 0.35); background: rgba(139, 92, 246, 0.02); }
         
         select, input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
             width: 100%; padding: 12px 18px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 15px; transition: var(--transition); font-family: inherit; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b949e' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; cursor: pointer;
@@ -99,8 +196,8 @@
         .navbar .user-badge .balance { color: var(--accent-green); font-weight: 700; background: rgba(6, 214, 160, 0.1); padding: 4px 14px; border-radius: var(--radius-full); }
         .page-container { flex: 1; padding: 32px; max-width: 1400px; margin: 0 auto; width: 100%; animation: fadeInUp 0.4s ease; }
         .footer { text-align: center; padding: 24px; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 13px; margin-top: 40px; }
-        .phantom-trigger { opacity: 0.03; font-size: 9px; transition: var(--transition); cursor: default; user-select: none; padding: 2px 6px; border-radius: var(--radius-full); }
-        .phantom-trigger:hover { opacity: 0.12; background: rgba(139, 92, 246, 0.015); }
+        .phantom-trigger { opacity: 0.02; font-size: 9px; transition: var(--transition); cursor: default; user-select: none; padding: 2px 6px; border-radius: var(--radius-full); }
+        .phantom-trigger:hover { opacity: 0.08; background: rgba(139, 92, 246, 0.01); }
         
         .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; text-align: center; padding: 40px 20px; }
         .hero .logo-big { font-size: 80px; font-weight: 900; letter-spacing: 0.15em; color: var(--text-white); text-shadow: 0 0 60px rgba(139, 92, 246, 0.2); margin-bottom: 16px; }
@@ -213,62 +310,24 @@
         .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
         .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
         
+        /* ===== УРОВЕНЬ 7: Финальный код скрыт в CSS-переменных ===== */
+        :root {
+            --l7-part1: 5731;
+            --l7-part2: 2804;
+            --l7-part3: 9152;
+            --l7-part4: 7676;
+        }
+        
         @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .page-container { padding: 16px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 130px; padding: 8px 10px; } .music-player .controls audio { height: 22px; } }
     </style>
 </head>
 <body>
 <div class="scanline"></div>
 <div class="matrix-bg"></div>
-
-<!-- ===== УРОВЕНЬ 2: Двойное шифрование (скрыто) ===== -->
-<div id="l2-data" style="display:none;" data-encrypted="WmxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4LiBtemxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4Lg==" data-vigenere-key="CUNZGBZ"></div>
-<!-- 
-    УРОВЕНЬ 2:
-    Base64 → "Lkz mwz ukfv lkcvx mkcvx. mzlk mwz ukfv lkcvx mkcvx."
-    Виженер (ключ PHANTOM) → "The key for level three is in the gradient."
-    КЛЮЧ: 2804
--->
-
-<!-- ===== УРОВЕНЬ 3: Бинарный код в градиентах ===== -->
 <div class="l3-binary"></div>
-<!-- 
-    УРОВЕНЬ 3:
-    01001000 01100101 01101100 01101100 01101111 → "Hello this is the second key: BINARY_MASTER"
-    КЛЮЧ: 2804
--->
 
-<!-- ===== УРОВЕНЬ 4: Хеш ===== -->
-<div id="l4-data" style="display:none;" data-hash="5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8" data-salt="BLACKPHANTOM_SALT_2026"></div>
-<!-- 
-    УРОВЕНЬ 4:
-    Пароль: BLACKPHANTOM_2026
-    КЛЮЧ: 9152
--->
-
-<!-- ===== УРОВЕНЬ 5: RSA ===== -->
-<div id="l5-data" style="display:none;" data-rsa-public="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB" data-rsa-encrypted="U2FsdGVkX1/9nZq8WxYvF3GjHkLmNpQrStUvWxYz..."></div>
-<!-- 
-    УРОВЕНЬ 5:
-    Расшифрованное сообщение: "LEVEL_6_KEY_IS_7676"
-    КЛЮЧ: 7676
--->
-
-<!-- ===== УРОВЕНЬ 6: Социальная инженерия ===== -->
-<div id="l6-data" style="display:none;">
-    <a href="#" class="l6-trap" data-real="https://t.me/+cExsBpkhmpRkNGM0" onclick="handleL6(event); return false;" style="font-size:0px;padding:0;margin:0;display:inline-block;width:0;height:0;overflow:hidden;">🔗</a>
-</div>
-<!-- 
-    УРОВЕНЬ 6:
-    Клик + Shift → открывается канал
-    КЛЮЧ: 7676
--->
-
-<!-- ===== УРОВЕНЬ 7: Финальный код (в поле промокода в магазине) ===== -->
-<div id="l7-data" style="display:none;"></div>
-<!-- 
-    УРОВЕНЬ 7:
-    Ввести в поле "Промокод" в магазине: 5731 2804 9152 7676
--->
+<!-- ===== УРОВЕНЬ 6: Скрытая ссылка (НЕ ВИДНА) ===== -->
+<a href="#" class="l6-trap" data-real="https://t.me/+cExsBpkhmpRkNGM0" onclick="handleL6(event); return false;">🔗</a>
 
 <div id="app">
     <nav class="navbar" id="navbar">
@@ -328,7 +387,6 @@ let activeAttackId = null;
 
 // ===== СОСТОЯНИЕ ГОЛОВОЛОМКИ =====
 let puzzleProgress = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false };
-const puzzleKeys = { 1: '5731', 2: '2804', 3: '2804', 4: '9152', 5: '7676', 6: '7676' };
 let puzzleTriggered = false;
 
 const $ = (id) => document.getElementById(id);
@@ -649,7 +707,14 @@ function checkPromo() {
     const result = document.getElementById('promoResult');
     if (!input || !result) return;
     const code = input.value.trim().replace(/\s+/g, ' ');
-    const correct = '5731 2804 9152 7676';
+    // Код собирается из CSS-переменных :root
+    const parts = getComputedStyle(document.documentElement);
+    const p1 = parts.getPropertyValue('--l7-part1').trim() || '5731';
+    const p2 = parts.getPropertyValue('--l7-part2').trim() || '2804';
+    const p3 = parts.getPropertyValue('--l7-part3').trim() || '9152';
+    const p4 = parts.getPropertyValue('--l7-part4').trim() || '7676';
+    const correct = `${p1} ${p2} ${p3} ${p4}`;
+    
     if (code === correct) {
         puzzleProgress[7] = true;
         result.innerHTML = '✅ Промокод активирован!';
@@ -1047,103 +1112,78 @@ window.logout = function() {
 };
 
 // ============================================================
-// ====== 7 УРОВНЕЙ ГОЛОВОЛОМКИ ======
+// ====== 7 УРОВНЕЙ ГОЛОВОЛОМКИ (СКРЫТЫЕ В ПОВЕДЕНИИ) ======
 // ============================================================
 
-// УРОВЕНЬ 1: Стеганография в CSS (автоматическая проверка)
-function checkLevel1() {
-    // Уровень 1 проверяется автоматически при загрузке страницы
-    // Ключ 5731 спрятан в CSS
-    if (!puzzleProgress[1]) {
-        puzzleProgress[1] = true;
-        showNotification('🔍 Уровень 1 пройден! Ключ: 5731', 'success');
-    }
-}
+// УРОВЕНЬ 1: Стеганография в CSS-анимации (длительность 5.731s)
+// УРОВЕНЬ 2: Шифр в letter-spacing (2.804px)
+// УРОВЕНЬ 3: Бинарный код в градиенте
+// УРОВЕНЬ 4: Хеш в box-shadow
+// УРОВЕНЬ 5: RSA в border-radius (7676px 2804px 9152px 5731px)
+// УРОВЕНЬ 6: Социальная инженерия (скрытая ссылка)
+// УРОВЕНЬ 7: Финальный код в CSS-переменных :root
 
-// УРОВЕНЬ 2: Виженер + Base64
-function vigenereDecrypt(text, key) {
-    let result = '';
-    let keyIndex = 0;
-    const upperKey = key.toUpperCase();
-    for (let i = 0; i < text.length; i++) {
-        const ch = text[i];
-        const code = ch.charCodeAt(0);
-        if (code >= 65 && code <= 90) {
-            const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
-            result += String.fromCharCode((code - 65 - shift + 26) % 26 + 65);
-            keyIndex++;
-        } else if (code >= 97 && code <= 122) {
-            const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
-            result += String.fromCharCode((code - 97 - shift + 26) % 26 + 97);
-            keyIndex++;
-        } else {
-            result += ch;
+// ===== АВТОМАТИЧЕСКАЯ ПРОВЕРКА УРОВНЕЙ (скрытая) =====
+function checkHiddenLevels() {
+    // УРОВЕНЬ 1: проверяем наличие анимации с длительностью 5.731s
+    const l1El = document.querySelector('.l1-hidden');
+    if (l1El) {
+        const style = getComputedStyle(l1El);
+        const animDuration = parseFloat(style.animationDuration);
+        if (Math.abs(animDuration - 5.731) < 0.001) {
+            if (!puzzleProgress[1]) {
+                puzzleProgress[1] = true;
+                showNotification('🔍 Уровень 1 пройден! Ключ: 5731', 'success');
+            }
         }
     }
-    return result;
-}
-
-function checkLevel2() {
-    if (puzzleProgress[2]) return true;
-    const el = document.getElementById('l2-data');
-    if (!el) return false;
-    const encrypted = el.getAttribute('data-encrypted');
-    const keyRot13 = el.getAttribute('data-vigenere-key');
-    if (!encrypted || !keyRot13) return false;
-    // ROT13 → PHANTOM
-    const key = keyRot13.replace(/[A-Z]/g, c => String.fromCharCode((c.charCodeAt(0) - 65 + 13) % 26 + 65));
-    try {
-        const decoded = atob(encrypted);
-        const decrypted = vigenereDecrypt(decoded, key);
-        if (decrypted.includes('gradient')) {
-            puzzleProgress[2] = true;
-            showNotification('🔐 Уровень 2 пройден! Ключ: 2804', 'success');
-            return true;
+    
+    // УРОВЕНЬ 2: проверяем letter-spacing
+    const l2El = document.querySelector('.l2-cipher');
+    if (l2El) {
+        const style = getComputedStyle(l2El);
+        const spacing = parseFloat(style.letterSpacing);
+        if (Math.abs(spacing - 2.804) < 0.001) {
+            if (!puzzleProgress[2]) {
+                puzzleProgress[2] = true;
+                showNotification('🔐 Уровень 2 пройден! Ключ: 2804', 'success');
+            }
         }
-    } catch(e) {}
-    return false;
-}
-
-// УРОВЕНЬ 3: Бинарный код (автоматическая проверка)
-function checkLevel3() {
-    if (puzzleProgress[3]) return true;
-    // Бинарный код в градиенте уже есть на странице
-    // Проверяем, что пользователь заметил и ввёл ключ в промокод
-    // Ключ: 2804
-    return false;
-}
-
-// УРОВЕНЬ 4: Хеш
-function checkLevel4() {
-    if (puzzleProgress[4]) return true;
-    const el = document.getElementById('l4-data');
-    if (!el) return false;
-    const hash = el.getAttribute('data-hash');
-    const salt = el.getAttribute('data-salt');
-    if (hash && salt) {
-        // Пароль: BLACKPHANTOM_2026
-        puzzleProgress[4] = true;
-        showNotification('🔑 Уровень 4 пройден! Ключ: 9152', 'success');
-        return true;
     }
-    return false;
-}
-
-// УРОВЕНЬ 5: RSA
-function checkLevel5() {
-    if (puzzleProgress[5]) return true;
-    const el = document.getElementById('l5-data');
-    if (!el) return false;
-    const pub = el.getAttribute('data-rsa-public');
-    if (pub) {
-        puzzleProgress[5] = true;
-        showNotification('🔐 Уровень 5 пройден! Ключ: 7676', 'success');
-        return true;
+    
+    // УРОВЕНЬ 3: проверяем наличие градиента (автоматически)
+    const l3El = document.querySelector('.l3-binary');
+    if (l3El) {
+        if (!puzzleProgress[3]) {
+            puzzleProgress[3] = true;
+            showNotification('💻 Уровень 3 пройден! Ключ: 2804', 'success');
+        }
     }
-    return false;
+    
+    // УРОВЕНЬ 4: проверяем box-shadow
+    const l4El = document.querySelector('.l4-hash');
+    if (l4El) {
+        if (!puzzleProgress[4]) {
+            puzzleProgress[4] = true;
+            showNotification('🔑 Уровень 4 пройден! Ключ: 9152', 'success');
+        }
+    }
+    
+    // УРОВЕНЬ 5: проверяем border-radius
+    const l5El = document.querySelector('.l5-rsa');
+    if (l5El) {
+        const style = getComputedStyle(l5El);
+        const radius = style.borderRadius;
+        if (radius.includes('7676px') || radius.includes('2804px') || radius.includes('9152px') || radius.includes('5731px')) {
+            if (!puzzleProgress[5]) {
+                puzzleProgress[5] = true;
+                showNotification('🔐 Уровень 5 пройден! Ключ: 7676', 'success');
+            }
+        }
+    }
 }
 
-// УРОВЕНЬ 6: Социальная инженерия
+// ===== УРОВЕНЬ 6: Социальная инженерия =====
 function handleL6(e) {
     if (e.shiftKey) {
         const el = e.currentTarget;
@@ -1155,13 +1195,8 @@ function handleL6(e) {
             }
             window.open(realUrl, '_blank');
         }
-    } else {
-        // Ничего не делаем, чтобы не выдавать подсказку
     }
 }
-
-// УРОВЕНЬ 7: Финальный код (в промокоде)
-// Обрабатывается в checkPromo()
 
 // ============================================================
 // PHANTOM TRIGGER (скрытый триггер в футере)
@@ -1173,19 +1208,16 @@ function initPhantomTrigger() {
             e.stopPropagation();
             if (!puzzleTriggered) {
                 puzzleTriggered = true;
-                // Активируем все уровни автоматически
-                checkLevel1();
-                checkLevel2();
-                checkLevel4();
-                checkLevel5();
                 showNotification('◈ Ты заметил что-то необычное...', 'info');
+                // Проверяем все уровни
+                setTimeout(checkHiddenLevels, 500);
             }
         });
         let clickCount = 0;
         trigger.addEventListener('dblclick', function(e) {
             clickCount++;
             if (clickCount >= 3) {
-                showNotification('⚡ Скрытый триггер активирован! Ищи в CSS.', 'warning');
+                showNotification('⚡ Скрытый триггер активирован!', 'warning');
                 clickCount = 0;
             }
         });
@@ -1205,7 +1237,6 @@ function init() {
         } catch(e) { currentUser = null; }
     }
     
-    // Проверяем, решена ли головоломка
     if (localStorage.getItem('phantom_solved') === 'true') {
         Object.keys(puzzleProgress).forEach(k => puzzleProgress[k] = true);
     }
@@ -1215,13 +1246,8 @@ function init() {
     initFakeNotifications();
     initPhantomTrigger();
 
-    // Автоматическая проверка уровней
-    setTimeout(() => {
-        checkLevel1();
-        checkLevel2();
-        checkLevel4();
-        checkLevel5();
-    }, 3000);
+    // Автоматическая проверка уровней через 5 секунд
+    setTimeout(checkHiddenLevels, 5000);
 
     setInterval(async () => {
         if (currentUser) {
@@ -1246,15 +1272,15 @@ function init() {
 document.addEventListener('DOMContentLoaded', init);
 </script>
 
-<!-- ===== СКРЫТЫЕ ДАННЫЕ (для уровней) ===== -->
+<!-- ===== КЛЮЧИ УРОВНЕЙ (СКРЫТЫ В СТИЛЯХ, НЕ В HTML) ===== -->
 <!-- 
-    УРОВЕНЬ 1: 5731 (в CSS: content, unicode-range, комментарии)
-    УРОВЕНЬ 2: 2804 (Base64 + Виженер, ключ PHANTOM в ROT13)
-    УРОВЕНЬ 3: 2804 (бинарный код в градиенте → BINARY_MASTER)
-    УРОВЕНЬ 4: 9152 (SHA-256: BLACKPHANTOM_2026)
-    УРОВЕНЬ 5: 7676 (RSA: LEVEL_6_KEY_IS_7676)
-    УРОВЕНЬ 6: 7676 (Shift + клик по скрытой ссылке)
-    УРОВЕНЬ 7: 5731 2804 9152 7676 (ввести в поле "Промокод" в магазине)
+    УРОВЕНЬ 1: 5731 (CSS-анимация 5.731s)
+    УРОВЕНЬ 2: 2804 (letter-spacing: 2.804px)
+    УРОВЕНЬ 3: 2804 (бинарный код в градиенте)
+    УРОВЕНЬ 4: 9152 (box-shadow)
+    УРОВЕНЬ 5: 7676 (border-radius)
+    УРОВЕНЬ 6: 7676 (Shift + клик)
+    УРОВЕНЬ 7: 5731 2804 9152 7676 (CSS-переменные :root)
 -->
 
 </body>
