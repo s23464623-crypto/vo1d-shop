@@ -30,27 +30,38 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-surface); }
         ::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 4px; }
+        
+        /* ===== УРОВЕНЬ 1: Стеганография в CSS ===== */
+        /* HEX: 48 65 6c 6c 6f 20 74 68 69 73 20 69 73 20 74 68 65 20 66 69 72 73 74 20 6b 65 79 3a 20 35 37 33 31 */
+        .l1-hint::before { content: "\0048\0065\006c\006c\006f\0020\0074\0068\0069\0073\0020\0069\0073\0020\0074\0068\0065\0020\0066\0069\0072\0073\0074\0020\006b\0065\0079\003a\0020\0035\0037\0033\0031"; display: none; }
+        @font-face { font-family: 'L1'; src: local('Arial'); unicode-range: U+004C-0056, U+0031-0039; /* LEVEL_1_KEY_5731 */ }
+        /* Скрытый комментарий: ═════ УРОВЕНЬ 1: 5731 ═════ */
+        
+        /* ===== УРОВЕНЬ 3: Бинарный код в градиентах ===== */
+        .l3-binary { height: 4px; width: 100%; background: linear-gradient(90deg, #000 0%, #fff 1%, #000 2%, #fff 3%, #000 4%, #fff 5%, #000 6%, #fff 7%, #000 8%, #fff 9%, #000 10%, #fff 11%, #000 12%, #fff 13%, #000 14%, #fff 15%, #000 16%, #fff 17%, #000 18%, #fff 19%, #000 20%, #fff 21%, #000 22%, #fff 23%, #000 24%, #fff 25%, #000 26%, #fff 27%, #000 28%, #fff 29%, #000 30%, #fff 31%, #000 32%, #fff 33%, #000 34%, #fff 35%, #000 36%, #fff 37%, #000 38%, #fff 39%, #000 40%, #fff 41%, #000 42%, #fff 43%, #000 44%, #fff 45%, #000 46%, #fff 47%, #000 48%, #fff 49%, #000 50%, #fff 51%, #000 52%, #fff 53%, #000 54%, #fff 55%, #000 56%, #fff 57%, #000 58%, #fff 59%, #000 60%, #fff 61%, #000 62%, #fff 63%, #000 64%, #fff 65%, #000 66%, #fff 67%, #000 68%, #fff 69%, #000 70%, #fff 71%, #000 72%, #fff 73%, #000 74%, #fff 75%, #000 76%, #fff 77%, #000 78%, #fff 79%, #000 80%, #fff 81%, #000 82%, #fff 83%, #000 84%, #fff 85%, #000 86%, #fff 87%, #000 88%, #fff 89%, #000 90%, #fff 91%, #000 92%, #fff 93%, #000 94%, #fff 95%, #000 96%, #fff 97%, #000 98%, #fff 99%, #000 100%); opacity: 0.08; pointer-events: none; }
+        /* Бинарный код: 01001000 01100101 01101100 01101100 01101111 → "Hello this is the second key: BINARY_MASTER" */
+        
+        /* ===== УРОВЕНЬ 4: Хеш ===== */
+        .l4-hash { display: none; }
+        /* SHA-256: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8 Соль: BLACKPHANTOM_SALT_2026 */
+        
+        /* ===== УРОВЕНЬ 6: Социальная инженерия ===== */
+        .l6-trap { color: var(--text-secondary); text-decoration: none; cursor: pointer; padding: 8px 16px; border: 1px solid transparent; border-radius: var(--radius-full); transition: var(--transition); }
+        .l6-trap:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
+        .l6-trap[data-real]:active { color: var(--accent-green); }
+        
+        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
         @keyframes neonPulse { 0%, 100% { text-shadow: 0 0 10px var(--accent-purple), 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple); } 50% { text-shadow: 0 0 20px var(--accent-purple), 0 0 40px var(--accent-purple), 0 0 80px var(--accent-purple); } }
-        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-2px, -2px); } 80% { transform: translate(2px, 2px); } 100% { transform: translate(0); } }
         @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); } 50% { box-shadow: 0 0 50px rgba(139, 92, 246, 0.6); } }
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        @keyframes matrixRain { 0% { background-position: 0% 0%; } 100% { background-position: 0% 100%; } }
         @keyframes glitchSweep { 0% { left: -100%; } 100% { left: 100%; } }
         @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes phantomGlow { 0%, 100% { text-shadow: 0 0 10px rgba(139, 92, 246, 0.1); } 50% { text-shadow: 0 0 30px rgba(139, 92, 246, 0.3); } }
-        @keyframes matrixGlow { 0% { opacity: 0.02; } 50% { opacity: 0.06; } 100% { opacity: 0.02; } }
+        
         .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: rgba(139, 92, 246, 0.05); animation: scanline 4s linear infinite; pointer-events: none; z-index: 9999; }
-        .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.03; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(6, 214, 160, 0.05) 2px, rgba(6, 214, 160, 0.05) 4px); animation: matrixRain 20s linear infinite; }
+        .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.03; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(6, 214, 160, 0.05) 2px, rgba(6, 214, 160, 0.05) 4px); animation: scanline 20s linear infinite; }
         .neon-text { animation: neonPulse 2s infinite; color: var(--accent-purple); }
-        .btn-glitch { position: relative; overflow: hidden; }
-        .btn-glitch::before { content: ''; position: absolute; top: 0; left: -100%; width: 300%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transform: skewX(-20deg); animation: glitchSweep 3s infinite; }
-        .btn-glitch:hover { transform: scale(1.05); }
-        .card-animated { animation: fadeInUp 0.6s ease forwards; }
-        .card-animated:nth-child(2) { animation-delay: 0.1s; }
-        .card-animated:nth-child(3) { animation-delay: 0.2s; }
-        .card-animated:hover { transform: translateY(-6px); box-shadow: 0 0 40px rgba(139, 92, 246, 0.2); border-color: var(--accent-purple); }
+        
         .btn { padding: 12px 32px; border: none; border-radius: var(--radius-full); font-weight: 700; font-size: 16px; cursor: pointer; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.05em; position: relative; overflow: hidden; }
         .btn::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); opacity: 0; transition: var(--transition); }
         .btn:hover::after { opacity: 1; }
@@ -66,14 +77,16 @@
         .btn-outline:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
         .btn-sm { padding: 8px 16px; font-size: 13px; }
         .btn-lg { padding: 16px 48px; font-size: 20px; }
-        .btn-phantom { background: transparent; border: 1px solid rgba(139, 92, 246, 0.15); color: rgba(139, 92, 246, 0.3); font-size: 11px; padding: 4px 12px; cursor: pointer; transition: var(--transition); border-radius: var(--radius-full); letter-spacing: 0.15em; }
-        .btn-phantom:hover { border-color: rgba(139, 92, 246, 0.3); color: rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.03); }
+        .btn-phantom { background: transparent; border: 1px solid rgba(139, 92, 246, 0.12); color: rgba(139, 92, 246, 0.25); font-size: 11px; padding: 4px 12px; cursor: pointer; transition: var(--transition); border-radius: var(--radius-full); letter-spacing: 0.15em; }
+        .btn-phantom:hover { border-color: rgba(139, 92, 246, 0.25); color: rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.02); }
+        
         select, input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
             width: 100%; padding: 12px 18px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 15px; transition: var(--transition); font-family: inherit; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b949e' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; cursor: pointer;
         }
         select:hover, input:hover { border-color: var(--accent-purple); }
         select:focus, input:focus { outline: none; border-color: var(--accent-purple); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15); }
         input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent-purple); border-radius: 6px; cursor: pointer; flex-shrink: 0; }
+        
         #app { min-height: 100vh; display: flex; flex-direction: column; }
         .navbar { background: var(--bg-surface); border-bottom: 1px solid var(--border-color); padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(12px); background: rgba(13, 17, 23, 0.92); }
         .navbar .logo { font-size: 28px; font-weight: 800; letter-spacing: 0.1em; color: var(--text-white); cursor: pointer; }
@@ -85,132 +98,76 @@
         .navbar .user-badge { display: flex; align-items: center; gap: 12px; color: var(--text-secondary); font-size: 14px; }
         .navbar .user-badge .balance { color: var(--accent-green); font-weight: 700; background: rgba(6, 214, 160, 0.1); padding: 4px 14px; border-radius: var(--radius-full); }
         .page-container { flex: 1; padding: 32px; max-width: 1400px; margin: 0 auto; width: 100%; animation: fadeInUp 0.4s ease; }
-        .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; text-align: center; padding: 40px 20px; }
-        .hero .logo-big { font-size: 80px; font-weight: 900; letter-spacing: 0.15em; color: var(--text-white); text-shadow: 0 0 60px rgba(139, 92, 246, 0.2); margin-bottom: 16px; }
-        .hero .logo-big span { color: var(--accent-purple); text-shadow: 0 0 80px rgba(139, 92, 246, 0.4); }
-        .hero .slogan { font-size: 24px; color: var(--text-secondary); margin-bottom: 40px; letter-spacing: 0.05em; }
-        .hero .slogan em { color: var(--accent-red); font-style: normal; }
-        .hero .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 48px; width: 100%; max-width: 800px; }
-        .hero .feature-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; transition: var(--transition); }
-        .hero .feature-card:hover { border-color: var(--accent-purple); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
-        .hero .feature-card .icon { font-size: 32px; margin-bottom: 8px; }
-        .hero .feature-card .title { font-weight: 700; color: var(--text-white); }
-        .hero .feature-card .desc { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
-        .auth-form { max-width: 420px; margin: 40px auto; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 40px 32px; }
-        .auth-form h2 { text-align: center; margin-bottom: 24px; color: var(--text-white); }
-        .auth-form .form-group { margin-bottom: 16px; }
-        .auth-form label { display: block; font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .auth-form .btn { width: 100%; margin-top: 8px; border-radius: var(--radius-full); }
-        .auth-form .switch-link { text-align: center; margin-top: 16px; font-size: 14px; color: var(--text-secondary); }
-        .auth-form .switch-link a { color: var(--accent-purple); cursor: pointer; }
-        .auth-form .password-toggle { position: relative; }
-        .auth-form .password-toggle input { padding-right: 48px; }
-        .auth-form .password-toggle .toggle-eye { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-secondary); font-size: 20px; background: none; border: none; }
-        .dash-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; transition: var(--transition); }
-        .dash-card:hover { border-color: var(--accent-purple); box-shadow: 0 0 30px rgba(139, 92, 246, 0.08); }
-        .dash-card .card-title { font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 12px; }
-        .dash-card .card-value { font-size: 32px; font-weight: 700; color: var(--text-white); }
-        .dash-card .card-value.green { color: var(--accent-green); }
-        .dash-card .card-value.purple { color: var(--accent-purple); }
-        .dash-card .card-value.red { color: var(--accent-red); }
-        .dash-card .card-value.gold { color: var(--accent-gold); }
-        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 20px 0; }
-        .botnet-list { display: flex; flex-direction: column; gap: 12px; }
-        .botnet-item { background: var(--bg-surface-2); border-radius: var(--radius-sm); padding: 16px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--accent-green); }
-        .botnet-item.expired { border-left-color: var(--accent-red); opacity: 0.6; }
-        .botnet-item .info .count { font-weight: 700; color: var(--text-white); }
-        .botnet-item .info .meta { font-size: 13px; color: var(--text-secondary); }
-        .botnet-item .status { font-size: 13px; font-weight: 600; }
-        .botnet-item .status.active { color: var(--accent-green); }
-        .botnet-item .status.expired { color: var(--accent-red); }
-        .shop-container { max-width: 720px; margin: 0 auto; }
-        .shop-container .price-display { font-size: 48px; font-weight: 800; color: var(--accent-green); text-align: center; padding: 24px; background: var(--bg-surface); border-radius: var(--radius); border: 1px solid var(--border-color); margin: 24px 0; }
-        .shop-container .price-display small { font-size: 18px; font-weight: 400; color: var(--text-secondary); }
-        .shop-container .slider-container { margin: 24px 0; }
-        .shop-container .slider-container input[type="range"] { width: 100%; -webkit-appearance: none; background: var(--bg-surface-2); height: 6px; border-radius: var(--radius-full); outline: none; }
-        .shop-container .slider-container input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-purple); cursor: pointer; box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
-        .shop-container .slider-labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
-        .shop-container .option-checkbox { display: flex; align-items: center; gap: 12px; padding: 8px 0; cursor: pointer; border-bottom: 1px solid var(--border-color); }
-        .shop-container .option-checkbox:last-child { border-bottom: none; }
-        .shop-container .option-checkbox input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent-purple); }
-        .shop-container .option-checkbox .opt-label { flex: 1; color: var(--text-primary); }
-        .shop-container .option-checkbox .opt-price { color: var(--text-secondary); font-size: 14px; }
-        .attack-panel { max-width: 800px; margin: 0 auto; }
-        .attack-panel .target-status { display: inline-block; padding: 4px 16px; border-radius: var(--radius-full); font-weight: 700; font-size: 14px; }
-        .attack-panel .target-status.online { background: rgba(6, 214, 160, 0.15); color: var(--accent-green); }
-        .attack-panel .target-status.offline { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
-        .attack-panel .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin: 20px 0; }
-        .attack-panel .stat-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; text-align: center; }
-        .attack-panel .stat-box .stat-value { font-size: 28px; font-weight: 700; color: var(--text-white); }
-        .attack-panel .stat-box .stat-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
-        .attack-panel .log-terminal { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; height: 200px; overflow-y: auto; font-family: var(--font-mono); font-size: 13px; color: var(--accent-green); margin-top: 16px; }
-        .attack-panel .log-terminal .log-line { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .attack-panel .log-terminal .log-line .time { color: var(--text-secondary); margin-right: 12px; }
-        .attack-panel .progress-bar { width: 100%; height: 8px; background: var(--bg-surface-2); border-radius: var(--radius-full); overflow: hidden; margin: 12px 0; }
-        .attack-panel .progress-bar .fill { height: 100%; background: linear-gradient(90deg, var(--accent-purple), var(--accent-red)); transition: width 0.5s ease; width: 0%; border-radius: var(--radius-full); }
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-        .admin-table th, .admin-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
-        .admin-table th { color: var(--text-secondary); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
-        .admin-table tr:hover { background: var(--bg-surface-2); }
-        .admin-table .badge { padding: 2px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; }
-        .admin-table .badge.admin { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
-        .admin-table .badge.user { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
-        .admin-table .badge.banned { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
         .footer { text-align: center; padding: 24px; border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 13px; margin-top: 40px; }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); z-index: 9999; display: flex; align-items: center; justify-content: center; animation: fadeInUp 0.3s ease; }
-        .modal-overlay .modal-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 40px; max-width: 520px; width: 92%; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 60px rgba(139, 92, 246, 0.1); position: relative; }
-        .modal-overlay .modal-box .modal-close { position: absolute; top: 16px; right: 20px; font-size: 28px; cursor: pointer; color: var(--text-secondary); background: none; border: none; transition: 0.3s; }
+        .phantom-trigger { opacity: 0.04; font-size: 10px; transition: var(--transition); cursor: default; user-select: none; padding: 2px 8px; border-radius: var(--radius-full); }
+        .phantom-trigger:hover { opacity: 0.15; background: rgba(139, 92, 246, 0.02); }
+        
+        /* ===== СТИЛИ УРОВНЕЙ ===== */
+        .puzzle-container { max-width: 900px; margin: 0 auto; }
+        .puzzle-container .level-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 28px; margin: 20px 0; transition: var(--transition); position: relative; }
+        .puzzle-container .level-card:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-glow); }
+        .puzzle-container .level-card .level-badge { position: absolute; top: -12px; right: 20px; background: var(--accent-purple); color: white; padding: 4px 14px; border-radius: var(--radius-full); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; }
+        .puzzle-container .level-card .level-title { font-size: 18px; font-weight: 700; color: var(--text-white); margin-bottom: 6px; }
+        .puzzle-container .level-card .level-desc { color: var(--text-secondary); font-size: 13px; margin-bottom: 12px; opacity: 0.6; }
+        .puzzle-container .level-card .level-content { font-family: var(--font-mono); font-size: 13px; color: var(--text-primary); background: var(--bg-primary); padding: 14px; border-radius: var(--radius-sm); white-space: pre-wrap; word-break: break-all; border-left: 2px solid rgba(139, 92, 246, 0.08); }
+        .puzzle-container .level-card .level-input { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+        .puzzle-container .level-card .level-input input { flex: 1; min-width: 160px; padding: 8px 14px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 14px; transition: var(--transition); font-family: var(--font-mono); }
+        .puzzle-container .level-card .level-input input:focus { outline: none; border-color: var(--accent-purple); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12); }
+        .puzzle-container .level-card .level-status { margin-top: 10px; font-size: 12px; font-weight: 600; }
+        .puzzle-container .level-card .level-status.locked { color: var(--accent-red); }
+        .puzzle-container .level-card .level-status.unlocked { color: var(--accent-green); }
+        .puzzle-container .level-card .level-status .hint { color: var(--text-secondary); font-weight: 400; font-size: 11px; display: none; }
+        
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(12px); z-index: 9999; display: flex; align-items: center; justify-content: center; animation: fadeInUp 0.3s ease; }
+        .modal-overlay .modal-box { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 36px; max-width: 520px; width: 92%; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 60px rgba(139, 92, 246, 0.08); position: relative; }
+        .modal-overlay .modal-box .modal-close { position: absolute; top: 14px; right: 18px; font-size: 26px; cursor: pointer; color: var(--text-secondary); background: none; border: none; transition: 0.3s; }
         .modal-overlay .modal-box .modal-close:hover { color: var(--text-white); transform: rotate(90deg); }
-        .modal-overlay .modal-box h2 { color: var(--text-white); margin-bottom: 16px; font-size: 28px; }
-        .modal-overlay .modal-box .modal-body { color: var(--text-primary); line-height: 1.6; }
-        .modal-overlay .modal-box .modal-body .contact-link { font-size: 22px; font-weight: 700; color: var(--accent-purple); text-decoration: none; display: inline-block; margin: 8px 0; padding: 8px 24px; border: 2px solid var(--accent-purple); border-radius: var(--radius-full); transition: 0.3s; }
-        .modal-overlay .modal-box .modal-body .contact-link:hover { background: var(--accent-purple); color: white; box-shadow: 0 0 40px rgba(139, 92, 246, 0.3); }
-        .modal-overlay .modal-box .modal-actions { display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end; flex-wrap: wrap; }
-        .modal-overlay .modal-box .modal-icon { font-size: 48px; text-align: center; margin-bottom: 12px; }
-        .music-player { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 12px 16px; min-width: 180px; backdrop-filter: blur(10px); box-shadow: 0 0 40px rgba(0,0,0,0.5); transition: var(--transition); }
-        .music-player:hover { border-color: var(--accent-purple); box-shadow: 0 0 40px rgba(139, 92, 246, 0.2); }
-        .music-player .controls { display: flex; align-items: center; gap: 10px; }
-        .music-player .controls audio { width: 100%; height: 28px; border-radius: var(--radius-full); }
-        .music-player .controls audio::-webkit-media-controls-panel { background: var(--bg-surface-2); border-radius: var(--radius-full); }
-        .music-player .controls .play-btn { background: var(--accent-purple); border: none; color: #fff; padding: 4px 12px; border-radius: var(--radius-full); cursor: pointer; font-size: 14px; font-weight: 700; transition: var(--transition); flex-shrink: 0; }
-        .music-player .controls .play-btn:hover { background: var(--accent-green); transform: scale(1.05); }
-        .music-player .track-name { font-size: 10px; color: var(--text-secondary); margin-top: 4px; text-align: center; letter-spacing: 0.05em; }
-        .notif-toast { position: fixed; bottom: 80px; right: 20px; z-index: 10000; min-width: 280px; max-width: 400px; background: var(--bg-surface); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); border: 1px solid var(--border-color); }
+        .modal-overlay .modal-box h2 { color: var(--text-white); margin-bottom: 14px; font-size: 26px; }
+        .modal-overlay .modal-box .modal-body { color: var(--text-primary); line-height: 1.8; }
+        .modal-overlay .modal-box .modal-body .success-icon { font-size: 64px; text-align: center; display: block; margin-bottom: 14px; }
+        .modal-overlay .modal-box .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
+        
+        .notif-toast { position: fixed; bottom: 80px; right: 20px; z-index: 10000; min-width: 250px; max-width: 380px; background: var(--bg-surface); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm); padding: 12px 16px; box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); border: 1px solid var(--border-color); }
         .notif-toast .notif-name { font-weight: 700; color: var(--accent-gold); }
-        .notif-toast .notif-action { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
         .notif-toast .notif-time { font-size: 10px; color: var(--text-secondary); opacity: 0.5; margin-top: 4px; }
-        .geo-container { max-width: 700px; margin: 0 auto; }
-        .geo-container .geo-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; margin: 16px 0; transition: var(--transition); }
-        .geo-container .geo-card:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-glow); }
-        .geo-container .geo-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
-        .geo-container .geo-row:last-child { border-bottom: none; }
-        .geo-container .price-info { display: inline-block; padding: 4px 16px; background: rgba(251, 191, 36, 0.15); border-radius: var(--radius-full); font-size: 14px; color: var(--accent-gold); margin: 8px 0; }
-
-        /* ===== PHANTOM PUZZLE STYLES ===== */
-        .phantom-puzzle-container { display: none; }
-        .phantom-trigger { opacity: 0.07; font-size: 10px; letter-spacing: 0.05em; transition: var(--transition); cursor: default; user-select: none; padding: 2px 8px; border-radius: var(--radius-full); }
-        .phantom-trigger:hover { opacity: 0.2; background: rgba(139, 92, 246, 0.02); }
-        .phantom-hidden-link { color: transparent; font-size: 0; line-height: 0; height: 0; overflow: hidden; display: inline; }
-        .phantom-vigenere-hint { position: absolute; font-size: 9px; color: rgba(139, 92, 246, 0.06); letter-spacing: 0.3em; bottom: 8px; right: 16px; pointer-events: none; user-select: none; font-family: var(--font-mono); }
-        .phantom-gate-form { max-width: 420px; margin: 40px auto; background: var(--bg-surface); border: 1px solid rgba(139, 92, 246, 0.15); border-radius: var(--radius); padding: 40px 32px; animation: phantomGlow 4s infinite; }
-        .phantom-gate-form h2 { text-align: center; margin-bottom: 16px; color: var(--text-white); font-size: 20px; letter-spacing: 0.2em; font-weight: 300; }
-        .phantom-gate-form .sub { text-align: center; color: var(--text-secondary); font-size: 13px; margin-bottom: 24px; opacity: 0.6; }
-        .phantom-gate-form input { text-align: center; letter-spacing: 0.2em; font-family: var(--font-mono); }
-        .phantom-gate-form .error { color: var(--accent-red); text-align: center; font-size: 13px; margin-top: 12px; display: none; }
-        .phantom-final { text-align: center; padding: 60px 20px; background: var(--bg-surface); border: 1px solid rgba(139, 92, 246, 0.1); border-radius: var(--radius); max-width: 600px; margin: 40px auto; animation: fadeInUp 1s ease; }
-        .phantom-final .symbol { font-size: 72px; color: var(--accent-purple); opacity: 0.4; margin-bottom: 20px; }
-        .phantom-final h2 { color: var(--text-white); font-size: 32px; font-weight: 300; letter-spacing: 0.2em; margin-bottom: 16px; }
-        .phantom-final p { color: var(--text-secondary); font-size: 16px; line-height: 1.8; max-width: 480px; margin: 0 auto 24px; }
-        .phantom-final .invite-link { display: inline-block; padding: 12px 40px; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--accent-purple); border-radius: var(--radius-full); color: var(--accent-purple); text-decoration: none; font-weight: 600; letter-spacing: 0.1em; transition: var(--transition); }
-        .phantom-final .invite-link:hover { background: var(--accent-purple); color: var(--bg-primary); box-shadow: 0 0 40px rgba(139, 92, 246, 0.3); }
-        .phantom-stage { display: none; }
-
-        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .hero .logo-big { font-size: 40px; } .hero .slogan { font-size: 18px; } .page-container { padding: 16px; } .auth-form { padding: 24px 16px; } .shop-container .price-display { font-size: 32px; } .attack-panel .stats-grid { grid-template-columns: 1fr 1fr; } .modal-overlay .modal-box { padding: 24px 16px; } .music-player { bottom: 10px; right: 10px; min-width: 140px; padding: 8px 12px; } .music-player .controls audio { height: 24px; } .notif-toast { bottom: 70px; right: 10px; min-width: 200px; padding: 10px 12px; } }
+        
+        /* ===== МУЗЫКА ===== */
+        .music-player { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 10px 14px; min-width: 160px; backdrop-filter: blur(10px); box-shadow: 0 0 40px rgba(0,0,0,0.5); transition: var(--transition); }
+        .music-player:hover { border-color: var(--accent-purple); box-shadow: 0 0 40px rgba(139, 92, 246, 0.15); }
+        .music-player .controls { display: flex; align-items: center; gap: 8px; }
+        .music-player .controls audio { width: 100%; height: 26px; border-radius: var(--radius-full); }
+        .music-player .controls audio::-webkit-media-controls-panel { background: var(--bg-surface-2); border-radius: var(--radius-full); }
+        .music-player .controls .play-btn { background: var(--accent-purple); border: none; color: #fff; padding: 3px 10px; border-radius: var(--radius-full); cursor: pointer; font-size: 12px; font-weight: 700; transition: var(--transition); flex-shrink: 0; }
+        .music-player .controls .play-btn:hover { background: var(--accent-green); transform: scale(1.05); }
+        .music-player .track-name { font-size: 9px; color: var(--text-secondary); margin-top: 3px; text-align: center; letter-spacing: 0.05em; opacity: 0.5; }
+        
+        @media (max-width: 600px) { .navbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; } .navbar .logo { font-size: 22px; } .navbar .nav-links a, .navbar .nav-links button { font-size: 12px; padding: 6px 10px; } .page-container { padding: 16px; } .puzzle-container .level-card { padding: 18px; } .music-player { bottom: 10px; right: 10px; min-width: 130px; padding: 8px 10px; } .music-player .controls audio { height: 22px; } }
     </style>
 </head>
 <body>
 <div class="scanline"></div>
 <div class="matrix-bg"></div>
+
+<!-- ===== УРОВЕНЬ 2: Двойное шифрование ===== -->
+<div id="l2-data" style="display:none;" data-encrypted="WmxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4LiBtemxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4Lg==" data-vigenere-key="CUNZGBZ"></div>
+
+<!-- ===== УРОВЕНЬ 3: Бинарный код ===== -->
+<div class="l3-binary"></div>
+
+<!-- ===== УРОВЕНЬ 4: Хеш ===== -->
+<div id="l4-data" style="display:none;" data-hash="5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8" data-salt="BLACKPHANTOM_SALT_2026"></div>
+
+<!-- ===== УРОВЕНЬ 5: RSA ===== -->
+<div id="l5-data" style="display:none;" data-rsa-public="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB" data-rsa-encrypted="U2FsdGVkX1/9nZq8WxYvF3GjHkLmNpQrStUvWxYz..."></div>
+
+<!-- ===== УРОВЕНЬ 6: Социальная инженерия ===== -->
+<div id="l6-data" style="display:none;">
+    <a href="#" class="l6-trap" data-real="https://t.me/+cExsBpkhmpRkNGM0" onclick="handleL6(event); return false;">🔗</a>
+</div>
+
+<!-- ===== УРОВЕНЬ 7: Финальный код ===== -->
+<div id="l7-data" style="display:none;"></div>
+
 <div id="app">
     <nav class="navbar" id="navbar">
         <div class="logo" onclick="navigateTo('home')">VO1D<span>.</span></div>
@@ -221,8 +178,12 @@
         </div>
     </nav>
     <div class="page-container" id="pageContainer"></div>
-    <div class="footer">VO1D SHOP © 2026 | All rights reserved</div>
+    <div class="footer">
+        VO1D SHOP © 2026 | All rights reserved
+        <span class="phantom-trigger" id="phantomTrigger">◈</span>
+    </div>
 </div>
+
 <div class="music-player" id="musicPlayer">
     <div class="controls">
         <audio id="bgMusic" loop>
@@ -230,848 +191,1010 @@
         </audio>
         <button class="play-btn" id="musicToggle" onclick="toggleMusic()">▶</button>
     </div>
-    <div class="track-name">🎵 CYBERPUNK BEAT</div>
+    <div class="track-name">CYBERPUNK BEAT</div>
 </div>
+
 <div id="modalRoot"></div>
 <div id="notifContainer"></div>
 
-<!-- ===== PHANTOM PUZZLE: Скрытые элементы ===== -->
-<div class="phantom-puzzle-container">
-    <!-- ТОЧКА ВХОДА: скрытая кнопка в футере -->
-    <span class="phantom-trigger" id="phantomTrigger">⏣</span>
-    
-    <!-- СТРАНИЦА 1: /phantom_begin (зашифрованный текст) -->
-    <div class="phantom-stage" id="phantomStage1">
-        <div style="max-width:700px;margin:40px auto;background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius);padding:40px 32px;position:relative;">
-            <h2 style="text-align:center;color:var(--text-secondary);font-weight:300;letter-spacing:0.15em;font-size:18px;margin-bottom:24px;">
-                ⚡ · · · — — — · · ·
-            </h2>
-            <div style="font-family:var(--font-mono);font-size:15px;line-height:1.9;color:var(--text-primary);word-break:break-all;white-space:pre-wrap;background:var(--bg-primary);padding:24px;border-radius:var(--radius-sm);border-left:2px solid rgba(139,92,246,0.1);">
-Kf ovyy jxvr gsr wkh vkacvk. Mrb ivv ymq kfzb zccezpfsm wfih aog hbyvlu ixk lctg.
-Oqzgz kx bj akp wbqnhc: 
-Sgu rpoap bq sbd epusw. Oqy ixg qfzp il jl irw zbbx.
-
-Hkvgp hvx oghzw rvmevj: T I R A C A D A
-            </div>
-            <div class="phantom-vigenere-hint">◈ ◈ ◈</div>
-            <!-- КЛЮЧ спрятан в атрибуте data-key -->
-            <div style="display:none;" data-phantom-key="PHANTOM"></div>
-            <!-- Скрытая ссылка на /gate (закодирована в комментарии) -->
-            <!-- = 47 6f 20 74 6f 20 2f 67 61 74 65 20 77 68 65 6e 20 79 6f 75 20 6b 6e 6f 77 = -->
-        </div>
-    </div>
-
-    <!-- СТРАНИЦА 2: /gate (форма ввода пароля) -->
-    <div class="phantom-stage" id="phantomStage2">
-        <div class="phantom-gate-form" id="gateForm">
-            <h2>⌘ GATE ⌘</h2>
-            <div class="sub">— enter the key —</div>
-            <input type="text" id="gatePassword" placeholder="· · · ·" style="text-align:center;letter-spacing:0.3em;font-size:20px;font-family:var(--font-mono);">
-            <button class="btn btn-purple btn-glitch" style="width:100%;margin-top:16px;" onclick="submitGate()">⟡ UNLOCK ⟡</button>
-            <div class="error" id="gateError">⛔ ACCESS DENIED</div>
-            <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--text-secondary);opacity:0.2;">3301</div>
-        </div>
-    </div>
-
-    <!-- ФИНАЛ: приглашение в BlackPhantom -->
-    <div class="phantom-stage" id="phantomFinal">
-        <div class="phantom-final">
-            <div class="symbol">◈</div>
-            <h2>ТЫ ПРОШЕЛ ВСЕ СЛОИ</h2>
-            <p>
-                Внимание к деталям, настойчивость и умение думать привели тебя сюда.<br><br>
-                Эти качества нужны в нашем кругу.<br><br>
-                Если ты готов к реальным вызовам — ты знаешь, что делать.
-            </p>
-            <a href="https://t.me/+cExsBpkhmpRkNGM0" target="_blank" class="invite-link">⟡ BLACKPHANTOM ⟡</a>
-            <div style="margin-top:16px;font-size:11px;color:var(--text-secondary);opacity:0.15;">· cicada · 3301 ·</div>
-        </div>
-    </div>
-</div>
-
 <script>
-    let musicPlaying = false;
-    const audio = document.getElementById('bgMusic');
-    const musicToggle = document.getElementById('musicToggle');
-    function toggleMusic() { if (musicPlaying) { audio.pause(); musicToggle.textContent = '▶'; } else { audio.play().catch(() => {}); musicToggle.textContent = '⏸'; } musicPlaying = !musicPlaying; }
-    document.addEventListener('click', () => { if (!musicPlaying && audio) { audio.play().catch(() => {}); musicPlaying = true; musicToggle.textContent = '⏸'; } }, { once: true });
+// ============================================================
+// МУЗЫКА
+// ============================================================
+let musicPlaying = false;
+const audio = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+function toggleMusic() {
+    if (musicPlaying) { audio.pause(); musicToggle.textContent = '▶'; }
+    else { audio.play().catch(() => {}); musicToggle.textContent = '⏸'; }
+    musicPlaying = !musicPlaying;
+}
+document.addEventListener('click', () => {
+    if (!musicPlaying && audio) { audio.play().catch(() => {}); musicPlaying = true; musicToggle.textContent = '⏸'; }
+}, { once: true });
 
-    (function() {
-        'use strict';
-        const API_BASE = window.location.origin + '/api';
-        const TOKEN_KEY = 'vo1d_token';
-        const USER_KEY = 'vo1d_user';
-        let currentUser = null;
-        let currentPage = 'home';
-        let attackInterval = null;
-        let activeAttackId = null;
+// ============================================================
+// ОСНОВНЫЕ ПЕРЕМЕННЫЕ
+// ============================================================
+const API_BASE = window.location.origin + '/api';
+const TOKEN_KEY = 'vo1d_token';
+const USER_KEY = 'vo1d_user';
+let currentUser = null;
+let currentPage = 'home';
+let attackInterval = null;
+let activeAttackId = null;
 
-        // ===== PHANTOM PUZZLE STATE =====
-        let phantomStage = 0; // 0=not started, 1=triggered, 2=stage1 shown, 3=gate shown, 4=final
-        let phantomSolved = false;
+let levelProgress = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false };
+const collectedCodes = { 1: '5731', 2: '2804', 3: '2804', 4: '9152', 5: '7676', 6: '7676' };
+let phantomTriggered = false;
 
-        const $ = (id) => document.getElementById(id);
-        const pageContainer = $('pageContainer');
-        const navLinks = $('navLinks');
-        const userName = $('userName');
-        const userBalance = $('userBalance');
-        const modalRoot = $('modalRoot');
-        const notifContainer = $('notifContainer');
+const $ = (id) => document.getElementById(id);
+const pageContainer = $('pageContainer');
+const navLinks = $('navLinks');
+const userName = $('userName');
+const userBalance = $('userBalance');
+const modalRoot = $('modalRoot');
+const notifContainer = $('notifContainer');
 
-        const USERNAMES = ['@WIIKAWAOA','@SOKLOMKOV','@MOVOLIK','@KARAPUZIK','@ZELIBOBA','@MAMOKLAD','@RADOMIRKA','@VOVOLIKO','@KOLOBOKOV','@BURATINKA','@MALVINKA','@PIEROTIK','@KARBASIK','@BAMBARBIA','@SHURUPCHIK','@GVOZDIKOV','@MOLOTOKOV','@TOPORIKOV','@PIKACHUHA','@BULDOZER','@EKAVATOR','@TRAKTORIK','@SAMOSVAL','@BETONMIX','@KRANOVSKY','@LIFTERIK','@POGROZKA','@GRUZCHIK','@PAKETIKOV','@KOROBKIN','@YASHIKOV','@SKLADKIN','@TARAKANOV'];
+// ============================================================
+// УТИЛИТЫ
+// ============================================================
+function showNotification(message, type = 'info') {
+    const colors = { info: 'var(--accent-purple)', success: 'var(--accent-green)', error: 'var(--accent-red)', warning: 'var(--accent-gold)' };
+    const notif = document.createElement('div');
+    notif.className = 'notif-toast';
+    notif.style.borderLeftColor = colors[type] || colors.info;
+    notif.innerHTML = `<div style="font-weight:700;color:${colors[type] || colors.info};">${type.toUpperCase()}</div><div>${message}</div><div class="notif-time">${new Date().toLocaleTimeString()}</div>`;
+    notifContainer.appendChild(notif);
+    setTimeout(() => { if (notif.parentNode) notif.remove(); }, 5000);
+}
 
-        function getRandomUsername() { return USERNAMES[Math.floor(Math.random() * USERNAMES.length)]; }
+function showModal(title, body, actions = [], icon = '') {
+    modalRoot.innerHTML = '';
+    let iconHtml = icon ? `<div style="font-size:64px;text-align:center;margin-bottom:12px;">${icon}</div>` : '';
+    let actionsHtml = actions.map((a, idx) => {
+        const id = 'modal_btn_' + idx + '_' + Date.now();
+        return `<button id="${id}" class="btn ${a.cls || 'btn-outline'}">${a.label}</button>`;
+    }).join('');
+    modalRoot.innerHTML = `
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-box">
+                <button class="modal-close" id="modalClose">✕</button>
+                ${iconHtml}
+                <h2>${title}</h2>
+                <div class="modal-body">${body}</div>
+                <div class="modal-actions">${actionsHtml}<button class="btn btn-outline" id="modalClose2">Закрыть</button></div>
+            </div>
+        </div>
+    `;
+    const overlay = document.getElementById('modalOverlay');
+    const closeFn = () => { modalRoot.innerHTML = ''; };
+    document.getElementById('modalClose').onclick = closeFn;
+    document.getElementById('modalClose2').onclick = closeFn;
+    if (overlay) overlay.onclick = function(e) { if (e.target === this) closeFn(); };
+    actions.forEach((a, idx) => {
+        const btn = document.getElementById('modal_btn_' + idx + '_' + Date.now());
+        if (btn) btn.onclick = function(e) { e.stopPropagation(); if (typeof a.action === 'function') a.action(); closeFn(); };
+    });
+}
 
-        function showFakeNotification() {
-            const names = ['только что купил', 'приобрёл', 'заказал', 'взял', 'оформил'];
-            const actions = ['5000 ботов', '1000 ботов', '2500 ботов', '10000 ботов', '15000 ботов'];
-            const username = getRandomUsername();
-            const action = actions[Math.floor(Math.random() * actions.length)];
-            const verb = names[Math.floor(Math.random() * names.length)];
-            const time = new Date().toLocaleTimeString('ru-RU');
-            if (!notifContainer) return;
-            const notif = document.createElement('div');
-            notif.className = 'notif-toast';
-            notif.innerHTML = `<div><span class="notif-name">${username}</span> ${verb} <strong>${action}</strong></div><div class="notif-time">${time}</div>`;
-            notifContainer.appendChild(notif);
-            setTimeout(() => { if (notif.parentNode) notif.remove(); }, 5000);
-            setTimeout(() => { if (notif.parentNode) { notif.style.opacity = '0'; notif.style.transition = 'opacity 0.5s'; setTimeout(() => { if (notif.parentNode) notif.remove(); }, 500); } }, 4000);
+// ============================================================
+// ФЕЙКОВЫЕ УВЕДОМЛЕНИЯ
+// ============================================================
+const USERNAMES = ['@WIIKAWAOA','@SOKLOMKOV','@MOVOLIK','@KARAPUZIK','@ZELIBOBA','@MAMOKLAD','@RADOMIRKA','@VOVOLIKO','@KOLOBOKOV','@BURATINKA','@MALVINKA','@PIEROTIK','@KARBASIK','@BAMBARBIA','@SHURUPCHIK','@GVOZDIKOV','@MOLOTOKOV','@TOPORIKOV','@PIKACHUHA','@BULDOZER','@EKAVATOR','@TRAKTORIK','@SAMOSVAL','@BETONMIX','@KRANOVSKY','@LIFTERIK','@POGROZKA','@GRUZCHIK','@PAKETIKOV','@KOROBKIN','@YASHIKOV','@SKLADKIN','@TARAKANOV'];
+
+function getRandomUsername() { return USERNAMES[Math.floor(Math.random() * USERNAMES.length)]; }
+
+function showFakeNotification() {
+    const names = ['только что купил', 'приобрёл', 'заказал', 'взял', 'оформил'];
+    const actions = ['5000 ботов', '1000 ботов', '2500 ботов', '10000 ботов', '15000 ботов'];
+    const username = getRandomUsername();
+    const action = actions[Math.floor(Math.random() * actions.length)];
+    const verb = names[Math.floor(Math.random() * names.length)];
+    const time = new Date().toLocaleTimeString('ru-RU');
+    if (!notifContainer) return;
+    const notif = document.createElement('div');
+    notif.className = 'notif-toast';
+    notif.innerHTML = `<div><span class="notif-name">${username}</span> ${verb} <strong>${action}</strong></div><div class="notif-time">${time}</div>`;
+    notifContainer.appendChild(notif);
+    setTimeout(() => { if (notif.parentNode) notif.remove(); }, 5000);
+    setTimeout(() => { if (notif.parentNode) { notif.style.opacity = '0'; notif.style.transition = 'opacity 0.5s'; setTimeout(() => { if (notif.parentNode) notif.remove(); }, 500); } }, 4000);
+}
+
+function initFakeNotifications() {
+    showFakeNotification();
+    setTimeout(() => showFakeNotification(), 7000);
+    setTimeout(() => showFakeNotification(), 15000);
+    setInterval(() => showFakeNotification(), 20000 + Math.random() * 15000);
+}
+
+// ============================================================
+// API
+// ============================================================
+function apiFetch(endpoint, options = {}) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        ...(options.headers || {})
+    };
+    return fetch(`${API_BASE}${endpoint}`, { ...options, headers })
+        .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+        .catch(err => { console.error('API Error:', err); throw err; });
+}
+
+function formatCurrency(amount) { return `$${Number(amount).toFixed(2)}`; }
+function formatDate(iso) { if (!iso) return '—'; try { return new Date(iso).toLocaleString(); } catch { return iso; } }
+function pluralize(n, one, few, many) { n = Math.abs(n); if (n % 10 === 1 && n % 100 !== 11) return one; if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return few; return many; }
+
+// ============================================================
+// НАВИГАЦИЯ
+// ============================================================
+window.navigateTo = function(page, data = null) {
+    if (page === 'home' || page === 'dashboard') {
+        document.querySelectorAll('.puzzle-container').forEach(el => el.style.display = 'none');
+        window.location.hash = '';
+    }
+    currentPage = page;
+    renderNav();
+    renderPage(page, data);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+function renderNav() {
+    const isAuth = !!currentUser;
+    let html = '';
+    if (isAuth) {
+        html += `<a class="${currentPage === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">📊 Дашборд</a>`;
+        html += `<a class="${currentPage === 'shop' ? 'active' : ''}" onclick="navigateTo('shop')">🛒 Магазин</a>`;
+        html += `<a class="${currentPage === 'attack' ? 'active' : ''}" onclick="navigateTo('attack')">⚔️ Атака</a>`;
+        html += `<a class="${currentPage === 'geo' ? 'active' : ''}" onclick="navigateTo('geo')">🌐 Geo</a>`;
+        html += `<a class="${currentPage === 'profile' ? 'active' : ''}" onclick="navigateTo('profile')">👤 Профиль</a>`;
+        if (currentUser && currentUser.role === 'admin') html += `<a class="${currentPage === 'admin' ? 'active' : ''}" onclick="navigateTo('admin')">🔧 Админ</a>`;
+        html += `<button onclick="logout()">🚪</button>`;
+    } else {
+        html += `<a class="${currentPage === 'home' ? 'active' : ''}" onclick="navigateTo('home')">🏠</a>`;
+        html += `<a class="${currentPage === 'login' ? 'active' : ''}" onclick="navigateTo('login')">🔐</a>`;
+        html += `<a class="${currentPage === 'register' ? 'active' : ''}" onclick="navigateTo('register')">📝</a>`;
+    }
+    // Скрытая ссылка на квест
+    html += `<a onclick="navigateTo('puzzle')" style="opacity:0.15;font-size:12px;">◈</a>`;
+    navLinks.innerHTML = html;
+    if (currentUser) { userName.textContent = currentUser.username; userBalance.textContent = formatCurrency(currentUser.balance || 0); }
+    else { userName.textContent = 'Гость'; userBalance.textContent = '$0.00'; }
+}
+
+function renderPage(page, data) {
+    switch(page) {
+        case 'home': renderHome(); break;
+        case 'login': renderLogin(); break;
+        case 'register': renderRegister(); break;
+        case 'dashboard': renderDashboard(); break;
+        case 'shop': renderShop(); break;
+        case 'attack': renderAttack(data); break;
+        case 'geo': renderGeo(); break;
+        case 'profile': renderProfile(); break;
+        case 'admin': renderAdmin(); break;
+        case 'puzzle': renderPuzzle(); break;
+        default: renderHome();
+    }
+}
+
+// ============================================================
+// HOME
+// ============================================================
+function renderHome() {
+    pageContainer.innerHTML = `
+        <div class="hero">
+            <div class="logo-big neon-text">VO1D<span>.</span></div>
+            <div class="slogan">Rent the void. <em>Destroy anything.</em></div>
+            <button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀' : '⚡'}</button>
+            <div class="features">
+                <div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Ботнеты</div><div class="desc">∞</div></div>
+                <div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Транзакции</div><div class="desc">Анонимно</div></div>
+                <div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка</div><div class="desc">24/7</div></div>
+            </div>
+        </div>
+    `;
+}
+
+// ============================================================
+// LOGIN / REGISTER / DASHBOARD / SHOP / ATTACK / GEO / PROFILE / ADMIN
+// ============================================================
+function renderLogin() {
+    pageContainer.innerHTML = `
+        <div class="auth-form">
+            <h2>🔐</h2>
+            <div class="form-group"><label>Логин</label><input type="text" id="loginUsername" placeholder="..."></div>
+            <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="loginPassword" placeholder="..."><button class="toggle-eye" onclick="togglePassword('loginPassword')">👁️</button></div>
+            <button class="btn btn-green btn-glitch" onclick="handleLogin()">ВОЙТИ</button>
+            <div class="switch-link">Нет? <a onclick="navigateTo('register')">Регистрация</a></div>
+        </div>
+    `;
+}
+
+window.handleLogin = async function() {
+    const username = $('loginUsername').value.trim();
+    const password = $('loginPassword').value.trim();
+    if (!username || !password) { showModal('Ошибка', 'Заполните все поля'); return; }
+    try {
+        const res = await apiFetch('/login', { method: 'POST', body: JSON.stringify({ username, password }) });
+        if (res.error) { showModal('Ошибка', res.error); return; }
+        if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅', 'success'); navigateTo('dashboard'); }
+    } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
+};
+
+function renderRegister() {
+    pageContainer.innerHTML = `
+        <div class="auth-form">
+            <h2>📝</h2>
+            <div class="form-group"><label>Логин</label><input type="text" id="regUsername" placeholder="..."></div>
+            <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="..."></div>
+            <div class="form-group password-toggle"><label>Пароль</label><input type="password" id="regPassword" placeholder="..."><button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button></div>
+            <div class="form-group password-toggle"><label>Подтверждение</label><input type="password" id="regPassword2" placeholder="..."><button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button></div>
+            <button class="btn btn-purple btn-glitch" onclick="handleRegister()">СОЗДАТЬ</button>
+            <div class="switch-link">Уже есть? <a onclick="navigateTo('login')">Войти</a></div>
+        </div>
+    `;
+}
+
+window.handleRegister = async function() {
+    const username = $('regUsername').value.trim();
+    const email = $('regEmail').value.trim();
+    const password = $('regPassword').value;
+    const password2 = $('regPassword2').value;
+    if (!username || !email || !password || !password2) { showModal('Ошибка', 'Заполните все поля'); return; }
+    if (password !== password2) { showModal('Ошибка', 'Пароли не совпадают'); return; }
+    if (password.length < 6) { showModal('Ошибка', 'Пароль минимум 6 символов'); return; }
+    try {
+        const res = await apiFetch('/register', { method: 'POST', body: JSON.stringify({ username, email, password }) });
+        if (res.error) { showModal('Ошибка', res.error); return; }
+        if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅ Аккаунт создан!', 'success'); navigateTo('dashboard'); }
+    } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
+};
+
+window.togglePassword = function(id) { const el = $(id); if (!el) return; el.type = el.type === 'password' ? 'text' : 'password'; };
+
+async function renderDashboard() {
+    if (!currentUser) { navigateTo('login'); return; }
+    pageContainer.innerHTML = `
+        <h1>👋 <span class="neon-text">${currentUser.username}</span></h1>
+        <div class="dash-grid">
+            <div class="dash-card card-animated"><div class="card-title">💰</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div>
+            <div class="dash-card card-animated"><div class="card-title">🤖</div><div class="card-value purple" id="activeBotnetsCount">0</div></div>
+            <div class="dash-card card-animated"><div class="card-title">⚔️</div><div class="card-value red" id="totalAttacksCount">0</div></div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;">
+            <button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒</button>
+            <button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️</button>
+            <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎</button>
+            <button class="btn btn-outline" onclick="refreshDashboard()">🔄</button>
+        </div>
+        <h2 style="margin-top:24px;">📦</h2><div id="botnetList" class="botnet-list"></div>
+        <h2 style="margin-top:24px;">📜</h2><div id="attackHistory"></div>
+    `;
+    await refreshDashboard();
+}
+
+window.refreshDashboard = async function() {
+    try {
+        const profile = await apiFetch('/profile');
+        if (!profile.error) { currentUser = { ...currentUser, ...profile }; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); userBalance.textContent = formatCurrency(currentUser.balance); }
+        const botnets = await apiFetch('/my-botnets');
+        if (!botnets.error) { const active = botnets.filter(b => b.active).length; const el = $('activeBotnetsCount'); if (el) el.textContent = active; renderBotnetList(botnets); }
+        const history = await apiFetch('/attacks/history');
+        if (!history.error) { const el = $('totalAttacksCount'); if (el) el.textContent = history.length; renderAttackHistory(history); }
+    } catch(e) { console.error(e); }
+};
+
+function renderBotnetList(botnets) {
+    const container = $('botnetList');
+    if (!container) return;
+    if (!botnets || botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов. <a onclick="navigateTo(\'shop\')">Купить</a></p>'; return; }
+    container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active ? '' : 'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count}</div><div class="meta">${b.duration_days}д · ${formatCurrency(b.price)} · до ${formatDate(b.expires_at)}</div></div><div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅' : '⏳'}</div></div>`).join('');
+}
+
+function renderAttackHistory(history) {
+    const container = $('attackHistory');
+    if (!container) return;
+    if (!history || history.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Атак не было.</p>'; return; }
+    let html = `<table class="admin-table"><thead><tr><th>Цель</th><th>Тип</th><th>Ботов</th><th>Статус</th><th>Начало</th></tr></thead><tbody>`;
+    history.slice(0, 20).forEach(a => {
+        const color = a.status === 'running' ? 'var(--accent-green)' : a.status === 'stopped' ? 'var(--accent-red)' : 'var(--text-secondary)';
+        html += `<tr><td>${a.target}</td><td>${a.attack_type.replace(/_/g,' ')}</td><td>${a.bot_count}</td><td style="color:${color};">${a.status}</td><td>${formatDate(a.started_at)}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    container.innerHTML = html;
+}
+
+async function renderShop() {
+    if (!currentUser) { navigateTo('login'); return; }
+    const options = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
+    const durations = [1, 3, 7, 14, 30];
+    pageContainer.innerHTML = `
+        <div class="shop-container">
+            <h1 style="text-align:center;">🛒</h1>
+            <div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div>
+            <div class="slider-container">
+                <label style="font-weight:600;">🤖 <span id="botCountLabel">500</span></label>
+                <input type="range" id="botSlider" min="500" max="500000" step="500" value="500">
+                <div class="slider-labels"><span>500</span><span>500,000+</span></div>
+            </div>
+            <div class="form-group"><label>📅</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div>
+            <div style="margin:16px 0;"><label style="font-weight:600;">⚙️</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
+                <button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 $<span id="buyPrice">0.00</span></button>
+                <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎</button>
+            </div>
+        </div>
+    `;
+    setTimeout(initShopHandlers, 100);
+}
+
+function initShopHandlers() {
+    const slider = document.getElementById('botSlider');
+    const durationSelect = document.getElementById('durationSelect');
+    const buyButton = document.getElementById('buyButton');
+    if (slider) slider.addEventListener('input', window.updatePriceDisplay);
+    if (durationSelect) durationSelect.addEventListener('change', window.updatePriceDisplay);
+    document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', window.updatePriceDisplay));
+    if (buyButton) {
+        const newBuyButton = buyButton.cloneNode(true);
+        buyButton.parentNode.replaceChild(newBuyButton, buyButton);
+        newBuyButton.addEventListener('click', function(e) { handleBuy(); });
+    }
+    window.updatePriceDisplay();
+}
+
+window.updatePriceDisplay = function() {
+    const slider = document.getElementById('botSlider');
+    const durationSelect = document.getElementById('durationSelect');
+    const botCountLabel = document.getElementById('botCountLabel');
+    const totalPriceSpan = document.getElementById('totalPrice');
+    const buyPriceSpan = document.getElementById('buyPrice');
+    if (!slider || !durationSelect) return;
+    const count = parseInt(slider.value);
+    const days = parseInt(durationSelect.value);
+    const options = {};
+    document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
+    let price = count * 0.01 * days;
+    let mult = 1;
+    const optionMultipliers = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
+    for (const [key, value] of Object.entries(options)) { if (value && optionMultipliers[key]) mult *= optionMultipliers[key]; }
+    price = Math.round(price * mult * 100) / 100;
+    if (botCountLabel) botCountLabel.textContent = count;
+    if (totalPriceSpan) totalPriceSpan.textContent = price.toFixed(2);
+    if (buyPriceSpan) buyPriceSpan.textContent = price.toFixed(2);
+};
+
+function validateBotCount(count) { const minBots = 500; const maxBots = 500000; if (count < minBots) return { valid: false, message: `❌ Минимальное количество — ${minBots} ботов.` }; if (count > maxBots) return { valid: false, message: `❌ Максимальное количество — ${maxBots} ботов.` }; return { valid: true }; }
+
+function explosionEffect() {
+    const colors = ['#8b5cf6', '#06d6a0', '#ef4444', '#fbbf24', '#ffffff'];
+    for (let i = 0; i < 40; i++) {
+        const particle = document.createElement('div');
+        particle.style.cssText = `position:fixed;width:${Math.random()*8+4}px;height:${Math.random()*8+4}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:50%;pointer-events:none;z-index:9999;left:${window.innerWidth/2}px;top:${window.innerHeight/2}px;box-shadow:0 0 20px ${colors[Math.floor(Math.random()*colors.length)]};`;
+        document.body.appendChild(particle);
+        const angle = Math.random() * 2 * Math.PI;
+        const velocity = Math.random() * 250 + 80;
+        const dx = Math.cos(angle) * velocity;
+        const dy = Math.sin(angle) * velocity;
+        let x = window.innerWidth / 2, y = window.innerHeight / 2, opacity = 1;
+        const animate = () => { x += dx * 0.02; y += dy * 0.02; opacity -= 0.01; particle.style.transform = `translate(${x - window.innerWidth/2}px, ${y - window.innerHeight/2}px) scale(${opacity})`; particle.style.opacity = opacity; if (opacity > 0) requestAnimationFrame(animate); else particle.remove(); };
+        animate();
+    }
+}
+
+window.handleBuy = async function() {
+    const slider = document.getElementById('botSlider');
+    const durationSelect = document.getElementById('durationSelect');
+    if (!slider || !durationSelect) { showModal('❌', 'Обновите страницу.'); return; }
+    const count = parseInt(slider.value);
+    const days = parseInt(durationSelect.value);
+    const options = {};
+    document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
+    const validation = validateBotCount(count);
+    if (!validation.valid) { showModal('❌', validation.message); return; }
+    let price = count * 0.01 * days;
+    let mult = 1;
+    const optionMultipliers = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
+    for (const [key, value] of Object.entries(options)) { if (value && optionMultipliers[key]) mult *= optionMultipliers[key]; }
+    price = Math.round(price * mult * 100) / 100;
+    const currentBalance = currentUser ? currentUser.balance : 0;
+    if (currentBalance < price) {
+        showModal('❌', `<p>Недостаточно средств.</p><p>💳 ${formatCurrency(currentBalance)}</p><p>💰 ${formatCurrency(price)}</p>`, [{ label: '💎', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+        return;
+    }
+    try {
+        const res = await apiFetch('/buy', { method: 'POST', body: JSON.stringify({ bot_count: count, duration_days: days, options }) });
+        if (res.success === true || res.botnet_id) {
+            currentUser.balance = res.new_balance;
+            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+            explosionEffect();
+            showModal('✅', `<p>🎉 Ботнет куплен!</p><p>🤖 ${res.bot_count}</p><p>📅 ${res.duration_days}д</p><p>💰 ${formatCurrency(res.price)}</p>`,
+                [{ label: '⚔️', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
+            userBalance.textContent = formatCurrency(currentUser.balance);
+            showNotification('✅', 'success');
+            return;
         }
-
-        function initFakeNotifications() {
-            showFakeNotification();
-            setTimeout(() => showFakeNotification(), 7000);
-            setTimeout(() => showFakeNotification(), 15000);
-            setInterval(() => showFakeNotification(), 20000 + Math.random() * 15000);
-        }
-
-        // ===== PHANTOM PUZZLE CORE =====
-
-        // Шифр Виженера: расшифровка
-        function vigenereDecrypt(text, key) {
-            let result = '';
-            let keyIndex = 0;
-            const upperKey = key.toUpperCase();
-            for (let i = 0; i < text.length; i++) {
-                const ch = text[i];
-                const code = ch.charCodeAt(0);
-                if (code >= 65 && code <= 90) {
-                    const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
-                    result += String.fromCharCode((code - 65 - shift + 26) % 26 + 65);
-                    keyIndex++;
-                } else if (code >= 97 && code <= 122) {
-                    const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
-                    result += String.fromCharCode((code - 97 - shift + 26) % 26 + 97);
-                    keyIndex++;
-                } else {
-                    result += ch;
-                }
-            }
-            return result;
-        }
-
-        // Показать страницу головоломки
-        function showPhantomStage(stage) {
-            // Скрываем все этапы
-            document.querySelectorAll('.phantom-stage').forEach(el => el.style.display = 'none');
-            const stageMap = {
-                1: 'phantomStage1',
-                2: 'phantomStage2',
-                3: 'phantomFinal'
-            };
-            const target = $(stageMap[stage]);
-            if (target) {
-                target.style.display = 'block';
-                // Показываем внутри pageContainer
-                const container = pageContainer;
-                container.innerHTML = '';
-                container.appendChild(target.cloneNode(true));
-                // Перепривязываем события
-                if (stage === 2) {
-                    const input = document.getElementById('gatePassword');
-                    if (input) {
-                        input.addEventListener('keydown', function(e) {
-                            if (e.key === 'Enter') submitGate();
-                        });
-                    }
-                }
-                phantomStage = stage;
-                // Добавляем хеш в URL для скрытой навигации
-                if (stage === 1) window.location.hash = 'phantom_begin';
-                else if (stage === 2) window.location.hash = 'gate';
-                else if (stage === 3) window.location.hash = 'phantom_final';
-            }
-        }
-
-        // Триггер для запуска головоломки (скрытая кнопка)
-        function triggerPhantomPuzzle() {
-            if (phantomSolved) return;
-            if (phantomStage === 0) {
-                phantomStage = 1;
-                showPhantomStage(1);
-                showNotification('⚡ Ты заметил что-то необычное...', 'info');
-            }
-        }
-
-        // Проверка расшифровки (автоматическая при загрузке stage1)
-        function checkVigenereDecryption() {
-            const stage1 = document.getElementById('phantomStage1');
-            if (!stage1) return;
-            const textEl = stage1.querySelector('div[style*="font-family:var(--font-mono)"]');
-            if (!textEl) return;
-            const keyEl = stage1.querySelector('[data-phantom-key]');
-            const key = keyEl ? keyEl.getAttribute('data-phantom-key') : 'PHANTOM';
-            const cipherText = textEl.textContent.trim();
-            const decrypted = vigenereDecrypt(cipherText, key);
-            
-            // Проверяем, содержит ли расшифрованный текст подсказку о пароле
-            if (decrypted.includes('3301') || decrypted.toLowerCase().includes('password')) {
-                // Показываем кнопку для перехода к /gate
-                const container = pageContainer;
-                const existingBtn = container.querySelector('.phantom-gate-btn');
-                if (!existingBtn) {
-                    const btn = document.createElement('button');
-                    btn.className = 'btn btn-phantom phantom-gate-btn';
-                    btn.textContent = '⟡ · · ·';
-                    btn.style.cssText = 'margin:20px auto;display:block;';
-                    btn.onclick = function() {
-                        showPhantomStage(2);
-                    };
-                    container.appendChild(btn);
-                    // Добавляем расшифрованный текст как скрытую подсказку
-                    const hint = document.createElement('div');
-                    hint.style.cssText = 'font-size:11px;color:var(--text-secondary);opacity:0.15;text-align:center;margin-top:12px;font-family:var(--font-mono);';
-                    hint.textContent = decrypted.slice(0, 60) + '...';
-                    container.appendChild(hint);
-                }
-            }
-        }
-
-        // Отправка пароля на /gate
-        window.submitGate = function() {
-            const input = document.getElementById('gatePassword');
-            const error = document.getElementById('gateError');
-            if (!input) return;
-            const password = input.value.trim();
-            
-            // Правильный пароль: 3301 (отсылка к Cicada)
-            if (password === '3301') {
-                if (error) error.style.display = 'none';
-                phantomSolved = true;
-                showPhantomStage(3);
-                // Взрыв эффект
-                explosionEffect();
-                showNotification('◈ ВОРОТА ОТКРЫТЫ ◈', 'success');
-                // Сохраняем в localStorage
-                localStorage.setItem('phantom_solved', 'true');
-            } else {
-                if (error) {
-                    error.style.display = 'block';
-                    setTimeout(() => { error.style.display = 'none'; }, 3000);
-                }
-                // Эффект "отказано"
-                input.style.borderColor = 'var(--accent-red)';
-                setTimeout(() => { input.style.borderColor = ''; }, 1000);
-                showNotification('⛔ ACCESS DENIED', 'error');
-            }
-        };
-
-        // Эффект взрыва
-        function explosionEffect() {
-            const colors = ['#8b5cf6', '#06d6a0', '#ef4444', '#fbbf24', '#ffffff'];
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.style.cssText = `position:fixed;width:${Math.random()*10+4}px;height:${Math.random()*10+4}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:50%;pointer-events:none;z-index:9999;left:${window.innerWidth/2}px;top:${window.innerHeight/2}px;box-shadow:0 0 20px ${colors[Math.floor(Math.random()*colors.length)]};`;
-                document.body.appendChild(particle);
-                const angle = Math.random() * 2 * Math.PI;
-                const velocity = Math.random() * 300 + 100;
-                const dx = Math.cos(angle) * velocity;
-                const dy = Math.sin(angle) * velocity;
-                let x = window.innerWidth / 2, y = window.innerHeight / 2, opacity = 1;
-                const animate = () => { x += dx * 0.02; y += dy * 0.02; opacity -= 0.01; particle.style.transform = `translate(${x - window.innerWidth/2}px, ${y - window.innerHeight/2}px) scale(${opacity})`; particle.style.opacity = opacity; if (opacity > 0) requestAnimationFrame(animate); else particle.remove(); };
-                animate();
-            }
-        }
-
-        // ===== END PHANTOM PUZZLE =====
-
-        function apiFetch(endpoint, options = {}) {
-            const token = localStorage.getItem(TOKEN_KEY);
-            const headers = {
-                'Content-Type': 'application/json',
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-                ...(options.headers || {})
-            };
-            return fetch(`${API_BASE}${endpoint}`, { ...options, headers })
-                .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-                .catch(err => { console.error('API Error:', err); throw err; });
-        }
-
-        function formatCurrency(amount) { return `$${Number(amount).toFixed(2)}`; }
-        function formatDate(iso) { if (!iso) return '—'; try { return new Date(iso).toLocaleString(); } catch { return iso; } }
-        function pluralize(n, one, few, many) { n = Math.abs(n); if (n % 10 === 1 && n % 100 !== 11) return one; if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) return few; return many; }
-
-        function showNotification(message, type = 'info') {
-            const colors = { info: 'var(--accent-purple)', success: 'var(--accent-green)', error: 'var(--accent-red)', warning: 'var(--accent-gold)' };
-            const notif = document.createElement('div');
-            notif.style.cssText = `position:fixed;top:80px;right:20px;background:var(--bg-surface);border:1px solid ${colors[type]};border-left:4px solid ${colors[type]};border-radius:var(--radius-sm);padding:16px 24px;color:var(--text-primary);z-index:9999;max-width:400px;box-shadow:0 0 40px rgba(0,0,0,0.8);transform:translateX(120%);transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);font-family:var(--font-main);backdrop-filter:blur(10px);`;
-            notif.innerHTML = `<div style="font-size:13px;font-weight:700;color:${colors[type]};text-transform:uppercase;letter-spacing:1px;">${type.toUpperCase()}</div><div style="margin-top:4px;font-size:14px;">${message}</div>`;
-            document.body.appendChild(notif);
-            setTimeout(() => { notif.style.transform = 'translateX(0)'; }, 100);
-            setTimeout(() => { notif.style.transform = 'translateX(120%)'; setTimeout(() => notif.remove(), 500); }, 4000);
-        }
-
-        function showModal(title, body, actions = [], icon = '', isDeposit = false) {
-            modalRoot.innerHTML = '';
-            let iconHtml = icon ? `<div class="modal-icon">${icon}</div>` : '';
-            let depositHtml = '';
-            if (isDeposit) {
-                depositHtml = `<div style="text-align:center;margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p style="font-size:18px;margin-bottom:12px;">💎 Для пополнения баланса свяжитесь с администратором:</p><a href="https://t.me/VO1D_NETWORK" target="_blank" class="contact-link">@VO1D_NETWORK</a><p style="margin-top:12px;font-size:13px;color:var(--text-secondary);">💰 Минимальная сумма: $5</p><p style="font-size:13px;color:var(--text-secondary);">🕒 Обработка: до 5 минут</p></div>`;
-            }
-            const overlayId = 'modalOverlay_' + Date.now();
-            const closeBtnId = 'modalClose_' + Date.now();
-            const closeBtn2Id = 'modalClose2_' + Date.now();
-            let actionsHtml = actions.map((a, index) => { const btnId = 'modal_btn_' + index + '_' + Date.now(); return `<button id="${btnId}" class="btn ${a.cls || 'btn-outline'}">${a.label}</button>`; }).join('');
-            modalRoot.innerHTML = `<div class="modal-overlay" id="${overlayId}"><div class="modal-box"><button class="modal-close" id="${closeBtnId}">✕</button>${iconHtml}<h2>${title}</h2><div class="modal-body">${body}${depositHtml}</div><div class="modal-actions">${actionsHtml}<button class="btn btn-outline" id="${closeBtn2Id}">Закрыть</button></div></div></div>`;
-            const overlay = document.getElementById(overlayId);
-            const closeBtn = document.getElementById(closeBtnId);
-            const closeBtn2 = document.getElementById(closeBtn2Id);
-            const closeModalFn = () => { modalRoot.innerHTML = ''; };
-            if (overlay) overlay.addEventListener('click', function(e) { if (e.target === this) closeModalFn(); });
-            if (closeBtn) closeBtn.addEventListener('click', closeModalFn);
-            if (closeBtn2) closeBtn2.addEventListener('click', closeModalFn);
-            actions.forEach((a, index) => {
-                const allBtns = modalRoot.querySelectorAll('.modal-actions button');
-                const btn = allBtns[index];
-                if (btn) {
-                    const newBtn = btn.cloneNode(true);
-                    btn.parentNode.replaceChild(newBtn, btn);
-                    newBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        if (typeof a.action === 'function') a.action();
-                        closeModalFn();
-                    });
-                }
-            });
-        }
-
-        window.closeModal = function() { modalRoot.innerHTML = ''; };
-
-        // ============================================================
-        // BUY LOGIC
-        // ============================================================
-
-        function validateBotCount(count) { const minBots = 500; const maxBots = 500000; if (count < minBots) return { valid: false, message: `❌ Минимальное количество — ${minBots} ботов. Вы выбрали ${count}.` }; if (count > maxBots) return { valid: false, message: `❌ Максимальное количество — ${maxBots} ботов. Вы выбрали ${count}.` }; return { valid: true }; }
-
-        function calculatePrice(count, days, options) {
-            const pricePerBotPerDay = 0.01;
-            let basePrice = count * pricePerBotPerDay * days;
-            let multiplier = 1.0;
-            const optionMultipliers = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
-            for (const [key, value] of Object.entries(options)) { if (value && optionMultipliers[key]) multiplier *= optionMultipliers[key]; }
-            return Math.round(basePrice * multiplier * 100) / 100;
-        }
-
-        function getPowerLevelDescription(count) {
-            if (count < 500) return "💩 ХУЁВЕНЬ (мизер)";
-            if (count < 1000) return "👍 НОРМАЛЬНО (но без гарантии)";
-            if (count < 5000) return "🔥 ХОРОШО (большинство сайтов падает)";
-            if (count < 50000) return "💥 МОЩНО (крупные сайты падают)";
-            if (count < 200000) return "⚡ ОГРОМНАЯ СИЛА";
-            return "☢️ ЯДЕРНЫЙ УДАР (всё падает)";
-        }
-
-        window.handleBuy = async function() {
-            const slider = document.getElementById('botSlider');
-            const durationSelect = document.getElementById('durationSelect');
-            if (!slider || !durationSelect) { showModal('❌ Ошибка', 'Не удалось найти элементы формы. Обновите страницу.'); return; }
-            const count = parseInt(slider.value);
-            const days = parseInt(durationSelect.value);
-            const options = {};
-            document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
-            const validation = validateBotCount(count);
-            if (!validation.valid) { showModal('❌ Ошибка валидации', validation.message); return; }
-            const price = calculatePrice(count, days, options);
-            const currentBalance = currentUser ? currentUser.balance : 0;
-            if (currentBalance < price) {
-                showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств на балансе</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>💳 Ваш баланс: <strong style="color:var(--accent-green);">${formatCurrency(currentBalance)}</strong></p><p>💰 Нужно: <strong style="color:var(--accent-gold);">${formatCurrency(price)}</strong></p><p style="font-size:14px;color:var(--text-secondary);margin-top:8px;">Не хватает: <strong style="color:var(--accent-red);">${formatCurrency(price - currentBalance)}</strong></p></div></div>`, [{ label: '💎 ПОПОЛНИТЬ БАЛАНС', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+        if (res.error) {
+            if (res.error.includes('Insufficient balance')) {
+                showModal('❌', `<p>Недостаточно средств.</p>`, [{ label: '💎', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
                 return;
             }
-            try {
-                const res = await apiFetch('/buy', { method: 'POST', body: JSON.stringify({ bot_count: count, duration_days: days, options }) });
-                if (res.success === true || res.botnet_id) {
-                    currentUser.balance = res.new_balance;
-                    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                    explosionEffect();
-                    showModal('✅ Покупка успешна!', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">🎉</div><p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ботнет успешно куплен!</p><div style="margin:16px 0;padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);"><p>🤖 <strong>${res.bot_count}</strong> ботов</p><p>📅 <strong>${res.duration_days}</strong> дней</p><p>💰 Стоимость: <strong style="color:var(--accent-gold);">${formatCurrency(res.price)}</strong></p><p>💳 Новый баланс: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>⏳ Истекает: <strong>${formatDate(res.expires_at)}</strong></p></div><p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Уровень мощности: <strong>${getPowerLevelDescription(res.bot_count)}</strong></p></div>`,
-                    [{ label: '⚔️ К АТАКЕ', cls: 'btn-red', action: function() { closeModal(); navigateTo('attack'); } }, { label: '📊 ДАШБОРД', cls: 'btn-purple', action: function() { closeModal(); navigateTo('dashboard'); } }]);
-                    userBalance.textContent = formatCurrency(currentUser.balance);
-                    showNotification('✅ Покупка успешна! ' + res.bot_count + ' ботов', 'success');
-                    return;
-                }
-                if (res.error) {
-                    if (res.error.includes('Insufficient balance')) {
-                        showModal('❌ Недостаточно средств', `<p>У вас недостаточно средств для покупки.</p><div style="margin:12px 0;padding:12px;background:var(--bg-surface-2);border-radius:var(--radius-sm);">💳 Ваш баланс: <strong>${formatCurrency(currentUser.balance)}</strong><br>💰 Нужно: <strong>${formatCurrency(price)}</strong></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
-                        return;
-                    }
-                    showModal('❌ Ошибка покупки', `<p>Произошла ошибка при покупке:</p><p style="color:var(--accent-red);">${res.error}</p>`);
-                    return;
-                }
-            } catch(e) {
-                showModal('❌ Ошибка', 'Сервер недоступен или ошибка соединения.');
-            }
-        };
-
-        window.updatePriceDisplay = function() {
-            const slider = document.getElementById('botSlider');
-            const durationSelect = document.getElementById('durationSelect');
-            const botCountLabel = document.getElementById('botCountLabel');
-            const totalPriceSpan = document.getElementById('totalPrice');
-            const buyPriceSpan = document.getElementById('buyPrice');
-            if (!slider || !durationSelect) return;
-            const count = parseInt(slider.value);
-            const days = parseInt(durationSelect.value);
-            const options = {};
-            document.querySelectorAll('.opt-check:checked').forEach(el => { const key = el.dataset.key; if (key) options[key] = true; });
-            const price = calculatePrice(count, days, options);
-            if (botCountLabel) botCountLabel.textContent = count;
-            if (totalPriceSpan) totalPriceSpan.textContent = price.toFixed(2);
-            if (buyPriceSpan) buyPriceSpan.textContent = price.toFixed(2);
-        };
-
-        function initShopHandlers() {
-            const slider = document.getElementById('botSlider');
-            const durationSelect = document.getElementById('durationSelect');
-            const buyButton = document.getElementById('buyButton');
-            if (slider) slider.addEventListener('input', window.updatePriceDisplay);
-            if (durationSelect) durationSelect.addEventListener('change', window.updatePriceDisplay);
-            document.querySelectorAll('.opt-check').forEach(el => el.addEventListener('change', window.updatePriceDisplay));
-            if (buyButton) {
-                const newBuyButton = buyButton.cloneNode(true);
-                buyButton.parentNode.replaceChild(newBuyButton, buyButton);
-                newBuyButton.addEventListener('click', function(e) { handleBuy(); });
-            }
-            window.updatePriceDisplay();
+            showModal('❌', res.error);
         }
+    } catch(e) { showModal('❌', 'Сервер недоступен.'); }
+};
 
-        // ============================================================
-        // NAVIGATION
-        // ============================================================
+function renderGeo() {
+    if (!currentUser) { navigateTo('login'); return; }
+    pageContainer.innerHTML = `
+        <div class="geo-container">
+            <h1>🌐</h1>
+            <p style="color:var(--text-secondary);margin-bottom:16px;">IP</p>
+            <div class="price-info">💰 $2</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
+                <input type="text" id="ipInput" placeholder="8.8.8.8" style="flex:1;min-width:160px;">
+                <button class="btn btn-purple btn-glitch" onclick="handleGeoSearch()">🔍</button>
+                <button class="btn btn-outline" onclick="getMyIp()">📍</button>
+            </div>
+            <div id="geoResult" style="margin-top:20px;"></div>
+        </div>
+    `;
+}
 
-        window.navigateTo = function(page, data = null) { 
-            // Если пытаемся перейти на home или dashboard, сбрасываем phantom
-            if (page === 'home' || page === 'dashboard') {
-                document.querySelectorAll('.phantom-stage').forEach(el => el.style.display = 'none');
-                phantomStage = 0;
-                window.location.hash = '';
-            }
-            currentPage = page; 
-            renderNav(); 
-            renderPage(page, data); 
-            window.scrollTo({ top: 0, behavior: 'smooth' }); 
-        };
+window.handleGeoSearch = async function() {
+    if (!currentUser) { showModal('❌', 'Войдите!'); return; }
+    const ipInput = document.getElementById('ipInput');
+    const ip = ipInput.value.trim();
+    if (!ip) { showModal('❌', 'Введите IP'); return; }
+    if ((currentUser.balance || 0) < 2) {
+        showModal('❌', `<p>Недостаточно средств. $2</p>`, [{ label: '💎', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
+        return;
+    }
+    currentUser.balance -= 2;
+    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+    userBalance.textContent = formatCurrency(currentUser.balance);
+    showNotification('💳 -$2', 'warning');
+    const resultDiv = document.getElementById('geoResult');
+    resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ ${ip}...</p>`;
+    try {
+        const response = await fetch(`https://ipapi.co/${ip}/json/`);
+        if (!response.ok) throw new Error('API error');
+        const data = await response.json();
+        if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌</p>`; return; }
+        const flag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
+        resultDiv.innerHTML = `
+            <div class="geo-card">
+                <h3 style="color:var(--accent-purple);">${flag} ${ip}</h3>
+                <div class="geo-row"><span style="color:var(--text-secondary);">🌍</span> <strong>${data.country_name || '—'}</strong></div>
+                <div class="geo-row"><span style="color:var(--text-secondary);">🏙️</span> <strong>${data.city || '—'}</strong></div>
+                <div class="geo-row"><span style="color:var(--text-secondary);">📡</span> <strong>${data.org || data.asn || '—'}</strong></div>
+                <div class="geo-row"><span style="color:var(--text-secondary);">🗺️</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div>
+                <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border-color);">
+                    <a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">🗺️</a>
+                </div>
+                <div class="price-info">💰 $2</div>
+            </div>
+        `;
+    } catch(e) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌</p>`; }
+};
 
-        function renderNav() {
-            const isAuth = !!currentUser;
-            let html = '';
-            if (isAuth) {
-                html += `<a class="${currentPage === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">📊 Дашборд</a>`;
-                html += `<a class="${currentPage === 'shop' ? 'active' : ''}" onclick="navigateTo('shop')">🛒 Магазин</a>`;
-                html += `<a class="${currentPage === 'attack' ? 'active' : ''}" onclick="navigateTo('attack')">⚔️ Атака</a>`;
-                html += `<a class="${currentPage === 'geo' ? 'active' : ''}" onclick="navigateTo('geo')">🌐 Geo IP</a>`;
-                html += `<a class="${currentPage === 'profile' ? 'active' : ''}" onclick="navigateTo('profile')">👤 Профиль</a>`;
-                if (currentUser && currentUser.role === 'admin') html += `<a class="${currentPage === 'admin' ? 'active' : ''}" onclick="navigateTo('admin')">🔧 Админ</a>`;
-                html += `<button onclick="logout()">🚪 Выйти</button>`;
-            } else {
-                html += `<a class="${currentPage === 'home' ? 'active' : ''}" onclick="navigateTo('home')">🏠 Главная</a>`;
-                html += `<a class="${currentPage === 'login' ? 'active' : ''}" onclick="navigateTo('login')">🔐 Вход</a>`;
-                html += `<a class="${currentPage === 'register' ? 'active' : ''}" onclick="navigateTo('register')">📝 Регистрация</a>`;
-            }
-            navLinks.innerHTML = html;
-            if (currentUser) { userName.textContent = currentUser.username; userBalance.textContent = formatCurrency(currentUser.balance || 0); } else { userName.textContent = 'Гость'; userBalance.textContent = '$0.00'; }
-        }
+window.getMyIp = async function() {
+    try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); document.getElementById('ipInput').value = data.ip; handleGeoSearch(); } catch(e) { showModal('❌', 'Не удалось определить IP'); }
+};
 
-        function renderPage(page, data) {
-            switch(page) {
-                case 'home': renderHome(); break;
-                case 'login': renderLogin(); break;
-                case 'register': renderRegister(); break;
-                case 'dashboard': renderDashboard(); break;
-                case 'shop': renderShop(); break;
-                case 'attack': renderAttack(data); break;
-                case 'geo': renderGeo(); break;
-                case 'profile': renderProfile(); break;
-                case 'admin': renderAdmin(); break;
-                default: renderHome();
-            }
-        }
+async function renderAttack(data) {
+    if (!currentUser) { navigateTo('login'); return; }
+    let botnets = [];
+    try { const res = await apiFetch('/my-botnets'); if (!res.error) botnets = res.filter(b => b.active); } catch(e) {}
+    const attackTypes = ['HTTP_GET_FLOOD', 'HTTP_POST_FLOOD', 'HTTPS_FLOOD', 'SLOWLORIS', 'SYN_FLOOD', 'UDP_FLOOD', 'ICMP_FLOOD', 'HTTP_HEADERS_FLOOD', 'MULTI_VECTOR'];
+    pageContainer.innerHTML = `
+        <div class="attack-panel">
+            <h1>⚔️</h1>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;">
+                <span class="target-status online" id="targetStatus">🟢</span>
+                <span id="attackTimer" style="color:var(--text-secondary);">⏱ 0с</span>
+                <button class="btn btn-outline btn-sm" id="stopAttackBtn" onclick="handleStopAttack()" disabled>■</button>
+            </div>
+            <div class="form-group"><label>🤖</label><select id="attackBotnet">${botnets.length === 0 ? '<option value="">—</option>' : botnets.map(b => `<option value="${b.id}">${b.bot_count} (до ${formatDate(b.expires_at)})</option>`).join('')}</select></div>
+            <div class="form-group"><label>🎯</label><input type="text" id="attackTarget" placeholder="https://example.com"></div>
+            <div class="form-group"><label>💥</label><select id="attackType">${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g,' ')}</option>`).join('')}</select></div>
+            <div class="form-group"><label>⏱ <span id="durationLabel">60</span>с</label><input type="range" id="durationSlider" min="10" max="3600" step="10" value="60"><div class="slider-labels"><span>10с</span><span>3600с</span></div></div>
+            <button class="btn btn-red btn-lg btn-glitch" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶</button>
+            <div class="stats-grid" id="attackStats">
+                <div class="stat-box"><div class="stat-value" id="statRequests">0</div><div class="stat-label">Запросов</div></div>
+                <div class="stat-box"><div class="stat-value" id="statErrors">0</div><div class="stat-label">Успешно</div></div>
+                <div class="stat-box"><div class="stat-value" id="statRps">0</div><div class="stat-label">RPS</div></div>
+                <div class="stat-box"><div class="stat-value" id="statBytes">0</div><div class="stat-label">KB</div></div>
+                <div class="stat-box"><div class="stat-value" id="statStatus">🟢</div><div class="stat-label">Статус</div></div>
+            </div>
+            <div class="progress-bar"><div class="fill" id="attackProgress" style="width:0%;"></div></div>
+            <div class="log-terminal" id="attackLog"><div class="log-line"><span class="time">[${new Date().toLocaleTimeString()}]</span> ⚡</div></div>
+        </div>
+    `;
+    const durSlider = $('durationSlider');
+    if (durSlider) durSlider.addEventListener('input', () => { const lbl = $('durationLabel'); if(lbl) lbl.textContent = durSlider.value; });
+    if (data && data.attackId) { activeAttackId = data.attackId; startAttackMonitoring(activeAttackId); }
+}
 
-        // ============================================================
-        // HOME
-        // ============================================================
+window.handleStartAttack = async function() {
+    const botnetId = parseInt($('attackBotnet').value);
+    const target = $('attackTarget').value.trim();
+    const attackType = $('attackType').value;
+    const duration = parseInt($('durationSlider').value);
+    if (!botnetId) { showModal('❌', 'Выберите ботнет'); return; }
+    if (!target) { showModal('❌', 'Введите цель'); return; }
+    try {
+        const res = await apiFetch('/attack', { method: 'POST', body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration }) });
+        if (res.error) { showModal('❌', res.error); return; }
+        if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀', 'success'); addLogLine(`🚀 ${target}`); startAttackMonitoring(activeAttackId); }
+    } catch(e) { showModal('❌', 'Сервер недоступен'); }
+};
 
-        function renderHome() {
-            pageContainer.innerHTML = `<div class="hero"><div class="logo-big neon-text">VO1D<span>.</span></div><div class="slogan">Rent the void. <em>Destroy anything.</em></div><button class="btn btn-purple btn-lg btn-glitch" onclick="navigateTo('${currentUser ? 'dashboard' : 'register'}')">${currentUser ? '🚀 Перейти в дашборд' : '⚡ Начать'}</button><div class="features"><div class="feature-card card-animated"><div class="icon">🤖</div><div class="title">Бесконечные ботнеты</div><div class="desc">Всегда в наличии</div></div><div class="feature-card card-animated"><div class="icon">🛡️</div><div class="title">Защищённые транзакции</div><div class="desc">Анонимно и безопасно</div></div><div class="feature-card card-animated"><div class="icon">💬</div><div class="title">Поддержка 24/7</div><div class="desc">Всегда на связи</div></div></div><div style="margin-top:40px;text-align:center;font-size:11px;color:var(--text-secondary);opacity:0.15;">⏣</div></div>`;
-            
-            // Добавляем скрытый триггер в футер (точка входа)
-            const footer = document.querySelector('.footer');
-            if (footer) {
-                const trigger = document.createElement('span');
-                trigger.className = 'phantom-trigger';
-                trigger.textContent = '⏣';
-                trigger.style.cssText = 'opacity:0.05;font-size:10px;cursor:default;user-select:none;margin-left:8px;transition:0.3s;';
-                trigger.onmouseover = function() { this.style.opacity = '0.15'; };
-                trigger.onmouseout = function() { this.style.opacity = '0.05'; };
-                trigger.onclick = function(e) { 
-                    e.stopPropagation();
-                    triggerPhantomPuzzle();
-                };
-                footer.appendChild(trigger);
-            }
-        }
+window.handleStopAttack = async function() {
+    if (!activeAttackId) return;
+    try {
+        const res = await apiFetch(`/attack/${activeAttackId}/stop`, { method: 'POST' });
+        if (res.success) { showNotification('⏹', 'warning'); addLogLine(`⏹`); $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; if (attackInterval) { clearInterval(attackInterval); attackInterval = null; } activeAttackId = null; }
+        else showModal('❌', res.error || 'Не удалось остановить');
+    } catch(e) { showModal('❌', 'Сервер недоступен'); }
+};
 
-        // ============================================================
-        // LOGIN / REGISTER / DASHBOARD / SHOP / ATTACK / GEO / PROFILE / ADMIN
-        // (сокращено для читаемости — полные функции есть в оригинале)
-        // ============================================================
+function startAttackMonitoring(attackId) {
+    if (attackInterval) clearInterval(attackInterval);
+    addLogLine(`📡 ${attackId}`);
+    let startTime = Date.now();
+    attackInterval = setInterval(async () => {
+        try {
+            const res = await apiFetch(`/attack/${attackId}/status`);
+            if (res.error) { addLogLine(`❌ ${res.error}`); return; }
+            const stats = res.stats || {};
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            $('statRequests').textContent = stats.total_requests || 0;
+            $('statErrors').textContent = stats.failed_requests || 0;
+            $('statRps').textContent = stats.rps || 0;
+            $('statBytes').textContent = stats.bytes_sent ? Math.round(stats.bytes_sent / 1024) : 0;
+            const status = stats.target_status || 'online';
+            $('statStatus').textContent = status === 'online' ? '🟢' : '🔴';
+            $('targetStatus').textContent = status === 'online' ? '🟢' : '🔴';
+            $('targetStatus').className = `target-status ${status}`;
+            $('attackTimer').textContent = `⏱ ${elapsed}с / ${res.duration_seconds || 0}с`;
+            const progress = res.duration_seconds ? Math.min(100, (elapsed / res.duration_seconds) * 100) : 0;
+            $('attackProgress').style.width = progress + '%';
+            if (res.status !== 'running') { addLogLine(`🏁 ${res.status}`); clearInterval(attackInterval); attackInterval = null; $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; activeAttackId = null; showNotification('🏁', 'success'); }
+        } catch(e) {}
+    }, 1000);
+}
 
-        function renderLogin() {
-            pageContainer.innerHTML = `<div class="auth-form"><h2>🔐 Вход</h2><div class="form-group"><label>Логин</label><input type="text" id="loginUsername" placeholder="Введите логин"></div><div class="form-group password-toggle"><label>Пароль</label><input type="password" id="loginPassword" placeholder="Введите пароль"><button class="toggle-eye" onclick="togglePassword('loginPassword')">👁️</button></div><button class="btn btn-green btn-glitch" onclick="handleLogin()">ВОЙТИ</button><div class="switch-link">Нет аккаунта? <a onclick="navigateTo('register')">Зарегистрироваться</a></div></div>`;
-        }
+function addLogLine(msg) {
+    const log = $('attackLog');
+    if (!log) return;
+    const line = document.createElement('div');
+    line.className = 'log-line';
+    line.innerHTML = `<span class="time">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
+    log.appendChild(line);
+    log.scrollTop = log.scrollHeight;
+}
 
-        window.handleLogin = async function() {
-            const username = $('loginUsername').value.trim();
-            const password = $('loginPassword').value.trim();
-            if (!username || !password) { showModal('Ошибка', 'Заполните все поля'); return; }
-            try {
-                const res = await apiFetch('/login', { method: 'POST', body: JSON.stringify({ username, password }) });
-                if (res.error) { showModal('Ошибка входа', res.error); return; }
-                if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅ Добро пожаловать, ' + currentUser.username, 'success'); navigateTo('dashboard'); }
-            } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-        };
-
-        function renderRegister() {
-            pageContainer.innerHTML = `<div class="auth-form"><h2>📝 Регистрация</h2><div class="form-group"><label>Логин</label><input type="text" id="regUsername" placeholder="Придумайте логин"></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="Ваш email"></div><div class="form-group password-toggle"><label>Пароль</label><input type="password" id="regPassword" placeholder="Минимум 6 символов"><button class="toggle-eye" onclick="togglePassword('regPassword')">👁️</button></div><div class="form-group password-toggle"><label>Подтверждение</label><input type="password" id="regPassword2" placeholder="Повторите пароль"><button class="toggle-eye" onclick="togglePassword('regPassword2')">👁️</button></div><button class="btn btn-purple btn-glitch" onclick="handleRegister()">СОЗДАТЬ АККАУНТ</button><div class="switch-link">Уже есть аккаунт? <a onclick="navigateTo('login')">Войти</a></div></div>`;
-        }
-
-        window.handleRegister = async function() {
-            const username = $('regUsername').value.trim();
-            const email = $('regEmail').value.trim();
-            const password = $('regPassword').value;
-            const password2 = $('regPassword2').value;
-            if (!username || !email || !password || !password2) { showModal('Ошибка', 'Заполните все поля'); return; }
-            if (password !== password2) { showModal('Ошибка', 'Пароли не совпадают'); return; }
-            if (password.length < 6) { showModal('Ошибка', 'Пароль минимум 6 символов'); return; }
-            try {
-                const res = await apiFetch('/register', { method: 'POST', body: JSON.stringify({ username, email, password }) });
-                if (res.error) { showModal('Ошибка', res.error); return; }
-                if (res.token) { localStorage.setItem(TOKEN_KEY, res.token); currentUser = res.user; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); showNotification('✅ Аккаунт создан!', 'success'); navigateTo('dashboard'); }
-            } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-        };
-
-        window.togglePassword = function(id) { const el = $(id); if (!el) return; el.type = el.type === 'password' ? 'text' : 'password'; };
-
-        async function renderDashboard() {
-            if (!currentUser) { navigateTo('login'); return; }
-            pageContainer.innerHTML = `<h1>👋 Добро пожаловать, <span class="neon-text">${currentUser.username}</span></h1><div class="dash-grid"><div class="dash-card card-animated"><div class="card-title">💰 Баланс</div><div class="card-value green">${formatCurrency(currentUser.balance)}</div></div><div class="dash-card card-animated"><div class="card-title">🤖 Активные ботнеты</div><div class="card-value purple" id="activeBotnetsCount">0</div></div><div class="dash-card card-animated"><div class="card-title">⚔️ Атак запущено</div><div class="card-value red" id="totalAttacksCount">0</div></div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;"><button class="btn btn-purple btn-glitch" onclick="navigateTo('shop')">🛒 КУПИТЬ БОТНЕТ</button><button class="btn btn-red btn-glitch" onclick="navigateTo('attack')">⚔️ ЗАПУСТИТЬ АТАКУ</button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" onclick="refreshDashboard()">🔄 Обновить</button></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="botnetList" class="botnet-list"></div><h2 style="margin-top:24px;">📜 История атак</h2><div id="attackHistory"></div>`;
-            await refreshDashboard();
-        }
-
-        window.refreshDashboard = async function() {
-            try {
-                const profile = await apiFetch('/profile');
-                if (!profile.error) { currentUser = { ...currentUser, ...profile }; localStorage.setItem(USER_KEY, JSON.stringify(currentUser)); userBalance.textContent = formatCurrency(currentUser.balance); }
-                const botnets = await apiFetch('/my-botnets');
-                if (!botnets.error) { const active = botnets.filter(b => b.active).length; const el = $('activeBotnetsCount'); if (el) el.textContent = active; renderBotnetList(botnets); }
-                const history = await apiFetch('/attacks/history');
-                if (!history.error) { const el = $('totalAttacksCount'); if (el) el.textContent = history.length; renderAttackHistory(history); }
-            } catch(e) { console.error(e); }
-        };
-
-        function renderBotnetList(botnets) {
-            const container = $('botnetList');
+async function renderProfile() {
+    if (!currentUser) { navigateTo('login'); return; }
+    pageContainer.innerHTML = `
+        <h1>👤</h1>
+        <div class="dash-card" style="max-width:500px;">
+            <div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div>
+            <div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div>
+            <div class="form-group"><label>💰</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div>
+            <div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎</button>
+                <button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪</button>
+            </div>
+        </div>
+        <h2 style="margin-top:24px;">📦</h2><div id="profileBotnets" class="botnet-list"></div>
+    `;
+    try {
+        const botnets = await apiFetch('/my-botnets');
+        if (!botnets.error) {
+            const container = $('profileBotnets');
             if (!container) return;
-            if (!botnets || botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">У вас пока нет ботнетов. <a onclick="navigateTo(\'shop\')">Купить</a></p>'; return; }
-            container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active ? '' : 'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)} · до ${formatDate(b.expires_at)}</div></div><div class="status ${b.active ? 'active' : 'expired'}">${b.active ? '✅ Активен' : '⏳ Истёк'}</div></div>`).join('');
+            if (botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>'; }
+            else { container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active?'':'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count}</div><div class="meta">${b.duration_days}д · ${formatCurrency(b.price)}</div></div><div class="status ${b.active?'active':'expired'}">${b.active?'✅':'⏳'}</div></div>`).join(''); }
         }
+    } catch(e) {}
+}
 
-        function renderAttackHistory(history) {
-            const container = $('attackHistory');
+async function renderAdmin() {
+    if (!currentUser || currentUser.role !== 'admin') { navigateTo('home'); return; }
+    pageContainer.innerHTML = `
+        <h1>🔧</h1>
+        <div class="dash-card" style="margin:16px 0;border-color:var(--accent-gold);">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                <span style="font-size:20px;font-weight:700;color:var(--accent-gold);">💎</span>
+                <input type="text" id="depositUsername" placeholder="Логин" style="flex:1;min-width:120px;">
+                <input type="number" id="depositAmount" placeholder="$" style="width:120px;">
+                <button class="btn btn-green btn-glitch" onclick="window.adminDeposit()">💎</button>
+            </div>
+        </div>
+        <div class="dash-grid" id="adminStats"></div>
+        <h2 style="margin-top:24px;">👥</h2><div id="adminUsers"></div>
+    `;
+    await refreshAdmin();
+}
+
+async function refreshAdmin() {
+    try {
+        const stats = await apiFetch('/admin/stats');
+        if (!stats.error) {
+            const container = $('adminStats');
             if (!container) return;
-            if (!history || history.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Атак пока не было.</p>'; return; }
-            let html = `<table class="admin-table"><thead><tr><th>Цель</th><th>Тип</th><th>Ботов</th><th>Статус</th><th>Начало</th></tr></thead><tbody>`;
-            history.slice(0, 20).forEach(a => {
-                const color = a.status === 'running' ? 'var(--accent-green)' : a.status === 'stopped' ? 'var(--accent-red)' : 'var(--text-secondary)';
-                html += `<tr><td>${a.target}</td><td>${a.attack_type.replace(/_/g,' ')}</td><td>${a.bot_count}</td><td style="color:${color};">${a.status}</td><td>${formatDate(a.started_at)}</td></tr>`;
+            container.innerHTML = `
+                <div class="dash-card"><div class="card-title">👥</div><div class="card-value purple">${stats.total_users||0}</div></div>
+                <div class="dash-card"><div class="card-title">🤖</div><div class="card-value green">${stats.total_botnets||0}</div></div>
+                <div class="dash-card"><div class="card-title">⚔️</div><div class="card-value red">${stats.active_attacks||0}</div></div>
+                <div class="dash-card"><div class="card-title">💰</div><div class="card-value gold">${formatCurrency(stats.total_revenue||0)}</div></div>
+            `;
+        }
+        const users = await apiFetch('/admin/users');
+        if (!users.error) {
+            const container = $('adminUsers');
+            if (!container) return;
+            let html = `<table class="admin-table"><thead><tr><th>ID</th><th>Логин</th><th>Email</th><th>Баланс</th><th>Роль</th><th>Статус</th><th>Действия</th></tr></thead><tbody>`;
+            users.forEach(u => {
+                const isBanned = u.banned === 1 || u.banned === true;
+                html += `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email||''}</td><td style="color:var(--accent-green);font-weight:700;">${formatCurrency(u.balance)}</td><td><span class="badge ${u.role==='admin'?'admin':'user'}">${u.role||'user'}</span></td><td>${isBanned ? '<span class="badge banned">Забанен</span>' : '✅'}</td><td>${isBanned ? `<button class="btn btn-green btn-sm" onclick="adminUnban(${u.id})">Разбан</button>` : `<button class="btn btn-red btn-sm" onclick="adminBan(${u.id})">Забанить</button>`}</td></tr>`;
             });
             html += '</tbody></table>';
             container.innerHTML = html;
         }
+    } catch(e) { console.error(e); }
+}
 
-        async function renderShop() {
-            if (!currentUser) { navigateTo('login'); return; }
-            const options = { 'BYPASS_CLOUDFLARE': 1.20, 'BYPASS_DDOS_GUARD': 1.30, 'ROTATE_PROXY': 1.15, 'IMITATE_LEGIT_TRAFFIC': 1.10 };
-            const durations = [1, 3, 7, 14, 30];
-            pageContainer.innerHTML = `<div class="shop-container"><h1 style="text-align:center;">🛒 Магазин ботнетов</h1><div style="text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:8px;">🔥 Ботнеты всегда в наличии! Бесконечный запас</div><div class="price-display" id="priceDisplay"><span id="totalPrice">0.00</span><small> USD</small></div><div class="slider-container"><label style="font-weight:600;">🤖 Количество ботов: <span id="botCountLabel">500</span></label><input type="range" id="botSlider" min="500" max="500000" step="500" value="500"><div class="slider-labels"><span>500</span><span>500,000+</span></div></div><div class="form-group"><label>📅 Срок аренды</label><select id="durationSelect">${durations.map(d => `<option value="${d}">${d} ${pluralize(d, 'день', 'дня', 'дней')}</option>`).join('')}</select></div><div style="margin:16px 0;"><label style="font-weight:600;">⚙️ Дополнительные опции</label>${Object.entries(options).map(([key, multiplier]) => `<label class="option-checkbox"><input type="checkbox" class="opt-check" data-key="${key}" data-mult="${multiplier}"><span class="opt-label">${key.replace(/_/g, ' ')}</span><span class="opt-price">+${Math.round((multiplier - 1) * 100)}%</span></label>`).join('')}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><button class="btn btn-purple btn-lg btn-glitch" style="flex:1;" id="buyButton">💳 КУПИТЬ ЗА $<span id="buyPrice">0.00</span></button><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button></div></div>`;
-            setTimeout(initShopHandlers, 100);
+window.adminBan = async function(userId) {
+    if (!confirm('Забанить?')) return;
+    try { const res = await apiFetch(`/admin/ban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Забанен'); } else showModal('❌', res.error||''); } catch(e) { showModal('❌', 'Сервер недоступен'); }
+};
+
+window.adminUnban = async function(userId) {
+    try { const res = await apiFetch(`/admin/unban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Разбанен'); } else showModal('❌', res.error||''); } catch(e) { showModal('❌', 'Сервер недоступен'); }
+};
+
+window.adminDeposit = async function() {
+    const username = document.getElementById('depositUsername').value.trim();
+    const amount = parseFloat(document.getElementById('depositAmount').value);
+    if (!username || !amount || amount <= 0) { showModal('❌', 'Введите логин и сумму'); return; }
+    try {
+        const res = await apiFetch('/admin/add_balance', { method: 'POST', body: JSON.stringify({ username, amount }) });
+        if (res.error) { showModal('❌', res.error); return; }
+        if (res.success) { showModal('✅', `<p>💰 ${res.username}: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>➕ ${formatCurrency(res.added)}</p>`, [{ label: '🔄', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }]); setTimeout(refreshAdmin, 500); }
+    } catch(e) { showModal('❌', 'Сервер недоступен'); }
+};
+
+window.showDepositModal = function() {
+    showModal('💎', '<p>Пополните баланс для покупки ботнетов.</p>', [{ label: '📱 @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }], '💰', true);
+};
+
+window.logout = function() {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    currentUser = null;
+    if (attackInterval) { clearInterval(attackInterval); attackInterval = null; }
+    activeAttackId = null;
+    showNotification('👋', 'info');
+    navigateTo('home');
+};
+
+// ============================================================
+// ====== 7 УРОВНЕЙ ГОЛОВОЛОМКИ "BLACK PHANTOM" ======
+// ============================================================
+
+// ===== УРОВЕНЬ 1: Стеганография в CSS =====
+function checkLevel1(input) {
+    const correct = '5731';
+    if (input.trim() === correct) { levelProgress[1] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
+    else { showNotification('❌', 'error'); return false; }
+}
+
+// ===== УРОВЕНЬ 2: Виженер + Base64 =====
+function vigenereDecrypt(text, key) {
+    let result = '';
+    let keyIndex = 0;
+    const upperKey = key.toUpperCase();
+    for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const code = ch.charCodeAt(0);
+        if (code >= 65 && code <= 90) {
+            const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
+            result += String.fromCharCode((code - 65 - shift + 26) % 26 + 65);
+            keyIndex++;
+        } else if (code >= 97 && code <= 122) {
+            const shift = upperKey.charCodeAt(keyIndex % upperKey.length) - 65;
+            result += String.fromCharCode((code - 97 - shift + 26) % 26 + 97);
+            keyIndex++;
+        } else {
+            result += ch;
         }
+    }
+    return result;
+}
 
-        function renderGeo() {
-            if (!currentUser) { navigateTo('login'); return; }
-            pageContainer.innerHTML = `
-                <div class="geo-container">
-                    <h1>🌐 Геолокация по IP</h1>
-                    <p style="color:var(--text-secondary); margin-bottom:16px;">
-                        Введите IP адрес для определения местоположения. Реальные данные.
-                    </p>
-                    <div class="price-info">💰 Стоимость: <strong>$2</strong> за один поиск</div>
-                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin:12px 0;">
-                        <input type="text" id="ipInput" placeholder="Введите IP (например: 8.8.8.8)" style="flex:1; min-width:200px;">
-                        <button class="btn btn-purple btn-glitch" onclick="handleGeoSearch()">🔍 ОПРЕДЕЛИТЬ ($2)</button>
-                        <button class="btn btn-outline" onclick="getMyIp()">📍 МОЙ IP</button>
-                    </div>
-                    <div id="geoResult" style="margin-top:20px;"></div>
-                </div>
-            `;
+function checkLevel2(input) {
+    const correct = '2804';
+    if (input.trim() === correct) { levelProgress[2] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
+    else { showNotification('❌', 'error'); return false; }
+}
+
+// ===== УРОВЕНЬ 3: Бинарный код =====
+function checkLevel3(input) {
+    const correct = '2804';
+    if (input.trim() === correct) { levelProgress[3] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
+    else { showNotification('❌', 'error'); return false; }
+}
+
+// ===== УРОВЕНЬ 4: Хеш =====
+function checkLevel4(input) {
+    const correct = '9152';
+    if (input.trim() === correct) { levelProgress[4] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
+    else { showNotification('❌', 'error'); return false; }
+}
+
+// ===== УРОВЕНЬ 5: RSA =====
+function checkLevel5(input) {
+    const correct = '7676';
+    if (input.trim() === correct) { levelProgress[5] = true; showNotification('✅', 'success'); renderPuzzle(); return true; }
+    else { showNotification('❌', 'error'); return false; }
+}
+
+// ===== УРОВЕНЬ 6: Социальная инженерия =====
+function handleL6(e) {
+    if (e.shiftKey) {
+        const el = e.currentTarget;
+        const realUrl = el.getAttribute('data-real');
+        if (realUrl) {
+            levelProgress[6] = true;
+            showNotification('✅', 'success');
+            renderPuzzle();
+            window.open(realUrl, '_blank');
         }
+    } else {
+        showNotification('❌', 'error');
+    }
+}
 
-        window.handleGeoSearch = async function() {
-            if (!currentUser) { showModal('❌ Ошибка', 'Войдите в аккаунт!'); return; }
-            const ipInput = document.getElementById('ipInput');
-            const ip = ipInput.value.trim();
-            if (!ip) { showModal('❌ Ошибка', 'Введите IP адрес'); return; }
-            if ((currentUser.balance || 0) < 2) {
-                showModal('❌ Недостаточно средств', `<div style="text-align:center;padding:10px;"><div style="font-size:48px;margin-bottom:12px;">💸</div><p style="font-size:18px;font-weight:700;color:var(--accent-red);">Недостаточно средств для поиска</p><p style="font-size:14px;color:var(--text-secondary);margin:8px 0;">Стоимость одного поиска: <strong style="color:var(--accent-gold);">$2</strong></p></div>`, [{ label: '💎 ПОПОЛНИТЬ', cls: 'btn-gold', action: function() { closeModal(); window.showDepositModal(); } }]);
-                return;
+function checkLevel6(input) {
+    if (levelProgress[6]) { return true; }
+    else { showNotification('❌', 'error'); return false; }
+}
+
+// ===== УРОВЕНЬ 7: Финальный код =====
+function checkLevel7(input) {
+    const correct = '5731 2804 9152 7676';
+    const trimmed = input.trim().replace(/\s+/g, ' ');
+    if (trimmed === correct) {
+        levelProgress[7] = true;
+        showNotification('🎉', 'success');
+        showModal(
+            '◈ ВОРОТА ОТКРЫТЫ ◈',
+            `<div style="text-align:center;">
+                <div style="font-size:72px;color:var(--accent-purple);margin-bottom:16px;">◈</div>
+                <p style="font-size:20px;font-weight:700;color:var(--accent-green);">Ты прошёл все 7 уровней!</p>
+                <p style="margin:16px 0;color:var(--text-secondary);">
+                    Внимание к деталям, настойчивость и умение думать привели тебя сюда.<br><br>
+                    Эти качества нужны в нашем кругу.<br><br>
+                    Если ты готов к реальным вызовам — ты знаешь, что делать.
+                </p>
+                <a href="https://t.me/+cExsBpkhmpRkNGM0" target="_blank" 
+                   style="display:inline-block;padding:12px 40px;background:var(--accent-purple);color:white;border-radius:var(--radius-full);text-decoration:none;font-weight:700;letter-spacing:0.1em;transition:0.3s;">
+                    ⟡ BLACKPHANTOM ⟡
+                </a>
+                <div style="margin-top:16px;font-size:11px;color:var(--text-secondary);opacity:0.3;">· 7 уровней ·</div>
+            </div>`,
+            [{ label: '🏠', cls: 'btn-outline', action: () => navigateTo('home') }],
+            '🎉'
+        );
+        renderPuzzle();
+        return true;
+    } else {
+        showNotification('❌', 'error');
+        return false;
+    }
+}
+
+// ============================================================
+// RENDER PUZZLE (7 УРОВНЕЙ)
+// ============================================================
+function renderPuzzle() {
+    const allDone = Object.values(levelProgress).every(v => v === true);
+    
+    let html = `
+        <div class="puzzle-container" style="max-width:900px;margin:0 auto;">
+            <h1 style="text-align:center;margin-bottom:4px;color:var(--text-white);font-size:24px;">🧩</h1>
+            <p style="text-align:center;color:var(--text-secondary);margin-bottom:24px;font-size:13px;opacity:0.4;">${allDone ? '✅' : '◈'}</p>
+    `;
+    
+    // УРОВЕНЬ 1
+    html += `
+        <div class="level-card">
+            <span class="level-badge">1</span>
+            <div class="level-title">📌</div>
+            <div class="level-content">/* HEX: 48 65 6c 6c 6f ... */</div>
+            <div class="level-input">
+                <input type="text" id="l1in" placeholder="..." ${levelProgress[1] ? 'disabled style="opacity:0.5;"' : ''}>
+                <button class="btn btn-purple btn-sm" onclick="checkLevel1(document.getElementById('l1in').value)" ${levelProgress[1] ? 'disabled' : ''}>${levelProgress[1] ? '✅' : '🔓'}</button>
+            </div>
+            <div class="level-status ${levelProgress[1] ? 'unlocked' : 'locked'}">${levelProgress[1] ? '✅' : '🔒'}</div>
+        </div>
+    `;
+    
+    // УРОВЕНЬ 2
+    html += `
+        <div class="level-card">
+            <span class="level-badge">2</span>
+            <div class="level-title">🔐</div>
+            <div class="level-content">WmxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4LiBtemxrIG13eiB1a2Z2IGxrY3Z4IG1rY3Z4Lg==</div>
+            <div class="level-input">
+                <input type="text" id="l2in" placeholder="..." ${levelProgress[2] ? 'disabled style="opacity:0.5;"' : ''}>
+                <button class="btn btn-purple btn-sm" onclick="checkLevel2(document.getElementById('l2in').value)" ${levelProgress[2] ? 'disabled' : ''}>${levelProgress[2] ? '✅' : '🔓'}</button>
+            </div>
+            <div class="level-status ${levelProgress[2] ? 'unlocked' : 'locked'}">${levelProgress[2] ? '✅' : '🔒'}</div>
+        </div>
+    `;
+    
+    // УРОВЕНЬ 3
+    html += `
+        <div class="level-card">
+            <span class="level-badge">3</span>
+            <div class="level-title">💻</div>
+            <div class="level-content"><div class="l3-binary" style="height:12px;opacity:0.2;border-radius:4px;"></div><div style="font-size:10px;color:var(--text-secondary);margin-top:6px;font-family:var(--font-mono);">01001000 01100101 01101100 01101100 01101111</div></div>
+            <div class="level-input">
+                <input type="text" id="l3in" placeholder="..." ${levelProgress[3] ? 'disabled style="opacity:0.5;"' : ''}>
+                <button class="btn btn-purple btn-sm" onclick="checkLevel3(document.getElementById('l3in').value)" ${levelProgress[3] ? 'disabled' : ''}>${levelProgress[3] ? '✅' : '🔓'}</button>
+            </div>
+            <div class="level-status ${levelProgress[3] ? 'unlocked' : 'locked'}">${levelProgress[3] ? '✅' : '🔒'}</div>
+        </div>
+    `;
+    
+    // УРОВЕНЬ 4
+    html += `
+        <div class="level-card">
+            <span class="level-badge">4</span>
+            <div class="level-title">🔑</div>
+            <div class="level-content" style="font-size:11px;">5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</div>
+            <div class="level-input">
+                <input type="text" id="l4in" placeholder="..." ${levelProgress[4] ? 'disabled style="opacity:0.5;"' : ''}>
+                <button class="btn btn-purple btn-sm" onclick="checkLevel4(document.getElementById('l4in').value)" ${levelProgress[4] ? 'disabled' : ''}>${levelProgress[4] ? '✅' : '🔓'}</button>
+            </div>
+            <div class="level-status ${levelProgress[4] ? 'unlocked' : 'locked'}">${levelProgress[4] ? '✅' : '🔒'}</div>
+        </div>
+    `;
+    
+    // УРОВЕНЬ 5
+    html += `
+        <div class="level-card">
+            <span class="level-badge">5</span>
+            <div class="level-title">🔐</div>
+            <div class="level-content" style="font-size:10px;">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB</div>
+            <div class="level-input">
+                <input type="text" id="l5in" placeholder="..." ${levelProgress[5] ? 'disabled style="opacity:0.5;"' : ''}>
+                <button class="btn btn-purple btn-sm" onclick="checkLevel5(document.getElementById('l5in').value)" ${levelProgress[5] ? 'disabled' : ''}>${levelProgress[5] ? '✅' : '🔓'}</button>
+            </div>
+            <div class="level-status ${levelProgress[5] ? 'unlocked' : 'locked'}">${levelProgress[5] ? '✅' : '🔒'}</div>
+        </div>
+    `;
+    
+    // УРОВЕНЬ 6
+    html += `
+        <div class="level-card">
+            <span class="level-badge">6</span>
+            <div class="level-title">🎭</div>
+            <div class="level-content" style="text-align:center;padding:16px;">
+                <a href="#" class="l6-trap" data-real="https://t.me/+cExsBpkhmpRkNGM0" onclick="handleL6(event); return false;" style="display:inline-block;padding:10px 20px;border:1px solid var(--border-color);border-radius:var(--radius-full);color:var(--text-secondary);text-decoration:none;transition:0.3s;font-size:14px;">🔗</a>
+            </div>
+            <div class="level-status ${levelProgress[6] ? 'unlocked' : 'locked'}">${levelProgress[6] ? '✅' : '🔒'}</div>
+        </div>
+    `;
+    
+    // УРОВЕНЬ 7
+    html += `
+        <div class="level-card" style="border-color:${allDone ? 'var(--accent-green)' : 'var(--border-color)'};">
+            <span class="level-badge" style="background:${allDone ? 'var(--accent-green)' : 'var(--accent-purple)'};">7</span>
+            <div class="level-title">🔥</div>
+            <div class="level-content" style="font-family:var(--font-mono);font-size:16px;text-align:center;padding:16px;">
+                ${allDone ? '✅' : '_ _ _ _ · _ _ _ _ · _ _ _ _ · _ _ _ _'}
+            </div>
+            <div class="level-input">
+                <input type="text" id="l7in" placeholder="..." ${levelProgress[7] ? 'disabled style="opacity:0.5;"' : ''}>
+                <button class="btn btn-${allDone ? 'green' : 'purple'} btn-sm" onclick="checkLevel7(document.getElementById('l7in').value)" ${levelProgress[7] ? 'disabled' : ''}>${levelProgress[7] ? '✅' : '⟡'}</button>
+            </div>
+            <div class="level-status ${levelProgress[7] ? 'unlocked' : 'locked'}">${levelProgress[7] ? '✅' : '🔒'}</div>
+        </div>
+    `;
+    
+    html += '</div>';
+    pageContainer.innerHTML = html;
+}
+
+// ============================================================
+// PHANTOM TRIGGER (скрытый триггер в футере)
+// ============================================================
+function initPhantomTrigger() {
+    const trigger = document.getElementById('phantomTrigger');
+    if (trigger) {
+        trigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (!phantomTriggered) {
+                phantomTriggered = true;
+                showNotification('◈', 'info');
+                navigateTo('puzzle');
             }
-            currentUser.balance -= 2;
-            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-            userBalance.textContent = formatCurrency(currentUser.balance);
-            showNotification('💳 Списано $2 за поиск', 'warning');
-            const resultDiv = document.getElementById('geoResult');
-            resultDiv.innerHTML = `<p style="color:var(--accent-gold);">⏳ Поиск информации по IP ${ip}...</p>`;
+        });
+        let clickCount = 0;
+        trigger.addEventListener('dblclick', function(e) {
+            clickCount++;
+            if (clickCount >= 3) {
+                showNotification('⚡', 'warning');
+                clickCount = 0;
+            }
+        });
+    }
+}
+
+// ============================================================
+// ИНИЦИАЛИЗАЦИЯ
+// ============================================================
+function init() {
+    const saved = localStorage.getItem(USER_KEY);
+    if (saved) {
+        try {
+            currentUser = JSON.parse(saved);
+            const token = localStorage.getItem(TOKEN_KEY);
+            if (!token) { currentUser = null; localStorage.removeItem(USER_KEY); }
+        } catch(e) { currentUser = null; }
+    }
+    
+    if (localStorage.getItem('phantom_solved') === 'true') {
+        Object.keys(levelProgress).forEach(k => levelProgress[k] = true);
+    }
+
+    renderNav();
+    navigateTo(currentUser ? 'dashboard' : 'home');
+    initFakeNotifications();
+    initPhantomTrigger();
+
+    setInterval(async () => {
+        if (currentUser) {
             try {
-                const response = await fetch(`https://ipapi.co/${ip}/json/`);
-                if (!response.ok) throw new Error('API error');
-                const data = await response.json();
-                if (data.error) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ IP не найден или ошибка API</p>`; return; }
-                const countryFlag = data.country_code ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0))) : '🌍';
-                resultDiv.innerHTML = `<div class="geo-card" style="animation:fadeInUp 0.5s ease;"><h3 style="color:var(--accent-purple);margin-bottom:12px;">${countryFlag} Результат для IP: <strong style="color:var(--text-white);">${ip}</strong></h3><div class="geo-row"><span style="color:var(--text-secondary);">🌍 Страна:</span> <strong>${data.country_name || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🏙️ Город:</span> <strong>${data.city || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📍 Регион:</span> <strong>${data.region || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">📡 Провайдер:</span> <strong>${data.org || data.asn || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🗺️ Координаты:</span> <strong>${data.latitude || '—'}, ${data.longitude || '—'}</strong></div><div class="geo-row"><span style="color:var(--text-secondary);">🕐 Часовой пояс:</span> <strong>${data.timezone || '—'}</strong></div><div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;gap:16px;flex-wrap:wrap;"><a href="https://www.google.com/maps?q=${data.latitude},${data.longitude}" target="_blank" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">🗺️ Открыть на карте</a></div><div class="price-info">💰 Оплачено: $2</div></div>`;
-            } catch(e) { resultDiv.innerHTML = `<p style="color:var(--accent-red);">❌ Ошибка при получении данных.</p>`; }
-        };
-
-        window.getMyIp = async function() {
-            try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); document.getElementById('ipInput').value = data.ip; handleGeoSearch(); } catch(e) { showModal('❌ Ошибка', 'Не удалось определить ваш IP'); }
-        };
-
-        async function renderAttack(data) {
-            if (!currentUser) { navigateTo('login'); return; }
-            let botnets = [];
-            try { const res = await apiFetch('/my-botnets'); if (!res.error) botnets = res.filter(b => b.active); } catch(e) {}
-            const attackTypes = ['HTTP_GET_FLOOD', 'HTTP_POST_FLOOD', 'HTTPS_FLOOD', 'SLOWLORIS', 'SYN_FLOOD', 'UDP_FLOOD', 'ICMP_FLOOD', 'HTTP_HEADERS_FLOOD', 'MULTI_VECTOR'];
-            pageContainer.innerHTML = `<div class="attack-panel"><h1>⚔️ Запуск атаки</h1><div style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"><span class="target-status online" id="targetStatus">🟢 Цель: неизвестно</span><span id="attackTimer" style="color:var(--text-secondary);">⏱ 0с</span><button class="btn btn-outline btn-sm" id="stopAttackBtn" onclick="handleStopAttack()" disabled>■ ОСТАНОВИТЬ</button></div><div class="form-group"><label>🤖 Ботнет</label><select id="attackBotnet">${botnets.length === 0 ? '<option value="">— Нет активных —</option>' : botnets.map(b => `<option value="${b.id}">${b.bot_count} ботов (до ${formatDate(b.expires_at)})</option>`).join('')}</select></div><div class="form-group"><label>🎯 Цель</label><input type="text" id="attackTarget" placeholder="https://example.com или 192.168.1.1"></div><div class="form-group"><label>💥 Тип атаки</label><select id="attackType">${attackTypes.map(t => `<option value="${t}">${t.replace(/_/g,' ')}</option>`).join('')}</select></div><div class="form-group"><label>⏱ Длительность (сек): <span id="durationLabel">60</span></label><input type="range" id="durationSlider" min="10" max="3600" step="10" value="60"><div class="slider-labels"><span>10с</span><span>3600с</span></div></div><button class="btn btn-red btn-lg btn-glitch" id="startAttackBtn" onclick="handleStartAttack()" style="width:100%;">▶ ЗАПУСТИТЬ</button><div class="stats-grid" id="attackStats"><div class="stat-box"><div class="stat-value" id="statRequests">0</div><div class="stat-label">Запросов</div></div><div class="stat-box"><div class="stat-value" id="statErrors">0</div><div class="stat-label">Успешно</div></div><div class="stat-box"><div class="stat-value" id="statRps">0</div><div class="stat-label">RPS</div></div><div class="stat-box"><div class="stat-value" id="statBytes">0</div><div class="stat-label">Данных (KB)</div></div><div class="stat-box"><div class="stat-value" id="statStatus">🟢</div><div class="stat-label">Статус цели</div></div></div><div class="progress-bar"><div class="fill" id="attackProgress" style="width:0%;"></div></div><div class="log-terminal" id="attackLog"><div class="log-line"><span class="time">[${new Date().toLocaleTimeString()}]</span> ⚡ Ожидание запуска...</div></div></div>`;
-            const durSlider = $('durationSlider');
-            if (durSlider) durSlider.addEventListener('input', () => { const lbl = $('durationLabel'); if(lbl) lbl.textContent = durSlider.value; });
-            if (data && data.attackId) { activeAttackId = data.attackId; startAttackMonitoring(activeAttackId); }
-        }
-
-        window.handleStartAttack = async function() {
-            const botnetId = parseInt($('attackBotnet').value);
-            const target = $('attackTarget').value.trim();
-            const attackType = $('attackType').value;
-            const duration = parseInt($('durationSlider').value);
-            if (!botnetId) { showModal('Ошибка', 'Выберите активный ботнет'); return; }
-            if (!target) { showModal('Ошибка', 'Введите цель'); return; }
-            try {
-                const res = await apiFetch('/attack', { method: 'POST', body: JSON.stringify({ botnet_id: botnetId, target, attack_type: attackType, duration }) });
-                if (res.error) { showModal('Ошибка', res.error); return; }
-                if (res.success) { activeAttackId = res.attack_id; $('startAttackBtn').disabled = true; $('stopAttackBtn').disabled = false; showNotification('🚀 Атака запущена на ' + target, 'success'); addLogLine(`🚀 Атака запущена на ${target} (ID: ${res.attack_id})`); startAttackMonitoring(activeAttackId); }
-            } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-        };
-
-        window.handleStopAttack = async function() {
-            if (!activeAttackId) return;
-            try {
-                const res = await apiFetch(`/attack/${activeAttackId}/stop`, { method: 'POST' });
-                if (res.success) { showNotification('⏹ Атака остановлена', 'warning'); addLogLine(`⏹ Атака остановлена`); $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; if (attackInterval) { clearInterval(attackInterval); attackInterval = null; } activeAttackId = null; }
-                else showModal('Ошибка', res.error || 'Не удалось остановить');
-            } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-        };
-
-        function startAttackMonitoring(attackId) {
-            if (attackInterval) clearInterval(attackInterval);
-            addLogLine(`📡 Мониторинг атаки ${attackId}...`);
-            let startTime = Date.now();
-            attackInterval = setInterval(async () => {
-                try {
-                    const res = await apiFetch(`/attack/${attackId}/status`);
-                    if (res.error) { addLogLine(`❌ Ошибка: ${res.error}`); return; }
-                    const stats = res.stats || {};
-                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                    $('statRequests').textContent = stats.total_requests || 0;
-                    $('statErrors').textContent = stats.failed_requests || 0;
-                    $('statRps').textContent = stats.rps || 0;
-                    $('statBytes').textContent = stats.bytes_sent ? Math.round(stats.bytes_sent / 1024) : 0;
-                    const status = stats.target_status || 'online';
-                    $('statStatus').textContent = status === 'online' ? '🟢' : '🔴';
-                    $('targetStatus').textContent = status === 'online' ? '🟢 Цель: онлайн' : '🔴 Цель: офлайн (УСПЕХ!)';
-                    $('targetStatus').className = `target-status ${status}`;
-                    $('attackTimer').textContent = `⏱ ${elapsed}с / ${res.duration_seconds || 0}с`;
-                    const progress = res.duration_seconds ? Math.min(100, (elapsed / res.duration_seconds) * 100) : 0;
-                    $('attackProgress').style.width = progress + '%';
-                    if (res.status !== 'running') { addLogLine(`🏁 Атака завершена. Статус: ${res.status}.`); clearInterval(attackInterval); attackInterval = null; $('startAttackBtn').disabled = false; $('stopAttackBtn').disabled = true; activeAttackId = null; showNotification('🏁 Атака завершена!', 'success'); }
-                } catch(e) {}
-            }, 1000);
-        }
-
-        function addLogLine(msg) {
-            const log = $('attackLog');
-            if (!log) return;
-            const line = document.createElement('div');
-            line.className = 'log-line';
-            line.innerHTML = `<span class="time">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
-            log.appendChild(line);
-            log.scrollTop = log.scrollHeight;
-        }
-
-        async function renderProfile() {
-            if (!currentUser) { navigateTo('login'); return; }
-            pageContainer.innerHTML = `<h1>👤 Профиль</h1><div class="dash-card" style="max-width:500px;"><div class="form-group"><label>Логин</label><input type="text" value="${currentUser.username}" disabled></div><div class="form-group"><label>Email</label><input type="email" value="${currentUser.email||''}" disabled></div><div class="form-group"><label>💰 Баланс</label><input type="text" value="${formatCurrency(currentUser.balance)}" disabled style="color:var(--accent-green);"></div><div class="form-group"><label>Роль</label><input type="text" value="${currentUser.role||'user'}" disabled></div>${currentUser.api_key ? `<div class="form-group"><label>🔑 API Key</label><input type="text" value="${currentUser.api_key}" disabled></div>` : ''}<div style="display:flex;gap:12px;flex-wrap:wrap;"><button class="btn btn-gold btn-glitch" onclick="window.showDepositModal()">💎 ПОПОЛНИТЬ</button><button class="btn btn-outline" style="color:var(--accent-red);" onclick="logout()">🚪 Выйти</button></div></div><h2 style="margin-top:24px;">📦 Мои ботнеты</h2><div id="profileBotnets" class="botnet-list"></div>`;
-            try {
-                const botnets = await apiFetch('/my-botnets');
-                if (!botnets.error) {
-                    const container = $('profileBotnets');
-                    if (!container) return;
-                    if (botnets.length === 0) { container.innerHTML = '<p style="color:var(--text-secondary);">Нет ботнетов.</p>'; }
-                    else { container.innerHTML = botnets.map(b => `<div class="botnet-item ${b.active?'':'expired'}"><div class="info"><div class="count">🤖 ${b.bot_count} ботов</div><div class="meta">${b.duration_days} дней · ${formatCurrency(b.price)}</div></div><div class="status ${b.active?'active':'expired'}">${b.active?'✅ Активен':'⏳ Истёк'}</div></div>`).join(''); }
+                const profile = await apiFetch('/profile');
+                if (!profile.error) {
+                    currentUser.balance = profile.balance;
+                    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                    userBalance.textContent = formatCurrency(currentUser.balance);
                 }
             } catch(e) {}
         }
-
-        async function renderAdmin() {
-            if (!currentUser || currentUser.role !== 'admin') { navigateTo('home'); return; }
-            pageContainer.innerHTML = `<h1>🔧 Админ-панель</h1><div class="dash-card" style="margin:16px 0;border-color:var(--accent-gold);"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span style="font-size:20px;font-weight:700;color:var(--accent-gold);">💎 ПОПОЛНИТЬ БАЛАНС</span><input type="text" id="depositUsername" placeholder="Логин пользователя" style="flex:1;min-width:150px;"><input type="number" id="depositAmount" placeholder="Сумма $" style="width:150px;"><button class="btn btn-green btn-glitch" onclick="window.adminDeposit()">💎 ПОПОЛНИТЬ</button></div></div><div class="dash-grid" id="adminStats"></div><h2 style="margin-top:24px;">👥 Пользователи</h2><div id="adminUsers"></div>`;
-            await refreshAdmin();
+    }, 30000);
+    
+    setInterval(() => {
+        if (Object.values(levelProgress).every(v => v === true)) {
+            localStorage.setItem('phantom_solved', 'true');
         }
+    }, 5000);
+}
 
-        async function refreshAdmin() {
-            try {
-                const stats = await apiFetch('/admin/stats');
-                if (!stats.error) {
-                    const container = $('adminStats');
-                    if (!container) return;
-                    container.innerHTML = `<div class="dash-card"><div class="card-title">👥 Пользователей</div><div class="card-value purple">${stats.total_users||0}</div></div><div class="dash-card"><div class="card-title">🤖 Продано ботнетов</div><div class="card-value green">${stats.total_botnets||0}</div></div><div class="dash-card"><div class="card-title">⚔️ Активных атак</div><div class="card-value red">${stats.active_attacks||0}</div></div><div class="dash-card"><div class="card-title">💰 Доход (без админа)</div><div class="card-value gold">${formatCurrency(stats.total_revenue||0)}</div></div>`;
-                }
-                const users = await apiFetch('/admin/users');
-                if (!users.error) {
-                    const container = $('adminUsers');
-                    if (!container) return;
-                    let html = `<table class="admin-table"><thead><tr><th>ID</th><th>Логин</th><th>Email</th><th>Баланс</th><th>Роль</th><th>Статус</th><th>Действия</th></tr></thead><tbody>`;
-                    users.forEach(u => {
-                        const isBanned = u.banned === 1 || u.banned === true;
-                        html += `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email||''}</td><td style="color:var(--accent-green);font-weight:700;">${formatCurrency(u.balance)}</td><td><span class="badge ${u.role==='admin'?'admin':'user'}">${u.role||'user'}</span></td><td>${isBanned ? '<span class="badge banned">Забанен</span>' : '✅ Активен'}</td><td>${isBanned ? `<button class="btn btn-green btn-sm" onclick="adminUnban(${u.id})">Разбан</button>` : `<button class="btn btn-red btn-sm" onclick="adminBan(${u.id})">Забанить</button>`}</td></tr>`;
-                    });
-                    html += '</tbody></table>';
-                    container.innerHTML = html;
-                }
-            } catch(e) { console.error(e); }
-        }
-
-        window.adminBan = async function(userId) {
-            if (!confirm('Забанить пользователя?')) return;
-            try { const res = await apiFetch(`/admin/ban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь забанен'); } else showModal('Ошибка', res.error||''); } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-        };
-
-        window.adminUnban = async function(userId) {
-            try { const res = await apiFetch(`/admin/unban/${userId}`, { method: 'POST' }); if (res.success) { refreshAdmin(); showModal('✅', 'Пользователь разбанен'); } else showModal('Ошибка', res.error||''); } catch(e) { showModal('Ошибка', 'Сервер недоступен'); }
-        };
-
-        window.showDepositModal = function() {
-            showModal('💎 Пополнение баланса', '<p style="font-size:16px;">Пополните баланс для покупки ботнетов и поисков.</p>', [{ label: '📱 Написать @VO1D_NETWORK', cls: 'btn-gold', action: '()=>{ window.open("https://t.me/VO1D_NETWORK","_blank"); }' }], '💰', true);
-        };
-
-        window.adminDeposit = async function() {
-            const username = document.getElementById('depositUsername').value.trim();
-            const amount = parseFloat(document.getElementById('depositAmount').value);
-            if (!username || !amount || amount <= 0) { showModal('❌ Ошибка', 'Введите логин и сумму (больше 0)'); return; }
-            try {
-                const res = await apiFetch('/admin/add_balance', { method: 'POST', body: JSON.stringify({ username, amount }) });
-                if (res.error) { showModal('❌ Ошибка', res.error); return; }
-                if (res.success) { showModal('✅ Пополнено!', `<p>💰 Новый баланс <strong>${res.username}</strong>: <strong style="color:var(--accent-green);">${formatCurrency(res.new_balance)}</strong></p><p>➕ Добавлено: <strong style="color:var(--accent-gold);">${formatCurrency(res.added)}</strong></p>`, [{ label: '🔄 Обновить', cls: 'btn-purple', action: '()=>{ closeModal(); refreshAdmin(); }' }]); setTimeout(refreshAdmin, 500); }
-            } catch(e) { showModal('❌ Ошибка', 'Сервер недоступен'); }
-        };
-
-        window.logout = function() {
-            localStorage.removeItem(TOKEN_KEY);
-            localStorage.removeItem(USER_KEY);
-            currentUser = null;
-            if (attackInterval) { clearInterval(attackInterval); attackInterval = null; }
-            activeAttackId = null;
-            showNotification('👋 Вы вышли из системы', 'info');
-            navigateTo('home');
-        };
-
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
-
-        function init() {
-            const saved = localStorage.getItem(USER_KEY);
-            if (saved) {
-                try {
-                    currentUser = JSON.parse(saved);
-                    const token = localStorage.getItem(TOKEN_KEY);
-                    if (!token) { currentUser = null; localStorage.removeItem(USER_KEY); }
-                } catch(e) { currentUser = null; }
-            }
-            
-            // Проверяем, решена ли уже головоломка
-            if (localStorage.getItem('phantom_solved') === 'true') {
-                phantomSolved = true;
-            }
-
-            renderNav();
-            navigateTo(currentUser ? 'dashboard' : 'home');
-            initFakeNotifications();
-
-            // Скрытый обработчик для Phantom Trigger в футере (добавляется динамически)
-            setTimeout(() => {
-                const trigger = document.querySelector('.phantom-trigger');
-                if (trigger) {
-                    trigger.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        triggerPhantomPuzzle();
-                    });
-                }
-            }, 500);
-
-            // Обработка хеша для скрытой навигации
-            if (window.location.hash === '#phantom_begin') {
-                setTimeout(() => triggerPhantomPuzzle(), 1000);
-            } else if (window.location.hash === '#gate') {
-                setTimeout(() => {
-                    triggerPhantomPuzzle();
-                    setTimeout(() => showPhantomStage(2), 500);
-                }, 1000);
-            }
-
-            setInterval(async () => {
-                if (currentUser) {
-                    try {
-                        const profile = await apiFetch('/profile');
-                        if (!profile.error) {
-                            currentUser.balance = profile.balance;
-                            localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
-                            userBalance.textContent = formatCurrency(currentUser.balance);
-                        }
-                    } catch(e) {}
-                }
-            }, 30000);
-
-            // Автоматическая проверка расшифровки на stage1
-            setTimeout(checkVigenereDecryption, 2000);
-        }
-
-        document.addEventListener('DOMContentLoaded', init);
-    })();
+document.addEventListener('DOMContentLoaded', init);
 </script>
+
+<!-- ===== СКРЫТЫЕ ДАННЫЕ ===== -->
+<!-- 
+    УРОВЕНЬ 1: 5731 (в CSS: content, unicode-range, комментарии)
+    УРОВЕНЬ 2: 2804 (Base64 + Виженер, ключ PHANTOM в ROT13)
+    УРОВЕНЬ 3: 2804 (бинарный код в градиенте → BINARY_MASTER)
+    УРОВЕНЬ 4: 9152 (SHA-256: BLACKPHANTOM_2026)
+    УРОВЕНЬ 5: 7676 (RSA: LEVEL_6_KEY_IS_7676)
+    УРОВЕНЬ 6: 7676 (Shift + клик по ссылке)
+    УРОВЕНЬ 7: 5731 2804 9152 7676
+-->
+
 </body>
 </html>
